@@ -1397,3 +1397,476 @@ footer p {
     flex-direction: column;
   }
 }
+
+/* =====================================================
+   CARDNEST — SELL A CARD
+   ===================================================== */
+
+.sellPage {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 90% 12%, #fff0bd 0, transparent 26%),
+    radial-gradient(circle at 5% 75%, #ffe9ef 0, transparent 25%),
+    var(--cream);
+}
+
+.sellNav {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 30px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sellHero {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 80px 24px 65px;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.sellHero h1 {
+  margin: 12px 0 22px;
+  font-size: clamp(48px, 6vw, 78px);
+  line-height: .98;
+  letter-spacing: -4px;
+}
+
+.sellHero h1 span {
+  color: #e59a36;
+}
+
+.sellIntro {
+  max-width: 600px;
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--muted);
+}
+
+.sellHeroArt {
+  min-height: 410px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe69a, #ffd984 55%, transparent 56%);
+}
+
+.floatingCard {
+  position: absolute;
+  width: 105px;
+  height: 145px;
+  border: 5px solid #fff8e9;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 42px;
+  box-shadow: 0 18px 35px rgba(68, 45, 20, .18);
+}
+
+.cardOne {
+  background: #ef8264;
+  transform: rotate(-14deg);
+  left: 7%;
+  top: 16%;
+}
+
+.cardTwo {
+  background: #74bff0;
+  transform: rotate(5deg);
+  right: 20%;
+  top: 1%;
+}
+
+.cardThree {
+  background: #91c77b;
+  transform: rotate(13deg);
+  right: 3%;
+  top: 24%;
+}
+
+.sellNest {
+  position: relative;
+  z-index: 2;
+  width: 250px;
+  min-height: 215px;
+  padding: 32px;
+  border: 3px solid #f2cf70;
+  border-radius: 110px 110px 35px 35px;
+  background: #fffaf0;
+  box-shadow: 0 22px 45px rgba(87, 55, 18, .18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.sellEgg {
+  font-size: 62px;
+  margin-bottom: 8px;
+}
+
+.sellNest strong {
+  font-size: 20px;
+}
+
+.sellNest span {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.sellerBenefits {
+  max-width: 1140px;
+  margin: 0 auto 75px;
+  padding: 28px 35px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  background: rgba(255,255,255,.58);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+}
+
+.sellerBenefits > div {
+  display: grid;
+  grid-template-columns: 45px 1fr;
+  column-gap: 12px;
+  align-items: center;
+}
+
+.sellerBenefits > div > span {
+  grid-row: 1 / 3;
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  background: #fff0c7;
+  border-radius: 13px;
+  font-size: 21px;
+}
+
+.sellerBenefits strong {
+  font-size: 14px;
+}
+
+.sellerBenefits small {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.listingBuilder {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 24px 90px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(300px, .6fr);
+  gap: 35px;
+  align-items: start;
+}
+
+.listingForm,
+.listingPreview {
+  background: rgba(255,255,255,.76);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 36px;
+  box-shadow: 0 20px 60px rgba(75, 48, 26, .06);
+}
+
+.formHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.formHeading h2,
+.listingPreview h2 {
+  margin: 7px 0 0;
+  font-size: 32px;
+}
+
+.stepBadge,
+.conditionPill {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff1d8;
+  color: #8b6426;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.listingForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.listingForm input,
+.listingForm select,
+.listingForm textarea {
+  width: 100%;
+  border: 1px solid #eadfcf;
+  border-radius: 14px;
+  padding: 15px 16px;
+  background: #fffdf9;
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+
+.listingForm input:focus,
+.listingForm select:focus,
+.listingForm textarea:focus {
+  border-color: #e5a339;
+  box-shadow: 0 0 0 3px rgba(229, 163, 57, .12);
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.priceInput {
+  position: relative;
+}
+
+.priceInput span {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+}
+
+.priceInput input {
+  padding-left: 32px;
+}
+
+.photoUpload {
+  margin-top: 5px;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: center;
+  border: 2px dashed #ead6b6;
+  border-radius: 18px;
+  background: #fffaf0;
+}
+
+.uploadIcon {
+  font-size: 32px;
+}
+
+.photoUpload p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.photoUpload button {
+  padding: 11px 15px;
+  border: 1px solid #e3d5c3;
+  border-radius: 12px;
+  background: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.sellerNotice {
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 14px;
+  background: #f4f1ff;
+  color: #62577a;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.publishButton {
+  width: 100%;
+  padding: 17px 22px;
+  border: 0;
+  border-radius: 15px;
+  background: var(--ink);
+  color: white;
+  font-size: 15px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.publishButton:hover {
+  transform: translateY(-1px);
+}
+
+.listingPreview {
+  position: sticky;
+  top: 25px;
+}
+
+.previewCard {
+  margin-top: 25px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: #fff;
+}
+
+.previewArtwork {
+  min-height: 310px;
+  padding: 35px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #ffd99b, #f7a681);
+}
+
+.previewTradingCard {
+  width: 175px;
+  height: 245px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid #fff0bb;
+  border-radius: 15px;
+  background: #fff8d8;
+  box-shadow: 0 15px 30px rgba(66, 42, 20, .18);
+}
+
+.previewName {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.previewCreature {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  font-size: 65px;
+}
+
+.previewTradingCard small {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.previewDetails {
+  padding: 22px;
+}
+
+.previewDetails h3 {
+  margin: 13px 0 5px;
+  font-size: 22px;
+}
+
+.previewDetails p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.previewPrice {
+  margin-top: 20px;
+  padding-top: 17px;
+  border-top: 1px solid var(--border);
+  color: #bd7610;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.previewTip {
+  margin-top: 20px;
+  padding: 18px;
+  display: flex;
+  gap: 12px;
+  border-radius: 16px;
+  background: #fff5d9;
+}
+
+.previewTip p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+@media (max-width: 850px) {
+  .sellHero,
+  .listingBuilder {
+    grid-template-columns: 1fr;
+  }
+
+  .sellerBenefits {
+    grid-template-columns: 1fr 1fr;
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .listingPreview {
+    position: static;
+  }
+
+  .sellHeroArt {
+    min-height: 360px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sellNav {
+    padding: 20px 18px;
+  }
+
+  .sellNav .navlinks {
+    display: none;
+  }
+
+  .sellHero {
+    padding: 45px 18px;
+  }
+
+  .sellHero h1 {
+    font-size: 49px;
+    letter-spacing: -3px;
+  }
+
+  .sellerBenefits {
+    grid-template-columns: 1fr;
+  }
+
+  .listingBuilder {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .listingForm,
+  .listingPreview {
+    padding: 23px;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .photoUpload {
+    grid-template-columns: 1fr;
+  }
+
+  .sellHeroArt {
+    transform: scale(.9);
+  }
+}
