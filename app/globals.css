@@ -879,3 +879,521 @@ footer p {
     text-align: center;
   }
 }
+
+/* ========================================
+   CARDNEST MARKETPLACE
+======================================== */
+
+.marketplacePage {
+  min-height: 100vh;
+}
+
+.marketHero {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 70px 24px 45px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.marketHero h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -3px;
+}
+
+.marketHero h1 span {
+  color: #df9826;
+}
+
+.marketHero > div > p:last-child {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* SEARCH + SORT */
+
+.marketControls {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 25px 24px 35px;
+  display: grid;
+  grid-template-columns: 1fr 190px 190px;
+  gap: 12px;
+}
+
+.marketSearch {
+  height: 54px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fffdf9;
+  box-shadow: 0 8px 25px #4936220a;
+}
+
+.marketSearch span {
+  font-size: 23px;
+}
+
+.marketSearch input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: var(--ink);
+  background: transparent;
+  font: inherit;
+  font-size: 15px;
+}
+
+.marketControls select {
+  padding: 0 15px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  color: var(--ink);
+  background: #fffdf9;
+  font: inherit;
+  font-weight: 700;
+}
+
+/* MARKETPLACE BODY */
+
+.marketBody {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px 24px 100px;
+  display: grid;
+  grid-template-columns: 225px 1fr;
+  gap: 38px;
+}
+
+/* SIDEBAR */
+
+.marketSidebar {
+  align-self: start;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: #fffdf9;
+  box-shadow: 0 15px 40px #55432e0a;
+}
+
+.filterHeading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #eee2d3;
+}
+
+.filterHeading strong {
+  font-size: 19px;
+}
+
+.filterHeading button {
+  border: 0;
+  color: #b87b1c;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.filterGroup {
+  padding: 22px 0;
+  border-bottom: 1px solid #eee2d3;
+}
+
+.filterGroup p {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.filterGroup label {
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #665d6c;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filterGroup input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #d79728;
+}
+
+.priceInputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.priceInputs input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid #eadcca;
+  border-radius: 10px;
+  outline: 0;
+  background: #fff;
+}
+
+.buyerProtection {
+  margin-top: 22px;
+  padding: 15px;
+  display: flex;
+  gap: 10px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #fff2ca, #ffe7ed);
+}
+
+.buyerProtection > span {
+  font-size: 22px;
+}
+
+.buyerProtection strong {
+  font-size: 12px;
+}
+
+.buyerProtection p {
+  margin: 5px 0 0;
+  color: #756a74;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* RESULTS */
+
+.marketResults {
+  min-width: 0;
+}
+
+.resultsHeader {
+  margin-bottom: 25px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.resultsHeader .eyebrow {
+  margin-bottom: 8px;
+}
+
+.resultsHeader h2 {
+  margin: 0;
+  font-size: 38px;
+  letter-spacing: -1.5px;
+}
+
+.resultsHeader > span {
+  padding: 8px 13px;
+  border-radius: 999px;
+  color: #7b6f79;
+  background: #fff0dc;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* LISTINGS */
+
+.marketGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 19px;
+}
+
+.marketCard {
+  overflow: hidden;
+  border: 1px solid #eadfce;
+  border-radius: 22px;
+  background: #fffdf9;
+  box-shadow: 0 15px 40px #5d47310c;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.marketCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px #5d473119;
+}
+
+.marketArtwork {
+  position: relative;
+  height: 275px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.marketFire {
+  background:
+    radial-gradient(circle at 50% 30%, #fff1b8, transparent 28%),
+    linear-gradient(145deg, #ffd0a9, #ee8d74);
+}
+
+.marketWater {
+  background:
+    radial-gradient(circle at 50% 30%, #effcff, transparent 28%),
+    linear-gradient(145deg, #c3efff, #8faee9);
+}
+
+.marketNature {
+  background:
+    radial-gradient(circle at 50% 30%, #fff4fa, transparent 28%),
+    linear-gradient(145deg, #f8d5e7, #c8b9ef);
+}
+
+.marketElectric {
+  background:
+    radial-gradient(circle at 50% 30%, #fff9c8, transparent 28%),
+    linear-gradient(145deg, #ffe69d, #f0bd56);
+}
+
+.marketMystic {
+  background:
+    radial-gradient(circle at 50% 30%, #f5e9ff, transparent 28%),
+    linear-gradient(145deg, #dfc9f8, #9f8bd7);
+}
+
+.marketHeart {
+  position: absolute;
+  z-index: 5;
+  top: 13px;
+  right: 13px;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #44394a;
+  background: #ffffffdc;
+  box-shadow: 0 5px 15px #3d2c2620;
+  cursor: pointer;
+  font-size: 21px;
+}
+
+.collectibleCard {
+  width: 145px;
+  height: 205px;
+  padding: 11px;
+  display: flex;
+  flex-direction: column;
+  border: 6px solid #fff0b4;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #fffdf4, #f8e8bd);
+  box-shadow:
+    0 18px 30px #59412e38,
+    inset 0 0 0 1px #d6a346;
+  transform: rotate(-2deg);
+  transition: transform 0.3s ease;
+}
+
+.marketCard:hover .collectibleCard {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.collectibleTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 11px;
+}
+
+.collectibleCreature {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  font-size: 61px;
+  filter: drop-shadow(0 8px 8px #5e433d28);
+}
+
+.collectibleBottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.collectibleBottom strong {
+  font-size: 11px;
+}
+
+.collectibleBottom small {
+  margin-top: 2px;
+  color: #80737c;
+  font-size: 8px;
+}
+
+.marketCardInfo {
+  padding: 17px;
+}
+
+.conditionRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #8a7b84;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.conditionRow span:first-child {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: #fff0d7;
+}
+
+.marketCardInfo h3 {
+  margin: 13px 0 5px;
+  font-size: 20px;
+}
+
+.marketCardInfo > p {
+  margin: 0;
+  color: #847984;
+  font-size: 12px;
+}
+
+.marketPurchase {
+  margin-top: 18px;
+  padding-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid #eee3d5;
+}
+
+.marketPurchase > strong {
+  color: #ad7219;
+  font-size: 18px;
+}
+
+.marketPurchase button {
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 10px;
+  color: white;
+  background: #30283a;
+  cursor: pointer;
+  font-weight: 800;
+  transition: 0.2s ease;
+}
+
+.marketPurchase button:hover {
+  transform: translateY(-2px);
+  background: #1e1924;
+}
+
+/* SELL CTA */
+
+.marketCTA {
+  max-width: 1130px;
+  margin: 0 auto 90px;
+  padding: 45px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 85% 20%, #fff1a6, transparent 23%),
+    linear-gradient(135deg, #ffe8d6, #f4ddff);
+}
+
+.marketCTA h2 {
+  margin: 0;
+  font-size: 38px;
+  letter-spacing: -1.5px;
+}
+
+.marketCTA > div > p:last-child {
+  margin: 12px 0 0;
+  color: var(--muted);
+}
+
+/* MARKETPLACE TABLET */
+
+@media (max-width: 1000px) {
+  .marketGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .marketBody {
+    grid-template-columns: 200px 1fr;
+    gap: 25px;
+  }
+}
+
+/* MARKETPLACE MOBILE */
+
+@media (max-width: 750px) {
+  .marketHero {
+    padding-top: 45px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .marketHero h1 {
+    font-size: 47px;
+  }
+
+  .marketControls {
+    grid-template-columns: 1fr;
+  }
+
+  .marketControls select {
+    min-height: 50px;
+  }
+
+  .marketBody {
+    display: block;
+  }
+
+  .marketSidebar {
+    margin-bottom: 35px;
+  }
+
+  .filterGroup:nth-of-type(2),
+  .filterGroup:nth-of-type(3) {
+    display: none;
+  }
+
+  .marketGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .marketArtwork {
+    height: 330px;
+  }
+
+  .collectibleCard {
+    width: 170px;
+    height: 240px;
+  }
+
+  .collectibleCreature {
+    font-size: 72px;
+  }
+
+  .marketCTA {
+    margin-left: 18px;
+    margin-right: 18px;
+    padding: 38px 28px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
