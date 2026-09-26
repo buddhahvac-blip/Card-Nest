@@ -3711,3 +3711,450 @@ footer p {
     align-items: flex-start;
   }
 }
+
+/* =========================================================
+   CARDNEST PACK SHOP
+   ========================================================= */
+
+.packShopPage {
+  min-height: 100vh;
+  padding: 42px 6% 80px;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 201, 92, 0.18), transparent 28%),
+    radial-gradient(circle at 88% 22%, rgba(128, 83, 255, 0.18), transparent 30%),
+    linear-gradient(135deg, #fffaf2 0%, #f8f4ff 48%, #f3efff 100%);
+  color: #272039;
+}
+
+.packHero {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto 70px;
+  min-height: 430px;
+  padding: 70px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 36px;
+  background:
+    radial-gradient(circle at 80% 50%, rgba(255, 211, 111, 0.22), transparent 30%),
+    linear-gradient(135deg, #352052 0%, #63478c 52%, #241934 100%);
+  box-shadow: 0 30px 70px rgba(54, 35, 88, 0.22);
+}
+
+.packHeroGlow {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  right: -90px;
+  top: -110px;
+  border-radius: 50%;
+  background: rgba(255, 213, 114, 0.13);
+  filter: blur(10px);
+}
+
+.packHeroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+}
+
+.packEyebrow {
+  display: inline-block;
+  margin-bottom: 15px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2.3px;
+  color: #e4ad2c;
+}
+
+.packHero h1 {
+  max-width: 650px;
+  margin: 0;
+  color: white;
+  font-size: clamp(48px, 6vw, 78px);
+  line-height: 0.98;
+  letter-spacing: -3px;
+}
+
+.packHero p {
+  max-width: 600px;
+  margin: 25px 0 32px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.packHeroActions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.packPrimaryButton,
+.packSecondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 25px;
+  border-radius: 16px;
+  text-decoration: none;
+  font-weight: 800;
+  transition: 0.25s ease;
+}
+
+.packPrimaryButton {
+  color: #2e2143;
+  background: linear-gradient(135deg, #ffd76b, #efa928);
+  box-shadow: 0 12px 28px rgba(232, 169, 43, 0.25);
+}
+
+.packSecondaryButton {
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.packPrimaryButton:hover,
+.packSecondaryButton:hover {
+  transform: translateY(-3px);
+}
+
+.packHeroNest {
+  position: relative;
+  z-index: 2;
+  width: 285px;
+  height: 285px;
+  flex: 0 0 285px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 224, 143, 0.32), rgba(255, 255, 255, 0.06) 55%, transparent 70%);
+}
+
+.packHeroEgg {
+  font-size: 125px;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.28));
+  animation: cardNestFloat 4s ease-in-out infinite;
+}
+
+.packHeroCrown {
+  position: absolute;
+  top: 33px;
+  font-size: 52px;
+  color: #ffd35e;
+  transform: rotate(-7deg);
+}
+
+.packHeroSpark {
+  position: absolute;
+  color: #ffe39a;
+  font-size: 25px;
+  animation: cardNestSpark 2.2s ease-in-out infinite alternate;
+}
+
+.sparkOne {
+  top: 52px;
+  right: 30px;
+}
+
+.sparkTwo {
+  left: 24px;
+  top: 120px;
+}
+
+.sparkThree {
+  right: 55px;
+  bottom: 35px;
+}
+
+@keyframes cardNestFloat {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes cardNestSpark {
+  from { opacity: 0.35; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1.2); }
+}
+
+.packShopSection {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.packSectionHeading {
+  margin-bottom: 35px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+}
+
+.packSectionHeading h2,
+.packDevSection h2 {
+  margin: 0;
+  font-size: clamp(36px, 4vw, 52px);
+  letter-spacing: -2px;
+}
+
+.packSectionHeading p {
+  max-width: 490px;
+  margin: 0;
+  color: #746d80;
+  line-height: 1.7;
+}
+
+.packGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.packCard {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  border: 1px solid rgba(81, 56, 111, 0.1);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 20px 45px rgba(48, 31, 73, 0.09);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.packCard:hover {
+  transform: translateY(-9px);
+  box-shadow: 0 30px 55px rgba(48, 31, 73, 0.16);
+}
+
+.packBadge {
+  position: absolute;
+  z-index: 3;
+  top: 29px;
+  left: 29px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  color: white;
+  background: rgba(31, 21, 45, 0.72);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 1.3px;
+}
+
+.packArtwork {
+  position: relative;
+  min-height: 285px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 21px;
+  color: white;
+  text-align: center;
+  box-shadow: inset 0 0 45px rgba(255, 255, 255, 0.12);
+}
+
+.packArtwork::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 16px;
+  pointer-events: none;
+}
+
+.hatchling .packArtwork {
+  background: linear-gradient(145deg, #4f8f73, #254e47);
+}
+
+.nest .packArtwork {
+  background: linear-gradient(145deg, #7652a8, #372250);
+}
+
+.guardian .packArtwork {
+  background: linear-gradient(145deg, #2e6489, #252c59);
+}
+
+.royal .packArtwork {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 220, 119, 0.34), transparent 27%),
+    linear-gradient(145deg, #70489a, #24152f 70%);
+}
+
+.packArtworkIcon {
+  position: relative;
+  z-index: 2;
+  margin-bottom: 12px;
+  font-size: 86px;
+  filter: drop-shadow(0 15px 18px rgba(0, 0, 0, 0.25));
+}
+
+.packArtworkCrown {
+  position: absolute;
+  top: 43px;
+  z-index: 2;
+  color: #ffd769;
+  font-size: 30px;
+}
+
+.packArtwork span {
+  position: relative;
+  z-index: 2;
+  font-size: 21px;
+  font-weight: 950;
+  letter-spacing: 3px;
+}
+
+.packArtwork small {
+  position: relative;
+  z-index: 2;
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.packCardContent {
+  padding: 22px 5px 5px;
+}
+
+.packCardContent > span {
+  color: #a87918;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.packCardContent h3 {
+  margin: 8px 0 10px;
+  font-size: 25px;
+  letter-spacing: -0.8px;
+}
+
+.packCardContent p {
+  min-height: 96px;
+  margin: 0 0 20px;
+  color: #777080;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.packComingSoon {
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 14px;
+  color: #625a6c;
+  background: #f1edf5;
+  font-weight: 850;
+  cursor: not-allowed;
+}
+
+.royal .packComingSoon {
+  color: #6a4810;
+  background: linear-gradient(135deg, #fff0bb, #f5d272);
+}
+
+.packDevSection {
+  max-width: 1180px;
+  margin: 65px auto 0;
+  padding: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 35px;
+  border-radius: 28px;
+  background: white;
+  box-shadow: 0 18px 45px rgba(50, 34, 74, 0.08);
+}
+
+.packDevSection p {
+  max-width: 700px;
+  color: #777080;
+  line-height: 1.7;
+}
+
+.packDevStatus {
+  flex: 0 0 auto;
+  padding: 14px 18px;
+  border-radius: 999px;
+  color: #246447;
+  background: #eaf8ef;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.packDevStatus span {
+  margin-right: 7px;
+  color: #39a96b;
+}
+
+@media (max-width: 1050px) {
+  .packGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .packHero {
+    padding: 55px;
+  }
+
+  .packHeroNest {
+    width: 230px;
+    height: 230px;
+    flex-basis: 230px;
+  }
+}
+
+@media (max-width: 760px) {
+  .packShopPage {
+    padding: 22px 18px 60px;
+  }
+
+  .packHero {
+    min-height: auto;
+    padding: 42px 28px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .packHero h1 {
+    font-size: 48px;
+    letter-spacing: -2px;
+  }
+
+  .packHeroNest {
+    width: 210px;
+    height: 210px;
+    margin: 30px auto 0;
+    align-self: center;
+    flex-basis: 210px;
+  }
+
+  .packHeroEgg {
+    font-size: 95px;
+  }
+
+  .packSectionHeading,
+  .packDevSection {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .packGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .packCardContent p {
+    min-height: auto;
+  }
+
+  .packDevStatus {
+    flex: auto;
+  }
+}
