@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 const packs = [
-  {
+  {image: "/Hatchling%20Pack.png",
     icon: "🥚",
     name: "Hatchling Pack",
     subtitle: "Begin Your Nest",
@@ -10,7 +10,7 @@ const packs = [
     badge: "STARTER",
     className: "hatchling",
   },
-  {
+  {image: "/Nest%20Pack.png",
     icon: "🪺",
     name: "Nest Pack",
     subtitle: "Build Your Collection",
@@ -19,7 +19,7 @@ const packs = [
     badge: "SIGNATURE",
     className: "nest",
   },
-  {
+  {image: "/Guardian%20Pack.png",
     icon: "🛡️",
     name: "Guardian Pack",
     subtitle: "Seek Rarer Guardians",
@@ -28,7 +28,7 @@ const packs = [
     badge: "ENHANCED",
     className: "guardian",
   },
-  {
+  {image: "/Royal%20Nest%20Pack.png",
     icon: "👑",
     name: "Royal Nest Pack",
     subtitle: "Enter the Royal Nest",
@@ -96,11 +96,11 @@ export default function PacksPage() {
             >
               <div className="packBadge">{pack.badge}</div>
 
-              <div className="packArtwork packArtworkGuardian">
+<div className="packArtwork packArtworkGuardian">
   <img
-    src="/cardnest-season1-packs.png"
+    src={pack.image}
     alt={`${pack.name} — CardNest Season 1`}
-    className={`packGuardianImage packGuardianImage-${pack.className}`}
+    className="packIndividualImage"
   />
 </div>
 
