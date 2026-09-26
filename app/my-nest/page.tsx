@@ -1,3 +1,5 @@
+import GuardianCard from "./GuardianCard";
+
 type CollectionCard = {
   card_id: number;
   card_number: number;
@@ -201,30 +203,19 @@ export default async function MyNestPage() {
           </div>
 
           <div className="myNestRarityGrid">
-            {data.cards.map((card) => (
-              <article className="myNestRarity" key={card.edition_id}>
-                {card.artwork_url && (
-  <div className="myNestCardArtwork">
-    <img
-      src={card.artwork_url}
-      alt={`${card.name} CardNest Guardian`}
-      className="myNestCardImage"
-    />
-  </div>
-)}
-                <span>
-                  #{String(card.card_number).padStart(3, "0")} · {card.rarity}
-                </span>
-
-                <strong>{card.name}</strong>
-
-                <p>
-                  Edition #{card.edition_number}
-                  {card.max_supply ? ` / ${card.max_supply}` : ""}
-                </p>
-              </article>
-            ))}
-          </div>
+           {data.cards.map((card) => (
+  <GuardianCard
+    key={card.edition_id}
+    name={card.name}
+    cardNumber={card.card_number}
+    family={card.nest_family}
+    rarity={card.rarity}
+    artworkUrl={card.artwork_url}
+    editionNumber={card.edition_number}
+    maxSupply={card.max_supply}
+    description={card.description}
+  />
+))}
         </section>
       )}
     </main>
