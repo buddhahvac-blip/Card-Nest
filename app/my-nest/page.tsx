@@ -50,14 +50,12 @@ const families = [
 ];
 
 async function getCollection(): Promise<MyNestData> {
-  const baseUrl =
-    process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
-
-  const response = await fetch(`${baseUrl}/api/my-nest`, {
-    cache: "no-store",
-  });
+  const response = await fetch(
+    "https://card-nest-iota.vercel.app/api/my-nest",
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!response.ok) {
     throw new Error("Unable to load My Nest.");
@@ -65,7 +63,6 @@ async function getCollection(): Promise<MyNestData> {
 
   return response.json();
 }
-
 export default async function MyNestPage() {
   const data = await getCollection();
 
