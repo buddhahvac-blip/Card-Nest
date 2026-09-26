@@ -4158,3 +4158,96 @@ footer p {
     flex: auto;
   }
 }
+
+/* =========================================================
+   CARDNEST SEASON 1 GUARDIAN PACK ART
+   ========================================================= */
+
+.packArtworkGuardian {
+  position: relative;
+  height: 300px;
+  min-height: 300px;
+  overflow: hidden;
+  border-radius: 21px;
+  background: #2d2043;
+  isolation: isolate;
+}
+
+.packGuardianImage {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 400%;
+  max-width: none;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+/* Crop the four pack areas from the Season 1 master artwork */
+.packGuardianImage-hatchling {
+  left: 0;
+}
+
+.packGuardianImage-nest {
+  left: -100%;
+}
+
+.packGuardianImage-guardian {
+  left: -200%;
+}
+
+.packGuardianImage-royal {
+  left: -300%;
+}
+
+/* Premium glass/foil treatment */
+.packArtworkGuardian::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 15%,
+      rgba(255, 255, 255, 0.16) 35%,
+      transparent 52%
+    );
+  background-size: 220% 100%;
+  opacity: 0.65;
+  transition: background-position 0.6s ease;
+}
+
+.packCard:hover .packGuardianImage {
+  transform: scale(1.04);
+}
+
+.packCard:hover .packArtworkGuardian::after {
+  background-position: 100% 0;
+}
+
+.hatchling .packArtworkGuardian {
+  box-shadow: 0 15px 35px rgba(67, 143, 100, 0.24);
+}
+
+.nest .packArtworkGuardian {
+  box-shadow: 0 15px 35px rgba(126, 82, 184, 0.27);
+}
+
+.guardian .packArtworkGuardian {
+  box-shadow: 0 15px 35px rgba(54, 124, 193, 0.27);
+}
+
+.royal .packArtworkGuardian {
+  box-shadow: 0 15px 38px rgba(208, 155, 48, 0.3);
+}
+
+@media (max-width: 760px) {
+  .packArtworkGuardian {
+    height: 360px;
+    min-height: 360px;
+  }
+}
