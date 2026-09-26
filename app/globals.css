@@ -3340,3 +3340,47 @@ footer p {
     justify-content: center;
   }
 }
+
+/* ========================================
+   CARDNEST FANTASY CREATURE SHOWCASE
+   ======================================== */
+
+.cnCreatureShowcase {
+  width: 100%;
+  max-width: 1180px;
+  margin: 28px auto 0;
+  overflow: hidden;
+  border-radius: 28px;
+  background: #fff;
+  box-shadow:
+    0 20px 50px rgba(48, 40, 70, 0.12),
+    0 4px 14px rgba(48, 40, 70, 0.08);
+}
+
+.cnCreatureShowcaseImage {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Keep the artwork clean on tablets */
+@media (max-width: 900px) {
+  .cnCreatureShowcase {
+    margin-top: 22px;
+    border-radius: 22px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .cnCreatureShowcase {
+    margin-top: 18px;
+    border-radius: 16px;
+  }
+
+  .cnCreatureShowcaseImage {
+    width: 100%;
+    height: auto;
+  }
+}
