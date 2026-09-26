@@ -4366,3 +4366,96 @@ footer p {
   transform: scale(1.025);
   filter: brightness(1.03);
 }
+
+/* =========================================================
+   CARDNEST — MY NEST RESPONSIVE GUARDIAN COLLECTION
+   ========================================================= */
+
+.myNestRarityGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+/* Guardian collection card */
+.guardianCard {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .myNestPage {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .myNestFamilies {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .myNestRarityGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .myNestPage {
+    padding-left: 14px;
+    padding-right: 14px;
+    overflow-x: hidden;
+  }
+
+  .myNestHero {
+    border-radius: 24px;
+    padding: 28px 20px;
+  }
+
+  .myNestHero h1 {
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1;
+  }
+
+  .myNestFamilies {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .myNestRarityGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .myNestSectionHeading h2 {
+    font-size: clamp(2rem, 9vw, 2.8rem);
+  }
+
+  .guardianCard {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .guardianCard img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .myNestPage {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .myNestFamilies {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .myNestRarityGrid {
+    grid-template-columns: 1fr;
+  }
+}
