@@ -96,12 +96,13 @@ export default function PacksPage() {
             >
               <div className="packBadge">{pack.badge}</div>
 
-              <div className="packArtwork">
-                <div className="packArtworkCrown">♛</div>
-                <div className="packArtworkIcon">{pack.icon}</div>
-                <span>CARDNEST</span>
-                <small>SEASON 1</small>
-              </div>
+              <div className="packArtwork packArtworkGuardian">
+  <img
+    src="/cardnest-season1-packs.png"
+    alt={`${pack.name} — CardNest Season 1`}
+    className={`packGuardianImage packGuardianImage-${pack.className}`}
+  />
+</div>
 
               <div className="packCardContent">
                 <span>{pack.subtitle}</span>
