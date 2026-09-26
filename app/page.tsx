@@ -111,6 +111,7 @@ export default function Home() {
 
         <div className="cnNavLinks">
           <Link href="/marketplace">Marketplace</Link>
+          <Link href="/packs">Packs</Link>
           <Link href="/sell">Sell</Link>
           <Link href="/rewards">Rewards</Link>
         </div>
