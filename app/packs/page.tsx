@@ -17,7 +17,7 @@ const packs = [
     description:
       "The signature CardNest pack. Hatch guardians from across the six Nest families and grow your collection.",
     badge: "SIGNATURE",
-    className: "nest",
+    className: "nestPack",
   },
   {image: "/Guardian%20Pack.png",
     icon: "🛡️",
