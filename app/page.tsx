@@ -155,49 +155,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="cnHeroArt" aria-label="CardNest mascot artwork">
-          <div className="cnFloatingCard cnCardOne">
-            <span>🔥</span>
-            <strong>EMBER</strong>
-          </div>
-
-          <div className="cnFloatingCard cnCardTwo">
-            <span>💧</span>
-            <strong>TIDE</strong>
-          </div>
-
-          <div className="cnFloatingCard cnCardThree">
-            <span>⚡</span>
-            <strong>VOLT</strong>
-          </div>
-
-          <div className="cnMagicSpark cnSparkOne">✦</div>
-          <div className="cnMagicSpark cnSparkTwo">✧</div>
-          <div className="cnMagicSpark cnSparkThree">✦</div>
-
-          <div className="cnMascot">
-            <div className="cnCrown">♛</div>
-            <div className="cnOwlHead">
-              <span className="cnOwlEye">●</span>
-              <span className="cnOwlBeak">◆</span>
-              <span className="cnOwlEye">●</span>
-            </div>
-            <div className="cnOwlBody">🪽</div>
-          </div>
-
-          <div className="cnEggs">
-            <span>🥚</span>
-            <span>🥚</span>
-            <span>🥚</span>
-          </div>
-
-          <div className="cnNest">🪹</div>
-
-          <div className="cnHeroBadge">
-            <small>THE COLLECTOR&apos;S HOME</small>
-            <strong>CardNest</strong>
-          </div>
-        </div>
+     <div className="cnHeroArt cnHeroArtImage">
+  <img
+    src="/cardnest-hero.png%20(3).png"
+    alt="CardNest fantasy world with crowned owl mascot and collectible cards"
+    className="cnHeroFantasyImage"
+  />
+</div>
       </section>
 
       <section className="cnBenefits">
