@@ -1870,3 +1870,310 @@ footer p {
     transform: scale(.9);
   }
 }
+
+/* =========================================================
+   CARDNEST — REWARDS / MEMBERSHIP PAGE
+   ========================================================= */
+
+.rewardsPage {
+  min-height: 100vh;
+  padding: 70px 24px 100px;
+  background:
+    radial-gradient(circle at 85% 8%, rgba(255, 211, 92, 0.28), transparent 28%),
+    radial-gradient(circle at 10% 85%, rgba(255, 154, 174, 0.18), transparent 30%),
+    linear-gradient(180deg, #fffaf0 0%, #fffdf8 100%);
+  color: #29223f;
+}
+
+.rewardsHero {
+  max-width: 1180px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.rewardsEyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 8px 15px;
+  border-radius: 999px;
+  background: #fff0bd;
+  color: #8c5a00;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.rewardsHero h1 {
+  margin: 0;
+  font-size: clamp(42px, 7vw, 72px);
+  line-height: 0.98;
+  letter-spacing: -3px;
+  color: #29223f;
+}
+
+.rewardsHero p {
+  max-width: 690px;
+  margin: 22px auto;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #655e74;
+}
+
+.rewardsBack {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: white;
+  border: 1px solid #eee4cf;
+  color: #29223f;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 25px rgba(54, 43, 26, 0.07);
+  transition: 0.2s ease;
+}
+
+.rewardsBack:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(54, 43, 26, 0.12);
+}
+
+.plansSection {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.plansHeading {
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.plansHeading span {
+  color: #d9931b;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.plansHeading h2 {
+  margin: 8px 0 8px;
+  font-size: 38px;
+  letter-spacing: -1.5px;
+}
+
+.plansHeading p {
+  color: #746d7d;
+  font-size: 16px;
+}
+
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.planCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 460px;
+  padding: 32px;
+  overflow: hidden;
+  border: 1px solid #eee3cc;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 18px 55px rgba(64, 48, 25, 0.09);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.planCard:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 25px 65px rgba(64, 48, 25, 0.15);
+}
+
+.planCard:nth-child(2) {
+  border-color: #f0c96a;
+  background:
+    linear-gradient(145deg, rgba(255, 249, 226, 0.98), rgba(255, 255, 255, 0.98));
+}
+
+.planCard:nth-child(3) {
+  border-color: #efc452;
+  background:
+    radial-gradient(circle at top right, rgba(255, 214, 91, 0.35), transparent 38%),
+    linear-gradient(145deg, #fffaf0, #ffffff);
+  box-shadow: 0 22px 65px rgba(186, 132, 24, 0.16);
+}
+
+.planIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  margin-bottom: 22px;
+  border-radius: 17px;
+  background: #fff2c9;
+  font-size: 26px;
+}
+
+.planCard h3 {
+  margin: 0 0 12px;
+  font-size: 27px;
+  letter-spacing: -0.8px;
+  color: #29223f;
+}
+
+.planPrice {
+  margin-bottom: 25px;
+  font-size: 18px;
+  color: #6e6678;
+}
+
+.planPrice strong {
+  color: #29223f;
+  font-size: 42px;
+  letter-spacing: -2px;
+}
+
+.planCard ul {
+  flex: 1;
+  margin: 0 0 28px;
+  padding: 0;
+  list-style: none;
+}
+
+.planCard li {
+  position: relative;
+  margin: 13px 0;
+  padding-left: 26px;
+  color: #5e5869;
+  line-height: 1.45;
+}
+
+.planCard li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #d69720;
+  font-weight: 900;
+}
+
+.planButton {
+  width: 100%;
+  padding: 15px 20px;
+  border: 0;
+  border-radius: 16px;
+  background: #29223f;
+  color: white;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(41, 34, 63, 0.17);
+  transition: 0.2s ease;
+}
+
+.planButton:hover {
+  transform: translateY(-2px);
+  background: #3a3157;
+}
+
+.planCard:nth-child(3) .planButton {
+  background: linear-gradient(135deg, #e7a91f, #f2c452);
+  color: #33240b;
+}
+
+.planFinePrint {
+  margin: 15px 0 0;
+  text-align: center;
+  color: #91899a;
+  font-size: 12px;
+}
+
+.rewardsNotice {
+  display: flex;
+  gap: 16px;
+  max-width: 760px;
+  margin: 45px auto 0;
+  padding: 22px 25px;
+  border: 1px solid #eee2c7;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 35px rgba(57, 44, 23, 0.06);
+}
+
+.rewardsNotice span {
+  font-size: 24px;
+}
+
+.rewardsNotice strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.rewardsNotice p {
+  margin: 0;
+  color: #706979;
+  line-height: 1.55;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .plansGrid {
+    grid-template-columns: 1fr;
+    max-width: 590px;
+    margin: 0 auto;
+  }
+
+  .planCard {
+    min-height: auto;
+  }
+
+  .rewardsHero h1 {
+    letter-spacing: -2px;
+  }
+}
+
+/* Phone */
+@media (max-width: 600px) {
+  .rewardsPage {
+    padding: 45px 16px 70px;
+  }
+
+  .rewardsHero {
+    margin-bottom: 40px;
+  }
+
+  .rewardsHero h1 {
+    font-size: 44px;
+    letter-spacing: -2px;
+  }
+
+  .rewardsHero p {
+    font-size: 16px;
+  }
+
+  .plansHeading h2 {
+    font-size: 31px;
+  }
+
+  .planCard {
+    padding: 25px;
+    border-radius: 24px;
+  }
+
+  .planPrice strong {
+    font-size: 37px;
+  }
+
+  .rewardsNotice {
+    margin-top: 30px;
+  }
+}
