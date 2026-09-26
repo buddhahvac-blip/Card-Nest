@@ -4308,3 +4308,17 @@ footer p {
     min-height: 420px;
   }
 }
+
+/* Fix Nest Pack artwork */
+.packCard.nest .packArtwork.packArtworkGuardian {
+  height: 360px !important;
+  min-height: 360px !important;
+  width: 100% !important;
+}
+
+.packCard.nest .packIndividualImage {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+}
