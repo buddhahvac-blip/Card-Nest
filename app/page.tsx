@@ -210,41 +210,13 @@ export default function Home() {
           <Link href="/marketplace">See all cards →</Link>
         </div>
 
-        <div className="cnCardGrid">
-          {cards.map((card) => (
-            <article className="cnListing" key={card.name}>
-              <div className={`cnCardArtwork ${card.className}`}>
-                <button
-                  className="cnHeart"
-                  aria-label={`Favorite ${card.name}`}
-                >
-                  ♡
-                </button>
-
-                <div className="cnTradingCard">
-                  <div className="cnTradingTop">
-                    <small>CARDNEST</small>
-                    <span>{card.icon}</span>
-                  </div>
-
-                  <div className="cnCreature">{card.creature}</div>
-
-                  <strong>{card.name}</strong>
-                  <small>{card.type} • Rare</small>
-                </div>
-              </div>
-
-              <div className="cnListingInfo">
-                <div>
-                  <p>{card.description}</p>
-                  <h3>{card.name}</h3>
-                </div>
-
-                <strong className="cnPrice">{card.price}</strong>
-              </div>
-            </article>
-          ))}
-        </div>
+  <div className="cnCreatureShowcase">
+  <img
+    src="/ChatGPT%20Image%20Sep%2025,%202026,%2003_57_04%20PM.png"
+    alt="CardNest fantasy collectible creatures"
+    className="cnCreatureShowcaseImage"
+  />
+</div>      
       </section>
 
       <section className="cnMembership">
