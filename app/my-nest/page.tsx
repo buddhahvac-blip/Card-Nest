@@ -202,20 +202,21 @@ export default async function MyNestPage() {
             </div>
           </div>
 
-          <div className="myNestRarityGrid">
-           {data.cards.map((card) => (
-  <GuardianCard
-    key={card.edition_id}
-    name={card.name}
-    cardNumber={card.card_number}
-    family={card.nest_family}
-    rarity={card.rarity}
-    artworkUrl={card.artwork_url}
-    editionNumber={card.edition_number}
-    maxSupply={card.max_supply}
-    description={card.description}
-  />
-))}
+    <div className="myNestRarityGrid">
+  {data.cards.map((card) => (
+    <GuardianCard
+      key={card.edition_id}
+      name={card.name}
+      cardNumber={card.card_number}
+      family={card.nest_family}
+      rarity={card.rarity}
+      artworkUrl={card.artwork_url}
+      editionNumber={card.edition_number}
+      maxSupply={card.max_supply}
+      description={card.description}
+    />
+  ))}
+</div>
         </section>
       )}
     </main>
