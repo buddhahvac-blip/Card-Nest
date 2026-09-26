@@ -203,6 +203,15 @@ export default async function MyNestPage() {
           <div className="myNestRarityGrid">
             {data.cards.map((card) => (
               <article className="myNestRarity" key={card.edition_id}>
+                {card.artwork_url && (
+  <div className="myNestCardArtwork">
+    <img
+      src={card.artwork_url}
+      alt={`${card.name} CardNest Guardian`}
+      className="myNestCardImage"
+    />
+  </div>
+)}
                 <span>
                   #{String(card.card_number).padStart(3, "0")} · {card.rarity}
                 </span>
