@@ -33,3 +33,7 @@ The built-in image-generation tool created public/art/great-nest-world.png durin
 
 ## Remaining connections
 Secure API-key provisioning, approved image-generation budget, public account system and family privacy design, payments, affiliate reporting, email delivery, live actual-cost feeds, continuous monitoring, and automatic deployment controls. Do not describe these as operating autonomously.
+
+
+## Production activation status — 2026-09-28
+Production Neon Auth was provisioned on the production database branch and the public CardNest domain was added as a trusted origin. Production environment configuration was supplied in Vercel; this commit triggers a fresh production build so runtime services receive the updated environment.
