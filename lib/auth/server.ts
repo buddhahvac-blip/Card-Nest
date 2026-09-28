@@ -17,6 +17,14 @@ export function auth(){
 export async function currentUser(){
  const {data}=await auth().getSession();
  if(!data?.user)return null;
- if(process.env.PUBLIC_SIGNUPS_ENABLED!=='true'&&data.user.email.toLowerCase()!==process.env.NEST_ADMIN_EMAIL?.toLowerCase())return null;
- return {userId:data.user.id,email:data.user.email,displayName:data.user.name||'Collector',verified:data.user.emailVerified}
+ const user=data.user as typeof data.user & {role?:string};
+ const isAdmin=user.role==='admin';
+ if(process.env.PUBLIC_SIGNUPS_ENABLED!=='true'&&!isAdmin)return null;
+ return {
+  userId:user.id,
+  email:user.email,
+  displayName:user.name||'Collector',
+  verified:user.emailVerified,
+  role:user.role||'user'
+ }
 }
