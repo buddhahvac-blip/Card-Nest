@@ -1,3 +1,11 @@
+# Season One art review update — 2026-09-28
+
+The eleven approved clean full-card compositions are stored at `public/cards/season-01/001` through `011`, with identical full-card and avatar source files per number. Their native size is 320×427; these are review images, not high-resolution production masters. Original permanent database IDs are retained, while the displayed names, clans and draft stats now match those images. Existing saved copies of the first seven IDs will therefore display the new identities.
+
+All eleven remain unreleased, uncollectible, and ineligible for pack drops. New saved free draws are paused; the 1, 3, 5 and 7 card reveal sequences are clearly marked animation demos. Existing ownership records are preserved. The old external OpenArt references and previous first-seven artwork are removed from active catalog paths. Checkout stays test-only gated; pack sales remain disabled. Human rights, provenance, text legibility, gameplay balance and full-resolution production art need review before a release decision.
+
+The historical notes below describe the previous preview state and are retained for migration context.
+
 # CardNest private preview — 2026-09-27
 
 ## Implemented

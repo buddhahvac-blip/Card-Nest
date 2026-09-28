@@ -53,6 +53,35 @@ for c in clans:
         if i<50 and name not in ['Leafling','Bloomstag','Sparkwing','Skyflight','Thunderbeak','Stormfeather','Voltstrike','Aeronyx','Storm Sentinel','Skyward Judge']:
             name+=' '+sp.split()[-1].title()
         rows.append(record(n,f'reserved-{n:03}',name,c,rarity,sp,i));n+=1
+# Approved clean compositions: update display identities, never change permanent IDs.
+for approved in json.loads((root/'data/approved-clean-cards.json').read_text()):
+    row=rows[approved['number']-1]
+    assert row['cardNumber']==approved['number']
+    for field in ('name','clan','creatureType','battleClass','health','attack','defense','speed','lore'):
+        row[field]=approved[field]
+    n=approved['number'];base=f'/cards/season-01/{n:03}/'
+    assert (root/'public'/base.lstrip('/')/'full-card.jpg').is_file()
+    row.update(slug=re.sub('[^a-z0-9]+','-',row['name'].lower()).strip('-'),
+        description=f"{row['name']} is a {row['creatureType']} from the {row['clan']} clan.",
+        habitat=habitats[row['clan']][n%len(habitats[row['clan']])],
+        artDirection=f"Original {row['clan']} {row['creatureType']}; preserve the approved card silhouette. New master artwork requires review.",
+        artworkUrl=base+'full-card.jpg',fullCardUrl=base+'full-card.jpg',avatarUrl=base+'avatar.jpg',
+        thumbnailUrl=base+'avatar.jpg',packRevealUrl=base+'full-card.jpg',
+        highResolutionArtworkUrl=None,masterArtworkUrl=None,artStatus='review',releaseStatus='unreleased',
+        isCollectible=False,isPackEligible=False,reviewStatus='composition-review-only-320x427',
+        balanceVersion='first-flight-art-draft-2',gameplayStatus='prototype-unplaytested',
+        nestAffinity=row['clan'],weakness=clans[(clans.index(row['clan'])+1)%6],
+        resistance=clans[(clans.index(row['clan'])-1)%6],evolutionGroup=re.sub('[^a-z0-9]+','-',row['name'].lower()).strip('-'),
+        gameplayTags=[row['clan'].lower(),row['battleClass'].lower()],
+        abilityPrimary=dict(name={'Scout':'Trail Signal','Striker':'Ember Pounce','Vanguard':'Stone Shelter','Support':'Nest Renewal','Warden':'Hold the Line'}[row['battleClass']],
+            effect={'Scout':'gain_speed','Striker':'deal_damage','Vanguard':'gain_guard','Support':'heal','Warden':'gain_guard'}[row['battleClass']],
+            amount=20,target='self' if row['battleClass'] in ('Scout','Vanguard','Warden') else 'ally' if row['battleClass']=='Support' else 'opponent',
+            energyCost=1,cooldownTurns=2,durationTurns=1,description='Draft ability; gameplay is not live.'))
+# Any OpenArt-linked candidate still needs a clean source; show the undiscovered state.
+for row in rows:
+    if row.get('artworkUrl') and 'openart.ai' in row['artworkUrl']:
+        row.update(artworkUrl=None,packRevealUrl=None,avatarUrl=None,thumbnailUrl=None,highResolutionArtworkUrl=None,
+            artStatus='character_concept',releaseStatus='unreleased',isCollectible=False,isPackEligible=False)
 # Only list assets that actually exist. This is a review candidate, not a release.
 for row in rows:
     if row['name']=='Ember Sovereign':

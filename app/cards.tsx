@@ -9,6 +9,7 @@ export function GuardianCard({id}:{id:string}) {
  const c=seasonCard(id); const fallback=c?.artworkUrl||''; const [src,setSrc]=useState(fallback);
  useEffect(()=>{let active=true;setSrc(fallback);getArt().then(map=>{if(active&&map[id])setSrc(map[id])});return()=>{active=false}},[id,fallback]);
  if(!c)return <div className="card-back">Card unavailable</div>;
+ if(c.fullCardUrl)return <div className="guardian-card approved-card"><img loading="lazy" src={c.fullCardUrl} alt={`${c.name} · Season One card ${String(c.cardNumber).padStart(3,'0')} · ${c.clan} clan`} /></div>;
  const number=String(c.cardNumber).padStart(3,'0');
  return <div className={'guardian-card season-art rarity-'+c.rarity} style={{'--guardian':clanColors[c.clan]} as React.CSSProperties}>
  <span className="card-serial">CN1 · {number} · {c.rarity}</span><div className="guardian-image">{src?<img loading="lazy" className="season-art-image" src={src} onError={()=>setSrc('')} alt={c.name+' — '+c.clan+' artwork, awaiting production review'}/>:<div className="undiscovered-art"><Sparkles size={40}/><strong>{c.clan}</strong><span>Undiscovered</span><small>Coming to The First Flight</small></div>}</div>

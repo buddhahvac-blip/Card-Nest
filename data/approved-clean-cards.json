@@ -1,0 +1,13 @@
+[
+  {"number":1,"name":"Nestling","clan":"Mystic","creatureType":"celestial fledgling","battleClass":"Scout","health":56,"attack":28,"defense":34,"speed":62,"lore":"At first light, Nestling scouts the floating sanctuaries and guides young guardians home."},
+  {"number":2,"name":"Leafpaw","clan":"Bloom","creatureType":"leaf-tailed forest cat","battleClass":"Scout","health":62,"attack":38,"defense":40,"speed":54,"lore":"Leafpaw follows waterfall paths, leaving a trail of fresh leaves for lost friends."},
+  {"number":3,"name":"Emberkit","clan":"Ember","creatureType":"ember-tailed volcanic cub","battleClass":"Striker","health":58,"attack":46,"defense":30,"speed":60,"lore":"Emberkit races between warm lava stones, carrying sparks to cold mountain nests."},
+  {"number":4,"name":"Rippleo","clan":"Tide","creatureType":"wave-crested river companion","battleClass":"Scout","health":60,"attack":34,"defense":38,"speed":58,"lore":"Rippleo listens to waterfalls and follows their echoes through the reef valleys."},
+  {"number":5,"name":"Pebblit","clan":"Ember","creatureType":"mossy basalt hatchling","battleClass":"Vanguard","health":78,"attack":36,"defense":54,"speed":28,"lore":"Pebblit shields small travelers beneath its sun-warmed stone plates."},
+  {"number":6,"name":"Zephy","clan":"Volt","creatureType":"winged wind companion","battleClass":"Scout","health":54,"attack":30,"defense":32,"speed":66,"lore":"Zephy brings fair winds and messages between the sky cities of the Volt guardians."},
+  {"number":7,"name":"Lumibug","clan":"Shadow","creatureType":"night-lantern moth","battleClass":"Support","health":50,"attack":26,"defense":34,"speed":64,"lore":"Lumibug lights moonlit paths for quiet creatures without disturbing their dreams."},
+  {"number":8,"name":"Thorncap","clan":"Bloom","creatureType":"mushroom-armored forest guardian","battleClass":"Warden","health":68,"attack":32,"defense":46,"speed":36,"lore":"Thorncap shelters tender seedlings beneath its layered woodland canopy."},
+  {"number":9,"name":"Kiln Salamander","clan":"Ember","creatureType":"spiral-backed lava salamander","battleClass":"Scout","health":60,"attack":42,"defense":36,"speed":58,"lore":"Kiln Salamander knows every safe crossing through the lava caverns."},
+  {"number":10,"name":"Copper Quail","clan":"Ember","creatureType":"flame-plumed ground bird","battleClass":"Warden","health":72,"attack":34,"defense":48,"speed":44,"lore":"Copper Quail stands guard at the edge of the Crimson Forest."},
+  {"number":11,"name":"Basalt Armadillo","clan":"Ember","creatureType":"armored basalt burrower","battleClass":"Support","health":84,"attack":30,"defense":60,"speed":26,"lore":"Basalt Armadillo builds sheltered trails where the mountain is hottest."}
+]

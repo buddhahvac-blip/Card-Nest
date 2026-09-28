@@ -1,11 +1,5 @@
-export const catalog=[
-{id:'sproutling-001',name:'Sproutling',family:'Bloom',color:'#80d995',lore:'A curious guardian who brings new life to the Great Nest.',tile:-1},
-{id:'emberwing-002',name:'Emberwing',family:'Ember',color:'#ffa76e',lore:'A warm-hearted explorer lighting the way to the next adventure.',tile:0},
-{id:'tidefin-003',name:'Tidefin',family:'Tide',color:'#72d5f2',lore:'A river guardian following the stories carried by every current.',tile:1},
-{id:'bloomtail-004',name:'Bloomtail',family:'Bloom',color:'#b3df79',lore:'A gentle garden keeper who sees possibility in the smallest seed.',tile:2},
-{id:'voltbeak-005',name:'Voltbeak',family:'Volt',color:'#ffda75',lore:'A spirited skywatcher with a spark of courage to share.',tile:3},
-{id:'mindfeather-006',name:'Mindfeather',family:'Mystic',color:'#c4a0ee',lore:'A thoughtful night guide finding patterns among the stars.',tile:4},
-{id:'shadowclaw-007',name:'Shadowclaw',family:'Shadow',color:'#b0afea',lore:'A quiet protector watching over the nest while the world dreams.',tile:5}];
+import {seasonManifest} from './season-manifest';
+export const catalog=seasonManifest.slice(0,11).map(c=>({id:c.id,name:c.name,family:c.clan,color:'#edc781',lore:c.lore,tile:-1}));
 export const packDefinitions=[
 {id:'hatchling',name:'Hatchling',file:'Hatchling Pack.webp',count:1,priceCents:199},
 {id:'nest',name:'Nest',file:'Nest Pack.webp',count:3,priceCents:499},
