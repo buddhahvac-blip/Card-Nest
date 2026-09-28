@@ -11,7 +11,7 @@ function baseUrl(){
 export function auth(){
  const url=baseUrl();
  if(!process.env.NEON_AUTH_COOKIE_SECRET)throw Error('Accounts are not configured');
- return instance??=createNeonAuth({baseUrl:url,cookies:{secret:process.env.NEON_AUTH_COOKIE_SECRET,sessionDataTtl:0}})
+ return instance??=createNeonAuth({baseUrl:url,cookies:{secret:process.env.NEON_AUTH_COOKIE_SECRET,sessionDataTtl:3600}})
 }
 
 export async function currentUser(){
