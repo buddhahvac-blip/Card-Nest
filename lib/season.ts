@@ -1,5 +1,5 @@
 import {catalog} from './catalog';
-export const season={id:'season-1',name:'The First Flight',number:1,total:catalog.length,status:'preview'};
+export const season={id:'season-1',name:'The First Flight',number:1,total:369,status:'preview'};
 export const characterBriefs:Record<string,string>={
 'sproutling-001':'Small ivory-faced guardian with overlapping emerald leaf scales, large kind eyes, short legs and a leafy crown. Sitting in a flowering forest nest with sunlight through giant trees.',
 'emberwing-002':'Expressive red-orange winged dragon, warm ivory underside, glowing amber featherlike scales. Perched peacefully on sunlit volcanic cliffs, friendly and protective, no attack pose.',

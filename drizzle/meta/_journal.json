@@ -8,6 +8,13 @@
       "when": 1790558584920,
       "tag": "0000_supreme_nekra",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1790567254424,
+      "tag": "0001_fresh_valeria_richards",
+      "breakpoints": true
     }
   ]
 }

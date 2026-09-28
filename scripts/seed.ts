@@ -1,10 +1,8 @@
 import nextEnv from '@next/env';
-const {loadEnvConfig}=nextEnv;
-loadEnvConfig(process.cwd());
+nextEnv.loadEnvConfig(process.cwd());
 const {database,transaction}=await import('../lib/postgres');
 const {catalog,packDefinitions}=await import('../lib/catalog');
-await transaction(async c=>{await c.query("INSERT INTO seasons(id,name,planned_total,status) VALUES('season-1','The First Flight',369,'preview') ON CONFLICT DO NOTHING");
-await c.query("INSERT INTO cards(id,season_id,number,name,family,rarity,lore,art,status,legacy_id) SELECT 'reserved-'||lpad(card_number::text,3,'0'),'season-1',card_number,name,nest_family,rarity,coalesce(description,''),artwork_url,'reserved',id::text FROM public.cardnest_cards WHERE season_id=1 AND card_number>7 ON CONFLICT DO NOTHING");
-for(const [i,card] of catalog.entries())await c.query("INSERT INTO cards(id,season_id,number,name,family,rarity,lore,art,status,legacy_id) VALUES($1,'season-1',$2,$3,$4,'common',$5,$6,'preview',$7) ON CONFLICT DO NOTHING",[card.id,i+1,card.name,card.family,card.lore,'/art/season-1/'+card.id+'.webp',String(i+1)]);
-for(const p of packDefinitions)await c.query("INSERT INTO packs(id,season_id,name,count,drop_version,drops) VALUES($1,'season-1',$2,$3,'preview-equal-v1',$4) ON CONFLICT DO NOTHING",[p.id,p.name,p.count,JSON.stringify((p.id==='hatchling'?catalog.slice(0,1):catalog).map(card=>({card:card.id,weight:1})))]);
-});console.log('369 numbered slots; seven preview cards; four packs, sales disabled.');await database().end();
+const {seedSeason}=await import('../lib/seed-season');
+await transaction(async c=>{await seedSeason(c);
+ for(const p of packDefinitions)await c.query("INSERT INTO packs(id,season_id,name,count,drop_version,drops) VALUES($1,'season-1',$2,$3,'preview-equal-v1',$4) ON CONFLICT DO NOTHING",[p.id,p.name,p.count,JSON.stringify((p.id==='hatchling'?catalog.slice(0,1):catalog).map(card=>({card:card.id,weight:1})))]);
+});console.log('369 definitions synced. Existing identities and release approvals preserved; sales not enabled.');await database().end();

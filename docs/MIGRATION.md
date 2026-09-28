@@ -32,3 +32,11 @@ The complete code is available in the accompanying migration package. The next a
 
 ## Approved continuation
 The founder explicitly approved the public GitHub upload and additive production database migration. The production schema and catalog seed have now been applied; existing public tables were preserved and all sales remain disabled. GitHub accepts the approved artwork upload. Vercel's connected account returns 403 for the owning team buddhahvac-3696 (team_2ZKTK9Ms2sMupzxDJQiF5ryG), requiring reauthorization to that scope. Production domain promotion remains unverified.
+
+## 2026-09-28: complete Season One definition migration
+
+Added the 369-card manifest, original per-card concepts, draft battle profiles, full collector index, release fields, paid-pool validation and expanded founder art queue. Existing numbers and IDs remain intact; see SEASON_ONE.md for adjusted clan ranges. Ember Sovereign #068 has a standalone generated illustration plus web derivatives; it remains unreleased and under review.
+
+Additive Drizzle migration 0001 and the manifest seed were applied first to the isolated branch, then to production through the Neon connector. Production readback: 369 definitions, 369 profiles, 8 illustrations, 0 paid-eligible cards, 0 sale-enabled packs; all 369 legacy Season One rows remain. Migration hash recorded in the Drizzle journal table.
+
+The earlier migration commit received Vercel's successful deployment status. However, the connected Vercel account still lists no teams and explicitly returns 403 for team_2ZKTK9Ms2sMupzxDJQiF5ryG / buddhahvac-3696. No permission bypass or production promotion was attempted. The authorized source branch and draft PR remain the handoff point. Local browser connection was blocked by the browser environment; build and database verification must not be confused with browser or account-flow verification.
