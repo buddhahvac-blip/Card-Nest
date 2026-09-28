@@ -1,0 +1,3 @@
+import {randomInt} from 'node:crypto';
+export type Drop={card:string;weight:number};
+export function drawCards(count:number,drops:Drop[],rng:(max:number)=>number=randomInt){if(!Number.isInteger(count)||count<1||count>20||!drops.length||drops.some(d=>!d.card||!Number.isSafeInteger(d.weight)||d.weight<=0))throw Error('Invalid drop configuration');const total=drops.reduce((n,d)=>n+d.weight,0);if(!Number.isSafeInteger(total)||total>1000000)throw Error('Invalid weight total');return Array.from({length:count},()=>{let n=rng(total);if(n<0||n>=total||!Number.isInteger(n))throw Error('Invalid random value');for(const d of drops){n-=d.weight;if(n<0)return d.card}throw Error('Invalid draw')})}

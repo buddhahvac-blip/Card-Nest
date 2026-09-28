@@ -1,28 +1,3 @@
-import { NextResponse } from "next/server";
-import { sql } from "../../lib/db";
-
-export async function GET() {
-  try {
-    const plans = await sql`
-      SELECT name, monthly_price
-      FROM subscription_plans
-      ORDER BY monthly_price
-    `;
-
-    return NextResponse.json({
-      ok: true,
-      database: "connected",
-      plans,
-    });
-  } catch (error) {
-    console.error("CardNest database health check failed:", error);
-
-    return NextResponse.json(
-      {
-        ok: false,
-        database: "connection failed",
-      },
-      { status: 500 }
-    );
-  }
-}
+import {database} from '@/lib/postgres';
+export const dynamic='force-dynamic';
+export async function GET(){try{const r=await database().query('SELECT count(*)::int AS cards FROM cards');return Response.json({ok:true,build:'cardnest-first-flight-v1',database:'connected',catalog:r.rows[0].cards,payments:'test-only-gated'},{headers:{'Cache-Control':'no-store'}})}catch{return Response.json({ok:false,build:'cardnest-first-flight-v1',database:'unavailable',payments:'disabled'},{status:503,headers:{'Cache-Control':'no-store'}})}}

@@ -1,0 +1,6 @@
+import {database} from './postgres';
+export class RequestError extends Error{constructor(message:string,public status=400){super(message)}}
+export const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
+export async function body(req:Request){if(req.headers.get('origin')!==new URL(req.url).origin)throw new RequestError('Request origin rejected',403);if(!req.headers.get('content-type')?.includes('application/json'))throw new RequestError('JSON required',415);const text=await req.text();if(text.length>8192)throw new RequestError('Request too large',413);try{return JSON.parse(text)}catch{throw new RequestError('Invalid JSON')}}
+export function failure(e:unknown){return e instanceof RequestError?json({error:e.message},e.status):json({error:'Service temporarily unavailable. Please retry.'},503)}
+export async function rateLimit(key:string,maximum=30){const bucket=Math.floor(Date.now()/60000);const r=await database().query('INSERT INTO rate_limits(key,count,expires) VALUES($1,1,now()+interval \'2 minutes\') ON CONFLICT(key) DO UPDATE SET count=rate_limits.count+1 WHERE rate_limits.count<$2 RETURNING count',[key+':'+bucket,maximum]);if(!r.rowCount)throw new RequestError('Please wait a minute before trying again',429)}

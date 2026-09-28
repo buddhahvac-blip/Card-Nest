@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.env*
+!.env.example
+*.tsbuildinfo
+.vercel/
+public/art/great-nest-world.png
+public/art/season-1/*.png
+public/art/CardPacks.png
+public/art/Pack Art Test 1.png
+public/art/cardnest-hero.png.png
+public/art/cardnest-season1-packs.png.png
+public/art/ChatGPT Image Sep 25, 2026, 03_54_19 PM.png
+public/art/ChatGPT Image Sep 25, 2026, 03_57_04 PM.png
+
+public/art/guardian-concepts.png
+public/art/*.png

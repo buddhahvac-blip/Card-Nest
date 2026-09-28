@@ -1,0 +1,2 @@
+import Link from 'next/link';
+export function Policy({title,children}:{title:string;children:React.ReactNode}){return <main className="policy"><Link className="brand" href="/">✧ CardNest</Link><h1>{title}</h1><p className="notice">Migration preview · real purchases and public registration are closed. These notices describe the preview; final commerce terms need approval before launch.</p>{children}<p><Link href="/privacy">Privacy</Link> · <Link href="/terms">Terms</Link> · <Link href="/refunds">Refunds</Link> · <Link href="/support">Support</Link></p></main>}

@@ -1,0 +1,4 @@
+import {database,transaction} from './postgres';
+// Compatibility adapter for the existing founder tools; commerce uses explicit transactions.
+class Statement{values:unknown[]=[];constructor(public sql:string){}bind(...values:unknown[]){this.values=values;return this}query(){let n=0;return {text:this.sql.replace(/\?/g,()=>'$'+(++n)),values:this.values}}async all<T=Record<string,unknown>>(){const r=await database().query(this.query());return {results:r.rows as T[]}}async first<T=Record<string,unknown>>(){return (await database().query(this.query())).rows[0] as T|undefined}async run(){const r=await database().query(this.query());return {meta:{changes:r.rowCount||0}}}}
+export function db(){return {prepare:(sql:string)=>new Statement(sql),batch:(s:Statement[])=>transaction(async c=>{const result=[];for(const q of s)result.push(await c.query(q.query()));return result})}}
