@@ -1,5 +1,5 @@
 import {seasonManifest} from './season-manifest';
-export const catalog=seasonManifest.slice(0,11).map(c=>({id:c.id,name:c.name,family:c.clan,color:'#edc781',lore:c.lore,tile:-1}));
+export const catalog=seasonManifest.slice(0,11).map(c=>({id:c.id,name:c.name,theme:c.theme,family:c.theme,color:'#edc781',lore:c.lore,tile:-1}));
 export const packDefinitions=[
 {id:'hatchling',name:'Hatchling',file:'Hatchling Pack.webp',count:1,priceCents:199},
 {id:'nest',name:'Nest',file:'Nest Pack.webp',count:3,priceCents:499},
