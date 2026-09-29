@@ -303,5 +303,17 @@
     22,
     23,
     24
-  ]
+  ],
+  "governance": {
+    "guardianEnforcer": "data/guardian-enforcer-policy.json",
+    "artOverseer": "data/nest-mind-art-overseer.json",
+    "artOverseerPillars": [
+      "Distinct Identity",
+      "CardNest Continuity",
+      "Creative Growth"
+    ],
+    "buildGate": "npm run guardian:enforce",
+    "artGate": "npm run guardian:art",
+    "styleAnchors": "CN1-001 through CN1-011"
+  }
 }
