@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-28",
+  "purpose": "Prevent duplicate CardNest Season One art generation and accidental upload of non-canonical contact sheets.",
+  "sourceOfTruth": "data/season-one.json",
+  "rules": [
+    "Before generating any image, cross-check cardNumber, id, name, clan, rarity, battleClass and stats against data/season-one.json.",
+    "Before generating a batch, confirm the target cards do not already have production-ready full-card assets in public/cards/season-01/NNN/.",
+    "Contact sheets are reference-only unless every card's canonical name, rarity, class and stats are verified.",
+    "Do not count a contact sheet as a completed production card.",
+    "Do not upload rejected or reference-only sheets as individual website card assets.",
+    "Cards #001-#011 are production-complete full-card assets and must not be regenerated.",
+    "Card #068 has source artwork but still needs a canonical full-card render."
+  ],
+  "productionComplete": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "sourceArtReadyNoFullCard": [
+    68
+  ],
+  "batchStatus": [
+    {
+      "range": "012-021",
+      "status": "reference-only",
+      "reason": "Concept/contact sheet exists; individual canonical production files still missing."
+    },
+    {
+      "range": "022-031",
+      "status": "rejected",
+      "reason": "Generated contact sheet used non-canonical card names/rarities; must not be uploaded as production art."
+    },
+    {
+      "range": "032-041",
+      "status": "rejected",
+      "reason": "Generated contact sheet used non-canonical card names/rarities; must not be uploaded as production art."
+    },
+    {
+      "range": "042-051",
+      "status": "reference-only",
+      "reason": "Concept art exists, but generated card text/stats are not canonical; do not use as final production cards."
+    },
+    {
+      "range": "052-061",
+      "status": "missing",
+      "reason": "Canonical batch has not yet been successfully generated."
+    }
+  ],
+  "nextCanonicalBatch": {
+    "start": 52,
+    "end": 61,
+    "cards": [
+      {
+        "cardNumber": 52,
+        "id": "reserved-052",
+        "name": "Blazetrack Centipede",
+        "clan": "Ember",
+        "rarity": "rare",
+        "battleClass": "Disruptor",
+        "stats": {
+          "health": 100,
+          "attack": 40,
+          "defense": 20,
+          "speed": 30
+        }
+      },
+      {
+        "cardNumber": 53,
+        "id": "reserved-053",
+        "name": "Firebank Boar",
+        "clan": "Ember",
+        "rarity": "rare",
+        "battleClass": "Vanguard",
+        "stats": {
+          "health": 100,
+          "attack": 30,
+          "defense": 40,
+          "speed": 20
+        }
+      },
+      {
+        "cardNumber": 54,
+        "id": "reserved-054",
+        "name": "Suncrown Cassowary",
+        "clan": "Ember",
+        "rarity": "rare",
+        "battleClass": "Scout",
+        "stats": {
+          "health": 90,
+          "attack": 30,
+          "defense": 20,
+          "speed": 50
+        }
+      },
+      {
+        "cardNumber": 55,
+        "id": "reserved-055",
+        "name": "Firesong Hyena",
+        "clan": "Ember",
+        "rarity": "rare",
+        "battleClass": "Warden",
+        "stats": {
+          "health": 110,
+          "attack": 20,
+          "defense": 50,
+          "speed": 10
+        }
+      },
+      {
+        "cardNumber": 56,
+        "id": "reserved-056",
+        "name": "Venture Gibbon",
+        "clan": "Ember",
+        "rarity": "rare",
+        "battleClass": "Support",
+        "stats": {
+          "health": 110,
+          "attack": 20,
+          "defense": 30,
+          "speed": 30
+        }
+      },
+      {
+        "cardNumber": 57,
+        "id": "reserved-057",
+        "name": "Caldera Guardian",
+        "clan": "Ember",
+        "rarity": "epic",
+        "battleClass": "Disruptor",
+        "stats": {
+          "health": 100,
+          "attack": 40,
+          "defense": 20,
+          "speed": 30
+        }
+      },
+      {
+        "cardNumber": 58,
+        "id": "reserved-058",
+        "name": "Burnished",
+        "clan": "Ember",
+        "rarity": "epic",
+        "battleClass": "Vanguard",
+        "stats": {
+          "health": 100,
+          "attack": 30,
+          "defense": 40,
+          "speed": 20
+        }
+      },
+      {
+        "cardNumber": 59,
+        "id": "reserved-059",
+        "name": "Flamearch",
+        "clan": "Ember",
+        "rarity": "epic",
+        "battleClass": "Scout",
+        "stats": {
+          "health": 90,
+          "attack": 30,
+          "defense": 20,
+          "speed": 50
+        }
+      },
+      {
+        "cardNumber": 60,
+        "id": "reserved-060",
+        "name": "Dawnfire",
+        "clan": "Ember",
+        "rarity": "epic",
+        "battleClass": "Warden",
+        "stats": {
+          "health": 110,
+          "attack": 20,
+          "defense": 50,
+          "speed": 10
+        }
+      },
+      {
+        "cardNumber": 61,
+        "id": "reserved-061",
+        "name": "Cindercrest",
+        "clan": "Ember",
+        "rarity": "epic",
+        "battleClass": "Support",
+        "stats": {
+          "health": 110,
+          "attack": 20,
+          "defense": 30,
+          "speed": 30
+        }
+      }
+    ]
+  }
+}
