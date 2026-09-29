@@ -201,7 +201,7 @@
       }
     ]
   },
-  "rejectedGenerationAttempts": 11,
+  "rejectedGenerationAttempts": 12,
   "clanProductionPlan": [
     {
       "clan": "Ember",
@@ -281,7 +281,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "CN1-058 Burnished retry produced an unrelated multi-card sheet; rejected and not saved or uploaded. CN1-058 remains missing.",
+  "lastGenerationNote": "CN1-022 through CN1-031 generation incorrectly returned an unrelated multi-card sheet (cards 152-161); rejected and not saved or uploaded. Canonical 022-031 remain missing.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
