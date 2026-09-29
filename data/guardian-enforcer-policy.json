@@ -68,6 +68,14 @@
       "Warden": "guardian-shield",
       "Support": "heart-spark",
       "Disruptor": "broken-ring"
+    },
+    "themeIconMap": {
+      "Ember": "flame",
+      "Tide": "wave",
+      "Bloom": "leaf",
+      "Volt": "storm-swirl",
+      "Mystic": "celestial-star",
+      "Shadow": "moon-glow"
     }
   },
   "automaticBlockers": [
@@ -82,7 +90,8 @@
     "missing or invalid visual theme",
     "theme used as creature identity in public copy",
     "battle class icon does not match canonical battle class",
-    "legacy clan/theme mismatch"
+    "legacy clan/theme mismatch",
+    "theme badge icon does not match canonical visual theme"
   ],
   "humanApprovalRequired": [
     "enable real payments",
