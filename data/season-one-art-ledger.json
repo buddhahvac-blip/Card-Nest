@@ -31,8 +31,8 @@
   "batchStatus": [
     {
       "range": "012-021",
-      "status": "reference-only",
-      "reason": "Concept/contact sheet exists; individual canonical production files still missing."
+      "status": "production-ready-in-library",
+      "reason": "Ten canonical source illustrations plus ten canonical full-card renders and avatars are saved under /CardNest/Season One Art/00 Production Ready/Ember/012-021. Not yet uploaded to GitHub production folders."
     },
     {
       "range": "022-031",
@@ -281,12 +281,24 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "CN1-022 through CN1-031 generation incorrectly returned an unrelated multi-card sheet (cards 152-161); rejected and not saved or uploaded. Canonical 022-031 remain missing.",
+  "lastGenerationNote": "CN1-012 through CN1-021 now have canonical source art, avatars, and full-card renders saved in ChatGPT Library for Work/GitHub upload. Website manifest remains unchanged until those binary assets are committed.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
     "uniqueCopySerialFormat": "CN1-###-<26-character token>",
     "uniqueCopySerialPlacement": "copy-level only; never bake into reusable master artwork",
     "verifierEndpoint": "/api/authenticity?serial=<copy-serial>"
-  }
+  },
+  "libraryProductionReady": [
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ]
 }
