@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
   async headers() {
+    const csp=[
+      "default-src 'self'", "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'",
+      "form-action 'self'", "script-src 'self' 'unsafe-inline'", "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob:", "font-src 'self' data:", "connect-src 'self' https://*.neonauth.c-7.us-east-2.aws.neon.tech",
+      "frame-src 'none'", "upgrade-insecure-requests"
+    ].join('; ');
     return [
       {
         source: "/(.*)",
@@ -11,7 +17,10 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" }
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          { key: "Content-Security-Policy", value: csp },
+          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          { key: "Cross-Origin-Resource-Policy", value: "same-origin" }
         ]
       }
     ];

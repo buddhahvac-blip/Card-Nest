@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useState} from 'react';
+import Link from 'next/link';
 import {createAuthClient} from '@neondatabase/auth/next';
 const client=createAuthClient();
 
@@ -11,11 +12,11 @@ export default function ResetPassword(){
  const [busy,setBusy]=useState(false);
 
  useEffect(()=>{
-  setToken(new URLSearchParams(window.location.search).get('token')||'')
+  queueMicrotask(()=>setToken(new URLSearchParams(window.location.search).get('token')||''))
  },[]);
 
  return <main className="shell" style={{maxWidth:520,paddingTop:80}}>
-  <a className="brand" href="/">✧ CardNest</a>
+  <Link className="brand" href="/">✧ CardNest</Link>
   <h1 className="page-title">Set your CardNest password.</h1>
   <p>Create a strong password for your account. This password is sent directly to Neon Auth and is never stored in CardNest application code.</p>
   <form className="panel" onSubmit={async e=>{

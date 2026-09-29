@@ -15,6 +15,13 @@
       "when": 1790567254424,
       "tag": "0001_fresh_valeria_richards",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790640000000,
+      "tag": "0002_nestforge_security",
+      "breakpoints": true
     }
   ]
 }

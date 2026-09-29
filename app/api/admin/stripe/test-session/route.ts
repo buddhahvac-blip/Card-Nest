@@ -1,14 +1,15 @@
 import {currentUser} from '@/lib/auth/server';
 import {database} from '@/lib/postgres';
 import {stripe} from '@/lib/stripe';
-import {failure,json,RequestError} from '@/lib/http';
+import {failure,json,RequestError,sameOrigin,rateLimit,limitedText} from '@/lib/http';
+import {auditEvent,auditDenied} from '@/lib/security';
 
 export const runtime='nodejs';
 
-export async function POST(){
+export async function POST(req:Request){
   try{
     const u=await currentUser();
-    if(!u||u.role!=='admin')throw new RequestError('Founder access required',403);
+    if(!u||u.role!=='admin')throw new RequestError('Founder access required',403);sameOrigin(req);await limitedText(req,0);await rateLimit('stripe-admin:'+u.userId,3);
     if(!process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_'))throw new RequestError('Stripe sandbox is not connected',503);
     const {rows:[pack]}=await database().query("SELECT id,name,stripe_price_id FROM packs WHERE id='hatchling'");
     if(!pack?.stripe_price_id)throw new RequestError('Run Stripe sandbox setup first',409);
@@ -22,6 +23,6 @@ export async function POST(){
       allow_promotion_codes:false
     });
     if(!s.url)throw new RequestError('Stripe did not return a checkout URL',503);
-    return json({url:s.url});
+    await auditEvent('stripe-admin',u.userId,'sandbox-test-session');return json({url:s.url});
   }catch(e){return failure(e)}
 }

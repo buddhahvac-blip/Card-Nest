@@ -6,7 +6,7 @@ export async function GET(){
   return Response.json({ok:true,build:'cardnest-first-flight-v1',database:'connected',catalog:r.rows[0].cards,payments:'test-only-gated'},{headers:{'Cache-Control':'no-store'}})
  }catch(error){
   const e=error as {name?:string;message?:string;code?:string};
-  console.error('CardNest database health failure',{name:e?.name,code:e?.code,message:e?.message});
+  console.error('CardNest database health failure',{name:e?.name,code:e?.code,message:undefined});
   return Response.json({ok:false,build:'cardnest-first-flight-v1',database:'unavailable',payments:'disabled'},{status:503,headers:{'Cache-Control':'no-store'}})
  }
 }

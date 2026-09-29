@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useState} from 'react';
+import Link from 'next/link';
 
 type Status={
  stripeConnected:boolean;
@@ -22,7 +23,7 @@ export default function StripeSetup(){
    if(!r.ok)throw Error(d.error||'Could not load Stripe status');
    setStatus(d);
  }
- useEffect(()=>{refresh().catch(e=>setMessage(e.message))},[]);
+ useEffect(()=>{fetch('/api/admin/stripe/bootstrap',{cache:'no-store'}).then(async r=>{const d=await r.json();if(!r.ok)throw Error(d.error||'Could not load Stripe status');return d}).then(setStatus).catch(e=>setMessage(e.message))},[]);
 
  async function run(kind:string,url:string){
    setBusy(kind);setMessage('');setSecret('');
@@ -38,7 +39,7 @@ export default function StripeSetup(){
  }
 
  return <main className="shell" style={{maxWidth:900,paddingTop:70}}>
-   <a className="brand" href="/">✧ CardNest</a>
+   <Link className="brand" href="/">✧ CardNest</Link>
    <div className="eyebrow">FOUNDER · STRIPE SANDBOX</div>
    <h1 className="page-title">Payment setup</h1>
    <p className="intro">Configure and test CardNest payments without enabling real sales. This page only accepts a founder/admin session and only works with a Stripe test key.</p>

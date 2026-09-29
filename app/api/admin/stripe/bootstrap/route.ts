@@ -1,7 +1,8 @@
 import {currentUser} from '@/lib/auth/server';
 import {database} from '@/lib/postgres';
 import {stripe} from '@/lib/stripe';
-import {failure,json,RequestError} from '@/lib/http';
+import {failure,json,RequestError,sameOrigin,rateLimit,limitedText} from '@/lib/http';
+import {auditEvent,auditDenied} from '@/lib/security';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -28,9 +29,9 @@ export async function GET(){
   }catch(e){return failure(e)}
 }
 
-export async function POST(){
+export async function POST(req:Request){
   try{
-    await founder();
+    const u=await founder();sameOrigin(req);await limitedText(req,0);await rateLimit('stripe-admin:'+u.userId,3);
     const api=stripe();
     const {rows:packs}=await database().query('SELECT id,name,price_cents,currency,stripe_price_id,sale_enabled FROM packs ORDER BY count');
     const existingProducts=await api.products.list({active:true,limit:100});
@@ -70,6 +71,6 @@ export async function POST(){
       results.push({id:pack.id,name:pack.name,price_cents:pack.price_cents,currency:pack.currency,product_id:product.id,price_id:price.id,sale_enabled:pack.sale_enabled});
     }
 
-    return json({ok:true,testMode:true,salesRemainDisabled:true,packs:results});
+    await auditEvent('stripe-admin',u.userId,'sandbox-bootstrap',{packs:results.length});return json({ok:true,testMode:true,salesRemainDisabled:true,packs:results});
   }catch(e){return failure(e)}
 }

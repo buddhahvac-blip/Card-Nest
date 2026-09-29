@@ -1,5 +1,6 @@
 'use client';
 import {useState} from 'react';
+import Link from 'next/link';
 import {createAuthClient} from '@neondatabase/auth/next';
 const client=createAuthClient();
 
@@ -26,7 +27,7 @@ export default function Auth(){
  }
 
  return <main className="shell" style={{maxWidth:520,paddingTop:80}}>
-  <a className="brand" href="/">✧ CardNest</a>
+  <Link className="brand" href="/">✧ CardNest</Link>
   <h1 className="page-title">Welcome to your nest.</h1>
   <p>Sign in to save your guardians and manage your CardNest account. Public signup remains closed during launch review.</p>
   <form className="panel" onSubmit={async e=>{
