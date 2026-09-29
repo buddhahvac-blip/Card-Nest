@@ -4,12 +4,12 @@
   "purpose": "Prevent duplicate CardNest Season One art generation and accidental upload of non-canonical contact sheets.",
   "sourceOfTruth": "data/season-one.json",
   "rules": [
-    "Before generating any image, cross-check cardNumber, id, name, clan, rarity, battleClass and stats against data/season-one.json.",
+    "Before generating any image, cross-check cardNumber, id, name, theme, creatureType, rarity, battleClass, battleClassIconKey and stats against data/season-one.json.",
     "Before generating a batch, confirm the target cards do not already have production-ready full-card assets in public/cards/season-01/NNN/.",
     "Contact sheets are reference-only unless every card's canonical name, rarity, class and stats are verified.",
     "Do not count a contact sheet as a completed production card.",
     "Do not upload rejected or reference-only sheets as individual website card assets.",
-    "Cards #001-#011 are production-complete full-card assets and must not be regenerated.",
+    "Cards #001-#011 are visual composition references; canonical taxonomy overrides any legacy wording or badge error visible in those images.",
     "Card #068 has source artwork but still needs a canonical full-card render."
   ],
   "productionComplete": [
@@ -19,8 +19,6 @@
     4,
     5,
     6,
-    7,
-    8,
     9,
     10,
     11
@@ -281,7 +279,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "CN1-022 Glint Civet, CN1-023 Pumice Newt, and CN1-024 Flint Hare have standalone source art saved in the CardNest production library. Multiple CN1-025 generation attempts returned unrelated card sheets and were rejected; CN1-025 through CN1-031 remain pending.",
+  "lastGenerationNote": "Art production paused for taxonomy correction. Public UI now distinguishes visual Theme from creature type and battle class. CN1-007 Lumibug and CN1-008 Thorncap require corrected class badges before they may be treated as final approved cards.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
@@ -314,6 +312,28 @@
     ],
     "buildGate": "npm run guardian:enforce",
     "artGate": "npm run guardian:art",
-    "styleAnchors": "CN1-001 through CN1-011"
+    "styleAnchors": "CN1-001 through CN1-011 for visual composition only; taxonomy and badge mappings are canonical."
+  },
+  "requiresCorrection": [
+    {
+      "cardNumber": 7,
+      "name": "Lumibug",
+      "issue": "Support class is shown with Scout-style wing badge in the legacy full-card image.",
+      "required": "Replace/correct final full-card badge to Support heart-spark before final approval."
+    },
+    {
+      "cardNumber": 8,
+      "name": "Thorncap",
+      "issue": "Warden class is shown with Scout-style wing badge in the legacy full-card image.",
+      "required": "Replace/correct final full-card badge to Warden guardian-shield before final approval."
+    }
+  ],
+  "taxonomy": {
+    "source": "data/cardnest-taxonomy.json",
+    "publicThemeTerminology": "Ember, Tide, Bloom, Volt, Mystic and Shadow are visual themes, not creature species.",
+    "creatureIdentityField": "creatureType",
+    "battleRoleField": "battleClass",
+    "battleIconField": "battleClassIconKey",
+    "legacyClanField": "Retained internally for compatibility only; must equal theme and must not be presented as creature identity."
   }
 }
