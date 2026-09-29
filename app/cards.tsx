@@ -2,14 +2,15 @@
 import {useState,useEffect} from 'react';
 import {seasonCard,themeColors} from '@/lib/season-manifest';
 import {catalog,packDefinitions} from '@/lib/catalog';
-import {Sparkles,ArrowRight,RotateCcw} from 'lucide-react';
+import {Sparkles,ArrowRight,RotateCcw,HeartPulse,ShieldCheck} from 'lucide-react';
 let artManifest:Promise<Record<string,string>>|null=null;
 function getArt(){return artManifest??=fetch('/api/season-art').then(async r=>{const d:any=await r.json();return d.art||{}}).catch(()=>({}))}
+const legacyBadgeFixes: Record<number,{label:string;Icon:any}>={7:{label:'Support',Icon:HeartPulse},8:{label:'Warden',Icon:ShieldCheck}};
 export function GuardianCard({id}:{id:string}) {
  const c=seasonCard(id); const fallback=c?.artworkUrl||''; const [src,setSrc]=useState(fallback);
  useEffect(()=>{let active=true;setSrc(fallback);getArt().then(map=>{if(active&&map[id])setSrc(map[id])});return()=>{active=false}},[id,fallback]);
  if(!c)return <div className="card-back">Card unavailable</div>;
- if(c.fullCardUrl)return <div className="guardian-card approved-card"><img loading="lazy" src={c.fullCardUrl} alt={`${c.name} · Season One card ${String(c.cardNumber).padStart(3,'0')} · ${c.theme} theme`} /></div>;
+ if(c.fullCardUrl){const fix=legacyBadgeFixes[c.cardNumber];return <div className="guardian-card approved-card"><img loading="lazy" src={c.fullCardUrl} alt={`${c.name} · Season One card ${String(c.cardNumber).padStart(3,'0')} · ${c.theme} theme`} />{fix&&<div className="legacy-class-correction" aria-label={`Corrected battle class: ${fix.label}`}><fix.Icon size={15}/><span>{fix.label}</span></div>}</div>};
  const number=String(c.cardNumber).padStart(3,'0');
  return <div className={'guardian-card season-art rarity-'+c.rarity} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}>
  <span className="card-serial">CN1 · {number} · {c.rarity}</span><div className="guardian-image">{src?<img loading="lazy" className="season-art-image" src={src} onError={()=>setSrc('')} alt={c.name+' — '+c.theme+' theme artwork, awaiting production review'}/>:<div className="undiscovered-art"><Sparkles size={40}/><strong>{c.theme} Theme</strong><span>Undiscovered</span><small>Coming to The First Flight</small></div>}</div>
