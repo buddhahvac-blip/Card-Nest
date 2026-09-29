@@ -21,10 +21,11 @@ for(const card of manifest){
   ids.set(card.id,card.cardNumber);
   if(nums.has(card.cardNumber)) fail(`Duplicate card number: ${card.cardNumber}.`);
   nums.set(card.cardNumber,card.id);
-  for(const field of ['name','theme','rarity','battleClass','battleClassIconKey','creatureType','habitat','silhouette','artDirection']){
+  for(const field of ['name','theme','themeIconKey','rarity','battleClass','battleClassIconKey','creatureType','habitat','silhouette','artDirection']){
     if(!card[field]) fail(`CN1-${pad(card.cardNumber)} missing ${field}.`);
   }
   if(!taxonomy.themes[card.theme]) fail(`CN1-${pad(card.cardNumber)} has invalid theme: ${card.theme}.`);
+  else if(card.themeIconKey!==taxonomy.themes[card.theme].iconKey) fail(`CN1-${pad(card.cardNumber)} theme icon mismatch: ${card.themeIconKey} should be ${taxonomy.themes[card.theme].iconKey} for ${card.theme}.`);
   if(card.clan!==card.theme) fail(`CN1-${pad(card.cardNumber)} legacy clan/theme mismatch: ${card.clan} vs ${card.theme}.`);
   const expectedIcon=taxonomy.battleClasses[card.battleClass]?.iconKey;
   if(!expectedIcon) fail(`CN1-${pad(card.cardNumber)} has invalid battle class: ${card.battleClass}.`);
