@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-28",
+  "updatedAt": "2026-09-29",
   "purpose": "Prevent duplicate CardNest Season One art generation and accidental upload of non-canonical contact sheets.",
   "sourceOfTruth": "data/season-one.json",
   "rules": [
@@ -201,7 +201,7 @@
       }
     ]
   },
-  "rejectedGenerationAttempts": 9,
+  "rejectedGenerationAttempts": 10,
   "clanProductionPlan": [
     {
       "clan": "Ember",
@@ -281,7 +281,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "CN1-057 Caldera Guardian generation produced an unrelated multi-card sheet; rejected and not saved or uploaded. CN1-057 remains missing.",
+  "lastGenerationNote": "CN1-058 Burnished generation produced an unrelated multi-card sheet; rejected and not saved or uploaded. CN1-058 remains missing.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
