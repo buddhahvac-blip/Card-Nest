@@ -22,6 +22,6 @@ export async function POST(req:Request,context:{params:Promise<{path:string[]}>}
  try{sameOrigin(req);await limitedText(req.clone(),8192)}catch(e){return json({error:(e as RequestError).message},(e as RequestError).status||400)}
  const path=new URL(req.url).pathname;
  if(path.includes('/sign-up')&&process.env.PUBLIC_SIGNUPS_ENABLED!=='true')return json({error:'New accounts open after the launch review. Existing testers can sign in.'},403);
- try{await throttleAuth(req,path);return await auth().handler().POST(req,context)}
+ try{await throttleAuth(req,path);const response=await auth().handler().POST(req,context);if(response.status>=400&&(path.includes('sign-in')||path.includes('reset-password')))await auditDenied('auth-denied',null);return response}
  catch(error){if(error instanceof RequestError)return json({error:error.message},error.status);logAuthFailure(error);await auditDenied('auth-denied',null);return json({error:'Account service unavailable'},503)}
 }

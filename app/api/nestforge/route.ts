@@ -17,7 +17,7 @@ export async function GET(){
    p.query('SELECT coalesce(sum(calls),0)::int AS calls,coalesce(sum(reserved_cents),0)::int AS reserved_cents FROM nestforge_usage WHERE day=CURRENT_DATE'),
    p.query('SELECT state,count(*)::int AS count FROM nestforge_concepts WHERE owner_id=$1 GROUP BY state',[owner.userId])
   ]);
-  return json({concepts:concepts.rows.map(x=>({...x,profile:{...x.profile,productionAssetUrl:null}})),interests:counts.rows,usage:usage.rows[0],states:states.rows,limits:generationLimits(),personalizationEnabled:process.env.NESTFORGE_PERSONALIZATION_ENABLED==='true'});
+  return json({concepts:concepts.rows.map(x=>({...x,profile:{...x.profile,reviewStatus:x.state,generationModel:x.generation_model,overseerResults:x.overseer,founderApproval:x.founder_approval,productionAssetUrl:x.state==='production-ready'?'/api/nestforge/art/'+x.id:null}})),interests:counts.rows,usage:usage.rows[0],states:states.rows,limits:generationLimits(),personalizationEnabled:process.env.NESTFORGE_PERSONALIZATION_ENABLED==='true'});
  }catch(e){return failure(e)}
 }
 
