@@ -5,11 +5,24 @@
   "sourceOfTruth": [
     "data/season-one.json",
     "data/season-one-art-ledger.json",
-    "data/season-one-art-batches.json"
+    "data/season-one-art-batches.json",
+    "data/cardnest-taxonomy.json"
   ],
   "styleAnchors": {
     "season": "Season One: The First Flight",
-    "cardNumbers": [1,2,3,4,5,6,7,8,9,10,11],
+    "cardNumbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
     "frameLanguage": "dark teal / deep blue-green with metallic gold",
     "audience": "family-friendly, kids and young adults",
     "creatureLanguage": [
@@ -18,6 +31,19 @@
       "appealing readable silhouette",
       "premium fantasy environment",
       "recognizable animal inspiration without copying third-party IP"
+    ],
+    "anchorScope": "Visual composition, frame hierarchy, creature appeal, and overall First Flight art direction only. Existing anchor text or icon mistakes are never treated as canonical truth.",
+    "knownDefects": [
+      {
+        "cardNumber": 7,
+        "issue": "Battle class is Support but legacy full-card badge uses the Scout-style wing icon.",
+        "requiredFix": "Regenerate or correct final card with Support heart-spark class icon before final approval."
+      },
+      {
+        "cardNumber": 8,
+        "issue": "Battle class is Warden but legacy full-card badge uses the Scout-style wing icon.",
+        "requiredFix": "Regenerate or correct final card with Warden guardian-shield class icon before final approval."
+      }
     ]
   },
   "pillars": {
@@ -48,15 +74,64 @@
         "Final cards follow the First Flight frame hierarchy and CardNest visual language.",
         "Clan identity must remain visually recognizable.",
         "Rarity treatment may escalate visual impact but must not change canonical identity.",
-        "No watermarks, generator UI, unrelated card layouts, or third-party franchise copying."
+        "No watermarks, generator UI, unrelated card layouts, or third-party franchise copying.",
+        "Theme, creature type, battle class, affinity, and rarity are separate concepts and must never be substituted for one another.",
+        "User-facing metadata must label Ember, Tide, Bloom, Volt, Mystic, and Shadow as themes; do not call a guardian a Mystic, Ember, Bloom, Tide, Volt, or Shadow creature merely because of its visual theme.",
+        "A final battle-class badge must use the iconKey defined for that exact battle class in data/cardnest-taxonomy.json.",
+        "Style anchors may contain legacy defects; canonical taxonomy and metadata override any text or icon visible in an anchor image."
       ],
       "clanPalettes": {
-        "Ember": ["ruby","amber","obsidian","volcanic warmth"],
-        "Tide": ["aqua","sapphire","pearl","marine motion"],
-        "Bloom": ["green","gold","floral","forest life"],
-        "Volt": ["electric yellow","cyan","deep blue","storm energy"],
-        "Mystic": ["ivory","gold","sky","celestial glow"],
-        "Shadow": ["violet","indigo","charcoal","moonlit mystery"]
+        "Ember": [
+          "ruby",
+          "amber",
+          "obsidian",
+          "volcanic warmth"
+        ],
+        "Tide": [
+          "aqua",
+          "sapphire",
+          "pearl",
+          "marine motion"
+        ],
+        "Bloom": [
+          "green",
+          "gold",
+          "floral",
+          "forest life"
+        ],
+        "Volt": [
+          "electric yellow",
+          "cyan",
+          "deep blue",
+          "storm energy"
+        ],
+        "Mystic": [
+          "ivory",
+          "gold",
+          "sky",
+          "celestial glow"
+        ],
+        "Shadow": [
+          "violet",
+          "indigo",
+          "charcoal",
+          "moonlit mystery"
+        ]
+      },
+      "semanticChecks": {
+        "themeField": "theme",
+        "creatureIdentityField": "creatureType",
+        "battleRoleField": "battleClass",
+        "battleIconField": "battleClassIconKey",
+        "taxonomy": "data/cardnest-taxonomy.json",
+        "forbiddenPublicPhrases": [
+          "from the Mystic clan",
+          "from the Ember clan",
+          "from the Bloom clan",
+          "from the Tide clan",
+          "from the Volt clan",
+          "from the Shadow clan"
+        ]
       }
     },
     "creativity": {
