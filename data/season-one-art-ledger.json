@@ -281,5 +281,12 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "Attempted #052 source-art generation inherited prior card-sheet layout and non-canonical cards; rejected and not saved as production art."
+  "lastGenerationNote": "Attempted #052 source-art generation inherited prior card-sheet layout and non-canonical cards; rejected and not saved as production art.",
+  "authenticityNumbering": {
+    "catalogFormat": "CN1-### / 369",
+    "catalogCodeRequiredOnFinalCard": true,
+    "uniqueCopySerialFormat": "CN1-###-<26-character token>",
+    "uniqueCopySerialPlacement": "copy-level only; never bake into reusable master artwork",
+    "verifierEndpoint": "/api/authenticity?serial=<copy-serial>"
+  }
 }
