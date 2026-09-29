@@ -12,7 +12,7 @@
     "Cards #001-#011 are visual composition references; canonical taxonomy overrides any legacy wording or badge error visible in those images.",
     "Card #068 has source artwork but still needs a canonical full-card render."
   ],
-  "productionComplete": [
+  "reviewCompositionFullCards": [
     2,
     3,
     4,
@@ -22,6 +22,7 @@
     10,
     11
   ],
+  "productionComplete": [],
   "sourceArtReadyNoFullCard": [
     22,
     23,

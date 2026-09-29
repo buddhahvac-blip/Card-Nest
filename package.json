@@ -11,16 +11,16 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "lint": "eslint app lib scripts tests",
-    "art:overseer": "node scripts/art-overseer.mjs",
+    "art:overseer": "node scripts/art-overseer.mjs && node --import tsx scripts/qc-audit.ts",
     "security:check": "npm run guardian:enforce && npm audit --omit=dev --audit-level=high",
     "test": "node --import tsx --test tests/*.test.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node --import tsx scripts/migrate.ts",
     "db:seed": "node --import tsx scripts/seed.ts",
     "audit:season-art": "node scripts/audit-season-one-art.mjs",
-    "guardian:art": "node scripts/art-overseer.mjs",
+    "guardian:art": "npm run art:overseer",
     "guardian:enforce": "node scripts/guardian-enforce.mjs",
-    "prebuild": "npm run guardian:enforce"
+    "prebuild": "npm test && npm run guardian:enforce"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -35,9 +35,19 @@
     "anchorScope": "Visual composition, frame hierarchy, creature appeal, and overall First Flight art direction only. Existing anchor text or icon mistakes are never treated as canonical truth.",
     "knownDefects": [
       {
+        "cardNumber": 1,
+        "issue": "Legacy baked Mystic badge resembles a sun/horizon rather than a celestial-star.",
+        "requiredFix": "Render a deterministic celestial-star Theme badge and verify the final card pixels."
+      },
+      {
         "cardNumber": 7,
         "issue": "Battle class is Support but legacy full-card badge uses the Scout-style wing icon.",
         "requiredFix": "Regenerate or correct final card with Support heart-spark class icon before final approval."
+      },
+      {
+        "cardNumber": 7,
+        "issue": "Legacy gold/celestial visual treatment drifts from Shadow's moonlit violet and indigo language.",
+        "requiredFix": "Correct dominant palette and lighting; visually inspect final art."
       },
       {
         "cardNumber": 8,

@@ -13,7 +13,7 @@ export const command=z.discriminatedUnion('action',[
  z.strictObject({action:z.literal('variation'),id,requestKey:uuid}),
  z.strictObject({action:z.literal('generate-art'),id,confirm:trueSchema(),requestKey:uuid}),
  z.strictObject({action:z.literal('oversee'),id}),
- z.strictObject({action:z.literal('approve'),id,note,rightsChecked:trueSchema()}),
+ z.strictObject({action:z.literal('approve'),id,note,rightsChecked:trueSchema(),visualChecked:trueSchema(),mobileChecked:trueSchema(),originalityChecked:trueSchema(),themeChecked:trueSchema(),qualityChecked:trueSchema()}),
  z.strictObject({action:z.literal('reject'),id,note}),
  z.strictObject({action:z.literal('promote'),id,confirm:z.literal('PROMOTE REVIEWED ASSET')})
 ]);
@@ -48,4 +48,4 @@ export function oversee(profile:ConceptProfile,existingSignatures:string[]=[]){
  return {distinctIdentity,cardnestContinuity,creativeGrowth,notes,pass:distinctIdentity&&cardnestContinuity&&creativeGrowth};
 }
 export function generationLimits(){const daily=Math.max(0,Math.min(20,Number(process.env.NESTFORGE_IMAGE_DAILY_LIMIT)||0));const global=Math.max(0,Math.min(100,Number(process.env.NESTFORGE_IMAGE_GLOBAL_DAILY_LIMIT)||0));const budget=Math.max(0,Math.min(100000,Number(process.env.NESTFORGE_IMAGE_DAILY_BUDGET_CENTS)||0));const unit=Math.max(0,Math.min(10000,Number(process.env.NESTFORGE_IMAGE_UNIT_COST_CENTS)||0));return {daily,global,budget,unit,enabled:!!process.env.OPENAI_API_KEY&&!!process.env.NESTFORGE_IMAGE_MODEL&&daily>0&&global>0&&budget>0&&unit>0&&unit<=budget}}
-export function canPromote(row:{state:string;asset_key:string|null;overseer?:{pass:boolean}|null;founder_approval:Date|null}){return row.state==='approved'&&!!row.asset_key&&row.overseer?.pass===true&&!!row.founder_approval}
+export function canPromote(row:{state:string;asset_key:string|null;overseer?:{pass:boolean;quality?:{productionStatus:string;blockingIssues:unknown[]}}|null;founder_approval:Date|null}){return row.state==='approved'&&!!row.asset_key&&row.overseer?.pass===true&&row.overseer.quality?.productionStatus==='PRODUCTION READY'&&row.overseer.quality.blockingIssues.length===0&&!!row.founder_approval}

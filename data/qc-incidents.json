@@ -1,0 +1,46 @@
+[
+  {
+    "id": "CN1-001-THEME-BADGE",
+    "cardNumber": 1,
+    "category": "Theme Icon",
+    "severity": "HIGH",
+    "description": "Legacy baked badge resembles a sun/horizon; canonical Mystic badge is celestial-star.",
+    "fix": "Rebuild the final card with a deterministic celestial-star badge and review the pixels.",
+    "legacyAssetSha256": "9e1df6fd9a7466eae30f982dc3de1f20854da0452976189cc4693923e3866b91"
+  },
+  {
+    "id": "CN1-007-THEME-PALETTE",
+    "cardNumber": 7,
+    "category": "Theme Accuracy",
+    "severity": "HIGH",
+    "description": "Legacy gold/celestial art does not clearly read as Shadow.",
+    "fix": "Rework dominant palette and lighting to violet, indigo, charcoal and moon glow; review the final pixels.",
+    "legacyAssetSha256": "df5bdfe46be9c0b1fcdac1897a038c7b219118340478fe364938bc74ca3c3b70"
+  },
+  {
+    "id": "CN1-007-CLASS-BADGE",
+    "cardNumber": 7,
+    "category": "Battle Class Icon",
+    "severity": "HIGH",
+    "description": "Legacy Scout wing badge appears on Support Lumibug.",
+    "fix": "Rebuild the final card with the Support heart-spark badge.",
+    "legacyAssetSha256": "df5bdfe46be9c0b1fcdac1897a038c7b219118340478fe364938bc74ca3c3b70"
+  },
+  {
+    "id": "CN1-008-CLASS-BADGE",
+    "cardNumber": 8,
+    "category": "Battle Class Icon",
+    "severity": "HIGH",
+    "description": "Legacy Scout wing badge appears on Warden Thorncap.",
+    "fix": "Rebuild the final card with the Warden guardian-shield badge.",
+    "legacyAssetSha256": "eae316b83f32a45bcd7da5b314e65534c474b46fbbee8243ab0b51451610d3c3"
+  },
+  {
+    "id": "CN1-012-GENERATED-METADATA",
+    "cardNumber": 12,
+    "category": "Canonical Data",
+    "severity": "CRITICAL",
+    "description": "Earlier Flare Ibex renders changed class and statistics.",
+    "fix": "Lock Disruptor and HP 100 / ATK 40 / DEF 20 / SPD 30 before single-card generation; render text deterministically."
+  }
+]

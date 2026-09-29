@@ -30,7 +30,7 @@ test('NestForge gates canonical duplicates, approval state, and paid generation 
  assert.equal(canPromote({state:'approved',asset_key:null,overseer:{pass:true},founder_approval:new Date()}),false);
  assert.equal(canPromote({state:'approved',asset_key:'private.png',overseer:{pass:false},founder_approval:new Date()}),false);
  assert.equal(canPromote({state:'approved',asset_key:'private.png',overseer:{pass:true},founder_approval:null}),false);
- assert.equal(canPromote({state:'approved',asset_key:'private.png',overseer:{pass:true},founder_approval:new Date()}),true);
+ assert.equal(canPromote({state:'approved',asset_key:'private.png',overseer:{pass:true},founder_approval:new Date()}),false);
  const original=process.env.NESTFORGE_IMAGE_DAILY_LIMIT;delete process.env.NESTFORGE_IMAGE_DAILY_LIMIT;assert.equal(generationLimits().enabled,false);if(original!==undefined)process.env.NESTFORGE_IMAGE_DAILY_LIMIT=original;
 });
 

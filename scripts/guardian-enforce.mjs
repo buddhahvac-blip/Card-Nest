@@ -84,6 +84,8 @@ if(/process\.env\.PAYMENTS_ENABLED\s*=\s*['"]true['"]/.test(route))failures.push
 
 const art=spawnSync(process.execPath,[path.join(root,'scripts','art-overseer.mjs')],{stdio:'inherit'});
 if(art.status!==0) failures.push('Nest Mind Art Overseer failed.');
+const qc=spawnSync(process.execPath,['--import','tsx',path.join(root,'scripts','qc-audit.ts')],{stdio:'inherit'});
+if(qc.status!==0) failures.push('CardNest QC production gate failed.');
 
 console.log(JSON.stringify({agent:policy.name,failures},null,2));
 if(failures.length) process.exitCode=1;

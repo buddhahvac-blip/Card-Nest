@@ -39,3 +39,15 @@ Human approval is required before enabling real payments, live Stripe mode, rele
 - `npm run build` — automatically runs Guardian Enforcer first through `prebuild`.
 
 The automated checks catch deterministic problems. Near-duplicate visual similarity and subjective creative quality still require visual review; they are not represented as mathematically certain when no vision-similarity model has been run.
+
+## Permanent QC pipeline
+
+`data/qc-incidents.json` records the specific legacy asset hashes and fixes for 001, 007, 008, and the rejected 012 metadata incident. Replacing a legacy image clears the old hash-specific finding, but a new asset remains in founder review until its visual content, typography, mobile display, originality, and rights have been checked. A metadata pass or empty OCR result never clears a visual check.
+
+`lib/quality-control.ts` returns a 16-dimension scorecard with CRITICAL/HIGH/MEDIUM/LOW findings and one of REFERENCE ONLY, NEEDS REVISION, FOUNDER REVIEW, or PRODUCTION READY. `preflight` locks canonical card fields and projects nearby names and repeated metadata patterns; the diversity report counts all 369 cards, with inferred anatomy labels explicitly marked as text matches. Generated contact sheets remain reference only. Final card labels and statistics should be rendered from the manifest, not generated as pixels.
+
+The founder's NestForge dashboard has a **RUN FULL CARDNEST QC AUDIT** action. It scans manifests, local card and pack paths, full-card hashes, ledger state, known defects, release flags and private avatar concept states. It optionally checks readable image text with Tesseract where the binary exists. Its negative OCR result is not a watermark or typography clearance. The server cannot inspect responsive browser layouts, visual resemblance, or legal rights; the founder must inspect the actual art and layouts before approval. Audit execution records a security event, but never deletes, overwrites, releases or buys anything.
+
+NestForge review now binds its scorecard to the stored art SHA-256. Its approval requires explicit founder checks for visual quality, mobile layout, originality, theme and continuity. Promotion rechecks the stored bytes and the fully passing scorecard. This remains a private avatar asset, not a canonical card or pack item.
+
+`npm run build` executes all regression tests and Guardian Enforcer before compilation. The QC command reports legacy review defects without blocking a preview-only site; duplicate identities, missing referenced files, duplicated full-card bytes, pack asset absence, premature release flags and live secrets block the build. Release authorization remains separate from the automated quality score.

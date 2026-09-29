@@ -1,9 +1,10 @@
-import {randomUUID} from 'node:crypto';
+import {randomUUID,createHash} from 'node:crypto';
 import {studioOwner} from '@/lib/studio-auth';
 import {database,transaction} from '@/lib/postgres';
 import {strictBody,rateLimit,RequestError,failure,json} from '@/lib/http';
 import {auditDenied} from '@/lib/security';
 import {command,makeConcept,oversee,signature,generationLimits,canPromote,type ConceptProfile} from '@/lib/nestforge';
+import {inspectAvatar,completeFounderReview} from '@/lib/quality-control';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -84,9 +85,13 @@ export async function POST(req:Request){
    const {rows:[row]}=await c.query('SELECT * FROM nestforge_concepts WHERE id=$1 AND owner_id=$2 FOR UPDATE',[b.id,owner.userId]);if(!row)throw new RequestError('Concept not found',404);
    const profile=row.profile as ConceptProfile;
    if(b.action==='oversee'){
-    if(row.state!=='overseer-review'||!row.asset_key)throw new RequestError('Generated art must reach the Overseer first',409);
+   if(row.state!=='overseer-review'||!row.asset_key)throw new RequestError('Generated art must reach the Overseer first',409);
+    const {rows:[asset]}=await c.query('SELECT body FROM art_objects WHERE key=$1',[row.asset_key]);
+    if(!asset)throw new RequestError('Generated image is missing',409);
     const {rows:others}=await c.query('SELECT signature FROM nestforge_concepts WHERE id<>$1',[b.id]);
-    const report=oversee(profile,others.map(x=>x.signature));
+    const base=oversee(profile,others.map(x=>x.signature));
+    const quality=inspectAvatar(profile,true);
+    const report={...base,quality,assetSha256:createHash('sha256').update(asset.body).digest('hex'),pass:base.pass&&quality.blockingIssues.length===0};
     const next=report.pass?'founder-review':'needs-revision';
     await c.query('UPDATE nestforge_concepts SET overseer=$2,state=$3,updated=now() WHERE id=$1',[b.id,JSON.stringify(report),next]);
     await c.query("INSERT INTO security_events(kind,actor_id,subject) VALUES('nestforge-overseer',$1,$2)",[owner.userId,b.id]);
@@ -95,6 +100,16 @@ export async function POST(req:Request){
    if(b.action==='approve'||b.action==='reject'){
     if(row.state!=='founder-review')throw new RequestError('Founder review is not ready',409);
     if(b.action==='approve'&&(!row.asset_key||!row.overseer?.pass))throw new RequestError('Artwork has not passed the Overseer',409);
+    if(b.action==='approve'){
+     const {rows:[asset]}=await c.query('SELECT body FROM art_objects WHERE key=$1',[row.asset_key]);
+     if(!asset||createHash('sha256').update(asset.body).digest('hex')!==row.overseer?.assetSha256)throw new RequestError('Artwork changed since QC review',409);
+    }
+    if(b.action==='approve'){
+     if(!row.overseer?.quality)throw new RequestError('Fresh QC scorecard required',409);
+     const quality=completeFounderReview(row.overseer.quality,{visual:b.visualChecked,mobile:b.mobileChecked,originality:b.originalityChecked,theme:b.themeChecked,quality:b.qualityChecked});
+     if(quality.productionStatus!=='PRODUCTION READY')throw new RequestError('Unresolved QC checks prevent approval',409);
+     await c.query('UPDATE nestforge_concepts SET overseer=$3 WHERE id=$1 AND owner_id=$2',[b.id,owner.userId,JSON.stringify({...row.overseer,quality})]);
+    }
     const next=b.action==='approve'?'approved':'rejected';
     await c.query('UPDATE nestforge_concepts SET state=$3,review_note=$4,founder_approval=$5,updated=now() WHERE id=$1 AND owner_id=$2',[b.id,owner.userId,next,b.note,b.action==='approve'?new Date():null]);
     await c.query('INSERT INTO security_events(kind,actor_id,subject) VALUES($1,$2,$3)',[b.action==='approve'?'nestforge-approved':'nestforge-rejected',owner.userId,b.id]);
@@ -102,6 +117,8 @@ export async function POST(req:Request){
    }
    if(b.action==='promote'){
     if(!canPromote(row))throw new RequestError('Art, Overseer review, and founder approval are required',409);
+    const {rows:[asset]}=await c.query('SELECT body FROM art_objects WHERE key=$1',[row.asset_key]);
+    if(!asset||createHash('sha256').update(asset.body).digest('hex')!==row.overseer?.assetSha256)throw new RequestError('Artwork changed since QC review',409);
     await c.query("UPDATE nestforge_concepts SET state='production-ready',updated=now() WHERE id=$1 AND owner_id=$2",[b.id,owner.userId]);
     await c.query("INSERT INTO security_events(kind,actor_id,subject) VALUES('nestforge-production',$1,$2)",[owner.userId,b.id]);
     // Does not touch canonical cards, pack art, sale flags, or public asset routes.
