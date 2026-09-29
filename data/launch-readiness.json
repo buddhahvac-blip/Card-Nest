@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "mode": "public-beta",
+  "publicBrowsingReady": true,
+  "commercialSalesReady": false,
+  "principle": "Launch publicly for discovery and validation while keeping commerce, unfinished art, and founder controls gated until their specific readiness checks pass.",
+  "points": [
+    {
+      "id": "brand-clearance",
+      "number": 1,
+      "priority": "BLOCKER",
+      "title": "Resolve the CardNest name",
+      "status": "NEEDS REVIEW",
+      "gate": "commercial-launch",
+      "why": "Existing trading-card businesses use similar CardNest naming. Do not invest heavily in the mark until professional clearance is complete.",
+      "next": "Founder obtains qualified trademark/name clearance and records approval."
+    },
+    {
+      "id": "public-beta",
+      "number": 2,
+      "priority": "BLOCKER",
+      "title": "Public beta, not finished commerce",
+      "status": "ACTIVE",
+      "gate": "payments",
+      "why": "The site can be public for discovery while real purchases remain disabled.",
+      "next": "Keep real payments disabled until legal, support, economics, art, and security gates are approved."
+    },
+    {
+      "id": "visual-consistency",
+      "number": 3,
+      "priority": "HIGH",
+      "title": "Perfect the visible cards",
+      "status": "IN PROGRESS",
+      "gate": "art",
+      "why": "Known legacy Theme/class badge and palette issues can damage trust immediately.",
+      "next": "Show only clearly labeled review assets and remaster flagged cards before calling them final."
+    },
+    {
+      "id": "value-proposition",
+      "number": 4,
+      "priority": "HIGH",
+      "title": "Explain the product in five seconds",
+      "status": "IMPLEMENTED",
+      "gate": "marketing",
+      "why": "Visitors must quickly understand original guardians, collecting, pack previews, My Nest, and future play.",
+      "next": "Measure whether visitors reach Season One and card close-up views."
+    },
+    {
+      "id": "security",
+      "number": 5,
+      "priority": "HIGH",
+      "title": "Security and founder controls",
+      "status": "IN PROGRESS",
+      "gate": "accounts",
+      "why": "Private tools, production changes, generation, and commerce must remain server-authorized and auditable.",
+      "next": "Continue abuse, authz, cross-user, secret, backup, and incident-response testing."
+    },
+    {
+      "id": "trust-support",
+      "number": 6,
+      "priority": "BLOCKER",
+      "title": "Customer trust and support",
+      "status": "NEEDS CONFIGURATION",
+      "gate": "commerce",
+      "why": "Public commerce needs a real support path, clear seller identity, delivery/refund rules, privacy process, and transparent pack terms.",
+      "next": "Configure SUPPORT_EMAIL and finalize public business/support disclosures before sales."
+    },
+    {
+      "id": "funnel-measurement",
+      "number": 7,
+      "priority": "HIGH",
+      "title": "Measure the collector funnel",
+      "status": "PARTIAL",
+      "gate": "growth",
+      "why": "Traffic is useful only if CardNest learns which pages, Themes, cards, and intentional interest clicks create return visits.",
+      "next": "Use privacy-conscious first-party measurements; avoid invasive behavioral advertising."
+    },
+    {
+      "id": "unit-economics",
+      "number": 8,
+      "priority": "HIGH",
+      "title": "Prove unit economics before Stripe",
+      "status": "IN PROGRESS",
+      "gate": "payments",
+      "why": "Pricing must include payment fees, art/model costs, hosting, support, refunds, acquisition, and repeat behavior.",
+      "next": "Validate real cost inputs in Pricing & margins and approve a viable scenario."
+    },
+    {
+      "id": "third-party-separation",
+      "number": 9,
+      "priority": "HIGH",
+      "title": "Keep third-party discovery separate",
+      "status": "IMPLEMENTED",
+      "gate": "brand",
+      "why": "Pokémon and Magic can support discovery/affiliate revenue without confusing them with original CardNest IP.",
+      "next": "Keep affiliate labeling, authorized imagery, and external-brand disclosures explicit."
+    },
+    {
+      "id": "beta-validation",
+      "number": 10,
+      "priority": "HIGH",
+      "title": "Validate with 50–100 real collectors",
+      "status": "NOT STARTED",
+      "gate": "roadmap",
+      "why": "Real collector behavior should shape the next art, pack, and gameplay investments.",
+      "next": "Soft-launch, gather opt-in feedback, measure return behavior, and prioritize what collectors actually use."
+    }
+  ]
+}
