@@ -201,7 +201,7 @@
       }
     ]
   },
-  "rejectedGenerationAttempts": 8,
+  "rejectedGenerationAttempts": 9,
   "clanProductionPlan": [
     {
       "clan": "Ember",
@@ -281,7 +281,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "CN1-056 Venture Gibbon generation produced an unrelated Shadow multi-card sheet; rejected and not saved or uploaded. CN1-056 remains missing.",
+  "lastGenerationNote": "CN1-057 Caldera Guardian generation produced an unrelated multi-card sheet; rejected and not saved or uploaded. CN1-057 remains missing.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
