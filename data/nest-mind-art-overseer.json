@@ -78,7 +78,9 @@
         "Theme, creature type, battle class, affinity, and rarity are separate concepts and must never be substituted for one another.",
         "User-facing metadata must label Ember, Tide, Bloom, Volt, Mystic, and Shadow as themes; do not call a guardian a Mystic, Ember, Bloom, Tide, Volt, or Shadow creature merely because of its visual theme.",
         "A final battle-class badge must use the iconKey defined for that exact battle class in data/cardnest-taxonomy.json.",
-        "Style anchors may contain legacy defects; canonical taxonomy and metadata override any text or icon visible in an anchor image."
+        "Style anchors may contain legacy defects; canonical taxonomy and metadata override any text or icon visible in an anchor image.",
+        "The left-side theme badge must use the iconKey for the exact visual theme defined in data/cardnest-taxonomy.json.",
+        "The left theme badge and right battle-class badge are independent and must both match their canonical fields."
       ],
       "clanPalettes": {
         "Ember": [
@@ -131,7 +133,10 @@
           "from the Tide clan",
           "from the Volt clan",
           "from the Shadow clan"
-        ]
+        ],
+        "themeIconField": "themeIconKey",
+        "themeBadgePosition": "left",
+        "battleBadgePosition": "right"
       }
     },
     "creativity": {
