@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-29",
+  "updatedAt": "2026-09-28",
   "purpose": "Prevent duplicate CardNest Season One art generation and accidental upload of non-canonical contact sheets.",
   "sourceOfTruth": "data/season-one.json",
   "rules": [
@@ -36,8 +36,8 @@
     },
     {
       "range": "022-031",
-      "status": "rejected",
-      "reason": "Generated contact sheet used non-canonical card names/rarities; must not be uploaded as production art."
+      "status": "partial-production-ready",
+      "reason": "CN1-022 through CN1-024 standalone source art saved in production library. CN1-025 through CN1-031 still require canonical standalone source art; unrelated generated card sheets were rejected."
     },
     {
       "range": "032-041",
@@ -201,7 +201,7 @@
       }
     ]
   },
-  "rejectedGenerationAttempts": 12,
+  "rejectedGenerationAttempts": 16,
   "clanProductionPlan": [
     {
       "clan": "Ember",
@@ -281,7 +281,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "CN1-012 through CN1-021 now have canonical source art, avatars, and full-card renders saved in ChatGPT Library for Work/GitHub upload. Website manifest remains unchanged until those binary assets are committed.",
+  "lastGenerationNote": "CN1-022 Glint Civet, CN1-023 Pumice Newt, and CN1-024 Flint Hare have standalone source art saved in the CardNest production library. Multiple CN1-025 generation attempts returned unrelated card sheets and were rejected; CN1-025 through CN1-031 remain pending.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
@@ -299,6 +299,9 @@
     18,
     19,
     20,
-    21
+    21,
+    22,
+    23,
+    24
   ]
 }
