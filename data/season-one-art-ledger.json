@@ -201,5 +201,77 @@
       }
     ]
   },
-  "rejectedGenerationAttempts": 3
+  "rejectedGenerationAttempts": 3,
+  "clanProductionPlan": [
+    {
+      "clan": "Ember",
+      "totalCards": 62,
+      "canonicalNumbers": "003, 005, 009-068",
+      "mainProductionRange": "012-068",
+      "status": "in-progress",
+      "note": "Finish remaining Ember cards first, including Rare, Epic, Ultra, and Legendary tiers."
+    },
+    {
+      "clan": "Tide",
+      "totalCards": 62,
+      "canonicalNumbers": "004, 069-129",
+      "mainProductionRange": "069-129",
+      "status": "queued",
+      "note": "Create all missing Tide art after Ember; preserve #004 Rippleo."
+    },
+    {
+      "clan": "Bloom",
+      "totalCards": 62,
+      "canonicalNumbers": "002, 008, 130-189",
+      "mainProductionRange": "130-189",
+      "status": "queued",
+      "note": "Create all missing Bloom art; preserve #002 Leafpaw and #008 Thorncap."
+    },
+    {
+      "clan": "Volt",
+      "totalCards": 61,
+      "canonicalNumbers": "006, 190-249",
+      "mainProductionRange": "190-249",
+      "status": "queued",
+      "note": "Create all missing Volt art; preserve #006 Zephy."
+    },
+    {
+      "clan": "Mystic",
+      "totalCards": 61,
+      "canonicalNumbers": "001, 250-309",
+      "mainProductionRange": "250-309",
+      "status": "queued",
+      "note": "Create all missing Mystic art; preserve #001 Nestling."
+    },
+    {
+      "clan": "Shadow",
+      "totalCards": 61,
+      "canonicalNumbers": "007, 310-369",
+      "mainProductionRange": "310-369",
+      "status": "queued",
+      "note": "Create all missing Shadow art; preserve #007 Lumibug."
+    }
+  ],
+  "requiredSeasonRarityTotals": {
+    "common": 150,
+    "uncommon": 90,
+    "rare": 60,
+    "epic": 30,
+    "ultra": 19,
+    "legendary": 20
+  },
+  "completionGate": {
+    "requireAllClans": true,
+    "requiredClans": [
+      "Ember",
+      "Tide",
+      "Bloom",
+      "Volt",
+      "Mystic",
+      "Shadow"
+    ],
+    "requireAll369CanonicalCards": true,
+    "doNotDeclareCompleteIfAnyClanMissing": true,
+    "doNotSubstituteOrRenameCanonicalCards": true
+  }
 }
