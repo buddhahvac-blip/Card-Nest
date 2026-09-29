@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 const root=process.cwd();
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'data','season-one.json'),'utf8'));
 const policy=JSON.parse(fs.readFileSync(path.join(root,'data','nest-mind-art-overseer.json'),'utf8'));
+const taxonomy=JSON.parse(fs.readFileSync(path.join(root,'data','cardnest-taxonomy.json'),'utf8'));
 
 const failures=[];
 const warnings=[];
@@ -20,9 +21,16 @@ for(const card of manifest){
   ids.set(card.id,card.cardNumber);
   if(nums.has(card.cardNumber)) fail(`Duplicate card number: ${card.cardNumber}.`);
   nums.set(card.cardNumber,card.id);
-  for(const field of ['name','clan','rarity','battleClass','creatureType','habitat','silhouette','artDirection']){
+  for(const field of ['name','theme','rarity','battleClass','battleClassIconKey','creatureType','habitat','silhouette','artDirection']){
     if(!card[field]) fail(`CN1-${pad(card.cardNumber)} missing ${field}.`);
   }
+  if(!taxonomy.themes[card.theme]) fail(`CN1-${pad(card.cardNumber)} has invalid theme: ${card.theme}.`);
+  if(card.clan!==card.theme) fail(`CN1-${pad(card.cardNumber)} legacy clan/theme mismatch: ${card.clan} vs ${card.theme}.`);
+  const expectedIcon=taxonomy.battleClasses[card.battleClass]?.iconKey;
+  if(!expectedIcon) fail(`CN1-${pad(card.cardNumber)} has invalid battle class: ${card.battleClass}.`);
+  else if(card.battleClassIconKey!==expectedIcon) fail(`CN1-${pad(card.cardNumber)} class icon mismatch: ${card.battleClassIconKey} should be ${expectedIcon} for ${card.battleClass}.`);
+  if(String(card.creatureType).trim().toLowerCase()===String(card.theme).trim().toLowerCase()) fail(`CN1-${pad(card.cardNumber)} uses theme ${card.theme} as creature type.`);
+  if(/\bclan\b/i.test(card.description||'')) fail(`CN1-${pad(card.cardNumber)} public description still uses clan terminology.`);
 }
 for(let n=1;n<=369;n++) if(!nums.has(n)) fail(`Missing canonical card number CN1-${pad(n)}.`);
 
@@ -33,7 +41,7 @@ for(const n of policy.styleAnchors.cardNumbers){
 
 const signatureGroups=new Map();
 for(const c of manifest){
-  const key=[c.clan,c.creatureType,c.silhouette,c.habitat].map(x=>String(x).toLowerCase().trim()).join('|');
+  const key=[c.theme,c.creatureType,c.silhouette,c.habitat].map(x=>String(x).toLowerCase().trim()).join('|');
   const list=signatureGroups.get(key)||[];
   list.push(c.cardNumber);
   signatureGroups.set(key,list);
@@ -62,6 +70,7 @@ console.log(JSON.stringify({
   pillars:Object.keys(policy.pillars),
   cards:manifest.length,
   productionFullCardHashes:fullCardHashes.size,
+  knownAnchorDefects:policy.styleAnchors.knownDefects||[],
   warnings,
   failures
 },null,2));
