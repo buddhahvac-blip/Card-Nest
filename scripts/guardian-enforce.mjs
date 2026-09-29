@@ -22,6 +22,8 @@ for(const c of manifest){
   ids.add(c.id); nums.add(c.cardNumber);
   if(!allowedClans.has(c.clan)) failures.push(`Unexpected legacy clan on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.clan}`);
   if(!allowedThemes.has(c.theme)) failures.push(`Unexpected theme on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.theme}`);
+  const expectedThemeIcon=taxonomy.themes[c.theme]?.iconKey;
+  if(c.themeIconKey!==expectedThemeIcon) failures.push(`Theme icon mismatch on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.themeIconKey} vs ${expectedThemeIcon}`);
   if(policy.protectedInvariants.legacyClanMustEqualTheme && c.clan!==c.theme) failures.push(`Legacy clan/theme mismatch on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.clan} vs ${c.theme}`);
   const expectedIcon=taxonomy.battleClasses[c.battleClass]?.iconKey;
   if(c.battleClassIconKey!==expectedIcon) failures.push(`Class icon mismatch on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.battleClassIconKey} vs ${expectedIcon}`);
