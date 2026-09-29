@@ -2,7 +2,7 @@
 import {useState,useEffect} from 'react';
 import {seasonCard,themeColors} from '@/lib/season-manifest';
 import {catalog,packDefinitions} from '@/lib/catalog';
-import {Sparkles,ArrowRight,RotateCcw,HeartPulse,ShieldCheck,Flame,Droplets,Leaf,Zap,Moon,Wind} from 'lucide-react';
+import {Sparkles,ArrowRight,RotateCcw,HeartPulse,ShieldCheck,Flame,Droplets,Leaf,Zap,Moon} from 'lucide-react';
 let artManifest:Promise<Record<string,string>>|null=null;
 function getArt(){return artManifest??=fetch('/api/season-art').then(async r=>{const d:any=await r.json();return d.art||{}}).catch(()=>({}))}
 const legacyBadgeFixes: Record<number,{label:string;Icon:any}>={7:{label:'Support',Icon:HeartPulse},8:{label:'Warden',Icon:ShieldCheck}};
