@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "name": "Guardian Enforcer",
+  "purpose": "Deterministic release gate for CardNest programs, agents, code changes, card data, and production assets.",
+  "principles": [
+    "canonical data before convenience",
+    "tests before deployment",
+    "review before irreversible actions",
+    "no hidden production-state changes",
+    "security and user privacy before automation"
+  ],
+  "protectedInvariants": {
+    "seasonOneCardCount": 369,
+    "cardNumbers": "exactly 1 through 369",
+    "uniquePermanentIds": true,
+    "allowedClans": ["Ember","Tide","Bloom","Volt","Mystic","Shadow"],
+    "allowedRarities": ["common","uncommon","rare","epic","ultra","legendary"],
+    "allowedBattleClasses": ["Disruptor","Scout","Striker","Support","Vanguard","Warden"],
+    "styleAnchorCards": [1,2,3,4,5,6,7,8,9,10,11],
+    "defaultReleaseStatus": "unreleased",
+    "defaultPackEligibility": false
+  },
+  "automaticBlockers": [
+    "duplicate card number",
+    "duplicate permanent card id",
+    "missing canonical card",
+    "unexpected clan, rarity, or battle class",
+    "production card asset reused by a different card",
+    "Season One card silently changed to released",
+    "Season One card silently changed to pack eligible",
+    "obvious committed live secret"
+  ],
+  "humanApprovalRequired": [
+    "enable real payments",
+    "switch Stripe or another payment provider to live mode",
+    "change a Season One card to released",
+    "make a Season One card pack eligible",
+    "delete or replace style-anchor cards 001-011",
+    "destructive database operation",
+    "authentication or authorization policy change",
+    "security control reduction",
+    "bulk deletion of production assets"
+  ],
+  "requiredChecks": [
+    "npm run guardian:art",
+    "npm test",
+    "npm run typecheck",
+    "npm run build"
+  ],
+  "artOverseerPolicy": "data/nest-mind-art-overseer.json",
+  "failureMode": "fail closed for canonical integrity, release-state, exact duplicate production assets, and exposed secrets; report warnings for creative near-collisions requiring review"
+}
