@@ -273,5 +273,13 @@
     "requireAll369CanonicalCards": true,
     "doNotDeclareCompleteIfAnyClanMissing": true,
     "doNotSubstituteOrRenameCanonicalCards": true
-  }
+  },
+  "generationPolicy": {
+    "crossCheckBeforeEveryGeneration": true,
+    "saveOnlyCanonicalMatches": true,
+    "rejectSheetsWithWrongNamesRaritiesOrStats": true,
+    "preferTextFreeSourceArt": true,
+    "doNotCountReferenceSheetsAsComplete": true
+  },
+  "lastGenerationNote": "Attempted #052 source-art generation inherited prior card-sheet layout and non-canonical cards; rejected and not saved as production art."
 }
