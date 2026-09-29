@@ -5,9 +5,11 @@ import {spawnSync} from 'node:child_process';
 const root=process.cwd();
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'data','season-one.json'),'utf8'));
 const policy=JSON.parse(fs.readFileSync(path.join(root,'data','guardian-enforcer-policy.json'),'utf8'));
+const taxonomy=JSON.parse(fs.readFileSync(path.join(root,'data','cardnest-taxonomy.json'),'utf8'));
 const failures=[];
 
 const allowedClans=new Set(policy.protectedInvariants.allowedClans);
+const allowedThemes=new Set(policy.protectedInvariants.allowedThemes);
 const allowedRarities=new Set(policy.protectedInvariants.allowedRarities);
 const allowedClasses=new Set(policy.protectedInvariants.allowedBattleClasses);
 
@@ -18,7 +20,12 @@ for(const c of manifest){
   if(ids.has(c.id)) failures.push(`Duplicate card id: ${c.id}`);
   if(nums.has(c.cardNumber)) failures.push(`Duplicate card number: ${c.cardNumber}`);
   ids.add(c.id); nums.add(c.cardNumber);
-  if(!allowedClans.has(c.clan)) failures.push(`Unexpected clan on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.clan}`);
+  if(!allowedClans.has(c.clan)) failures.push(`Unexpected legacy clan on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.clan}`);
+  if(!allowedThemes.has(c.theme)) failures.push(`Unexpected theme on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.theme}`);
+  if(policy.protectedInvariants.legacyClanMustEqualTheme && c.clan!==c.theme) failures.push(`Legacy clan/theme mismatch on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.clan} vs ${c.theme}`);
+  const expectedIcon=taxonomy.battleClasses[c.battleClass]?.iconKey;
+  if(c.battleClassIconKey!==expectedIcon) failures.push(`Class icon mismatch on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.battleClassIconKey} vs ${expectedIcon}`);
+  if(/\bclan\b/i.test(c.description||'')) failures.push(`Public description uses deprecated clan terminology on CN1-${String(c.cardNumber).padStart(3,'0')}`);
   if(!allowedRarities.has(c.rarity)) failures.push(`Unexpected rarity on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.rarity}`);
   if(!allowedClasses.has(c.battleClass)) failures.push(`Unexpected battle class on CN1-${String(c.cardNumber).padStart(3,'0')}: ${c.battleClass}`);
   if(c.releaseStatus!==policy.protectedInvariants.defaultReleaseStatus) failures.push(`Release-state change requires approval: CN1-${String(c.cardNumber).padStart(3,'0')} is ${c.releaseStatus}`);
