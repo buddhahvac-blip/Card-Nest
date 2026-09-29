@@ -52,7 +52,7 @@
     {
       "range": "052-061",
       "status": "missing",
-      "reason": "Canonical batch has not yet been successfully generated."
+      "reason": "Three generation attempts produced non-canonical names/metadata; all rejected and not saved as production assets. Canonical cards remain ungenerated."
     }
   ],
   "nextCanonicalBatch": {
@@ -200,5 +200,6 @@
         }
       }
     ]
-  }
+  },
+  "rejectedGenerationAttempts": 3
 }
