@@ -38,10 +38,10 @@ for(let n=1;n<=369;n++) if(!nums.has(n)) failures.push(`Missing canonical card n
 const secretPatterns=[
   /sk_live_[A-Za-z0-9]+/g,
   /rk_live_[A-Za-z0-9]+/g,
-  /whsec_[A-Za-z0-9]+/g,
+  /whsec_[A-Za-z0-9]{20,}/g,
   /OPENAI_API_KEY\s*=\s*['"]?sk-[A-Za-z0-9_-]+/g
 ];
-const scanRoots=['app','lib','scripts','data','docs'];
+const scanRoots=['app','lib','scripts','data','docs','tests'];
 const scan=(p)=>{
   if(!fs.existsSync(p)) return;
   for(const e of fs.readdirSync(p,{withFileTypes:true})){
@@ -57,6 +57,30 @@ const scan=(p)=>{
   }
 };
 for(const d of scanRoots) scan(path.join(root,d));
+for(const name of ['.env','.env.local','.env.production','.env.production.local']){
+  const tracked=spawnSync('git',['ls-files','--error-unmatch',name],{cwd:root,stdio:'ignore'});
+  if(tracked.status===0)failures.push(`Private environment file tracked in Git: ${name}`);
+}
+if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('A live Stripe key is not permitted in this review build.');
+if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_FOUNDER_PAYMENT_APPROVAL!=='true')failures.push('Payments enabled without explicit founder approval flag.');
+
+const requiredGuardedRoutes={
+  'app/api/nestforge/route.ts':['studioOwner()','strictBody(req,command','rateLimit(','state=\'production-ready\''],
+  'app/api/nestforge/art/[id]/route.ts':['studioOwner()','owner_id=$2'],
+  'app/api/studio/route.ts':['studioOwner()','strictBody(req,studioCommand'],
+  'app/api/checkout/route.ts':['requirePayments()','strictBody(req,checkoutSchema','packCardAvailable(card,true)'],
+  'app/api/nest/route.ts':['currentUser()','strictBody(req,nestCommand'],
+  'app/api/nestforge/interests/route.ts':['NESTFORGE_PERSONALIZATION_ENABLED','strictBody(req,interestCommand']
+};
+for(const [name,guards] of Object.entries(requiredGuardedRoutes)){
+  const source=fs.existsSync(name)?fs.readFileSync(name,'utf8'):'';
+  for(const guard of guards)if(!source.includes(guard))failures.push(`${name} missing required security gate: ${guard}`);
+}
+const forge=fs.readFileSync('lib/nestforge.ts','utf8');
+for(const guard of ['daily>0','global>0','budget>0','unit>0','NESTFORGE_IMAGE_DAILY_BUDGET_CENTS'])if(!forge.includes(guard))failures.push(`NestForge missing generation cap ${guard}`);
+const route=fs.readFileSync('app/api/nestforge/route.ts','utf8');
+for(const guard of ['NESTFORGE_PAID_GENERATION_APPROVED','canPromote(row)','INSERT INTO security_events'])if(!route.includes(guard))failures.push(`NestForge missing approval or audit gate ${guard}`);
+if(/process\.env\.PAYMENTS_ENABLED\s*=\s*['"]true['"]/.test(route))failures.push('NestForge may not enable payments.');
 
 const art=spawnSync(process.execPath,[path.join(root,'scripts','art-overseer.mjs')],{stdio:'inherit'});
 if(art.status!==0) failures.push('Nest Mind Art Overseer failed.');
