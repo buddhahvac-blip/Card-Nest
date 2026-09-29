@@ -61,7 +61,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "emberwing-002",
@@ -125,7 +126,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "tidefin-003",
@@ -189,7 +191,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Ember",
-    "battleClassIconKey": "crossed-swords"
+    "battleClassIconKey": "crossed-swords",
+    "themeIconKey": "flame"
   },
   {
     "id": "bloomtail-004",
@@ -253,7 +256,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "voltbeak-005",
@@ -317,7 +321,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "mindfeather-006",
@@ -381,7 +386,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "shadowclaw-007",
@@ -445,7 +451,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-008",
@@ -509,7 +516,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-009",
@@ -573,7 +581,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-010",
@@ -637,7 +646,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-011",
@@ -701,7 +711,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "composition-review-only-320x427",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-012",
@@ -766,7 +777,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-013",
@@ -831,7 +843,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-014",
@@ -896,7 +909,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-015",
@@ -961,7 +975,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-016",
@@ -1026,7 +1041,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-017",
@@ -1091,7 +1107,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-018",
@@ -1156,7 +1173,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-019",
@@ -1221,7 +1239,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-020",
@@ -1286,7 +1305,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-021",
@@ -1351,7 +1371,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-022",
@@ -1416,7 +1437,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-023",
@@ -1481,7 +1503,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-024",
@@ -1546,7 +1569,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-025",
@@ -1611,7 +1635,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-026",
@@ -1676,7 +1701,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-027",
@@ -1741,7 +1767,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-028",
@@ -1806,7 +1833,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-029",
@@ -1871,7 +1899,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-030",
@@ -1936,7 +1965,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-031",
@@ -2001,7 +2031,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-032",
@@ -2066,7 +2097,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-033",
@@ -2131,7 +2163,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-034",
@@ -2196,7 +2229,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-035",
@@ -2261,7 +2295,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-036",
@@ -2326,7 +2361,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-037",
@@ -2391,7 +2427,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-038",
@@ -2456,7 +2493,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-039",
@@ -2521,7 +2559,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-040",
@@ -2586,7 +2625,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-041",
@@ -2651,7 +2691,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-042",
@@ -2716,7 +2757,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-043",
@@ -2781,7 +2823,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-044",
@@ -2846,7 +2889,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-045",
@@ -2911,7 +2955,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-046",
@@ -2976,7 +3021,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-047",
@@ -3050,7 +3096,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-048",
@@ -3124,7 +3171,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-049",
@@ -3198,7 +3246,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-050",
@@ -3272,7 +3321,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-051",
@@ -3346,7 +3396,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-052",
@@ -3420,7 +3471,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-053",
@@ -3494,7 +3546,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-054",
@@ -3568,7 +3621,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-055",
@@ -3642,7 +3696,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-056",
@@ -3716,7 +3771,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-057",
@@ -3796,7 +3852,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-058",
@@ -3876,7 +3933,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-059",
@@ -3956,7 +4014,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-060",
@@ -4036,7 +4095,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-061",
@@ -4116,7 +4176,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-062",
@@ -4196,7 +4257,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-063",
@@ -4276,7 +4338,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-064",
@@ -4356,7 +4419,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-065",
@@ -4436,7 +4500,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-066",
@@ -4516,7 +4581,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-067",
@@ -4596,7 +4662,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-068",
@@ -4676,7 +4743,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Ember",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "flame"
   },
   {
     "id": "reserved-069",
@@ -4741,7 +4809,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-070",
@@ -4806,7 +4875,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-071",
@@ -4871,7 +4941,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-072",
@@ -4936,7 +5007,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-073",
@@ -5001,7 +5073,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-074",
@@ -5066,7 +5139,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-075",
@@ -5131,7 +5205,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-076",
@@ -5196,7 +5271,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-077",
@@ -5261,7 +5337,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-078",
@@ -5326,7 +5403,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-079",
@@ -5391,7 +5469,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-080",
@@ -5456,7 +5535,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-081",
@@ -5521,7 +5601,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-082",
@@ -5586,7 +5667,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-083",
@@ -5651,7 +5733,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-084",
@@ -5716,7 +5799,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-085",
@@ -5781,7 +5865,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-086",
@@ -5846,7 +5931,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-087",
@@ -5911,7 +5997,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-088",
@@ -5976,7 +6063,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-089",
@@ -6041,7 +6129,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-090",
@@ -6106,7 +6195,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-091",
@@ -6171,7 +6261,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-092",
@@ -6236,7 +6327,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-093",
@@ -6301,7 +6393,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-094",
@@ -6366,7 +6459,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-095",
@@ -6431,7 +6525,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-096",
@@ -6496,7 +6591,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-097",
@@ -6561,7 +6657,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-098",
@@ -6626,7 +6723,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-099",
@@ -6691,7 +6789,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-100",
@@ -6756,7 +6855,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-101",
@@ -6821,7 +6921,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-102",
@@ -6886,7 +6987,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-103",
@@ -6951,7 +7053,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-104",
@@ -7016,7 +7119,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-105",
@@ -7081,7 +7185,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-106",
@@ -7146,7 +7251,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-107",
@@ -7211,7 +7317,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-108",
@@ -7285,7 +7392,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-109",
@@ -7359,7 +7467,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-110",
@@ -7433,7 +7542,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-111",
@@ -7507,7 +7617,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-112",
@@ -7581,7 +7692,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-113",
@@ -7655,7 +7767,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-114",
@@ -7729,7 +7842,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-115",
@@ -7803,7 +7917,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-116",
@@ -7877,7 +7992,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-117",
@@ -7951,7 +8067,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-118",
@@ -8031,7 +8148,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-119",
@@ -8111,7 +8229,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-120",
@@ -8191,7 +8310,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-121",
@@ -8271,7 +8391,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-122",
@@ -8351,7 +8472,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-123",
@@ -8431,7 +8553,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-124",
@@ -8511,7 +8634,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-125",
@@ -8591,7 +8715,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-126",
@@ -8671,7 +8796,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-127",
@@ -8751,7 +8877,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-128",
@@ -8831,7 +8958,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-129",
@@ -8911,7 +9039,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Tide",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "wave"
   },
   {
     "id": "reserved-130",
@@ -8976,7 +9105,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-131",
@@ -9041,7 +9171,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-132",
@@ -9106,7 +9237,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-133",
@@ -9171,7 +9303,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-134",
@@ -9236,7 +9369,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-135",
@@ -9301,7 +9435,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-136",
@@ -9366,7 +9501,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-137",
@@ -9431,7 +9567,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-138",
@@ -9496,7 +9633,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-139",
@@ -9561,7 +9699,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-140",
@@ -9626,7 +9765,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-141",
@@ -9691,7 +9831,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-142",
@@ -9756,7 +9897,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-143",
@@ -9821,7 +9963,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-144",
@@ -9886,7 +10029,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-145",
@@ -9951,7 +10095,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-146",
@@ -10016,7 +10161,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-147",
@@ -10081,7 +10227,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-148",
@@ -10146,7 +10293,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-149",
@@ -10211,7 +10359,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-150",
@@ -10276,7 +10425,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-151",
@@ -10341,7 +10491,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-152",
@@ -10406,7 +10557,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-153",
@@ -10471,7 +10623,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-154",
@@ -10536,7 +10689,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-155",
@@ -10601,7 +10755,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-156",
@@ -10666,7 +10821,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-157",
@@ -10731,7 +10887,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-158",
@@ -10796,7 +10953,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-159",
@@ -10861,7 +11019,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-160",
@@ -10926,7 +11085,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-161",
@@ -10991,7 +11151,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-162",
@@ -11056,7 +11217,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-163",
@@ -11121,7 +11283,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-164",
@@ -11186,7 +11349,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-165",
@@ -11251,7 +11415,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-166",
@@ -11316,7 +11481,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-167",
@@ -11381,7 +11547,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-168",
@@ -11455,7 +11622,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-169",
@@ -11529,7 +11697,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-170",
@@ -11603,7 +11772,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-171",
@@ -11677,7 +11847,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-172",
@@ -11751,7 +11922,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-173",
@@ -11825,7 +11997,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-174",
@@ -11899,7 +12072,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-175",
@@ -11973,7 +12147,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-176",
@@ -12047,7 +12222,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-177",
@@ -12121,7 +12297,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-178",
@@ -12201,7 +12378,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-179",
@@ -12281,7 +12459,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-180",
@@ -12361,7 +12540,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-181",
@@ -12441,7 +12621,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-182",
@@ -12521,7 +12702,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-183",
@@ -12601,7 +12783,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-184",
@@ -12681,7 +12864,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-185",
@@ -12761,7 +12945,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-186",
@@ -12841,7 +13026,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-187",
@@ -12921,7 +13107,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-188",
@@ -13001,7 +13188,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-189",
@@ -13081,7 +13269,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Bloom",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "leaf"
   },
   {
     "id": "reserved-190",
@@ -13146,7 +13335,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-191",
@@ -13211,7 +13401,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-192",
@@ -13276,7 +13467,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-193",
@@ -13341,7 +13533,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-194",
@@ -13406,7 +13599,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-195",
@@ -13471,7 +13665,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-196",
@@ -13536,7 +13731,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-197",
@@ -13601,7 +13797,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-198",
@@ -13666,7 +13863,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-199",
@@ -13731,7 +13929,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-200",
@@ -13796,7 +13995,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-201",
@@ -13861,7 +14061,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-202",
@@ -13926,7 +14127,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-203",
@@ -13991,7 +14193,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-204",
@@ -14056,7 +14259,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-205",
@@ -14121,7 +14325,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-206",
@@ -14186,7 +14391,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-207",
@@ -14251,7 +14457,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-208",
@@ -14316,7 +14523,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-209",
@@ -14381,7 +14589,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-210",
@@ -14446,7 +14655,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-211",
@@ -14511,7 +14721,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-212",
@@ -14576,7 +14787,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-213",
@@ -14641,7 +14853,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-214",
@@ -14706,7 +14919,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-215",
@@ -14771,7 +14985,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-216",
@@ -14836,7 +15051,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-217",
@@ -14901,7 +15117,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-218",
@@ -14966,7 +15183,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-219",
@@ -15031,7 +15249,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-220",
@@ -15096,7 +15315,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-221",
@@ -15161,7 +15381,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-222",
@@ -15226,7 +15447,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-223",
@@ -15291,7 +15513,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-224",
@@ -15356,7 +15579,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-225",
@@ -15421,7 +15645,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-226",
@@ -15486,7 +15711,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-227",
@@ -15551,7 +15777,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-228",
@@ -15616,7 +15843,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-229",
@@ -15690,7 +15918,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-230",
@@ -15764,7 +15993,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-231",
@@ -15838,7 +16068,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-232",
@@ -15912,7 +16143,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-233",
@@ -15986,7 +16218,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-234",
@@ -16060,7 +16293,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-235",
@@ -16134,7 +16368,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-236",
@@ -16208,7 +16443,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-237",
@@ -16282,7 +16518,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-238",
@@ -16356,7 +16593,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-239",
@@ -16436,7 +16674,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-240",
@@ -16516,7 +16755,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-241",
@@ -16596,7 +16836,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-242",
@@ -16676,7 +16917,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-243",
@@ -16756,7 +16998,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-244",
@@ -16836,7 +17079,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-245",
@@ -16916,7 +17160,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-246",
@@ -16996,7 +17241,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-247",
@@ -17076,7 +17322,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-248",
@@ -17156,7 +17403,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-249",
@@ -17236,7 +17484,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Volt",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "storm-swirl"
   },
   {
     "id": "reserved-250",
@@ -17301,7 +17550,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-251",
@@ -17366,7 +17616,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-252",
@@ -17431,7 +17682,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-253",
@@ -17496,7 +17748,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-254",
@@ -17561,7 +17814,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-255",
@@ -17626,7 +17880,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-256",
@@ -17691,7 +17946,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-257",
@@ -17756,7 +18012,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-258",
@@ -17821,7 +18078,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-259",
@@ -17886,7 +18144,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-260",
@@ -17951,7 +18210,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-261",
@@ -18016,7 +18276,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-262",
@@ -18081,7 +18342,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-263",
@@ -18146,7 +18408,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-264",
@@ -18211,7 +18474,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-265",
@@ -18276,7 +18540,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-266",
@@ -18341,7 +18606,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-267",
@@ -18406,7 +18672,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-268",
@@ -18471,7 +18738,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-269",
@@ -18536,7 +18804,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-270",
@@ -18601,7 +18870,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-271",
@@ -18666,7 +18936,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-272",
@@ -18731,7 +19002,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-273",
@@ -18796,7 +19068,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-274",
@@ -18861,7 +19134,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-275",
@@ -18926,7 +19200,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-276",
@@ -18991,7 +19266,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-277",
@@ -19056,7 +19332,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-278",
@@ -19121,7 +19398,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-279",
@@ -19186,7 +19464,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-280",
@@ -19251,7 +19530,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-281",
@@ -19316,7 +19596,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-282",
@@ -19381,7 +19662,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-283",
@@ -19446,7 +19728,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-284",
@@ -19511,7 +19794,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-285",
@@ -19576,7 +19860,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-286",
@@ -19641,7 +19926,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-287",
@@ -19706,7 +19992,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-288",
@@ -19771,7 +20058,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-289",
@@ -19845,7 +20133,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-290",
@@ -19919,7 +20208,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-291",
@@ -19993,7 +20283,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-292",
@@ -20067,7 +20358,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-293",
@@ -20141,7 +20433,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-294",
@@ -20215,7 +20508,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-295",
@@ -20289,7 +20583,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-296",
@@ -20363,7 +20658,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-297",
@@ -20437,7 +20733,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-298",
@@ -20511,7 +20808,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-299",
@@ -20591,7 +20889,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-300",
@@ -20671,7 +20970,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-301",
@@ -20751,7 +21051,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-302",
@@ -20831,7 +21132,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-303",
@@ -20911,7 +21213,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-304",
@@ -20991,7 +21294,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-305",
@@ -21071,7 +21375,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-306",
@@ -21151,7 +21456,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-307",
@@ -21231,7 +21537,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-308",
@@ -21311,7 +21618,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-309",
@@ -21391,7 +21699,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Mystic",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "celestial-star"
   },
   {
     "id": "reserved-310",
@@ -21456,7 +21765,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-311",
@@ -21521,7 +21831,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-312",
@@ -21586,7 +21897,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-313",
@@ -21651,7 +21963,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-314",
@@ -21716,7 +22029,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-315",
@@ -21781,7 +22095,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-316",
@@ -21846,7 +22161,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-317",
@@ -21911,7 +22227,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-318",
@@ -21976,7 +22293,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-319",
@@ -22041,7 +22359,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-320",
@@ -22106,7 +22425,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-321",
@@ -22171,7 +22491,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-322",
@@ -22236,7 +22557,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-323",
@@ -22301,7 +22623,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-324",
@@ -22366,7 +22689,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-325",
@@ -22431,7 +22755,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-326",
@@ -22496,7 +22821,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-327",
@@ -22561,7 +22887,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-328",
@@ -22626,7 +22953,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-329",
@@ -22691,7 +23019,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-330",
@@ -22756,7 +23085,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-331",
@@ -22821,7 +23151,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-332",
@@ -22886,7 +23217,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-333",
@@ -22951,7 +23283,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-334",
@@ -23016,7 +23349,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-335",
@@ -23081,7 +23415,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-336",
@@ -23146,7 +23481,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-337",
@@ -23211,7 +23547,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-338",
@@ -23276,7 +23613,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-339",
@@ -23341,7 +23679,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-340",
@@ -23406,7 +23745,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-341",
@@ -23471,7 +23811,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-342",
@@ -23536,7 +23877,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-343",
@@ -23601,7 +23943,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-344",
@@ -23666,7 +24009,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-345",
@@ -23731,7 +24075,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-346",
@@ -23796,7 +24141,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-347",
@@ -23861,7 +24207,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-348",
@@ -23926,7 +24273,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-349",
@@ -24000,7 +24348,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-350",
@@ -24074,7 +24423,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-351",
@@ -24148,7 +24498,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-352",
@@ -24222,7 +24573,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-353",
@@ -24296,7 +24648,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-354",
@@ -24370,7 +24723,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-355",
@@ -24444,7 +24798,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-356",
@@ -24518,7 +24873,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-357",
@@ -24592,7 +24948,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-358",
@@ -24666,7 +25023,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-359",
@@ -24746,7 +25104,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-360",
@@ -24826,7 +25185,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-361",
@@ -24906,7 +25266,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-362",
@@ -24986,7 +25347,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-363",
@@ -25066,7 +25428,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-364",
@@ -25146,7 +25509,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-365",
@@ -25226,7 +25590,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "tower-shield"
+    "battleClassIconKey": "tower-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-366",
@@ -25306,7 +25671,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "wing"
+    "battleClassIconKey": "wing",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-367",
@@ -25386,7 +25752,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "guardian-shield"
+    "battleClassIconKey": "guardian-shield",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-368",
@@ -25466,7 +25833,8 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "heart-spark"
+    "battleClassIconKey": "heart-spark",
+    "themeIconKey": "moon-glow"
   },
   {
     "id": "reserved-369",
@@ -25546,6 +25914,7 @@
     "releaseStatus": "unreleased",
     "reviewStatus": "commercial-review-required",
     "theme": "Shadow",
-    "battleClassIconKey": "broken-ring"
+    "battleClassIconKey": "broken-ring",
+    "themeIconKey": "moon-glow"
   }
 ]
