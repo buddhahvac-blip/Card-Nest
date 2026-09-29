@@ -76,7 +76,9 @@
       "Volt": "storm-swirl",
       "Mystic": "celestial-star",
       "Shadow": "moon-glow"
-    }
+    },
+    "publicMode": "public-beta",
+    "commercialSalesReady": false
   },
   "automaticBlockers": [
     "duplicate card number",
@@ -91,7 +93,9 @@
     "theme used as creature identity in public copy",
     "battle class icon does not match canonical battle class",
     "legacy clan/theme mismatch",
-    "theme badge icon does not match canonical visual theme"
+    "theme badge icon does not match canonical visual theme",
+    "commercial sales enabled while launch-readiness gate is closed",
+    "founder tools exposed without server authorization"
   ],
   "humanApprovalRequired": [
     "enable real payments",
@@ -102,7 +106,11 @@
     "destructive database operation",
     "authentication or authorization policy change",
     "security control reduction",
-    "bulk deletion of production assets"
+    "bulk deletion of production assets",
+    "mark trademark/name clearance complete",
+    "open public commercial sales",
+    "approve public support and customer-request process",
+    "approve unit economics for paid packs"
   ],
   "requiredChecks": [
     "npm run guardian:art",
@@ -112,5 +120,6 @@
   ],
   "artOverseerPolicy": "data/nest-mind-art-overseer.json",
   "failureMode": "fail closed for canonical integrity, release-state, exact duplicate production assets, and exposed secrets; report warnings for creative near-collisions requiring review",
-  "artTaxonomy": "data/cardnest-taxonomy.json"
+  "artTaxonomy": "data/cardnest-taxonomy.json",
+  "launchReadinessPolicy": "data/launch-readiness.json"
 }
