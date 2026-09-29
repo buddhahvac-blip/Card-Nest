@@ -13,12 +13,62 @@
     "seasonOneCardCount": 369,
     "cardNumbers": "exactly 1 through 369",
     "uniquePermanentIds": true,
-    "allowedClans": ["Ember","Tide","Bloom","Volt","Mystic","Shadow"],
-    "allowedRarities": ["common","uncommon","rare","epic","ultra","legendary"],
-    "allowedBattleClasses": ["Disruptor","Scout","Striker","Support","Vanguard","Warden"],
-    "styleAnchorCards": [1,2,3,4,5,6,7,8,9,10,11],
+    "allowedClans": [
+      "Ember",
+      "Tide",
+      "Bloom",
+      "Volt",
+      "Mystic",
+      "Shadow"
+    ],
+    "allowedRarities": [
+      "common",
+      "uncommon",
+      "rare",
+      "epic",
+      "ultra",
+      "legendary"
+    ],
+    "allowedBattleClasses": [
+      "Disruptor",
+      "Scout",
+      "Striker",
+      "Support",
+      "Vanguard",
+      "Warden"
+    ],
+    "styleAnchorCards": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
     "defaultReleaseStatus": "unreleased",
-    "defaultPackEligibility": false
+    "defaultPackEligibility": false,
+    "allowedThemes": [
+      "Ember",
+      "Tide",
+      "Bloom",
+      "Volt",
+      "Mystic",
+      "Shadow"
+    ],
+    "legacyClanMustEqualTheme": true,
+    "battleClassIconMap": {
+      "Scout": "wing",
+      "Striker": "crossed-swords",
+      "Vanguard": "tower-shield",
+      "Warden": "guardian-shield",
+      "Support": "heart-spark",
+      "Disruptor": "broken-ring"
+    }
   },
   "automaticBlockers": [
     "duplicate card number",
@@ -28,7 +78,11 @@
     "production card asset reused by a different card",
     "Season One card silently changed to released",
     "Season One card silently changed to pack eligible",
-    "obvious committed live secret"
+    "obvious committed live secret",
+    "missing or invalid visual theme",
+    "theme used as creature identity in public copy",
+    "battle class icon does not match canonical battle class",
+    "legacy clan/theme mismatch"
   ],
   "humanApprovalRequired": [
     "enable real payments",
@@ -48,5 +102,6 @@
     "npm run build"
   ],
   "artOverseerPolicy": "data/nest-mind-art-overseer.json",
-  "failureMode": "fail closed for canonical integrity, release-state, exact duplicate production assets, and exposed secrets; report warnings for creative near-collisions requiring review"
+  "failureMode": "fail closed for canonical integrity, release-state, exact duplicate production assets, and exposed secrets; report warnings for creative near-collisions requiring review",
+  "artTaxonomy": "data/cardnest-taxonomy.json"
 }
