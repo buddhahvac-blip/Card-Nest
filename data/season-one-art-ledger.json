@@ -13,7 +13,6 @@
     "Card #068 has source artwork but still needs a canonical full-card render."
   ],
   "productionComplete": [
-    1,
     2,
     3,
     4,
@@ -161,7 +160,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "SAVEPOINT 2026-09-28: Production art generation paused at CN1-012 after image-generation quota was reached. Recent sheets and single-card attempts that invented Aqualyn, Petalune, or wrong Flare Ibex metadata were rejected and archived under /CardNest/Season One Art/90 Archive/Rejected. Resume with canonical CN1-012 Flare Ibex source art only. Do not count generated images as finals until Overseer approval and production-folder commit. Theme-badge audit added: left badge is now explicitly canonical Theme, right badge is battle class. Legacy first-eleven cards receive a website compatibility overlay until their full-card binaries are remastered.",
+  "lastGenerationNote": "SAVEPOINT 2026-09-28: Production art generation paused at CN1-012 after image-generation quota was reached. Recent sheets and single-card attempts that invented Aqualyn, Petalune, or wrong Flare Ibex metadata were rejected and archived under /CardNest/Season One Art/90 Archive/Rejected. Resume with canonical CN1-012 Flare Ibex source art only. Do not count generated images as finals until Overseer approval and production-folder commit. Theme-badge audit added: left badge is now explicitly canonical Theme, right badge is battle class. Legacy first-eleven cards receive a website compatibility overlay until their full-card binaries are remastered. User visual audit confirmed CN1-001 Mystic left badge and CN1-007 Shadow palette/badge mismatch. Both are now blocked from baked-final approval until remastered; website applies explicit canonical overlays in the meantime.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
@@ -184,10 +183,16 @@
   },
   "requiresCorrection": [
     {
+      "cardNumber": 1,
+      "name": "Nestling",
+      "issue": "Legacy full-card image uses a sun/horizon symbol on the left badge instead of the canonical Mystic celestial-star badge.",
+      "required": "Remaster the baked left badge to Mystic celestial-star. Website overlay is a temporary compatibility fix."
+    },
+    {
       "cardNumber": 7,
       "name": "Lumibug",
-      "issue": "Legacy full-card image shows Scout-style wing badge although canonical battle class is Support.",
-      "required": "Correct final full-card badge to Support heart-spark before final approval."
+      "issue": "Legacy full-card image is assigned to Shadow but its palette reads gold/sky/mystic rather than violet/indigo/charcoal, and its baked badges are not canonical.",
+      "required": "Remaster Lumibug as a Shadow Theme card with violet/indigo/charcoal atmosphere and moon-glow left badge; keep luminous gold accents only as highlights. Right battle-class badge must be Support heart-spark."
     },
     {
       "cardNumber": 8,
@@ -224,5 +229,9 @@
     "rightBadge": "Battle-class badge. Must match battleClassIconKey from data/cardnest-taxonomy.json.",
     "websitePatch": "The gallery overlays canonical left Theme badges on CN1-001 through CN1-011 and canonical right badges where known legacy class-icon defects exist.",
     "finalAssetRule": "Future remastered full-card binaries must bake in the correct Theme and battle-class icons; website overlays are compatibility fixes, not a substitute for corrected final art."
+  },
+  "legacyThemeVisualCorrections": {
+    "CN1-001": "Mystic: celestial-star left badge; current baked sun/horizon symbol is rejected.",
+    "CN1-007": "Shadow: moon-glow left badge plus violet/indigo/charcoal presentation; current gold/sky-heavy treatment is rejected as final."
   }
 }
