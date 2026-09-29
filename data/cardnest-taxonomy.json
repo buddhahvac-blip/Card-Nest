@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "name": "CardNest Season One Taxonomy",
+  "semantics": {
+    "theme": "Visual and world-building treatment. A theme is not a creature species, creature type, battle class, or literal identity.",
+    "creatureType": "What the guardian actually is, such as celestial fledgling, forest cat, salamander, moth, or guardian.",
+    "battleClass": "V3 gameplay role. This controls the class badge and future battle behavior.",
+    "nestAffinity": "Prototype V3 elemental/gameplay affinity. It may share a name with a visual theme but remains a separate gameplay field."
+  },
+  "themes": {
+    "Ember": {"iconKey":"flame","palette":["ruby","amber","obsidian"],"language":"volcanic warmth"},
+    "Tide": {"iconKey":"wave","palette":["aqua","sapphire","pearl"],"language":"marine motion"},
+    "Bloom": {"iconKey":"leaf","palette":["green","gold","floral"],"language":"forest life"},
+    "Volt": {"iconKey":"storm-swirl","palette":["electric yellow","cyan","deep blue"],"language":"storm energy"},
+    "Mystic": {"iconKey":"celestial-star","palette":["ivory","gold","sky"],"language":"celestial glow"},
+    "Shadow": {"iconKey":"moon-glow","palette":["violet","indigo","charcoal"],"language":"moonlit mystery"}
+  },
+  "battleClasses": {
+    "Scout": {"iconKey":"wing","role":"speed, initiative, evasion, information and positioning"},
+    "Striker": {"iconKey":"crossed-swords","role":"direct damage and finishing attacks"},
+    "Vanguard": {"iconKey":"tower-shield","role":"frontline offense and defense"},
+    "Warden": {"iconKey":"guardian-shield","role":"protection, guarding and damage reduction"},
+    "Support": {"iconKey":"heart-spark","role":"healing, buffs, energy and team utility"},
+    "Disruptor": {"iconKey":"broken-ring","role":"debuffs, control, slowing and disruption"}
+  },
+  "publicCopyRules": [
+    "Use '<Theme> Theme' in user-facing metadata labels.",
+    "Do not describe a guardian as being 'from the <Theme> clan'.",
+    "Do not use a theme name as the creature species or creature type.",
+    "Do not use a battle-class icon that belongs to a different battle class.",
+    "Theme icon and battle-class icon are independent fields and must never be inferred from one another."
+  ]
+}
