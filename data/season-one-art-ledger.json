@@ -201,7 +201,7 @@
       }
     ]
   },
-  "rejectedGenerationAttempts": 3,
+  "rejectedGenerationAttempts": 4,
   "clanProductionPlan": [
     {
       "clan": "Ember",
@@ -281,7 +281,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "Attempted #052 source-art generation inherited prior card-sheet layout and non-canonical cards; rejected and not saved as production art.",
+  "lastGenerationNote": "CN1-053 Firebank Boar generation attempt incorrectly produced an unrelated multi-card sheet; rejected and not saved or uploaded.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
