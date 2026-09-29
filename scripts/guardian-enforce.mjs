@@ -6,6 +6,7 @@ const root=process.cwd();
 const manifest=JSON.parse(fs.readFileSync(path.join(root,'data','season-one.json'),'utf8'));
 const policy=JSON.parse(fs.readFileSync(path.join(root,'data','guardian-enforcer-policy.json'),'utf8'));
 const taxonomy=JSON.parse(fs.readFileSync(path.join(root,'data','cardnest-taxonomy.json'),'utf8'));
+const launch=JSON.parse(fs.readFileSync(path.join(root,'data','launch-readiness.json'),'utf8'));
 const failures=[];
 
 const allowedClans=new Set(policy.protectedInvariants.allowedClans);
@@ -14,6 +15,9 @@ const allowedRarities=new Set(policy.protectedInvariants.allowedRarities);
 const allowedClasses=new Set(policy.protectedInvariants.allowedBattleClasses);
 
 if(manifest.length!==policy.protectedInvariants.seasonOneCardCount) failures.push('Season One canonical count changed.');
+if(launch.mode!=='public-beta') failures.push('Public launch mode changed without review.');
+if(!Array.isArray(launch.points)||launch.points.length!==10) failures.push('Ten-point launch readiness plan is missing or incomplete.');
+if(launch.commercialSalesReady!==true&&process.env.CARDNEST_COMMERCIAL_SALES_APPROVED==='true') failures.push('Commercial sales approval set while launch readiness still says sales are closed.');
 
 const ids=new Set(), nums=new Set();
 for(const c of manifest){
@@ -63,6 +67,10 @@ for(const name of ['.env','.env.local','.env.production','.env.production.local'
 }
 if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('A live Stripe key is not permitted in this review build.');
 if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_FOUNDER_PAYMENT_APPROVAL!=='true')failures.push('Payments enabled without explicit founder approval flag.');
+if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('Live Stripe keys are blocked during public beta.');
+
+const stripeSource=fs.readFileSync('lib/stripe.ts','utf8');
+for(const guard of ['CARDNEST_FOUNDER_PAYMENT_APPROVAL','sk_test_'])if(!stripeSource.includes(guard))failures.push(`Payment runtime guard missing: ${guard}`);
 
 const requiredGuardedRoutes={
   'app/api/nestforge/route.ts':['studioOwner()','strictBody(req,command','rateLimit(','state=\'production-ready\''],
