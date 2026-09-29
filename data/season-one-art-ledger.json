@@ -201,7 +201,7 @@
       }
     ]
   },
-  "rejectedGenerationAttempts": 6,
+  "rejectedGenerationAttempts": 7,
   "clanProductionPlan": [
     {
       "clan": "Ember",
@@ -281,7 +281,7 @@
     "preferTextFreeSourceArt": true,
     "doNotCountReferenceSheetsAsComplete": true
   },
-  "lastGenerationNote": "CN1-054 Suncrown Cassowary generation produced an unrelated Volt/Mystic multi-card sheet; rejected and not saved or uploaded. CN1-054 remains missing.",
+  "lastGenerationNote": "CN1-055 Firesong Hyena generation produced an unrelated Mystic/Shadow multi-card sheet; rejected and not saved or uploaded. CN1-055 remains missing.",
   "authenticityNumbering": {
     "catalogFormat": "CN1-### / 369",
     "catalogCodeRequiredOnFinalCard": true,
