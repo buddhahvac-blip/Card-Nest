@@ -78,7 +78,8 @@
       "Shadow": "moon-glow"
     },
     "publicMode": "public-beta",
-    "commercialSalesReady": false
+    "commercialSalesReady": false,
+    "brandClearanceRequiredForCommercialLaunch": true
   },
   "automaticBlockers": [
     "duplicate card number",
@@ -95,7 +96,9 @@
     "legacy clan/theme mismatch",
     "theme badge icon does not match canonical visual theme",
     "commercial sales enabled while launch-readiness gate is closed",
-    "founder tools exposed without server authorization"
+    "founder tools exposed without server authorization",
+    "commercial sales enabled before CardNest name clearance approval",
+    "registered trademark symbol used before registration is confirmed"
   ],
   "humanApprovalRequired": [
     "enable real payments",
@@ -110,7 +113,10 @@
     "mark trademark/name clearance complete",
     "open public commercial sales",
     "approve public support and customer-request process",
-    "approve unit economics for paid packs"
+    "approve unit economics for paid packs",
+    "change CardNest brand-clearance status to approved",
+    "file or authorize a trademark application",
+    "adopt a replacement brand name"
   ],
   "requiredChecks": [
     "npm run guardian:art",
