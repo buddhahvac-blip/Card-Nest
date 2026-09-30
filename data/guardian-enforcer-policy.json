@@ -79,7 +79,8 @@
     },
     "publicMode": "public-beta",
     "commercialSalesReady": false,
-    "brandClearanceRequiredForCommercialLaunch": true
+    "brandClearanceRequiredForCommercialLaunch": true,
+    "affiliateDisclosureRequired": true
   },
   "automaticBlockers": [
     "duplicate card number",
@@ -98,7 +99,10 @@
     "commercial sales enabled while launch-readiness gate is closed",
     "founder tools exposed without server authorization",
     "commercial sales enabled before CardNest name clearance approval",
-    "registered trademark symbol used before registration is confirmed"
+    "registered trademark symbol used before registration is confirmed",
+    "affiliate redirect points to an unapproved hostname",
+    "affiliate shopping link is active without explicit partner approval",
+    "affiliate shopping UI lacks a clear commission disclosure"
   ],
   "humanApprovalRequired": [
     "enable real payments",
@@ -116,7 +120,9 @@
     "approve unit economics for paid packs",
     "change CardNest brand-clearance status to approved",
     "file or authorize a trademark application",
-    "adopt a replacement brand name"
+    "adopt a replacement brand name",
+    "activate TCGplayer affiliate links after network acceptance",
+    "activate eBay Partner Network links after network acceptance"
   ],
   "requiredChecks": [
     "npm run guardian:art",
