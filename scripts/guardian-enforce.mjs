@@ -67,6 +67,8 @@ for(const name of ['.env','.env.local','.env.production','.env.production.local'
 }
 if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('A live Stripe key is not permitted in this review build.');
 if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_FOUNDER_PAYMENT_APPROVAL!=='true')failures.push('Payments enabled without explicit founder approval flag.');
+if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_NAME_CLEARANCE_APPROVED!=='true')failures.push('Payments enabled before CardNest name clearance approval.');
+if(process.env.CARDNEST_COMMERCIAL_SALES_APPROVED==='true'&&process.env.CARDNEST_NAME_CLEARANCE_APPROVED!=='true')failures.push('Commercial sales approved before CardNest name clearance approval.');
 if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('Live Stripe keys are blocked during public beta.');
 
 const stripeSource=fs.readFileSync('lib/stripe.ts','utf8');
