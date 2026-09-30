@@ -74,6 +74,11 @@ if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('Live Str
 const stripeSource=fs.readFileSync('lib/stripe.ts','utf8');
 for(const guard of ['CARDNEST_FOUNDER_PAYMENT_APPROVAL','sk_test_'])if(!stripeSource.includes(guard))failures.push(`Payment runtime guard missing: ${guard}`);
 
+const affiliateSource=fs.readFileSync('lib/affiliate.ts','utf8');
+for(const guard of ['AFFILIATE_TCGPLAYER_APPROVED','AFFILIATE_EBAY_APPROVED','allowedHosts','affiliate-click'])if(!affiliateSource.includes(guard))failures.push(`Affiliate guard missing: ${guard}`);
+const affiliateUi=fs.readFileSync('app/affiliate-discovery.tsx','utf8');
+for(const guard of ['Affiliate disclosure:','rel="sponsored noopener noreferrer"'])if(!affiliateUi.includes(guard))failures.push(`Affiliate disclosure guard missing: ${guard}`);
+
 const requiredGuardedRoutes={
   'app/api/nestforge/route.ts':['studioOwner()','strictBody(req,command','rateLimit(','state=\'production-ready\''],
   'app/api/nestforge/art/[id]/route.ts':['studioOwner()','owner_id=$2'],
