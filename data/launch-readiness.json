@@ -105,5 +105,20 @@
       "why": "Real collector behavior should shape the next art, pack, and gameplay investments.",
       "next": "Soft-launch, gather opt-in feedback, measure return behavior, and prioritize what collectors actually use."
     }
-  ]
+  ],
+  "brandClearance": {
+    "status": "hold-for-counsel",
+    "exactName": "CardNest",
+    "commercialUseApproved": false,
+    "registrationFiled": false,
+    "rule": "Do not treat the CardNest name as legally cleared until a qualified trademark professional completes a comprehensive clearance review covering federal records, common-law use, state records, domains, app stores, and relevant international markets.",
+    "knownRisk": "Active third-party CardNest uses exist in card collecting/trading and adjacent card retail categories, increasing likelihood-of-confusion risk.",
+    "ethics": [
+      "Do not imply affiliation with other CardNest businesses.",
+      "Do not use the registered trademark symbol unless a registration actually issues for the relevant mark.",
+      "Keep third-party franchises and affiliate products clearly separated from original CardNest IP.",
+      "Do not copy logos, trade dress, product descriptions, or branding from existing CardNest users.",
+      "Preserve evidence of first use, design creation, and original artwork provenance."
+    ]
+  }
 }
