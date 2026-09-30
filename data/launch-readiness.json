@@ -90,10 +90,10 @@
       "number": 9,
       "priority": "HIGH",
       "title": "Keep third-party discovery separate",
-      "status": "IMPLEMENTED",
+      "status": "INFRASTRUCTURE READY",
       "gate": "brand",
       "why": "Pokémon and Magic can support discovery/affiliate revenue without confusing them with original CardNest IP.",
-      "next": "Keep affiliate labeling, authorized imagery, and external-brand disclosures explicit."
+      "next": "Complete TCGplayer/Impact and eBay Partner Network acceptance, then add only the exact network-generated HTTPS links through protected environment variables."
     },
     {
       "id": "beta-validation",
@@ -119,6 +119,23 @@
       "Keep third-party franchises and affiliate products clearly separated from original CardNest IP.",
       "Do not copy logos, trade dress, product descriptions, or branding from existing CardNest users.",
       "Preserve evidence of first use, design creation, and original artwork provenance."
+    ]
+  },
+  "affiliateReadiness": {
+    "status": "pending-network-approval",
+    "publicDisclosureRequired": true,
+    "approvedPartners": [
+      "TCGplayer via Impact",
+      "eBay Partner Network"
+    ],
+    "rules": [
+      "No affiliate link becomes active until the relevant network approves CardNest.",
+      "Use exact network-generated links; do not invent tracking parameters.",
+      "Disclose commissions clearly and conspicuously next to the shopping area.",
+      "Use rel=sponsored on affiliate links.",
+      "Do not use unlicensed product images.",
+      "Do not imply that CardNest authenticates, fulfills, or guarantees third-party listings.",
+      "Store aggregate CardNest click events only; do not create behavioral ad profiles."
     ]
   }
 }
