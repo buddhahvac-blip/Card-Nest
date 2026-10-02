@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Founder-only affiliate application tracker. Application links are official program entry points; activation on CardNest remains separately gated.",
+  "programs": [
+    {
+      "id": "tcgplayer",
+      "name": "TCGplayer Affiliate Program",
+      "network": "Impact",
+      "fit": "Core TCG marketplace",
+      "applicationUrl": "https://app.impact.com/campaign-campaign-info-v2/TCGplayer.brand?io=O0MQFO%2F3HA8jFJ07Knpdj8IlOwxORvAM2ZELnhmXdGUVNwTC5FTTyS8fMwhf5QKO",
+      "status": "not-applied",
+      "officialTiming": "No exact SLA published; TCGplayer says it will reach out shortly after the form is submitted.",
+      "planningBuffer": "Allow about 1–2 weeks for planning, but this is not a promised approval time.",
+      "notes": "Best first application for Pokémon and Magic singles/sealed. First-click attribution within 48 hours is documented by TCGplayer."
+    },
+    {
+      "id": "ebay",
+      "name": "eBay Partner Network",
+      "network": "EPN",
+      "fit": "Graded, vintage, rare, sealed",
+      "applicationUrl": "https://partnernetwork.ebay.com/",
+      "status": "not-applied",
+      "officialTiming": "No exact SLA published; eBay says it will email the outcome soon after application.",
+      "planningBuffer": "Allow about 1–2 weeks for planning, but this is not a promised approval time.",
+      "notes": "Strong complement to TCGplayer. Use clearly labeled outbound eBay links and EPN-approved promotional methods."
+    },
+    {
+      "id": "amazon",
+      "name": "Amazon Associates",
+      "network": "Amazon Associates",
+      "fit": "Accessories, storage, mainstream sealed products",
+      "applicationUrl": "https://affiliate-program.amazon.com/",
+      "status": "not-applied",
+      "officialTiming": "Amazon reviews after 3 qualifying sales; once that threshold is reached, it says review usually takes a day or two. The 3 sales must occur within 180 days.",
+      "planningBuffer": "Do not treat signup as final approval until Amazon completes the post-sale review.",
+      "notes": "Requires the exact Amazon Associate disclosure and tagged Special Links."
+    },
+    {
+      "id": "target",
+      "name": "Target Partners",
+      "network": "Impact",
+      "fit": "Mainstream sealed TCG and collector products",
+      "applicationUrl": "https://partners.target.com/",
+      "status": "not-applied",
+      "officialTiming": "No public approval SLA found on Target's current official program pages.",
+      "planningBuffer": "Allow about 1–2 weeks for planning, but this is not a promised approval time.",
+      "notes": "Family-friendly US-focused site is a good fit. Target documents a 7-day cookie after acceptance."
+    },
+    {
+      "id": "walmart",
+      "name": "Walmart Affiliate Program",
+      "network": "Impact",
+      "fit": "Sealed TCG, accessories, mass-market collector products",
+      "applicationUrl": "https://affiliates.walmart.com/",
+      "status": "not-applied",
+      "officialTiming": "Walmart currently says applicants can sign up and get started within a day.",
+      "planningBuffer": "Plan for roughly 1 business day, subject to Walmart's review and discretion.",
+      "notes": "Walmart provides links, banners and data feeds after approval. Use only qualifying links on approved sites."
+    },
+    {
+      "id": "fanatics",
+      "name": "Fanatics Affiliate Program",
+      "network": "Impact",
+      "fit": "Sports cards, collectibles, licensed sports expansion",
+      "applicationUrl": "https://www.fanatics.com/affiliates/x-51",
+      "status": "not-applied",
+      "officialTiming": "No public approval SLA found on the current Fanatics affiliate page.",
+      "planningBuffer": "Allow about 1–2 weeks for planning, but this is not a promised approval time.",
+      "notes": "Provides product feeds, deep linking, creative assets and real-time Impact reporting."
+    },
+    {
+      "id": "vaultx",
+      "name": "Vault X Affiliate Program",
+      "network": "GrowthHero",
+      "fit": "Binders, sleeves, deck boxes, protection",
+      "applicationUrl": "https://www.vaultx.com/become-an-affiliate",
+      "status": "not-applied",
+      "officialTiming": "No public affiliate approval SLA found on the current Vault X affiliate entry point.",
+      "planningBuffer": "Allow about 1–2 weeks for planning, but this is not a promised approval time.",
+      "notes": "Excellent accessory fit for CardNest collectors. Do not confuse this with Vault X's separate retail-partner program."
+    },
+    {
+      "id": "psa",
+      "name": "PSA Affiliate Partnerships",
+      "network": "Direct partnership contact",
+      "fit": "Grading and authentication services",
+      "applicationUrl": "https://www.psacard.com/info/partnerships",
+      "status": "not-applied",
+      "officialTiming": "No public affiliate approval SLA is stated; PSA routes affiliate interest through its partnerships contact flow.",
+      "planningBuffer": "Allow several business days to a few weeks for a partnership response; this is only a planning buffer.",
+      "notes": "Best added after CardNest has meaningful collector traffic and grading-oriented content."
+    }
+  ]
+}
