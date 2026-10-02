@@ -17,6 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="impact-site-verification" {...({value:"127ac962-5c21-4273-820a-6d64fb17e00e"} as any)} />
+      </head>
       <body className="antialiased">{children}</body>
     </html>
   );
