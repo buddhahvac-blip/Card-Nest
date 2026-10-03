@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     const csp=[
       "default-src 'self'", "base-uri 'self'", "object-src 'none'", "frame-ancestors 'none'",
       "form-action 'self'", "script-src 'self' 'unsafe-inline'", "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: blob:", "font-src 'self' data:", "connect-src 'self' https://*.neonauth.c-7.us-east-2.aws.neon.tech",
+      "img-src 'self' data: blob: https://cdn.openart.ai", "font-src 'self' data:", "connect-src 'self' https://*.neonauth.c-7.us-east-2.aws.neon.tech",
       "frame-src 'none'", "upgrade-insecure-requests"
     ].join('; ');
     return [

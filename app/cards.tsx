@@ -19,7 +19,7 @@ export function GuardianCard({id}:{id:string}) {
  if(commonMaster){
   const number=String(c.cardNumber).padStart(3,'0'); const themeFix=themeBadgeIcons[c.theme];
   return <div className={`guardian-card common-master-frame theme-${String(c.theme).toLowerCase()}`} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}>
-   <div className="common-master-art"><img loading="lazy" decoding="async" src={commonMaster} alt={`${c.name} — ${c.theme} theme artwork`}/><span className="common-master-number">{number}</span><span className="common-master-rarity">{c.rarity.toUpperCase()}</span></div>
+   <div className="common-master-art"><img loading="lazy" decoding="async" src={commonMaster} onError={e=>{if(c.fullCardUrl&&!e.currentTarget.dataset.fallback){e.currentTarget.dataset.fallback='1';e.currentTarget.src=c.fullCardUrl}}} alt={`${c.name} — ${c.theme} theme artwork`}/><span className="common-master-number">{number}</span><span className="common-master-rarity">{c.rarity.toUpperCase()}</span></div>
    <div className="common-master-title"><span className="common-master-theme">{themeFix&&<themeFix.Icon size={14}/>} {c.theme}</span><strong>{c.name}</strong><span className="common-master-class">{c.battleClass}</span></div>
    <div className="common-master-stats" aria-label={`${c.name} battle stats`}><span><b>HP</b>{c.health}</span><span><b>ATK</b>{c.attack}</span><span><b>DEF</b>{c.defense}</span><span><b>SPD</b>{c.speed}</span></div>
   </div>
