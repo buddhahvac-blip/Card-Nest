@@ -60,10 +60,10 @@
       "number": 6,
       "priority": "BLOCKER",
       "title": "Customer trust and support",
-      "status": "NEEDS CONFIGURATION",
+      "status": "CONFIGURED",
       "gate": "commerce",
       "why": "Public commerce needs a real support path, clear seller identity, delivery/refund rules, privacy process, and transparent pack terms.",
-      "next": "Configure SUPPORT_EMAIL and finalize public business/support disclosures before sales."
+      "next": "Maintain cardnestsupport@gmail.com, respond consistently, and finalize the customer-request/retention workflow before commercial sales."
     },
     {
       "id": "funnel-measurement",
