@@ -37,3 +37,6 @@ main>.lower-grid{display:grid}
 
 /* CardNest support center */
 .support-form select{display:block;width:100%;margin-top:8px;background:#0a252e;border:1px solid #617971;padding:12px;border-radius:8px;color:#f6f1e2}.support-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}.support-success{margin:22px 0}.support-success h2{font-size:36px;color:#ffe0a2}.studio-job a{text-decoration:underline;text-underline-offset:3px}
+
+/* Nest Mind collector-signal board */
+.mind-board{margin:30px 0}.mind-bar{margin:16px 0}.mind-bar>div{display:flex;justify-content:space-between;gap:14px;font-size:13px;color:#c6d8d1}.mind-bar i{display:block;height:8px;border-radius:20px;background:#08272c;overflow:hidden;margin-top:8px}.mind-bar i b{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#6fb99c,#edc781)}.mind-insight{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #ffffff12}.mind-insight svg{flex-shrink:0;color:#edc781;margin-top:3px}.mind-insight:last-of-type{border-bottom:0}
