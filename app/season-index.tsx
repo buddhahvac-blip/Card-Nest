@@ -21,6 +21,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const progress=artProgress();
  const approvedShowcase=useMemo(()=>seasonManifest.filter(hasApprovedShowcaseArt).sort((a,b)=>(rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||a.cardNumber-b.cardNumber),[]);
  const supportingShowcase=approvedShowcase.filter(c=>c.rarity!=='legendary');
+ const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
 
  const filteredBase=seasonManifest.filter(c=>
    (theme==='all'||c.theme===theme)&&
@@ -39,6 +40,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const resetPage=()=>setPage(0);
  const showIllustrated=()=>{setShow('illustrated');setRarity('all');setSortMode('showcase');resetPage()};
  const showLegendary=()=>{setShow('all');setRarity('legendary');setSortMode('showcase');resetPage()};
+ const showCommons=()=>{setShow('illustrated');setRarity('common');setSortMode('number');resetPage()};
  const showAll=()=>{setShow('all');setRarity('all');setSortMode('showcase');resetPage()};
 
  return <>
@@ -79,6 +81,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
   <div className="gallery-shortcuts" role="group" aria-label="Season One gallery views">
    <button className={show==='illustrated'&&rarity==='all'?'gold':'outline'} onClick={showIllustrated}><Sparkles size={16}/>Illustrated <strong>{progress.illustrated}</strong></button>
    <button className={rarity==='legendary'?'gold':'outline'} onClick={showLegendary}><Crown size={16}/>Legendary <strong>20</strong></button>
+   <button className={show==='illustrated'&&rarity==='common'?'gold':'outline'} onClick={showCommons}><Sparkles size={16}/>Common showcase <strong>{illustratedCommons.length}</strong></button>
    <button className={show==='all'&&rarity==='all'?'gold':'outline'} onClick={showAll}>All Season One <strong>369</strong></button>
   </div>
 
@@ -92,7 +95,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
    <span aria-live="polite">{filtered.length} cards</span>
   </div>
 
-  <div className="gallery-section-head archive-heading"><div><span className="eyebrow">FIELD GUIDE</span><h2>{rarity==='legendary'?'The Legendary roster':show==='illustrated'?'Illustrated Season One':show==='approved'?'Approved showcase artwork':'Explore all 369 guardians'}</h2></div><span>{filtered.length} matching cards</span></div>
+  <div className="gallery-section-head archive-heading"><div><span className="eyebrow">FIELD GUIDE</span><h2>{rarity==='legendary'?'The Legendary roster':rarity==='common'&&show==='illustrated'?'Common Flight showcase':show==='illustrated'?'Illustrated Season One':show==='approved'?'Approved showcase artwork':'Explore all 369 guardians'}</h2></div><span>{filtered.length} matching cards</span></div>
 
   <div className="season-grid">{filtered.slice(currentPage*24,(currentPage+1)*24).map(c=><article className={'index-card '+(hasSeasonArtwork(c)?'has-art ':'')+(c.rarity==='legendary'?'legendary-index-card':'')} key={c.id}>
    <div className="index-card-top"><span>CN1 · {String(c.cardNumber).padStart(3,'0')} / 369</span><span className={owned.has(c.id)?'owned-label':hasSeasonArtwork(c)?'illustrated-label':'missing-label'}>{owned.has(c.id)?<><Check size={14}/> Owned</>:hasSeasonArtwork(c)?<><Sparkles size={13}/> Illustrated</>:c.releaseStatus==='preview'?'Free preview':'Unreleased'}</span></div>

@@ -20,8 +20,9 @@
     "audit:season-art": "node scripts/audit-season-one-art.mjs",
     "guardian:art": "npm run art:overseer",
     "guardian:enforce": "node scripts/guardian-enforce.mjs",
-    "prebuild": "npm test && npm run guardian:enforce && npm run quality:showcase",
-    "quality:showcase": "node scripts/check-showcase-quality.mjs"
+    "prebuild": "npm test && npm run guardian:enforce && npm run quality:showcase && npm run build:common-showcase",
+    "quality:showcase": "node scripts/check-showcase-quality.mjs",
+    "build:common-showcase": "node scripts/build-common-showcase.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

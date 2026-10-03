@@ -66,13 +66,19 @@ main>.lower-grid{display:grid}
 @media(prefers-reduced-motion:reduce){.with-motion .flight-particles i{animation:none!important}.flight-particles{display:none}}
 
 
-/* Image-fidelity guard for legacy First Flight Commons.
-   CN1-001–011 only have compact baked-card JPG sources, so never enlarge those rasters beyond their intended card presentation. */
-.source-limited-card{width:min(100%,320px)!important;max-width:320px!important;margin-inline:auto}
-.index-card .source-limited-card{width:min(100%,320px)!important;max-width:320px!important}
-.view-card .source-limited-card{width:min(100%,310px)!important;max-width:310px!important}
-.source-limited-card>img{width:100%;height:auto;aspect-ratio:320/427;object-fit:contain}
-@media(max-width:580px){.source-limited-card{max-width:100%!important}.index-card .source-limited-card{max-width:100%!important}}
+/* Showcase fidelity for legacy First Flight Commons.
+   CN1-001–011 keep their reviewed 320×427 source pixels, while the build creates
+   2× and 3× Lanczos display masters so browser/DPR scaling does not soften the gallery. */
+.source-limited-card{width:min(100%,340px)!important;max-width:340px!important;margin-inline:auto}
+.index-card .source-limited-card{width:min(100%,340px)!important;max-width:340px!important}
+.view-card .source-limited-card{width:min(100%,330px)!important;max-width:330px!important}
+.source-limited-card>img{width:100%;height:auto;aspect-ratio:320/427;object-fit:contain;image-rendering:auto}
+.common-showcase-card{box-shadow:0 18px 42px #0009,0 0 0 1px #dfc57d22}
+.common-showcase-raster{display:block;filter:contrast(1.018) saturate(1.012);backface-visibility:hidden;transform:translateZ(0)}
+.index-card:has(.common-showcase-card){background:linear-gradient(180deg,#153a3b,#103139);border-color:#d7c16f4a}
+.index-card:has(.common-showcase-card)>button{display:grid;place-items:center;min-height:440px;border-radius:14px;background:radial-gradient(ellipse at 50% 38%,#f1d79010,transparent 65%)}
+@media(max-width:900px){.index-card:has(.common-showcase-card)>button{min-height:390px}}
+@media(max-width:580px){.source-limited-card{max-width:100%!important}.index-card .source-limited-card{max-width:100%!important}.index-card:has(.common-showcase-card)>button{min-height:0;background:transparent}}
 
 /* CardNest celestial battle homepage cover */
 .world-hero.world-cover{position:relative;min-height:0;aspect-ratio:1672/941;display:block;padding:0;overflow:hidden;background:#071c2b;border-color:#e4c77d55;box-shadow:0 24px 70px #020b1266}
