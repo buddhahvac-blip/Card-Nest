@@ -1,5 +1,6 @@
 'use client';
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
+import {trackBeta} from '@/lib/client-analytics';
 
 const categories=[
  ['account','Account or sign-in'],
@@ -11,6 +12,7 @@ const categories=[
 ] as const;
 
 export default function SupportForm(){
+ useEffect(()=>{trackBeta('support-view')},[]);
  const [form,setForm]=useState({name:'',email:'',category:'general',subject:'',message:'',website:''});
  const [busy,setBusy]=useState(false);
  const [error,setError]=useState('');
