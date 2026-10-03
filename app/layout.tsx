@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {siteDescription,siteName,siteUrl} from "@/lib/site";
+import {searchIndexingApproved,siteDescription,siteName,siteUrl} from "@/lib/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: ["/art/great-nest-world.webp"],
   },
-  robots: {index:true,follow:true},
+  robots: {index:searchIndexingApproved,follow:searchIndexingApproved},
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
