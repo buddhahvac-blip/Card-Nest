@@ -19,5 +19,6 @@ export const economics=v1.table('economics',{userId:text('user_id').primaryKey()
 export const artJobs=v1.table('art_jobs',{id:text().primaryKey(),userId:text('user_id').notNull(),cardId:text('card_id'),name:text().notNull(),family:text().notNull(),brief:text().notNull(),prompt:text().notNull(),status:text().notNull(),model:text(),objectKey:text('object_key'),review:text(),created:text().notNull(),updated:text().notNull()});
 export const artUsage=v1.table('art_usage',{day:text().primaryKey(),calls:integer().notNull()});
 export const cardArt=v1.table('card_art',{cardId:text('card_id').primaryKey(),jobId:text('job_id').notNull(),objectKey:text('object_key').notNull(),published:text().notNull()});
+export const supportTickets=v1.table('support_tickets',{id:text().primaryKey(),number:integer().notNull().generatedAlwaysAsIdentity(),name:text().notNull(),email:text().notNull(),category:text().notNull(),subject:text().notNull(),message:text().notNull(),status:text().notNull().default('open'),created:time(),updated:time(),closedAt:timestamp('closed_at',{withTimezone:true})},t=>[uniqueIndex('support_ticket_number_unique').on(t.number)]);
 const bytea=customType<{data:Buffer}>({dataType:()=> 'bytea'});
 export const artObjects=v1.table('art_objects',{key:text().primaryKey(),body:bytea().notNull()});
