@@ -7,3 +7,5 @@ export const siteUrl=(()=>{
 
 export const siteName='CardNest';
 export const siteDescription='Discover original guardians, build your Nest, and help shape Season One: The First Flight.';
+
+export const searchIndexingApproved=process.env.CARDNEST_SEARCH_INDEXING_APPROVED==='true';
