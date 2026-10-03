@@ -50,7 +50,7 @@ export default async function CardPage({params}:{params:Promise<{slug:string}>})
     <p className="intro">{card.theme} Theme · {card.rarity} · {card.battleClass}</p>
     <p>{card.lore}</p>
     <BattleProfile card={card}/>
-    <CollectorActions cardId={card.id} cardName={card.name}/>
+    <CollectorActions cardId={card.id} cardName={card.name} trackView/>
     <div className="notice">Review-only Season One concept. Artwork, balance, release status, and future pack eligibility may change before commercial launch.</div>
     <div className="actions"><Link className="outline" href={themePath(card.theme)}>More {card.theme} guardians</Link><Link className="outline" href="/season-one">Season One index</Link></div>
    </article>
