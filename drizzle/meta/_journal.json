@@ -36,6 +36,13 @@
       "when": 1791008400000,
       "tag": "0004_nest_mind_analytics",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1791010200000,
+      "tag": "0005_collector_loop",
+      "breakpoints": true
     }
   ]
 }
