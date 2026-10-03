@@ -1,12 +1,12 @@
 {
-  "sproutling-001": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/60d19c5b7da02a8a2486dd574d45935bf40a153da137e01a5ba61c62759a6036.png",
-  "emberwing-002": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/c0fccc8453be3f00ad3508db3193a44aaec491ddd2d95449e3a89fdcca904688.png",
-  "tidefin-003": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/925808f7040084d43f68aca931356e68686a69b4b1cbdb0132e9d71e2da248b8.png",
-  "bloomtail-004": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/20fdd2acc21021b3accdbea1ea70eca5179c9fba36fd3c03150378cf30b197a7.png",
-  "voltbeak-005": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/bc49e5c57d20637ea7982cd5b901c1da73a7fb717f987d0990160bbc418efdee.png",
-  "mindfeather-006": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/dd71216f30034bf1a802e55a3b895e43b619cf5129b8d671e6f271d71015f104.png",
-  "shadowclaw-007": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/72e82c2a262370514f1c8e4cc933f5cbc7aa6c45e3950733e8cdb64932e1b1bf.png",
-  "reserved-008": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/5ededa7ae4c7cc0449a12f2de082a7d19e43714ff3a45050f20bc532c1fbe4f3.png",
-  "reserved-009": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/f153bcec8562e2c5596102b18baa0f90b8c981a90a49db98ed6d4fdcc2f57e82.png",
-  "reserved-010": "https://cdn.openart.ai/openart-uploads/production/attachment-transfers/0f16bad4dff373d3de84e84bfc581b601368327a665e4f9f53a9d41d846851cf.png"
+  "sproutling-001": "/api/common-master-art/sproutling-001",
+  "emberwing-002": "/api/common-master-art/emberwing-002",
+  "tidefin-003": "/api/common-master-art/tidefin-003",
+  "bloomtail-004": "/api/common-master-art/bloomtail-004",
+  "voltbeak-005": "/api/common-master-art/voltbeak-005",
+  "mindfeather-006": "/api/common-master-art/mindfeather-006",
+  "shadowclaw-007": "/api/common-master-art/shadowclaw-007",
+  "reserved-008": "/api/common-master-art/reserved-008",
+  "reserved-009": "/api/common-master-art/reserved-009",
+  "reserved-010": "/api/common-master-art/reserved-010"
 }
