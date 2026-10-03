@@ -95,3 +95,31 @@ main>.lower-grid{display:grid}
 .world-cover-cta .hero-footnote{text-align:right;margin-top:10px}
 @media(max-width:850px){.world-hero.world-cover{min-height:0;aspect-ratio:1672/941}.world-cover-actions{grid-template-columns:1fr;gap:20px}.world-cover-cta{min-width:0}.world-cover-cta .actions{justify-content:flex-start}.world-cover-cta .hero-footnote{text-align:left}}
 @media(max-width:580px){.world-hero.world-cover{min-height:0;aspect-ratio:16/9;border-radius:14px}.world-cover .world-scene{object-position:center}.world-cover-pill{top:10px;left:10px;font-size:8.5px;letter-spacing:.7px;padding:7px 9px}.world-cover-pill svg{width:11px;height:11px}.world-cover-actions{padding:20px 18px;border-radius:14px}.world-cover-copy h1{font-size:28px}.world-cover-copy p{font-size:14px}.world-cover-cta{width:100%}.world-cover-cta .actions{gap:11px}.world-cover-cta .gold,.world-cover-cta .scene-link{font-size:13px}.world-cover-cta .hero-footnote{max-width:none}}
+
+/* Common Flight showcase — premium presentation without changing Legendary assets. */
+.common-flight-showcase{margin:34px 0 42px;padding:28px;border:1px solid #dcc17635;border-radius:22px;background:radial-gradient(circle at 50% -15%,#f2d78f14,transparent 42%),linear-gradient(180deg,#102f35,#0c272d);box-shadow:0 24px 65px #020b1238}
+.common-flight-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:28px;align-items:end;margin-bottom:24px}
+.common-flight-heading h2{font:clamp(29px,3.2vw,44px)/1.08 Georgia,serif;margin:6px 0 10px;color:#f4e5bf;letter-spacing:-.7px}
+.common-flight-heading p{max-width:820px;color:#c8d9d2;line-height:1.65;font-size:14px}
+.common-flight-heading>.outline{white-space:nowrap}
+.common-flight-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.common-flight-card{position:relative;min-width:0;padding:14px;border-radius:18px;border:1px solid #dcc17630;background:linear-gradient(180deg,#183d3d,#102f34);box-shadow:0 14px 35px #0005;overflow:hidden;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease}
+.common-flight-card:hover{transform:translateY(-5px);border-color:#e9ce7f78;box-shadow:0 24px 45px #0008,0 0 28px #e6c96b12}
+.common-flight-art{position:relative;width:100%;display:grid;place-items:center;overflow:visible;border-radius:14px;isolation:isolate}
+.common-flight-art .guardian-card{width:100%!important;max-width:340px!important;margin-inline:auto}
+.common-flight-sheen{position:absolute;inset:0;z-index:7;pointer-events:none;border-radius:13px;background:linear-gradient(112deg,transparent 27%,#fff7cf00 38%,#fff3b522 46%,#fff7cf00 56%,transparent 70%);transform:translateX(-75%);transition:transform .55s ease}
+.common-flight-card:hover .common-flight-sheen{transform:translateX(75%)}
+.common-flight-meta{display:flex;justify-content:space-between;gap:10px;margin-top:15px;color:#d9c98e;font-size:10px;font-weight:700;letter-spacing:.75px;text-transform:uppercase}
+.common-flight-card h3{font:25px/1.1 Georgia,serif;color:#fff0ca;margin:9px 0 7px}
+.common-flight-card>p{min-height:42px;color:#bfd2ca;font-size:12.5px;line-height:1.55}
+.common-flight-card .index-inspect{margin-top:10px}
+.common-flight-card.theme-mystic{box-shadow:0 14px 35px #0005,inset 0 0 38px #a98ef00a}
+.common-flight-card.theme-bloom{box-shadow:0 14px 35px #0005,inset 0 0 38px #71d18a0a}
+.common-flight-card.theme-ember{box-shadow:0 14px 35px #0005,inset 0 0 38px #ff8e4d0a}
+.common-flight-card.theme-tide{box-shadow:0 14px 35px #0005,inset 0 0 38px #65cef00a}
+.common-flight-card.theme-volt{box-shadow:0 14px 35px #0005,inset 0 0 38px #ffe36a0a}
+.common-flight-card.theme-shadow{box-shadow:0 14px 35px #0005,inset 0 0 38px #a974e70a}
+@media(max-width:1180px){.common-flight-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:850px){.common-flight-heading{grid-template-columns:1fr;align-items:start}.common-flight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:580px){.common-flight-showcase{margin:26px 0 34px;padding:16px;border-radius:16px}.common-flight-heading{gap:14px;margin-bottom:18px}.common-flight-heading h2{font-size:30px}.common-flight-grid{gap:12px}.common-flight-card{padding:9px;border-radius:14px}.common-flight-card h3{font-size:20px}.common-flight-card>p{display:none}.common-flight-meta{font-size:8px;letter-spacing:.35px}.common-flight-card .index-inspect{font-size:11px}}
+

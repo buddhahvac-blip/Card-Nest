@@ -67,6 +67,32 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
 
    <LegendaryFlight/>
 
+   {!!illustratedCommons.length&&<section className="common-flight-showcase" aria-labelledby="common-flight-title">
+    <div className="common-flight-heading">
+     <div>
+      <span className="eyebrow">COMMON FLIGHT · FIRST 11 ILLUSTRATED</span>
+      <h2 id="common-flight-title">The adventure starts with the Commons.</h2>
+      <p>These are the first illustrated Common guardians of The First Flight. They use the cleanest responsive display assets currently available, with larger presentation, high-DPI rendering, and one-tap inspection so every guardian still feels worth discovering.</p>
+     </div>
+     <button className="outline" onClick={showCommons}>See only Commons <ArrowRight size={16}/></button>
+    </div>
+    <div className="common-flight-grid">
+     {illustratedCommons.map(c=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={c.id}>
+      <button className="common-flight-art" onClick={()=>onInspect(c.id)} aria-label={'Inspect '+c.name}>
+       <GuardianCard id={c.id}/>
+       <span className="common-flight-sheen" aria-hidden="true"/>
+      </button>
+      <div className="common-flight-meta">
+       <span>CN1 · {String(c.cardNumber).padStart(3,'0')}</span>
+       <span>{c.theme} · {c.battleClass}</span>
+      </div>
+      <h3>{c.name}</h3>
+      <p>{c.description}</p>
+      <button className="index-inspect" onClick={()=>onInspect(c.id)}>Inspect card & story ↗</button>
+     </article>)}
+    </div>
+   </section>}
+
    {!!supportingShowcase.length&&<>
     <div className="gallery-section-head"><div><span className="eyebrow">APPROVED SHOWCASE ART</span><h2>Rare and Epic worlds taking shape.</h2></div><span>{supportingShowcase.length} founder-approved previews</span></div>
     <div className="showcase-tray">
