@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import {Activity,Eye,Layers,Sparkles} from 'lucide-react';
+import {seasonManifest} from '@/lib/season-manifest';
 
 type Data={
  enabled:boolean;
@@ -36,6 +37,8 @@ export default function NestMindInsights(){
   <div className="agent-list">
    <article className="panel"><h2>Theme interest</h2>{data.topThemes?.length?data.topThemes.map(x=><Bar key={x.dimension} label={x.dimension} value={Number(x.count)} max={Number(data.topThemes?.[0]?.count||1)}/>):<p>No Theme-selection data yet.</p>}</article>
    <article className="panel"><h2>Pack curiosity</h2>{data.packMix?.length?data.packMix.map(x=><Bar key={x.dimension} label={x.dimension} value={Number(x.count)} max={Number(data.packMix?.[0]?.count||1)}/>):<p>No pack-preview data yet.</p>}</article>
+   <article className="panel"><h2>Guardians getting attention</h2>{data.topCards?.length?data.topCards.map(x=>{const c=seasonManifest.find(card=>card.id===x.dimension);return <Bar key={x.dimension} label={c?.name||x.dimension} value={Number(x.count)} max={Number(data.topCards?.[0]?.count||1)}/>}):<p>No guardian-view data yet.</p>}</article>
+   <article className="panel"><h2>Partner-interest signals</h2>{data.affiliateClicks?.length?data.affiliateClicks.map(x=><Bar key={x.slug} label={x.slug} value={Number(x.count)} max={Number(data.affiliateClicks?.[0]?.count||1)}/>):<p>No approved-partner clicks yet.</p>}<p className="disclaimer">Affiliate interest is aggregate only and stays separate from personal collector profiles.</p></article>
   </div>
  </section>
 }
