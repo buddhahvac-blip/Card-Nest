@@ -12,6 +12,10 @@ export function getBetaSession(){
 
 export function trackBeta(event:BetaEvent,dimension?:string){
  if(typeof window==='undefined'||navigator.doNotTrack==='1'||navigator.webdriver)return;
+ try{
+  if(new URLSearchParams(location.search).get('qa')==='1')sessionStorage.setItem('cardnest_qa','1');
+  if(sessionStorage.getItem('cardnest_qa')==='1')return;
+ }catch{if(new URLSearchParams(location.search).get('qa')==='1')return}
  const id=getBetaSession();if(!id)return;
  const body:Record<string,string>={event,session:id};
  if(dimension)body.dimension=dimension;

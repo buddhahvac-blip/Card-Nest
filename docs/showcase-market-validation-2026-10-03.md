@@ -110,7 +110,7 @@ Recruit **50–100 actual beta collectors** through founder invitations to willi
 
 ## Analytics and Nest Mind permissions
 
-Implemented: most-viewed/favorited/wishlisted/shared guardians; Theme selection and card engagement; rarity presentation action totals; pack-preview mix; showcase, Living World and album reach; feedback priorities/intent; latest 20 founder-only written return reasons; battle-after-save receipt order within one anonymous session. Writes to session and daily aggregate tables are atomic. Invalid card/album IDs and extra payload fields are rejected. Automated browser QA and Do Not Track suppress client events.
+Implemented: most-viewed/favorited/wishlisted/shared guardians; Theme selection and card engagement; rarity presentation action totals; pack-preview mix; showcase, Living World and album reach; feedback priorities/intent; latest 20 founder-only written return reasons; battle-after-save receipt order within one anonymous session. Writes to session and daily aggregate tables are atomic. Invalid card/album IDs and extra payload fields are rejected. Automated browser QA, an explicit `?qa=1` session opt-out and Do Not Track suppress client events.
 
 Nest Mind currently uses deterministic recommendation rules, **not an autonomous external model**. It has no new payment, refund, pricing, release, deletion or customer-contact authority. Written feedback is not automatically sent to model providers.
 

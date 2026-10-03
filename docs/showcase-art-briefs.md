@@ -188,4 +188,3 @@ Each brief below calls for one individual 2:3 portrait: premium painterly origin
 **Visual check:** Initial silhouette, habitat, theme and family-appropriateness inspection completed; founder originality, rights and final-quality review pending. The two serpents use different scales, poses and palettes. No watermark was observed. Full source 1024×1536; avatar 400×600. Source SHA-256 `99e353fd2543d45d2ca73f019c37c7f1058a09a8db606e188a5f6c2bed4e28be`.
 
 **Founder checkpoint:** inspect full art, coded card frame, mobile name wrapping, icons, stats/abilities/lore, originality and rights. Approval of an illustration alone must not unlock release or pack eligibility. Layered animation and export-ready printed card files remain separate deliverables.
-
