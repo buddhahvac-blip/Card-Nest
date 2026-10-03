@@ -13,7 +13,7 @@ export default function SeasonOnePage(){
  const progress=artProgress();
  const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
  return <main className="shell">
-  <a className="brand" href="/">✧ Card<span>Nest</span></a>
+  <Link className="brand" href="/">✧ Card<span>Nest</span></Link>
   <div className="eyebrow">SEASON ONE · THE FIRST FLIGHT</div>
   <h1 className="page-title">369 guardians. Six Themes. One world taking flight.</h1>
   <p className="intro">This is the permanent, indexable Season One directory. Artwork and battle profiles remain review material until they pass CardNest production approval.</p>

@@ -7,6 +7,8 @@ import {siteUrl} from '@/lib/site';
 import {GuardianCard} from '@/app/cards';
 import {BattleProfile} from '@/app/battle-profile';
 import CollectorActions from '@/app/collector-actions';
+import ShowcaseCard from '@/app/showcase-card';
+import {showcaseFor} from '@/lib/showcase';
 
 export function generateStaticParams(){
  return seasonManifest.map(card=>({slug:cardPath(card).split('/').pop()!}));
@@ -20,7 +22,7 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
  const {slug}=await params;const card=findCard(slug);if(!card)return {};
  const title=`${card.name} · CN1-${String(card.cardNumber).padStart(3,'0')}`;
  const description=card.description||card.lore;
- const image=card.fullCardUrl||card.artworkUrl||'/art/great-nest-world.webp';
+ const image=showcaseFor(card.id)?.artworkUrl||card.fullCardUrl||card.artworkUrl||'/art/great-nest-world.webp';
  return {
   title,description,
   alternates:{canonical:cardPath(card)},
@@ -41,9 +43,9 @@ export default async function CardPage({params}:{params:Promise<{slug:string}>})
  };
  return <main className="shell">
   <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structured)}}/>
-  <a className="brand" href="/">✧ Card<span>Nest</span></a>
+  <Link className="brand" href="/">✧ Card<span>Nest</span></Link>
   <div className="viewer-grid">
-   <div className="view-stage"><div className="view-card"><GuardianCard id={card.id}/></div></div>
+   <div className="view-stage"><div className="view-card">{showcaseFor(card.id)?<ShowcaseCard card={card} large/>:<GuardianCard id={card.id}/>}</div></div>
    <article>
     <div className="eyebrow">SEASON ONE · CN1-{String(card.cardNumber).padStart(3,'0')}</div>
     <h1 className="page-title">{card.name}</h1>
@@ -52,7 +54,7 @@ export default async function CardPage({params}:{params:Promise<{slug:string}>})
     <BattleProfile card={card}/>
     <CollectorActions cardId={card.id} cardName={card.name} trackView/>
     <div className="notice">Review-only Season One concept. Artwork, balance, release status, and future pack eligibility may change before commercial launch.</div>
-    <div className="actions"><Link className="outline" href={themePath(card.theme)}>More {card.theme} guardians</Link><Link className="outline" href="/season-one">Season One index</Link></div>
+    {showcaseFor(card.id)&&<p><a className="outline" href={showcaseFor(card.id)!.artworkUrl} target="_blank" rel="noopener noreferrer">Open full source artwork ↗</a> <Link className="outline" href="/showcase">Art showcase & Living World</Link></p>}<div className="actions"><Link className="outline" href={themePath(card.theme)}>More {card.theme} guardians</Link><Link className="outline" href="/season-one">Season One index</Link></div>
    </article>
   </div>
   <section className="panel">

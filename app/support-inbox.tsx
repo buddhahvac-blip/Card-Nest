@@ -12,7 +12,7 @@ export default function SupportInbox(){
  async function load(){
   try{const r=await fetch('/api/support');const d=await r.json();if(!r.ok)throw Error(d.error);setTickets(d.tickets||[]);setCounts(d.counts||[])}catch(e:any){setError(e.message)}
  }
- useEffect(()=>{void load()},[]);
+ useEffect(()=>{queueMicrotask(()=>void load())},[]);
  async function status(id:string,value:string){
   setBusy(id);setError('');
   try{const r=await fetch('/api/support',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status:value})});const d=await r.json();if(!r.ok)throw Error(d.error);await load()}catch(e:any){setError(e.message)}finally{setBusy(null)}

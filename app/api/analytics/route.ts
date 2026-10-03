@@ -1,32 +1,9 @@
 import {createHash} from 'node:crypto';
-import {z} from 'zod';
+import {eventSchema,columnFor,recordBetaEvent} from '@/lib/beta-events';
+import {seasonManifest} from '@/lib/season-manifest';
 import {database} from '@/lib/postgres';
 import {strictBody,failure,json,rateLimit,RequestError} from '@/lib/http';
 import {studioOwner} from '@/lib/studio-auth';
-
-const cardDimension=z.string().regex(/^[a-z0-9-]{2,80}$/);
-const eventSchema=z.discriminatedUnion('event',[
- z.strictObject({event:z.literal('visit'),session:z.string().uuid()}),
- z.strictObject({event:z.literal('season-view'),session:z.string().uuid()}),
- z.strictObject({event:z.literal('card-view'),session:z.string().uuid(),dimension:cardDimension}),
- z.strictObject({event:z.literal('pack-preview'),session:z.string().uuid(),dimension:z.enum(['hatchling','nest','guardian','royal'])}),
- z.strictObject({event:z.literal('theme-select'),session:z.string().uuid(),dimension:z.enum(['Ember','Tide','Bloom','Volt','Mystic','Shadow'])}),
- z.strictObject({event:z.literal('discover-view'),session:z.string().uuid()}),
- z.strictObject({event:z.literal('battle-view'),session:z.string().uuid()}),
- z.strictObject({event:z.literal('my-nest-view'),session:z.string().uuid()}),
- z.strictObject({event:z.literal('support-view'),session:z.string().uuid()}),
- z.strictObject({event:z.literal('favorite'),session:z.string().uuid(),dimension:cardDimension}),
- z.strictObject({event:z.literal('wishlist-add'),session:z.string().uuid(),dimension:cardDimension}),
- z.strictObject({event:z.literal('share-card'),session:z.string().uuid(),dimension:cardDimension}),
- z.strictObject({event:z.literal('feedback-submit'),session:z.string().uuid()})
-]);
-
-const columnFor:Record<string,string>={
- 'visit':'visits','season-view':'season_views','card-view':'card_views','pack-preview':'pack_previews',
- 'theme-select':'theme_selects','discover-view':'discover_views','battle-view':'battle_views',
- 'my-nest-view':'my_nest_views','support-view':'support_views','favorite':'favorite_actions',
- 'wishlist-add':'wishlist_actions','share-card':'share_actions','feedback-submit':'feedback_submits'
-};
 
 function hashSession(id:string){return createHash('sha256').update(id).digest('hex').slice(0,32)}
 function pct(n:number,d:number){return d?Math.round(n/d*100):0}
@@ -43,19 +20,15 @@ export async function POST(req:Request){
   await rateLimit('analytics:'+sessionHash,120);
   const col=columnFor[b.event];
   if(!col)throw new RequestError('Unknown analytics event');
-  const dimension='dimension' in b?b.dimension:'';
-  const day=new Date().toISOString().slice(0,10);
+  const dimension='dimension' in b?String(b.dimension):'';
   const p=database();
   try{
-   await p.query(
-    `INSERT INTO analytics_sessions(session_hash,${col}) VALUES($1,1)
-     ON CONFLICT(session_hash) DO UPDATE SET ${col}=analytics_sessions.${col}+1,last_seen=now()`,
-    [sessionHash]
-   );
-   await p.query(
-    "INSERT INTO analytics_daily(day,event,dimension,count) VALUES($1,$2,$3,1) ON CONFLICT(day,event,dimension) DO UPDATE SET count=analytics_daily.count+1",
-    [day,b.event,dimension]
-   );
+   const client=await p.connect();
+   try{
+    await client.query('BEGIN');
+    await recordBetaEvent((sql,params)=>client.query(sql,params),sessionHash,b.event,dimension);
+    await client.query('COMMIT');
+   }catch(e){await client.query('ROLLBACK');throw e}finally{client.release()}
   }catch(e){if(unavailable(e))return json({saved:false,setup:'pending'},202);throw e}
   return json({saved:true});
  }catch(e){return failure(e)}
@@ -67,7 +40,7 @@ export async function GET(){
   if(!owner)throw new RequestError('Founder access required',403);
   const p=database();
   try{
-   const [funnel,topCards,topThemes,packMix,topFavorites,daily,affiliate,feedbackPriorities,feedbackIntent]=await Promise.all([
+   const [funnel,topCards,topThemes,packMix,topFavorites,daily,affiliate,feedbackPriorities,feedbackIntent,topWishlist,topShares,cardSignals,returnReasons]=await Promise.all([
     p.query(`SELECT
       count(*)::int AS sessions,
       count(*) FILTER (WHERE season_views>0)::int AS season_sessions,
@@ -81,6 +54,10 @@ export async function GET(){
       count(*) FILTER (WHERE wishlist_actions>0)::int AS wishlist_sessions,
       count(*) FILTER (WHERE share_actions>0)::int AS share_sessions,
       count(*) FILTER (WHERE feedback_submits>0)::int AS feedback_sessions,
+      count(*) FILTER (WHERE showcase_views>0)::int AS showcase_sessions,
+      count(*) FILTER (WHERE living_views>0)::int AS living_sessions,
+      count(*) FILTER (WHERE album_views>0)::int AS album_sessions,
+      count(*) FILTER (WHERE battle_after_save)::int AS battle_after_save_sessions,
       coalesce(sum(card_views),0)::int AS card_views,
       coalesce(sum(pack_previews),0)::int AS pack_previews,
       coalesce(sum(favorite_actions),0)::int AS favorite_actions,
@@ -94,8 +71,19 @@ export async function GET(){
     p.query("SELECT day,event,sum(count)::int AS count FROM analytics_daily WHERE day>=(current_date-13)::text GROUP BY day,event ORDER BY day"),
     p.query("SELECT subject AS slug,count(*)::int AS count FROM security_events WHERE kind='affiliate-click' AND created>=now()-interval '30 days' GROUP BY subject ORDER BY count DESC LIMIT 8").catch(()=>({rows:[]})),
     p.query("SELECT next_priority AS dimension,count(*)::int AS count FROM beta_feedback WHERE created>=now()-interval '30 days' GROUP BY next_priority ORDER BY count DESC"),
-    p.query("SELECT would_collect AS dimension,count(*)::int AS count FROM beta_feedback WHERE created>=now()-interval '30 days' GROUP BY would_collect ORDER BY count DESC")
+    p.query("SELECT would_collect AS dimension,count(*)::int AS count FROM beta_feedback WHERE created>=now()-interval '30 days' GROUP BY would_collect ORDER BY count DESC"),
+    p.query("SELECT dimension,sum(count)::int AS count FROM analytics_daily WHERE event='wishlist-add' AND day>=(current_date-29)::text GROUP BY dimension ORDER BY count DESC LIMIT 8"),
+    p.query("SELECT dimension,sum(count)::int AS count FROM analytics_daily WHERE event='share-card' AND day>=(current_date-29)::text GROUP BY dimension ORDER BY count DESC LIMIT 8"),
+    p.query("SELECT dimension,event,sum(count)::int AS count FROM analytics_daily WHERE event IN ('card-view','favorite','wishlist-add','share-card') AND day>=(current_date-29)::text GROUP BY dimension,event"),
+    p.query("SELECT return_reason FROM beta_feedback WHERE created>=now()-interval '30 days' ORDER BY created DESC LIMIT 20")
    ]);
+   const rarityInterest:Record<string,Record<string,number>>={};
+   const themeEngagement:Record<string,Record<string,number>>={};
+   for(const row of cardSignals.rows){const card=seasonManifest.find(c=>c.id===row.dimension);if(!card)continue;
+    for(const [group,key] of [[rarityInterest,card.rarity],[themeEngagement,card.theme]] as const){
+     group[key]??={};group[key][row.event]=(group[key][row.event]||0)+Number(row.count);
+    }
+   }
    const f=funnel.rows[0]||{};
    const sessions=Number(f.sessions||0);
    const favoriteRate=pct(Number(f.favorite_sessions||0),sessions);
@@ -122,6 +110,7 @@ export async function GET(){
     enabled:true,windowDays:30,
     funnel:{
      sessions,
+     showcaseSessions:Number(f.showcase_sessions||0),livingSessions:Number(f.living_sessions||0),albumSessions:Number(f.album_sessions||0),battleAfterSaveSessions:Number(f.battle_after_save_sessions||0),
      seasonSessions:Number(f.season_sessions||0),
      cardSessions:Number(f.card_sessions||0),
      packSessions:Number(f.pack_sessions||0),
@@ -149,8 +138,10 @@ export async function GET(){
      feedback:pct(Number(f.feedback_sessions||0),sessions)
     },
     topCards:topCards.rows,topThemes:themes,packMix:packMix.rows,topFavorites:topFavorites.rows,daily:daily.rows,
+    topWishlist:topWishlist.rows,topShares:topShares.rows,rarityInterest,themeEngagement,
+    measurementNote:"Session reach is not an ordered funnel or unique-person count. Battle after save uses server receipt order within one session. Shares are share-button actions, not verified recipients. Raw action counts are exposure-biased.",
     affiliateClicks:affiliate.rows,
-    feedback:{priorities:feedbackPriorities.rows,intent:feedbackIntent.rows,responses:feedbackIntent.rows.reduce((sum:any,row:any)=>sum+Number(row.count||0),0)},
+    feedback:{returnReasons:returnReasons.rows.map(r=>r.return_reason),priorities:feedbackPriorities.rows,intent:feedbackIntent.rows,responses:feedbackIntent.rows.reduce((sum:any,row:any)=>sum+Number(row.count||0),0)},
     insights
    });
   }catch(e){

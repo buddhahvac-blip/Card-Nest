@@ -1,0 +1,18 @@
+'use client';
+import {useEffect,useState} from 'react';
+import Link from 'next/link';
+import {collectionAlbums,albumProgress,nestTitles} from '@/lib/collection-albums';
+import {COLLECTOR_EVENT,readCollectorState,type CollectorState} from '@/lib/collector-state';
+import {seasonCard} from '@/lib/season-manifest';
+import {cardPath} from '@/lib/card-paths';
+import {trackBeta} from '@/lib/client-analytics';
+
+export default function CollectionAlbums({ownedIds}:{ownedIds?:string[]}){
+ const [state,setState]=useState<CollectorState>({favorites:[],wishlist:[]}),[loadedOwned,setLoadedOwned]=useState<string[]>([]);
+ useEffect(()=>{const sync=()=>setState(readCollectorState());sync();window.addEventListener(COLLECTOR_EVENT,sync);return()=>window.removeEventListener(COLLECTOR_EVENT,sync)},[]);
+ useEffect(()=>{if(ownedIds!==undefined)return;let active=true;fetch('/api/nest').then(async r=>{if(!r.ok)return;const d=await r.json();if(active)setLoadedOwned((d.cards||[]).map((c:{card:string})=>c.card))}).catch(()=>{});return()=>{active=false}},[ownedIds]);
+ const owned=ownedIds||loadedOwned;
+ const counts:Record<string,number>={};for(const id of state.favorites){const c=seasonCard(id);if(c)counts[c.theme]=(counts[c.theme]||0)+1}
+ const theme=Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))[0]?.[0];const favorite=state.favorites.map(seasonCard).find(Boolean);
+ return <section className="album-section"><div className={`nest-identity identity-${theme?.toLowerCase()||'neutral'}`}><div><div className="eyebrow">A NEST THAT FEELS LIKE YOU</div><h2>{theme?nestTitles[theme]:'Your next chapter starts with a favorite.'}</h2><p>{theme?`Your Favorites lean toward ${theme}. ${favorite?.name||'A guardian'} can be the first face of your Nest.`:'Save a guardian to discover your Theme affinity. You can enjoy the art without playing battles.'}</p></div><span className="identity-mark" aria-hidden="true">✧</span></div><p className="disclaimer">This identity preview comes from Favorites on this device. It is separate from ownership, rank and purchases. No public profile is created.</p><div className="section-head"><div><div className="eyebrow">ALBUM STUDIES</div><h2>Small stories to grow toward.</h2><p>Owned progress uses your saved collection. Favorites and Wishlist are planning tools, not earned cards.</p></div></div><div className="album-grid">{collectionAlbums.map(album=>{const count=albumProgress(owned,album.numbers);const saved=album.cards.filter(c=>state.favorites.includes(c.id)||state.wishlist.includes(c.id)).length;return <article className="panel" key={album.id}><span className="tag">{album.theme} · ALBUM PROTOTYPE</span><h3>{album.name}</h3><p>{album.description}</p><label>{count} / {album.cards.length} owned<progress value={count} max={album.cards.length} aria-label={`${album.name} owned progress`}/></label><p className="muted">{saved} saved for later on this device</p><details onToggle={e=>{if(e.currentTarget.open)trackBeta('album-view',album.id)}}><summary>Explore the guardian list</summary><div className="album-card-links">{album.cards.map(c=><Link key={c.id} href={cardPath(c)}><span>CN1-{String(c.cardNumber).padStart(3,'0')} · {c.name}</span><small>{owned.includes(c.id)?'Owned':state.wishlist.includes(c.id)?'Wishlist':state.favorites.includes(c.id)?'Favorite':'Unreleased'}</small></Link>)}</div></details><p className="disclaimer">Future cosmetic ideas: 3 guardians → badge; 6 → Nest decoration; {album.cards.length>=12?'12 → lore chapter.':'Completion → lore chapter.'} These rewards are proposals and are not awarded in beta.</p></article>})}</div><Link className="outline" href="/beta">Help write the next chapter ↗</Link></section>;
+}

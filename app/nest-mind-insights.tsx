@@ -9,12 +9,12 @@ type Data={
  setup?:string;
  funnel?:{
   sessions:number;seasonSessions:number;cardSessions:number;packSessions:number;discoverSessions:number;battleSessions:number;nestSessions:number;supportSessions:number;
-  favoriteSessions:number;wishlistSessions:number;shareSessions:number;feedbackSessions:number;cardViews:number;packPreviews:number;favoriteActions:number;wishlistActions:number;shareActions:number
+  showcaseSessions:number;livingSessions:number;albumSessions:number;battleAfterSaveSessions:number;favoriteSessions:number;wishlistSessions:number;shareSessions:number;feedbackSessions:number;cardViews:number;packPreviews:number;favoriteActions:number;wishlistActions:number;shareActions:number
  };
  rates?:{season:number;card:number;pack:number;favorite:number;wishlist:number;share:number;feedback:number};
- topCards?:CountRow[];topThemes?:CountRow[];packMix?:CountRow[];topFavorites?:CountRow[];
+ topCards?:CountRow[];topThemes?:CountRow[];packMix?:CountRow[];topFavorites?:CountRow[];topWishlist?:CountRow[];topShares?:CountRow[];rarityInterest?:Record<string,Record<string,number>>;themeEngagement?:Record<string,Record<string,number>>;measurementNote?:string;
  affiliateClicks?:{slug:string;count:number}[];
- feedback?:{responses:number;priorities:CountRow[];intent:CountRow[]};
+ feedback?:{returnReasons?:string[];responses:number;priorities:CountRow[];intent:CountRow[]};
  insights?:string[];
 };
 
@@ -37,7 +37,7 @@ export default function NestMindInsights(){
    <div className="stat"><MessageCircle size={18}/><span className="muted">Submit feedback</span><strong>{data.rates?.feedback||0}%</strong><span className="muted">{data.feedback?.responses||0} responses</span></div>
   </div>
   <div className="lower-grid">
-   <article className="panel"><h2>Collector funnel</h2><Bar label="Visited CardNest" value={f.sessions} max={max}/><Bar label="Reached Season One" value={f.seasonSessions} max={max}/><Bar label="Inspected a guardian" value={f.cardSessions} max={max}/><Bar label="Favorited a guardian" value={f.favoriteSessions} max={max}/><Bar label="Added to wishlist" value={f.wishlistSessions} max={max}/><Bar label="Previewed a pack" value={f.packSessions} max={max}/><Bar label="Shared a guardian" value={f.shareSessions} max={max}/><Bar label="Sent feedback" value={f.feedbackSessions} max={max}/><Bar label="Visited My Nest" value={f.nestSessions} max={max}/></article>
+   <article className="panel"><h2>Session reach</h2><p className="disclaimer">Sessions are not unique people; these stages can happen in any order.</p><Bar label="Reached art showcase" value={f.showcaseSessions||0} max={max}/><Bar label="Entered Living World" value={f.livingSessions||0} max={max}/><Bar label="Explored an album" value={f.albumSessions||0} max={max}/><Bar label="Battle after saving a guardian" value={f.battleAfterSaveSessions||0} max={max}/><Bar label="Visited CardNest" value={f.sessions} max={max}/><Bar label="Reached Season One" value={f.seasonSessions} max={max}/><Bar label="Inspected a guardian" value={f.cardSessions} max={max}/><Bar label="Favorited a guardian" value={f.favoriteSessions} max={max}/><Bar label="Added to wishlist" value={f.wishlistSessions} max={max}/><Bar label="Previewed a pack" value={f.packSessions} max={max}/><Bar label="Shared a guardian" value={f.shareSessions} max={max}/><Bar label="Sent feedback" value={f.feedbackSessions} max={max}/><Bar label="Visited My Nest" value={f.nestSessions} max={max}/></article>
    <article className="panel"><h2>Nest Mind recommendations</h2>{data.insights?.map((x,i)=><div className="mind-insight" key={i}><Sparkles size={17}/><p>{x}</p></div>)}<p className="disclaimer">Signals inform founder decisions. Nest Mind does not automatically change cards, prices, releases, payments, or production state.</p></article>
   </div>
   <div className="agent-list">
@@ -48,6 +48,10 @@ export default function NestMindInsights(){
    <article className="panel"><h2>What beta testers want next</h2>{data.feedback?.priorities?.length?data.feedback.priorities.map(x=><Bar key={x.dimension} label={x.dimension} value={Number(x.count)} max={Number(data.feedback?.priorities?.[0]?.count||1)}/>):<p>No beta feedback yet.</p>}<p className="disclaimer">Use these answers together with written return reasons; do not treat a small sample as a final roadmap decision.</p></article>
    <article className="panel"><h2>Would they collect?</h2>{data.feedback?.intent?.length?data.feedback.intent.map(x=><Bar key={x.dimension} label={x.dimension} value={Number(x.count)} max={Number(data.feedback?.intent?.[0]?.count||1)}/>):<p>No collector-intent responses yet.</p>}</article>
    <article className="panel"><h2>Partner-interest signals</h2>{data.affiliateClicks?.length?data.affiliateClicks.map(x=><Bar key={x.slug} label={x.slug} value={Number(x.count)} max={Number(data.affiliateClicks?.[0]?.count||1)}/>):<p>No approved-partner clicks yet.</p>}<p className="disclaimer">Affiliate interest is aggregate only and stays separate from personal collector profiles.</p></article>
-  </div>
+   {([['Wishlist additions',data.topWishlist],['Share actions',data.topShares]] as const).map(([title,rows])=><article className="panel" key={title}><h2>{title}</h2>{rows?.length?rows.map(x=><Bar key={x.dimension} label={seasonManifest.find(c=>c.id===x.dimension)?.name||x.dimension} value={Number(x.count)} max={Number(rows[0].count)||1}/>):<p>No signals yet.</p>}</article>)}
+   <article className="panel"><h2>Rarity presentation interest</h2>{Object.entries(data.rarityInterest||{}).map(([rarity,counts])=><p key={rarity}>{rarity}: {counts['card-view']||0} views · {counts.favorite||0} Favorite actions · {counts['wishlist-add']||0} Wishlist additions</p>)}<p className="disclaimer">Raw totals depend on exposure and roster size. They do not prove that one rarity is preferred.</p></article>
+   <article className="panel"><h2>Theme engagement</h2>{Object.entries(data.themeEngagement||{}).map(([theme,counts])=><p key={theme}>{theme}: {counts['card-view']||0} views · {counts.favorite||0} Favorite actions · {counts['share-card']||0} share actions</p>)}</article>
+   <article className="panel"><h2>Reasons to return</h2>{data.feedback?.returnReasons?.length?data.feedback.returnReasons.map((reason,i)=><p key={i}>{reason}</p>):<p>No written feedback yet.</p>}<p className="disclaimer">Founder-only feedback. Do not send these texts to external models or contact respondents automatically.</p></article>
+  </div><p className="disclaimer">{data.measurementNote}</p>
  </section>
 }

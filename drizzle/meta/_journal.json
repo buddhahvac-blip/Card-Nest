@@ -43,6 +43,13 @@
       "when": 1791010200000,
       "tag": "0005_collector_loop",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1791022800000,
+      "tag": "0006_showcase_signals",
+      "breakpoints": true
     }
   ]
 }

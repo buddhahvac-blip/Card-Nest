@@ -3,6 +3,8 @@ import {useState,useEffect} from 'react';
 import {seasonCard,themeColors} from '@/lib/season-manifest';
 import {catalog,packDefinitions} from '@/lib/catalog';
 import {Sparkles,ArrowRight,RotateCcw,HeartPulse,ShieldCheck,Flame,Droplets,Leaf,Zap,Moon} from 'lucide-react';
+import {showcaseFor} from '@/lib/showcase';
+import ShowcaseCard from './showcase-card';
 let artManifest:Promise<Record<string,string>>|null=null;
 function getArt(){return artManifest??=fetch('/api/season-art').then(async r=>{const d:any=await r.json();return d.art||{}}).catch(()=>({}))}
 const legacyBadgeFixes: Record<number,{label:string;Icon:any}>={7:{label:'Support',Icon:HeartPulse},8:{label:'Warden',Icon:ShieldCheck}};
@@ -11,6 +13,7 @@ export function GuardianCard({id}:{id:string}) {
  const c=seasonCard(id); const fallback=c?.artworkUrl||''; const [src,setSrc]=useState(fallback);
  useEffect(()=>{let active=true;getArt().then(map=>{if(active)setSrc(map[id]||fallback)});return()=>{active=false}},[id,fallback]);
  if(!c)return <div className="card-back">Card unavailable</div>;
+ if(showcaseFor(id))return <ShowcaseCard card={c}/>;
  if(c.fullCardUrl){const fix=legacyBadgeFixes[c.cardNumber];const themeFix=c.cardNumber<=11?themeBadgeIcons[c.theme]:null;const needsShadowWash=c.cardNumber===7&&c.theme==='Shadow';return <div className={`guardian-card approved-card legacy-full-card theme-${themeFix?.slug||String(c.theme).toLowerCase()}`}><img loading="lazy" src={c.fullCardUrl} alt={`${c.name} · Season One card ${String(c.cardNumber).padStart(3,'0')} · ${c.theme} theme`} />{needsShadowWash&&<div className="legacy-theme-art-wash shadow" aria-hidden="true"/>}{themeFix&&<div className={`legacy-theme-correction ${themeFix.slug}`} aria-label={`Canonical theme: ${themeFix.label}`}><themeFix.Icon size={17}/><span>{themeFix.label}</span></div>}{fix&&<div className="legacy-class-correction" aria-label={`Corrected battle class: ${fix.label}`}><fix.Icon size={15}/><span>{fix.label}</span></div>}</div>};
  const number=String(c.cardNumber).padStart(3,'0');
  return <div className={'guardian-card season-art rarity-'+c.rarity} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}>
