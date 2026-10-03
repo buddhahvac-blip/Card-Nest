@@ -22,6 +22,13 @@
       "when": 1790640000000,
       "tag": "0002_nestforge_security",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791006000000,
+      "tag": "0003_support_tickets",
+      "breakpoints": true
     }
   ]
 }
