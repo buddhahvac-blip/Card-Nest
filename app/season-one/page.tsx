@@ -1,8 +1,8 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
 import {seasonManifest,artProgress} from '@/lib/season-manifest';
-import {showcaseCards} from '@/lib/showcase';
-import ShowcaseCard from '@/app/showcase-card';
+import LegendaryFlight from '@/app/legendary-flight';
+import SeasonArtGallery from '@/app/season-art-gallery';
 import {cardPath,themePath} from '@/lib/card-paths';
 
 export const metadata:Metadata={
@@ -24,11 +24,8 @@ export default function SeasonOnePage(){
    <div className="stat"><span className="muted">Illustrated cards</span><strong>{progress.illustrated}</strong><span className="muted">including approved showcase art</span></div>
    <div className="stat"><span className="muted">Paid eligible</span><strong>{progress.released}</strong><span className="muted">commerce remains closed</span></div>
   </section>
-  <section aria-labelledby="approved-season-art">
-   <h2 id="approved-season-art">Newly illustrated Season One guardians</h2>
-   <p>Six founder-approved artworks. Choose a card for its close-up, lore and battle profile. Not yet available in packs.</p>
-   <div className="showcase-grid">{showcaseCards.filter(({art})=>art.reviewStatus==='founder-approved').map(({card})=><article className="showcase-entry" key={card.id}><Link href={cardPath(card)} aria-label={`Inspect ${card.name}`}><ShowcaseCard card={card}/></Link><Link className="index-inspect" href={cardPath(card)}>View {card.name} ↗</Link></article>)}</div>
-  </section>
+  <LegendaryFlight/>
+  <SeasonArtGallery/>
   <section className="panel">
    <h2>Explore by Theme</h2>
    <div className="actions">{themes.map(theme=><Link className="outline" href={themePath(theme)} key={theme}>{theme} Theme</Link>)}</div>

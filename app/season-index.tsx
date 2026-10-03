@@ -3,6 +3,8 @@ import {useMemo,useState} from 'react';
 import {Search,Check,Sparkles,ArrowRight,Crown} from 'lucide-react';
 import {seasonManifest,artProgress,hasSeasonArtwork,hasApprovedShowcaseArt} from '@/lib/season-manifest';
 import {GuardianCard} from './cards';
+import LegendaryFlight from './legendary-flight';
+import ArtInspect from './art-inspect';
 import {Progress} from '@/components/ui/progress';
 
 const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
@@ -18,7 +20,6 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const owned=useMemo(()=>new Set<string>((data?.cards||[]).map((x:any)=>x.card)),[data]);
  const progress=artProgress();
  const approvedShowcase=useMemo(()=>seasonManifest.filter(hasApprovedShowcaseArt).sort((a,b)=>(rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||a.cardNumber-b.cardNumber),[]);
- const illustratedLegendary=useMemo(()=>seasonManifest.filter(c=>c.rarity==='legendary'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
  const supportingShowcase=approvedShowcase.filter(c=>c.rarity!=='legendary');
 
  const filteredBase=seasonManifest.filter(c=>
@@ -62,25 +63,13 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
     </div>
    </div>
 
-   {!!illustratedLegendary.length&&<div className="legendary-gallery">
-    {illustratedLegendary.map(c=><article className="legendary-spotlight" key={c.id}>
-     <button className="legendary-art-button" aria-label={'Inspect Legendary guardian '+c.name} onClick={()=>onInspect(c.id)}><GuardianCard id={c.id}/></button>
-     <div className="legendary-copy">
-      <span className="legendary-kicker"><Crown size={15}/> LEGENDARY SPOTLIGHT · CN1-{String(c.cardNumber).padStart(3,'0')}</span>
-      <h3>{c.name}</h3>
-      <p className="legendary-theme">{c.theme} Theme · {c.battleClass}</p>
-      <p>{c.description}</p>
-      <div className="showcase-status"><span>Illustrated</span><span>Unreleased review</span></div>
-      <button className="index-inspect" onClick={()=>onInspect(c.id)}>Enter this guardian's world ↗</button>
-     </div>
-    </article>)}
-   </div>}
+   <LegendaryFlight/>
 
    {!!supportingShowcase.length&&<>
     <div className="gallery-section-head"><div><span className="eyebrow">APPROVED SHOWCASE ART</span><h2>Rare and Epic worlds taking shape.</h2></div><span>{supportingShowcase.length} founder-approved previews</span></div>
     <div className="showcase-tray">
      {supportingShowcase.map(c=><article className={'showcase-tile rarity-'+c.rarity} key={c.id}>
-      <button aria-label={'Inspect showcase guardian '+c.name} onClick={()=>onInspect(c.id)}><GuardianCard id={c.id}/></button>
+      <ArtInspect cardId={c.id}/>
       <div className="showcase-tile-copy"><span className="rarity-token">{c.rarity}</span><h3>{c.name}</h3><p>{c.theme} Theme · {c.battleClass}</p><button className="index-inspect" onClick={()=>onInspect(c.id)}>Explore guardian ↗</button></div>
      </article>)}
     </div>
