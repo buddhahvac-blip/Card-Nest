@@ -11,14 +11,15 @@
     "width": 1024,
     "height": 1536,
     "assetKind": "SOURCE ART",
-    "reviewStatus": "founder-review",
+    "reviewStatus": "founder-approved",
     "releaseStatus": "unreleased",
     "isPackEligible": false,
     "isCollectible": false,
     "generatedAt": "2026-10-03",
     "generationMethod": "built-in-imagegen",
     "sha256": "ea819f3a1a3ed69948faea0ad4bf3e29c34da4e0d7acbe06c384276d82c12986",
-    "visualReview": "Initial silhouette, habitat, theme and family-appropriateness inspection completed; founder originality, rights and final-quality review pending."
+    "visualReview": "Founder approved artwork for website display on 2026-10-03. Commercial release, rights/name clearance and pack eligibility remain separate gates.",
+    "founderApprovedAt": "2026-10-03"
   },
   {
     "cardId": "reserved-168",
@@ -32,14 +33,15 @@
     "width": 1024,
     "height": 1536,
     "assetKind": "SOURCE ART",
-    "reviewStatus": "founder-review",
+    "reviewStatus": "founder-approved",
     "releaseStatus": "unreleased",
     "isPackEligible": false,
     "isCollectible": false,
     "generatedAt": "2026-10-03",
     "generationMethod": "built-in-imagegen",
     "sha256": "17aa9da74946f9220eb94bd1898bb5ee2fdb024488b9dcab99ebc159c8effb45",
-    "visualReview": "Initial silhouette, habitat, theme and family-appropriateness inspection completed; founder originality, rights and final-quality review pending."
+    "visualReview": "Founder approved artwork for website display on 2026-10-03. Commercial release, rights/name clearance and pack eligibility remain separate gates.",
+    "founderApprovedAt": "2026-10-03"
   },
   {
     "cardId": "reserved-229",
@@ -53,14 +55,15 @@
     "width": 1024,
     "height": 1536,
     "assetKind": "SOURCE ART",
-    "reviewStatus": "founder-review",
+    "reviewStatus": "founder-approved",
     "releaseStatus": "unreleased",
     "isPackEligible": false,
     "isCollectible": false,
     "generatedAt": "2026-10-03",
     "generationMethod": "built-in-imagegen",
     "sha256": "89e42bdf3fd9168f0e74e370dc663e4a3eaa054dc3799dc94c0af602d5baae47",
-    "visualReview": "Initial silhouette, habitat, theme and family-appropriateness inspection completed; founder originality, rights and final-quality review pending."
+    "visualReview": "Founder approved artwork for website display on 2026-10-03. Commercial release, rights/name clearance and pack eligibility remain separate gates.",
+    "founderApprovedAt": "2026-10-03"
   },
   {
     "cardId": "reserved-299",
@@ -74,14 +77,15 @@
     "width": 1024,
     "height": 1536,
     "assetKind": "SOURCE ART",
-    "reviewStatus": "founder-review",
+    "reviewStatus": "founder-approved",
     "releaseStatus": "unreleased",
     "isPackEligible": false,
     "isCollectible": false,
     "generatedAt": "2026-10-03",
     "generationMethod": "built-in-imagegen",
     "sha256": "3bd046893745dd1ffb932c3431c684c978192c2548d4a5128837d9c7c9d22f26",
-    "visualReview": "Initial silhouette, habitat, theme and family-appropriateness inspection completed; founder originality, rights and final-quality review pending."
+    "visualReview": "Founder approved artwork for website display on 2026-10-03. Commercial release, rights/name clearance and pack eligibility remain separate gates.",
+    "founderApprovedAt": "2026-10-03"
   },
   {
     "cardId": "reserved-359",
@@ -95,14 +99,15 @@
     "width": 1024,
     "height": 1536,
     "assetKind": "SOURCE ART",
-    "reviewStatus": "founder-review",
+    "reviewStatus": "founder-approved",
     "releaseStatus": "unreleased",
     "isPackEligible": false,
     "isCollectible": false,
     "generatedAt": "2026-10-03",
     "generationMethod": "built-in-imagegen",
     "sha256": "09e247c34eecb136bee2f3b8a8cd4e7e2c83689fe36fc6f71e45bc4e94be5d05",
-    "visualReview": "Initial silhouette, habitat, theme and family-appropriateness inspection completed; founder originality, rights and final-quality review pending."
+    "visualReview": "Founder approved artwork for website display on 2026-10-03. Commercial release, rights/name clearance and pack eligibility remain separate gates.",
+    "founderApprovedAt": "2026-10-03"
   },
   {
     "cardId": "reserved-307",
@@ -116,13 +121,14 @@
     "width": 1024,
     "height": 1536,
     "assetKind": "SOURCE ART",
-    "reviewStatus": "founder-review",
+    "reviewStatus": "founder-approved",
     "releaseStatus": "unreleased",
     "isPackEligible": false,
     "isCollectible": false,
     "generatedAt": "2026-10-03",
     "generationMethod": "built-in-imagegen",
     "sha256": "99e353fd2543d45d2ca73f019c37c7f1058a09a8db606e188a5f6c2bed4e28be",
-    "visualReview": "Initial silhouette, habitat, theme and family-appropriateness inspection completed; founder originality, rights and final-quality review pending."
+    "visualReview": "Founder approved artwork for website display on 2026-10-03. Commercial release, rights/name clearance and pack eligibility remain separate gates.",
+    "founderApprovedAt": "2026-10-03"
   }
 ]
