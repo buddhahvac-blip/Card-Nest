@@ -16,7 +16,8 @@ test('six showcase concepts preserve canonical taxonomy and cannot enter pack po
   assert.equal(card.id,art.cardId);assert.equal(art.cardId,`reserved-${art.cardNumber}`);
   assert.equal(card.health+card.attack+card.defense+card.speed,190);
   for(const record of [card,art]){assert.equal(record.isPackEligible,false);assert.equal(record.isCollectible,false);assert.equal(record.releaseStatus,'unreleased')}
-  assert.equal(art.reviewStatus,'founder-review');
+  assert.equal(art.reviewStatus,'founder-approved');
+  assert.equal(art.founderApprovedAt,'2026-10-03');
   assert.equal(createHash('sha256').update(readFileSync('public'+art.artworkUrl)).digest('hex'),art.sha256);
   assert.ok(readFileSync('public'+art.avatarUrl).length>1000);
   assert.ok(!catalog.some(c=>c.id===card.id));
