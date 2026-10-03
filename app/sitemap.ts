@@ -10,6 +10,6 @@ export default function sitemap():MetadataRoute.Sitemap{
  return [
   ...staticPaths.map(path=>({url:new URL(path,siteUrl).toString(),lastModified:now,changeFrequency:path==='/'?'weekly':'monthly' as const,priority:path==='/'?1:.65})),
   ...themes.map(theme=>({url:new URL(themePath(theme),siteUrl).toString(),lastModified:now,changeFrequency:'weekly' as const,priority:.75})),
-  ...seasonManifest.map(card=>({url:new URL(cardPath(card),siteUrl).toString(),lastModified:now,changeFrequency:'monthly' as const,priority:card.artworkUrl?.8:.55}))
+  ...seasonManifest.map(card=>({url:new URL(cardPath(card),siteUrl).toString(),lastModified:now,changeFrequency:'monthly' as const,priority:card.artworkUrl ? .8 : .55}))
  ];
 }
