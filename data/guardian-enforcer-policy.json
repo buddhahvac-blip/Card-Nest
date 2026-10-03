@@ -102,7 +102,8 @@
     "registered trademark symbol used before registration is confirmed",
     "affiliate redirect points to an unapproved hostname",
     "affiliate shopping link is active without explicit partner approval",
-    "affiliate shopping UI lacks a clear commission disclosure"
+    "affiliate shopping UI lacks a clear commission disclosure",
+    "beta analytics stores IP address, account id, email address, or user-agent value"
   ],
   "humanApprovalRequired": [
     "enable real payments",
@@ -122,7 +123,8 @@
     "file or authorize a trademark application",
     "adopt a replacement brand name",
     "activate TCGplayer affiliate links after network acceptance",
-    "activate eBay Partner Network links after network acceptance"
+    "activate eBay Partner Network links after network acceptance",
+    "expand beta analytics to persistent cross-session behavioral tracking"
   ],
   "requiredChecks": [
     "npm run guardian:art",
