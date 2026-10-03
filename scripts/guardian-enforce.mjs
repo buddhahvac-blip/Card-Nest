@@ -85,7 +85,8 @@ const requiredGuardedRoutes={
   'app/api/studio/route.ts':['studioOwner()','strictBody(req,studioCommand'],
   'app/api/checkout/route.ts':['requirePayments()','strictBody(req,checkoutSchema','packCardAvailable(card,true)'],
   'app/api/nest/route.ts':['currentUser()','strictBody(req,nestCommand'],
-  'app/api/nestforge/interests/route.ts':['NESTFORGE_PERSONALIZATION_ENABLED','strictBody(req,interestCommand']
+  'app/api/nestforge/interests/route.ts':['NESTFORGE_PERSONALIZATION_ENABLED','strictBody(req,interestCommand'],
+  'app/api/support/route.ts':['strictBody(req,createTicket','rateLimit(\'support:','studioOwner()']
 };
 for(const [name,guards] of Object.entries(requiredGuardedRoutes)){
   const source=fs.existsSync(name)?fs.readFileSync(name,'utf8'):'';
