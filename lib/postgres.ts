@@ -3,6 +3,14 @@ import {attachDatabasePool} from '@vercel/functions';
 
 let pool:Pool;
 
+function hardenedConnectionString(raw:string){
+ try{
+  const url=new URL(raw);
+  if(/\.neon\.tech$/i.test(url.hostname))url.searchParams.set('sslmode','verify-full');
+  return url.toString();
+ }catch{return raw}
+}
+
 async function setSchema(c:PoolClient){
  await c.query('SET LOCAL search_path TO cardnest_v1, public')
 }
@@ -11,7 +19,7 @@ export function database(){
  if(!process.env.DATABASE_URL)throw new Error('Database is not configured');
  if(!pool){
   pool=new Pool({
-   connectionString:process.env.DATABASE_URL,
+   connectionString:hardenedConnectionString(process.env.DATABASE_URL),
    max:5,
    connectionTimeoutMillis:10000,
    idleTimeoutMillis:10000
