@@ -5,15 +5,25 @@ import {catalog,packDefinitions} from '@/lib/catalog';
 import {Sparkles,ArrowRight,RotateCcw,HeartPulse,ShieldCheck,Flame,Droplets,Leaf,Zap,Moon} from 'lucide-react';
 import {showcaseFor} from '@/lib/showcase';
 import ShowcaseCard from './showcase-card';
+import commonMasterArt from '@/data/common-master-art.json';
 let artManifest:Promise<Record<string,string>>|null=null;
 function getArt(){return artManifest??=fetch('/api/season-art').then(async r=>{const d:any=await r.json();return d.art||{}}).catch(()=>({}))}
 const legacyBadgeFixes: Record<number,{label:string;Icon:any}>={7:{label:'Support',Icon:HeartPulse},8:{label:'Warden',Icon:ShieldCheck}};
 const themeBadgeIcons: Record<string,{label:string;Icon:any;slug:string}>={Ember:{label:'Ember',Icon:Flame,slug:'ember'},Tide:{label:'Tide',Icon:Droplets,slug:'tide'},Bloom:{label:'Bloom',Icon:Leaf,slug:'bloom'},Volt:{label:'Volt',Icon:Zap,slug:'volt'},Mystic:{label:'Mystic',Icon:Sparkles,slug:'mystic'},Shadow:{label:'Shadow',Icon:Moon,slug:'shadow'}};
 export function GuardianCard({id}:{id:string}) {
  const c=seasonCard(id); const fallback=c?.highResolutionArtworkUrl||c?.artworkUrl||''; const [src,setSrc]=useState(fallback);
- useEffect(()=>{let active=true;if(c?.masterArtworkUrl){setSrc(fallback);return()=>{active=false}}getArt().then(map=>{if(active)setSrc(map[id]||fallback)});return()=>{active=false}},[id,fallback,c?.masterArtworkUrl]);
+ useEffect(()=>{let active=true;getArt().then(map=>{if(active)setSrc(map[id]||fallback)});return()=>{active=false}},[id,fallback]);
  if(!c)return <div className="card-back">Card unavailable</div>;
  if(showcaseFor(id))return <ShowcaseCard card={c}/>;
+ const commonMaster=(commonMasterArt as Record<string,string>)[id];
+ if(commonMaster){
+  const number=String(c.cardNumber).padStart(3,'0'); const themeFix=themeBadgeIcons[c.theme];
+  return <div className={`guardian-card common-master-frame theme-${String(c.theme).toLowerCase()}`} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}>
+   <div className="common-master-art"><img loading="lazy" decoding="async" src={commonMaster} alt={`${c.name} — ${c.theme} theme artwork`}/><span className="common-master-number">{number}</span><span className="common-master-rarity">{c.rarity.toUpperCase()}</span></div>
+   <div className="common-master-title"><span className="common-master-theme">{themeFix&&<themeFix.Icon size={14}/>} {c.theme}</span><strong>{c.name}</strong><span className="common-master-class">{c.battleClass}</span></div>
+   <div className="common-master-stats" aria-label={`${c.name} battle stats`}><span><b>HP</b>{c.health}</span><span><b>ATK</b>{c.attack}</span><span><b>DEF</b>{c.defense}</span><span><b>SPD</b>{c.speed}</span></div>
+  </div>
+ }
  if(c.fullCardUrl){const fix=legacyBadgeFixes[c.cardNumber];const themeFix=c.cardNumber<=11?themeBadgeIcons[c.theme]:null;const needsShadowWash=c.cardNumber===7&&c.theme==='Shadow';const sourceLimited=c.cardNumber<=11;const number=String(c.cardNumber).padStart(3,'0');const showcase640=sourceLimited?`/cards/season-01/${number}/showcase-640.webp`:c.fullCardUrl;const showcase960=sourceLimited?`/cards/season-01/${number}/showcase-960.webp`:c.fullCardUrl;return <div className={`guardian-card approved-card legacy-full-card ${sourceLimited?'source-limited-card common-showcase-card':''} theme-${themeFix?.slug||String(c.theme).toLowerCase()}`}><img loading="lazy" decoding="async" className={sourceLimited?'common-showcase-raster':undefined} src={showcase640} srcSet={sourceLimited?`${showcase640} 640w, ${showcase960} 960w`:undefined} sizes={sourceLimited?'(max-width: 580px) 44vw, (max-width: 900px) 42vw, 340px':undefined} width={sourceLimited?640:undefined} height={sourceLimited?854:undefined} onError={e=>{if(sourceLimited&&!e.currentTarget.dataset.fallback){e.currentTarget.dataset.fallback='1';e.currentTarget.srcset='';e.currentTarget.src=c.fullCardUrl!}}} alt={`${c.name} · Season One card ${number} · ${c.theme} theme`} />{needsShadowWash&&<div className="legacy-theme-art-wash shadow" aria-hidden="true"/>}{themeFix&&<div className={`legacy-theme-correction ${themeFix.slug}`} aria-label={`Canonical theme: ${themeFix.label}`}><themeFix.Icon size={17}/><span>{themeFix.label}</span></div>}{fix&&<div className="legacy-class-correction" aria-label={`Corrected battle class: ${fix.label}`}><fix.Icon size={15}/><span>{fix.label}</span></div>}</div>};
  const number=String(c.cardNumber).padStart(3,'0');
  return <div className={'guardian-card season-art rarity-'+c.rarity} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}>

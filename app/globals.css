@@ -123,3 +123,20 @@ main>.lower-grid{display:grid}
 @media(max-width:850px){.common-flight-heading{grid-template-columns:1fr;align-items:start}.common-flight-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:580px){.common-flight-showcase{margin:26px 0 34px;padding:16px;border-radius:16px}.common-flight-heading{gap:14px;margin-bottom:18px}.common-flight-heading h2{font-size:30px}.common-flight-grid{gap:12px}.common-flight-card{padding:9px;border-radius:14px}.common-flight-card h3{font-size:20px}.common-flight-card>p{display:none}.common-flight-meta{font-size:8px;letter-spacing:.35px}.common-flight-card .index-inspect{font-size:11px}}
 
+/* Native Common master cards: all labels and stats are HTML to prevent baked-in misprints. */
+.common-master-frame{width:min(100%,340px)!important;max-width:340px!important;margin-inline:auto;overflow:hidden;border:1px solid #e4ca77aa;border-radius:15px;background:#061d24;box-shadow:0 16px 38px #0009,0 0 0 1px #f1da8a22,inset 0 0 28px color-mix(in srgb,var(--guardian) 8%,transparent)}
+.common-master-art{position:relative;aspect-ratio:2/3;overflow:hidden;background:#0a2730}
+.common-master-art>img{width:100%;height:100%;display:block;object-fit:cover;object-position:center;image-rendering:auto}
+.common-master-art:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 2px #f0d37c55,inset 0 -48px 45px #04151e88}
+.common-master-number,.common-master-rarity{position:absolute;z-index:2;top:10px;padding:5px 8px;border:1px solid #e6ca766e;border-radius:999px;background:#061922d9;color:#fff2c8;font:700 10px/1 system-ui,sans-serif;letter-spacing:.7px;backdrop-filter:blur(5px)}
+.common-master-number{left:10px}.common-master-rarity{right:10px}
+.common-master-title{display:grid;grid-template-columns:72px 1fr 72px;align-items:center;gap:5px;padding:10px 9px 8px;border-top:1px solid #e4ca7750;background:linear-gradient(180deg,#0b2931,#071d25)}
+.common-master-title>strong{text-align:center;color:#fff2d1;font:700 20px/1.05 Georgia,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.common-master-theme,.common-master-class{min-height:34px;display:flex;align-items:center;justify-content:center;gap:4px;padding:4px;border:1px solid color-mix(in srgb,var(--guardian) 70%,#d9c26b);border-radius:9px;background:color-mix(in srgb,var(--guardian) 13%,#071b24);color:#f8e8b7;font:700 9px/1.05 system-ui,sans-serif;text-align:center}
+.common-master-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:8px 9px 10px;background:#051820;border-top:1px solid #d8bf6f45}
+.common-master-stats>span{display:grid;place-items:center;gap:2px;min-width:0;padding:5px 2px;border:1px solid #87c6c326;border-radius:7px;color:#eef7f3;font:700 13px/1 system-ui,sans-serif;background:#0a2730}
+.common-master-stats b{color:#d6c276;font-size:7px;letter-spacing:.6px}
+.index-card .common-master-frame,.common-flight-card .common-master-frame{width:min(100%,340px)!important}
+.view-card .common-master-frame{width:min(100%,360px)!important;max-width:360px!important}
+@media(max-width:580px){.common-master-title{grid-template-columns:58px 1fr 58px}.common-master-title>strong{font-size:16px}.common-master-theme,.common-master-class{font-size:8px}.common-master-stats>span{font-size:11px}}
+
