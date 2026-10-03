@@ -72,7 +72,7 @@ export async function GET(){
       coalesce(sum(card_views),0)::int AS card_views,
       coalesce(sum(pack_previews),0)::int AS pack_previews
       FROM analytics_sessions WHERE last_seen>=now()-interval '30 days'`),
-    p.query("SELECT dimension,count::int FROM analytics_daily WHERE event='card-view' AND day>=(current_date-29)::text ORDER BY count DESC LIMIT 8"),
+    p.query("SELECT dimension,sum(count)::int AS count FROM analytics_daily WHERE event='card-view' AND day>=(current_date-29)::text GROUP BY dimension ORDER BY count DESC LIMIT 8"),
     p.query("SELECT dimension,sum(count)::int AS count FROM analytics_daily WHERE event='theme-select' AND day>=(current_date-29)::text GROUP BY dimension ORDER BY count DESC LIMIT 6"),
     p.query("SELECT dimension,sum(count)::int AS count FROM analytics_daily WHERE event='pack-preview' AND day>=(current_date-29)::text GROUP BY dimension ORDER BY count DESC LIMIT 4"),
     p.query("SELECT day,event,sum(count)::int AS count FROM analytics_daily WHERE day>=(current_date-13)::text GROUP BY day,event ORDER BY day"),
