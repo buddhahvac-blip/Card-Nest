@@ -10,6 +10,6 @@ export default function sitemap():MetadataRoute.Sitemap{
  const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
  for(const path of staticPaths)items.push({url:new URL(path,siteUrl).toString(),lastModified:now,changeFrequency:path==='/'?'weekly':'monthly',priority:path==='/'?1:.65});
  for(const theme of themes)items.push({url:new URL(themePath(theme),siteUrl).toString(),lastModified:now,changeFrequency:'weekly',priority:.75});
- for(const card of seasonManifest)items.push({url:new URL(cardPath(card),siteUrl).toString(),lastModified:now,changeFrequency:'monthly',priority:card.artworkUrl?.8:.55});
+ for(const card of seasonManifest)items.push({url:new URL(cardPath(card),siteUrl).toString(),lastModified:now,changeFrequency:'monthly',priority:card.artworkUrl ? 0.8 : 0.55});
  return items;
 }
