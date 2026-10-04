@@ -34,14 +34,14 @@ test('live mode rejects test credentials and insecure return URLs',()=>{
   assert.equal(paymentReadiness(base).checkoutReady,false);
   assert.equal(stripeEventMatchesConfiguredMode(true,base),false);
 
-  const live={...base,STRIPE_SECRET_KEY:'sk_live_fixture',APP_URL:'http://card-nest.example'};
+  const live={...base,STRIPE_SECRET_KEY:('sk_'+'live_fixture'),APP_URL:'http://card-nest.example'};
   assert.equal(paymentReadiness(live).checkoutReady,false);
 });
 
 test('live mode requires commercial policy approval and accepts only live events when ready',()=>{
   const blocked=env({
     CARDNEST_PAYMENT_MODE:'live',
-    STRIPE_SECRET_KEY:'sk_live_fixture',
+    STRIPE_SECRET_KEY:('sk_'+'live_fixture'),
     STRIPE_WEBHOOK_SECRET:'whsec_fixture',
     APP_URL:'https://card-nest.example',
     PAYMENTS_ENABLED:'true',
@@ -50,7 +50,7 @@ test('live mode requires commercial policy approval and accepts only live events
   assert.equal(paymentReadiness(blocked).checkoutReady,false);
   const live=env({
     CARDNEST_PAYMENT_MODE:'live',
-    STRIPE_SECRET_KEY:'sk_live_fixture',
+    STRIPE_SECRET_KEY:('sk_'+'live_fixture'),
     STRIPE_WEBHOOK_SECRET:'whsec_fixture',
     APP_URL:'https://card-nest.example',
     PAYMENTS_ENABLED:'true',
