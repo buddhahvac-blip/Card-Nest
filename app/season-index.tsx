@@ -77,9 +77,9 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
      <button className="outline" onClick={showCommons}>See only Commons <ArrowRight size={16}/></button>
     </div>
     <div className="common-flight-grid">
-     {illustratedCommons.map(c=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={c.id}>
+     {illustratedCommons.map((c,i)=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={c.id}>
       <button className="common-flight-art" onClick={()=>onInspect(c.id)} aria-label={'Inspect '+c.name}>
-       <GuardianCard id={c.id}/>
+       <GuardianCard id={c.id} eager={i<4}/>
        <span className="common-flight-sheen" aria-hidden="true"/>
       </button>
       <div className="common-flight-meta">
