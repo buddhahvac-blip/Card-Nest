@@ -50,6 +50,13 @@
       "when": 1791022800000,
       "tag": "0006_showcase_signals",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1791099800000,
+      "tag": "0007_release_supply_control",
+      "breakpoints": true
     }
   ]
 }
