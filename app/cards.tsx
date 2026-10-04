@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import {useState,useEffect} from 'react';
 import {seasonCard,themeColors} from '@/lib/season-manifest';
 import {catalog,packDefinitions} from '@/lib/catalog';
@@ -10,7 +11,7 @@ let artManifest:Promise<Record<string,string>>|null=null;
 function getArt(){return artManifest??=fetch('/api/season-art').then(async r=>{const d:any=await r.json();return d.art||{}}).catch(()=>({}))}
 const legacyBadgeFixes: Record<number,{label:string;Icon:any}>={7:{label:'Support',Icon:HeartPulse},8:{label:'Warden',Icon:ShieldCheck}};
 const themeBadgeIcons: Record<string,{label:string;Icon:any;slug:string}>={Ember:{label:'Ember',Icon:Flame,slug:'ember'},Tide:{label:'Tide',Icon:Droplets,slug:'tide'},Bloom:{label:'Bloom',Icon:Leaf,slug:'bloom'},Volt:{label:'Volt',Icon:Zap,slug:'volt'},Mystic:{label:'Mystic',Icon:Sparkles,slug:'mystic'},Shadow:{label:'Shadow',Icon:Moon,slug:'shadow'}};
-export function GuardianCard({id}:{id:string}) {
+export function GuardianCard({id,eager=false}:{id:string;eager?:boolean}) {
  const c=seasonCard(id); const fallback=c?.highResolutionArtworkUrl||c?.artworkUrl||''; const [src,setSrc]=useState(fallback);
  useEffect(()=>{let active=true;getArt().then(map=>{if(active)setSrc(map[id]||fallback)});return()=>{active=false}},[id,fallback]);
  if(!c)return <div className="card-back">Card unavailable</div>;
@@ -19,7 +20,7 @@ export function GuardianCard({id}:{id:string}) {
  if(commonMaster){
   const number=String(c.cardNumber).padStart(3,'0'); const themeFix=themeBadgeIcons[c.theme];
   return <div className={`guardian-card common-master-frame theme-${String(c.theme).toLowerCase()}`} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}>
-   <div className="common-master-art"><img loading="lazy" decoding="async" src={commonMaster} onError={e=>{if(c.fullCardUrl&&!e.currentTarget.dataset.fallback){e.currentTarget.dataset.fallback='1';e.currentTarget.src=c.fullCardUrl}}} alt={`${c.name} — ${c.theme} theme artwork`}/><span className="common-master-number">{number}</span><span className="common-master-rarity">{c.rarity.toUpperCase()}</span></div>
+   <div className="common-master-art"><Image src={commonMaster} fill quality={90} loading={eager?'eager':'lazy'} fetchPriority={eager?'high':'auto'} sizes="(max-width: 580px) 44vw, (max-width: 900px) 42vw, 340px" onError={e=>{if(c.fullCardUrl&&!e.currentTarget.dataset.fallback){e.currentTarget.dataset.fallback='1';e.currentTarget.srcset='';e.currentTarget.src=c.fullCardUrl}}} alt={`${c.name} — ${c.theme} theme artwork`}/><span className="common-master-number">{number}</span><span className="common-master-rarity">{c.rarity.toUpperCase()}</span></div>
    <div className="common-master-title"><span className="common-master-theme">{themeFix&&<themeFix.Icon size={14}/>} {c.theme}</span><strong>{c.name}</strong><span className="common-master-class">{c.battleClass}</span></div>
    <div className="common-master-stats" aria-label={`${c.name} battle stats`}><span><b>HP</b>{c.health}</span><span><b>ATK</b>{c.attack}</span><span><b>DEF</b>{c.defense}</span><span><b>SPD</b>{c.speed}</span></div>
   </div>
