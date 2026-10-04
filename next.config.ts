@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
-  images: {deviceSizes:[640,750,960,1024,1280,1536,1920], qualities:[75,90,95], remotePatterns:[{protocol:"https",hostname:"cdn.openart.ai",pathname:"/openart-uploads/**"}]},
+  images: {deviceSizes:[640,750,960,1024,1280,1536,1920], qualities:[75,90,95], minimumCacheTTL:604800, remotePatterns:[{protocol:"https",hostname:"cdn.openart.ai",pathname:"/openart-uploads/**"}]},
   reactStrictMode: true,
   async headers() {
     const csp=[
