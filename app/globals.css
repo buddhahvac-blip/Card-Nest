@@ -172,3 +172,23 @@ main>.lower-grid{display:grid}
 
 @media(max-width:850px){.pack-showcase-caption{position:static;border-width:1px 0 0;border-radius:0;background:#0a252bd9}.pack-showcase-caption strong{font-size:15px}}
 @media(max-width:580px){.pack-showcase-banner{border-radius:14px;margin-bottom:20px}.pack-showcase-caption{display:block;padding:12px 13px}.pack-showcase-caption span{display:block;text-align:left;margin-top:4px}.pack-info .pack-cta{font-size:12px;padding:12px 8px}}
+
+
+/* Unified pack store: the approved four-pack banner is the only pack artwork.
+   The controls below are text-first so legacy pack renders cannot visually mix with the new direction. */
+.pack-choice-grid{margin-top:18px}
+.pack-choice{min-height:0;display:flex;align-items:stretch;border-radius:14px}
+.pack-choice .pack-info{padding:20px;width:100%;display:flex;flex-direction:column}
+.pack-choice .pack-info h3{margin-top:8px;font-size:25px}
+.pack-choice .pack-info p{min-height:0}
+.pack-choice .mechanics{margin-top:auto;padding-top:10px}
+.pack-choice .pack-cta{margin-top:16px}
+.pack-choice .preview-link{margin-top:10px}
+.pack-choice:before{content:"";display:block;height:4px;background:currentColor;opacity:.9}
+.pack-choice.pack-hatchling{color:#74eda2}
+.pack-choice.pack-nest{color:#d69cff}
+.pack-choice.pack-guardian{color:#8fd4ff}
+.pack-choice.pack-royal{color:#ffdc79}
+@media(max-width:850px){.pack-choice-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.pack-choice-grid{grid-template-columns:1fr 1fr}.pack-choice .pack-info{padding:14px}.pack-choice .pack-info h3{font-size:20px}.pack-choice .pack-info p{font-size:12px}.pack-choice .mechanics{font-size:11px}.pack-choice .pack-cta{font-size:11px}.pack-choice .preview-link{font-size:11px}}
+@media(max-width:420px){.pack-choice-grid{grid-template-columns:1fr}}
