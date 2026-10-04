@@ -16,6 +16,7 @@ export const limits=v1.table('rate_limits',{key:text().primaryKey(),count:intege
 export const profiles=v1.table('profiles',{userId:text('user_id').primaryKey(),interest:text().notNull(),consent:integer().notNull(),updated:text().notNull()});
 export const runs=v1.table('runs',{id:text().primaryKey(),userId:text('user_id').notNull(),agent:text().notNull(),output:text().notNull(),created:text().notNull()});
 export const economics=v1.table('economics',{userId:text('user_id').primaryKey(),scenario:text().notNull(),updated:text().notNull()});
+export const releaseControls=v1.table('release_controls',{id:text().primaryKey(),commonPullCap:integer('common_pull_cap').notNull().default(1600),epicReleaseAt:timestamp('epic_release_at',{withTimezone:true}),enabled:boolean().notNull().default(true),updatedAt:timestamp('updated_at',{withTimezone:true}).notNull().defaultNow()});
 export const artJobs=v1.table('art_jobs',{id:text().primaryKey(),userId:text('user_id').notNull(),cardId:text('card_id'),name:text().notNull(),family:text().notNull(),brief:text().notNull(),prompt:text().notNull(),status:text().notNull(),model:text(),objectKey:text('object_key'),review:text(),created:text().notNull(),updated:text().notNull()});
 export const artUsage=v1.table('art_usage',{day:text().primaryKey(),calls:integer().notNull()});
 export const cardArt=v1.table('card_art',{cardId:text('card_id').primaryKey(),jobId:text('job_id').notNull(),objectKey:text('object_key').notNull(),published:text().notNull()});
