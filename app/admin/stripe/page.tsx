@@ -35,7 +35,7 @@ export default function StripeSetup(){
    if(!r.ok)throw Error(d.error||'Could not load Stripe status');
    setStatus(d);
  }
- useEffect(()=>{refresh().catch(e=>setMessage(e.message))},[]);
+ useEffect(()=>{queueMicrotask(()=>refresh().catch(e=>setMessage(e.message)))},[]);
 
  async function run(kind:string,url:string){
    setBusy(kind);setMessage('');setSecret('');
