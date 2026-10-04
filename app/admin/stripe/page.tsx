@@ -12,6 +12,7 @@ type Status={
  appUrlSecure:boolean;
  paymentsEnabledFlag:boolean;
  founderApproved:boolean;
+ commercialPolicyApproved:boolean;
  checkoutReady:boolean;
  paymentsEnabled:boolean;
  saleEnabledPacks:number;
@@ -64,6 +65,7 @@ export default function StripeSetup(){
      <p>Secure app URL: <strong>{status?.appUrlConfigured?(status.appUrlSecure?'Configured':'Configured but not HTTPS'):'Missing'}</strong></p>
      <p>Global payment switch: <strong>{status?.paymentsEnabledFlag?'ON':'OFF'}</strong></p>
      <p>Founder real-payment approval: <strong>{status?.founderApproved?'APPROVED':'NOT APPROVED'}</strong></p>
+     <p>Commercial policy approval: <strong>{status?.commercialPolicyApproved?'APPROVED':'NOT APPROVED'}</strong></p>
      <p>Public checkout: <strong>{status?.checkoutReady?'READY':'BLOCKED'}</strong></p>
    </section>
 
@@ -75,6 +77,7 @@ export default function StripeSetup(){
      <p>{mark(!!status?.keyMatchesMode)} Stripe secret key matches {mode} mode</p>
      <p>{mark(!!status?.paymentsEnabledFlag)} PAYMENTS_ENABLED=true</p>
      <p>{mark(!!status?.founderApproved)} CARDNEST_FOUNDER_PAYMENT_APPROVAL=true</p>
+     <p>{mark(mode==='test'||!!status?.commercialPolicyApproved)} Live-only policy review approved: terms, refunds, randomized-pack disclosure, age/parent approach and tax decision</p>
      <p className="disclaimer">Rare, Epic and Legendary cards do not become paid-pack eligible from this screen. Their release gates remain separate.</p>
    </section>
 
@@ -109,7 +112,7 @@ export default function StripeSetup(){
 
    <section className="panel" style={{marginTop:20}}>
      <h2>4. Final real-sales switch</h2>
-     <p>Real checkout remains blocked until a founder deliberately sets <code>CARDNEST_PAYMENT_MODE=live</code>, uses matching live Stripe credentials/webhook, commercially releases selected Common cards, enables chosen packs, then sets both <code>PAYMENTS_ENABLED=true</code> and <code>CARDNEST_FOUNDER_PAYMENT_APPROVAL=true</code>.</p>
+     <p>Real checkout remains blocked until a founder deliberately sets <code>CARDNEST_PAYMENT_MODE=live</code>, uses matching live Stripe credentials/webhook, commercially releases selected Common cards, enables chosen packs, then sets <code>CARDNEST_COMMERCIAL_POLICY_APPROVAL=true</code>, <code>PAYMENTS_ENABLED=true</code> and <code>CARDNEST_FOUNDER_PAYMENT_APPROVAL=true</code>.</p>
      <p><strong>This page does not turn those final switches on.</strong></p>
    </section>
 
