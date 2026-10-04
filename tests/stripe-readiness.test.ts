@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {paymentMode,paymentReadiness,stripeEventMatchesConfiguredMode,stripeKeyMode} from '../lib/stripe';
 
-const env=(v:Record<string,string>):NodeJS.ProcessEnv=>({...v});
+const env=(v:Record<string,string>)=>({...v}) as NodeJS.ProcessEnv;
 
 test('payment mode defaults safely to test',()=>{
   assert.equal(paymentMode(env({})),'test');
