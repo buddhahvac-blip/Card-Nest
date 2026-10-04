@@ -14,3 +14,6 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 Before creating, reviewing, replacing, or integrating card artwork, read `docs/ART_DIRECTION.md`.
 
 The current high-quality Common masters and current Rare / Epic / Legendary showcase art are the visual baseline for future CardNest cards. Do not treat older blurry or baked-card assets as the target style. New art must preserve the clean premium digital-TCG direction, strong original silhouettes, Theme-specific habitats, family-friendly originality, and high-quality source standards defined in that document.
+
+
+For premium rarity work, use the current CardNest rarity framework from `docs/ART_DIRECTION.md`: Rare references CN1-108 / CN1-168 / CN1-229, Epic references CN1-299 / CN1-359, and Legendary references CN1-307 / CN1-068. Match their quality, cinematic hierarchy, environmental storytelling, and digital presentation while creating distinct new guardians rather than duplicating poses or creatures.
