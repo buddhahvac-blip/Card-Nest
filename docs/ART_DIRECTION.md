@@ -96,6 +96,83 @@ Every rarity must be professionally rendered.
 - may receive subtle motion or special viewing treatment
 - should not automatically receive stronger gameplay stats
 
+
+## Rarity framework — use current CardNest cards as the model
+
+Future premium-rarity cards must use the current CardNest cards as the **framework for what each rarity feels like**.
+
+This means new cards should inherit the same level of composition quality, environmental storytelling, polish, readability, and digital presentation — without copying the exact creature, pose, or scene.
+
+### Rare framework
+Use these as the primary Rare references:
+
+- CN1-108 Deepstream Oarfish
+- CN1-168 Orchidhelm Guardian
+- CN1-229 Roadwarden Caracara
+
+Future Rare cards should match their standard of:
+
+- clear, memorable silhouette
+- richer habitat storytelling than Common
+- stronger lighting and environmental specificity
+- polished premium presentation without excessive ornament
+- creature-first readability at thumbnail size
+
+### Epic framework
+Use these as the primary Epic references:
+
+- CN1-299 Constellation Keeper Serpent
+- CN1-359 Velvet Coil Serpent
+
+Future Epic cards should match their standard of:
+
+- cinematic composition
+- stronger sense of scale or intimacy
+- deeper environmental storytelling
+- more dramatic light and atmosphere
+- stronger visual event feeling than Rare
+- potential for subtle digital motion without clutter
+
+### Legendary framework
+Use these as the primary Legendary references:
+
+- CN1-307 Aurora Herald
+- CN1-068 Ember Sovereign
+
+Future Legendary cards should match their standard of:
+
+- major world or lore significance
+- unforgettable silhouette
+- strongest scene composition in the set
+- highest storytelling value
+- premium digital presentation
+- optional Living World / subtle motion treatment
+- visual prestige without automatic gameplay power inflation
+
+### Framework, not duplication
+
+Do not make future premium cards clones of these references.
+
+Preserve consistency in:
+
+- quality bar
+- rarity hierarchy
+- cinematic polish
+- card readability
+- Theme identity
+- environmental storytelling
+- mobile-first presentation
+
+But every new card must still bring:
+
+- a new silhouette
+- a new pose
+- a distinct habitat moment
+- its own personality
+- its own lore beat
+
+The goal is **same universe, same premium standard, new guardian**.
+
 ## Composition rules
 
 Prefer:
