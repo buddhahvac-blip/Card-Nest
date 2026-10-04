@@ -24,10 +24,12 @@ export function paymentReadiness(env:NodeJS.ProcessEnv=process.env){
   const webhookSecretConfigured=!!env.STRIPE_WEBHOOK_SECRET?.startsWith('whsec_');
   const paymentsEnabledFlag=env.PAYMENTS_ENABLED==='true';
   const founderApproved=env.CARDNEST_FOUNDER_PAYMENT_APPROVAL==='true';
+  const commercialPolicyApproved=env.CARDNEST_COMMERCIAL_POLICY_APPROVAL==='true';
   const keyMatchesMode=keyMode===mode;
   const checkoutReady=
     paymentsEnabledFlag&&
     founderApproved&&
+    (mode==='test'||commercialPolicyApproved)&&
     keyMatchesMode&&
     webhookSecretConfigured&&
     appUrlConfigured&&
@@ -43,6 +45,7 @@ export function paymentReadiness(env:NodeJS.ProcessEnv=process.env){
     appUrlSecure,
     paymentsEnabledFlag,
     founderApproved,
+    commercialPolicyApproved,
     checkoutReady
   };
 }
@@ -57,6 +60,7 @@ export function requirePayments(){
   const status=paymentReadiness();
   if(!status.paymentsEnabledFlag)throw new RequestError('Sales are not enabled',503);
   if(!status.founderApproved)throw new RequestError('Founder payment approval is required',503);
+  if(status.mode==='live'&&!status.commercialPolicyApproved)throw new RequestError('Commercial policy approval is required before live sales',503);
   if(!status.stripeConnected)throw new RequestError('Stripe is not connected',503);
   if(!status.keyMatchesMode)throw new RequestError('Stripe key does not match the configured payment mode',503);
   if(!status.webhookSecretConfigured||!status.appUrlConfigured)throw new RequestError('Payment setup incomplete',503);
