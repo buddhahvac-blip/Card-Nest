@@ -1,6 +1,7 @@
 'use client';
 
-import {useMemo,useState} from 'react';
+import {useEffect,useMemo,useRef,useState,type CSSProperties} from 'react';
+import {AmbientParticles,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Zap} from 'lucide-react';
 import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
@@ -9,6 +10,7 @@ import {trackBeta} from '@/lib/client-analytics';
 
 type Fighter={id:string;hp:number;guard:number;speedDelta:number;cooldown:number;energy:number};
 type ActionKind='strike'|'ability';
+type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
 const learningPoolIds=['sproutling-001','tidefin-003','voltbeak-005','shadowclaw-007','reserved-008','reserved-012'];
 
@@ -28,6 +30,28 @@ export default function NestBattles(){
  const [playerActive,setPlayerActive]=useState(0);
  const [rivalActive,setRivalActive]=useState(0);
  const [round,setRound]=useState(1);
+ const stageRef=useRef<HTMLDivElement>(null);
+ const timers=useRef<ReturnType<typeof setTimeout>[]>([]);
+ const playing=useRef(false);
+ const finishPlayback=useRef<(()=>void)|null>(null);
+ const [busy,setBusy]=useState(false);
+ const [fx,setFx]=useState<(BattleEffect&{id:number})|null>(null);
+ const sequence=useRef(0);
+ const [swapEntering,setSwapEntering]=useState(false);
+ useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false},[]);
+ function cancelPlayback(){timers.current.forEach(clearTimeout);timers.current=[];finishPlayback.current=null;playing.current=false;setBusy(false);setFx(null);setSwapEntering(false)}
+ function playback(frames:BattleFrame[],finish:()=>void){
+  playing.current=true;setBusy(true);
+  const complete=()=>{cancelPlayback();finish()};finishPlayback.current=complete;
+  const schedule=(fn:()=>void,delay:number)=>{timers.current.push(setTimeout(fn,delay))};
+  frames.forEach((frame,index)=>{
+   schedule(()=>{setSwapEntering(false);setFx({...frame.effect,id:++sequence.current})},index*600);
+   schedule(()=>{setPlayer(frame.player);setRival(frame.rival);setPlayerActive(frame.playerActive);setRivalActive(frame.rivalActive);setSwapEntering(frame.effect.kind==='swap')},index*600+(frame.effect.kind==='swap'?220:280));
+  });
+  schedule(complete,frames.length*600);
+ }
+ function snapshot(frames:BattleFrame[],effect:BattleEffect,p:Fighter[],e:Fighter[],pIndex:number,eIndex:number){frames.push({effect,player:copyTeam(p),rival:copyTeam(e),playerActive:pIndex,rivalActive:eIndex})}
+
  const [log,setLog]=useState<string[]>(['Choose three guardians. The practice rival will use the other three.']);
 
  function toggle(id:string){
@@ -45,6 +69,7 @@ export default function NestBattles(){
  }
 
  function reset(){
+  cancelPlayback();
   setPhase('setup');setPlayer([]);setRival([]);setRound(1);
   setLog(['Choose three guardians. The practice rival will use the other three.']);
   trackBeta('battle-view','reset');
@@ -57,7 +82,7 @@ export default function NestBattles(){
   return result;
  }
 
- function perform(team:Fighter[],active:number,enemy:Fighter[],enemyActive:number,kind:ActionKind,side:'you'|'rival'){
+ function perform(team:Fighter[],active:number,enemy:Fighter[],enemyActive:number,kind:ActionKind,side:'you'|'rival',emit:(effect:BattleEffect)=>void){
   const actor=team[active];const target=enemy[enemyActive];
   if(!actor||actor.hp<=0||!target||target.hp<=0)return side==='you'?'Your guardian could not act.':'The rival lost its action.';
   const card=cardById(actor.id);const foe=cardById(target.id);
@@ -67,23 +92,25 @@ export default function NestBattles(){
    actor.energy-=Math.max(1,ability.energyCost||1);actor.cooldown=Math.max(1,ability.cooldownTurns||2);
    if(ability.effect==='deal_damage'){
     const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed});
     return prefix+' uses '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.';
    }
    if(ability.effect==='gain_guard'){
-    actor.guard+=ability.amount||20;return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard.';
+    actor.guard+=ability.amount||20;emit({kind:'shield',side,theme:card.theme,amount:ability.amount||20});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard.';
    }
    if(ability.effect==='heal'){
-    const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));
+    const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before});
     return prefix+' uses '+ability.name+' and restores '+(actor.hp-before)+' HP.';
    }
    if(ability.effect==='gain_speed'){
-    actor.speedDelta+=ability.amount||20;return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Speed this round.';
+    actor.speedDelta+=ability.amount||20;emit({kind:'speed',side,theme:card.theme,amount:ability.amount||20});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Speed this round.';
    }
    if(ability.effect==='reduce_speed'){
-    target.speedDelta-=ability.amount||20;return prefix+' uses '+ability.name+' and cuts '+foe.name+' Speed by '+(ability.amount||20)+' this round.';
+    target.speedDelta-=ability.amount||20;emit({kind:'debuff',side,theme:card.theme,amount:ability.amount||20});return prefix+' uses '+ability.name+' and cuts '+foe.name+' Speed by '+(ability.amount||20)+' this round.';
    }
   }
   actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed});
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
   return prefix+' uses Quick Strike for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.'+note;
@@ -98,8 +125,8 @@ export default function NestBattles(){
  }
 
  function act(kind:ActionKind){
-  if(phase!=='battle')return;
-  let p=tickTeam(copyTeam(player));let e=tickTeam(copyTeam(rival));
+  if(phase!=='battle'||playing.current)return;
+  const p=tickTeam(copyTeam(player));const e=tickTeam(copyTeam(rival));
   let pIndex=playerActive;let eIndex=rivalActive;
   if(p[pIndex]?.hp<=0)pIndex=nextLiving(p,pIndex+1);
   if(e[eIndex]?.hp<=0)eIndex=nextLiving(e,eIndex+1);
@@ -108,37 +135,46 @@ export default function NestBattles(){
   const playerSpeed=pCard.speed+p[pIndex].speedDelta;
   const rivalSpeed=eCard.speed+e[eIndex].speedDelta;
   p[pIndex].speedDelta=0;e[eIndex].speedDelta=0;
+  const frames:BattleFrame[]=[];
+  const emit=(effect:BattleEffect)=>snapshot(frames,effect,p,e,pIndex,eIndex);
   const notes:string[]=[];
   if(playerSpeed>=rivalSpeed){
-   notes.push(perform(p,pIndex,e,eIndex,kind,'you'));
-   if(!isTeamDown(e)&&e[eIndex].hp>0)notes.push(perform(e,eIndex,p,pIndex,rivalKind,'rival'));
+   notes.push(perform(p,pIndex,e,eIndex,kind,'you',emit));
+   if(!isTeamDown(e)&&e[eIndex].hp>0)notes.push(perform(e,eIndex,p,pIndex,rivalKind,'rival',emit));
   }else{
-   notes.push(perform(e,eIndex,p,pIndex,rivalKind,'rival'));
-   if(!isTeamDown(p)&&p[pIndex].hp>0)notes.push(perform(p,pIndex,e,eIndex,kind,'you'));
+   notes.push(perform(e,eIndex,p,pIndex,rivalKind,'rival',emit));
+   if(!isTeamDown(p)&&p[pIndex].hp>0)notes.push(perform(p,pIndex,e,eIndex,kind,'you',emit));
   }
-  if(e[eIndex].hp<=0&&!isTeamDown(e)){const next=nextLiving(e,eIndex+1);eIndex=next;notes.push('The rival sends in '+cardById(e[next].id).name+'.')}
-  if(p[pIndex].hp<=0&&!isTeamDown(p)){const next=nextLiving(p,pIndex+1);pIndex=next;notes.push(cardById(p[next].id).name+' flies in for your team.')}
+  if(e[eIndex].hp<=0&&!isTeamDown(e)){const next=nextLiving(e,eIndex+1);eIndex=next;emit({kind:'swap',side:'rival',theme:cardById(e[next].id).theme});notes.push('The rival sends in '+cardById(e[next].id).name+'.')}
+  if(p[pIndex].hp<=0&&!isTeamDown(p)){const next=nextLiving(p,pIndex+1);pIndex=next;emit({kind:'swap',side:'you',theme:cardById(p[next].id).theme});notes.push(cardById(p[next].id).name+' flies in for your team.')}
   const won=isTeamDown(e);const lost=isTeamDown(p);
   if(won)notes.push('The Great Nest is safe. Your team wins the practice match!');
   if(lost)notes.push('Your team needs a rest. Try a different trio or order.');
+  playback(frames,()=>{
   setPlayer(p);setRival(e);setPlayerActive(pIndex);setRivalActive(eIndex);setRound(value=>value+1);
   setLog(current=>[...notes,...current].slice(0,8));
   if(won||lost){setPhase('finished');trackBeta('battle-view',won?'finish:win':'finish:loss')}
+  });
  }
 
  function swap(index:number){
-  if(phase!=='battle'||index===playerActive||player[index]?.hp<=0)return;
-  let p=tickTeam(copyTeam(player));let e=tickTeam(copyTeam(rival));
+  if(phase!=='battle'||playing.current||index===playerActive||player[index]?.hp<=0)return;
+  const p=tickTeam(copyTeam(player));const e=tickTeam(copyTeam(rival));
   const old=cardById(p[playerActive].id);const incoming=cardById(p[index].id);
   const eIndex=e[rivalActive]?.hp>0?rivalActive:nextLiving(e,rivalActive+1);
   const notes=['You swap '+old.name+' for '+incoming.name+'.'];
-  notes.push(perform(e,eIndex,p,index,rivalChoice(e,eIndex),'rival'));
   let pIndex=index;
-  if(p[pIndex].hp<=0&&!isTeamDown(p)){pIndex=nextLiving(p,pIndex+1);notes.push(cardById(p[pIndex].id).name+' steps in after the counterattack.')}
+  const frames:BattleFrame[]=[];
+  const emit=(effect:BattleEffect)=>snapshot(frames,effect,p,e,pIndex,eIndex);
+  emit({kind:'swap',side:'you',theme:incoming.theme});
+  notes.push(perform(e,eIndex,p,index,rivalChoice(e,eIndex),'rival',emit));
+  if(p[pIndex].hp<=0&&!isTeamDown(p)){pIndex=nextLiving(p,pIndex+1);emit({kind:'swap',side:'you',theme:cardById(p[pIndex].id).theme});notes.push(cardById(p[pIndex].id).name+' steps in after the counterattack.')}
   const lost=isTeamDown(p);
   if(lost)notes.push('Your team needs a rest. Try a different trio or order.');
+  playback(frames,()=>{
   setPlayer(p);setRival(e);setPlayerActive(pIndex);setRivalActive(eIndex);setRound(value=>value+1);
   setLog(current=>[...notes,...current].slice(0,8));if(lost)setPhase('finished');
+  });
  }
 
  if(phase==='setup')return <section className="nest-battles">
@@ -157,23 +193,27 @@ export default function NestBattles(){
  </section>;
 
  const active=player[playerActive];const enemy=rival[rivalActive];const activeCard=active?cardById(active.id):pool[0];const enemyCard=enemy?cardById(enemy.id):pool[1];
+ const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?'attack':'hit'):undefined;
  const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
  return <section className="nest-battles">
   <div className="battle-match-head"><div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><h1>{phase==='finished'?'Practice complete.':'Read the field. Choose your move.'}</h1><p>Speed decides who acts first. Guard absorbs damage. Affinity can strengthen or soften an attack.</p></div><button className="outline" onClick={reset}><RotateCcw size={16}/>New team</button></div>
-  <div className="battle-stage">
+  <div ref={stageRef} className={`battle-stage ${battleStyles.arena}`} data-impact={fx?.kind==='attack'}>
+   <AmbientParticles/>
+   <BattleFxLayer key={fx?.id??0} effect={fx} stageRef={stageRef}/>
    <div className="battle-sky battle-sky-rival">
     <div className="battle-team-strip">{rival.map((fighter,index)=><div key={fighter.id} className={'battle-mini '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')}><GuardianCard id={fighter.id}/><span>{fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>)}</div>
-    <div className="battle-active-card rival-card"><GuardianCard id={enemyCard.id}/><div className="battle-status"><strong>{enemyCard.name}</strong><span>{enemyCard.theme} · {enemyCard.battleClass}</span><div className="hp-track"><i style={{width:Math.max(0,(enemy?.hp||0)/enemyCard.health*100)+'%'}}/></div><small>{enemy?.hp||0} / {enemyCard.health} HP · {enemy?.guard||0} Guard</small></div></div>
+    <div className={`battle-active-card rival-card ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}><GuardianCard id={enemyCard.id}/><div className="battle-status"><strong>{enemyCard.name}</strong><span>{enemyCard.theme} · {enemyCard.battleClass}</span><div className="hp-track"><i style={{width:Math.max(0,(enemy?.hp||0)/enemyCard.health*100)+'%'}}/></div><small>{enemy?.hp||0} / {enemyCard.health} HP · {enemy?.guard||0} Guard</small><span className={battleStyles.speedStatus}>Speed {enemyCard.speed+(enemy?.speedDelta||0)} · {enemy?.energy||0} Energy · Cooldown {enemy?.cooldown||0}</span></div></div>
    </div>
-   <div className="battle-center"><span>THE GREAT NEST</span><strong>VS</strong><small>{activeCard.theme} into {enemyCard.theme}: {affinityMultiplier(activeCard.theme,enemyCard)>1?'advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'resisted':'neutral'}</small></div>
+   <div className="battle-center"><span>THE GREAT NEST</span><GreatNest/><strong>VS</strong><small>{activeCard.theme} into {enemyCard.theme}: {affinityMultiplier(activeCard.theme,enemyCard)>1?'advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'resisted':'neutral'}</small></div>
    <div className="battle-sky battle-sky-player">
-    <div className="battle-active-card"><GuardianCard id={activeCard.id}/><div className="battle-status"><strong>{activeCard.name}</strong><span style={{color:themeColors[activeCard.theme]}}>{activeCard.theme} · {activeCard.battleClass}</span><div className="hp-track"><i style={{width:Math.max(0,(active?.hp||0)/activeCard.health*100)+'%'}}/></div><small>{active?.hp||0} / {activeCard.health} HP · {active?.guard||0} Guard · {active?.energy||0} Energy</small></div></div>
-    <div className="battle-team-strip">{player.map((fighter,index)=><button key={fighter.id} disabled={phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-mini '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')}><GuardianCard id={fighter.id}/><span>{index===playerActive?'Active':fighter.hp>0?'Swap · '+fighter.hp+' HP':'Resting'}</span></button>)}</div>
+    <div className={`battle-active-card ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}><GuardianCard id={activeCard.id}/><div className="battle-status"><strong>{activeCard.name}</strong><span style={{color:themeColors[activeCard.theme]}}>{activeCard.theme} · {activeCard.battleClass}</span><div className="hp-track"><i style={{width:Math.max(0,(active?.hp||0)/activeCard.health*100)+'%'}}/></div><small>{active?.hp||0} / {activeCard.health} HP · {active?.guard||0} Guard · {active?.energy||0} Energy</small><span className={battleStyles.speedStatus}>Speed {activeCard.speed+(active?.speedDelta||0)} · Cooldown {active?.cooldown||0}</span></div></div>
+    <div className="battle-team-strip">{player.map((fighter,index)=><button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-mini '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')}><GuardianCard id={fighter.id}/><span>{index===playerActive?'Active':fighter.hp>0?'Swap · '+fighter.hp+' HP':'Resting'}</span></button>)}</div>
    </div>
   </div>
+  <div className={battleStyles.controls}><p role="status">{busy?'Guardians in motion…':'Your move · Choose a move or swap a Guardian.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
   <div className="battle-command-deck">
-   <button className="battle-command strike" disabled={phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Reliable damage · restores 1 Energy</small></span></button>
-   <button className="battle-command ability" disabled={phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
+   <button className="battle-command strike" disabled={busy||phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Reliable damage · restores 1 Energy</small></span></button>
+   <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
    <div className="battle-tip"><Shield/><div><strong>{CLASS_GUIDE[activeCard.battleClass]?.label} tip</strong><p>{CLASS_GUIDE[activeCard.battleClass]?.purpose}</p></div></div>
   </div>
   <div className="battle-log" aria-live="polite"><span className="eyebrow">BATTLE STORY</span>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div>
