@@ -1,6 +1,21 @@
 import type { Metadata } from "next";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import {searchIndexingApproved,siteDescription,siteName,siteUrl} from "@/lib/site";
 import "./globals.css";
+import "./home-experience.css";
+
+const worldSerif = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-world",
+  weight: ["500", "600", "700"],
+  display: "swap",
+});
+
+const worldSans = Manrope({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -42,7 +57,7 @@ export default function RootLayout({
       <head>
         <meta name="impact-site-verification" {...({value:"127ac962-5c21-4273-820a-6d64fb17e00e"} as any)} />
       </head>
-      <body className="antialiased">{children}</body>
+      <body className={`${worldSerif.variable} ${worldSans.variable} antialiased`}>{children}</body>
     </html>
   );
 }
