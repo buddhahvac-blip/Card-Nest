@@ -41,13 +41,13 @@ export default function NestBattles(){
   setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds));
   setPlayerActive(0);setRivalActive(0);setRound(1);setPhase('battle');
   setLog(['The Garden Arena wakes up. Read the matchup, then choose your first move.']);
-  trackBeta('battle-start',selected.join(','));
+  trackBeta('battle-view','start:'+selected.join(','));
  }
 
  function reset(){
   setPhase('setup');setPlayer([]);setRival([]);setRound(1);
   setLog(['Choose three guardians. The practice rival will use the other three.']);
-  trackBeta('battle-reset');
+  trackBeta('battle-view','reset');
  }
 
  function receive(team:Fighter[],index:number,amount:number){
@@ -123,7 +123,7 @@ export default function NestBattles(){
   if(lost)notes.push('Your team needs a rest. Try a different trio or order.');
   setPlayer(p);setRival(e);setPlayerActive(pIndex);setRivalActive(eIndex);setRound(value=>value+1);
   setLog(current=>[...notes,...current].slice(0,8));
-  if(won||lost){setPhase('finished');trackBeta('battle-finish',won?'win':'loss')}
+  if(won||lost){setPhase('finished');trackBeta('battle-view',won?'finish:win':'finish:loss')}
  }
 
  function swap(index:number){
