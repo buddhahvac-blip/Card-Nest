@@ -1,11 +1,12 @@
 import records from '../data/season-one.json';
 import showcaseRecords from '../data/season-one-showcase.json';
+import commonMasterArt from '../data/common-master-art.json';
 export type SeasonCard = (typeof records)[number];
 export const seasonManifest: SeasonCard[] = records;
 export const themeColors: Record<string,string> = {Ember:'#ffa76e',Tide:'#72d5f2',Bloom:'#80d995',Volt:'#ffda75',Mystic:'#c4a0ee',Shadow:'#b0afea'};
 export const clanColors=themeColors; // Legacy internal alias. User-facing UI uses theme terminology.
 export const seasonCard = (id:string) => seasonManifest.find(c=>c.id===id);
-export const hasSeasonArtwork = (card:SeasonCard) => Boolean(card.artworkUrl || showcaseRecords.some(art=>art.cardId===card.id && art.artworkUrl));
+export const hasSeasonArtwork = (card:SeasonCard) => Boolean(card.artworkUrl || (commonMasterArt as Record<string,string>)[card.id] || showcaseRecords.some(art=>art.cardId===card.id && art.artworkUrl));
 export const hasApprovedShowcaseArt = (card:SeasonCard) => showcaseRecords.some(art=>art.cardId===card.id && art.reviewStatus==='founder-approved');
 export function artProgress(cards=seasonManifest) {
   return {total:cards.length,illustrated:cards.filter(hasSeasonArtwork).length,complete:cards.filter(c=>c.artStatus==='live'&&c.masterArtworkUrl&&c.fullCardUrl&&c.avatarUrl&&c.thumbnailUrl&&c.highResolutionArtworkUrl&&(c as {packRevealUrl:string|null}).packRevealUrl).length,released:cards.filter(c=>c.releaseStatus==='released'&&c.isPackEligible).length};

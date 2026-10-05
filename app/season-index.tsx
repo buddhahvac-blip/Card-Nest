@@ -70,9 +70,9 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
    {!!illustratedCommons.length&&<section className="common-flight-showcase" aria-labelledby="common-flight-title">
     <div className="common-flight-heading">
      <div>
-      <span className="eyebrow">COMMON FLIGHT · FIRST 11 ILLUSTRATED</span>
+      <span className="eyebrow">COMMON FLIGHT · {illustratedCommons.length} ILLUSTRATED</span>
       <h2 id="common-flight-title">The adventure starts with the Commons.</h2>
-      <p>These are the first illustrated Common guardians of The First Flight. They use the cleanest responsive display assets currently available, with larger presentation, high-DPI rendering, and one-tap inspection so every guardian still feels worth discovering.</p>
+      <p>These are the illustrated Common guardians of The First Flight, now including the Ember run through CN1-021. They use high-resolution master artwork, responsive presentation, and one-tap inspection so every guardian still feels worth discovering.</p>
      </div>
      <button className="outline" onClick={showCommons}>See only Commons <ArrowRight size={16}/></button>
     </div>
