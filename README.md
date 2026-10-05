@@ -18,3 +18,9 @@ Configure NEON_AUTH_BASE_URL, NEON_AUTH_COOKIE_SECRET, and NEST_ADMIN_EMAIL as d
 Configure test STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, APP_URL, test pack price IDs and reviewed prices. Register /api/webhooks/stripe for checkout.session.completed, checkout.session.async_payment_succeeded, customer.subscription.created/updated/deleted, charge.refunded and charge.dispute.created. Then explicitly enable test payments and test pack sales. Verify payment success, declines, replayed events, concurrent duplicate delivery, canceled checkout, refunded/unopened holds, and unauthorized account access. A success redirect does not fulfill a purchase.
 
 Season One remains review-only and production art is promoted only after Guardian Enforcer and Art Overseer approval. Paid rarity and pricing are unapproved. Nest Mind has no money-moving authority, autonomous refunds or destructive tools. Third-party affiliate discovery is gated by network acceptance and exact Vercel-only affiliate URLs; see docs/affiliate-setup.md.
+
+
+## Nest Battles alpha
+The first playable Nest Battles foundation lives at `/play`. It uses six illustrated Common guardians covering Scout, Striker, Vanguard, Support, Warden and Disruptor roles. The current mode is local practice only: 3v3 teams, HP, Guard, Energy, cooldowns, Speed ordering and Theme affinity. It does not award cards, rank, rewards or paid power.
+
+Game operations, launch gates, balance policy and family-safety requirements are documented in `docs/NEST_BATTLES_OPERATIONS.md`. Keep rarity presentation separate from competitive base-stat budget, and do not enable ranked PvP or cooperative social systems until their server-authoritative and safety gates are complete.
