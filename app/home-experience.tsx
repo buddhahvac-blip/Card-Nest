@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import {ArrowRight,Compass,PackageOpen,Sparkles,Swords} from 'lucide-react';
 import {GuardianCard} from './cards';
 import {seasonCard} from '@/lib/season-manifest';
@@ -27,7 +28,7 @@ export default function HomeExperience({go}:Props){
         <div className="cn-hero-actions">
           <button className="cn-primary-cta" onClick={()=>scrollTo('cardnest-paths')}>ENTER THE WORLD <ArrowRight size={17}/></button>
           <button className="cn-secondary-cta" onClick={()=>scrollTo('packs')}>OPEN A PACK</button>
-          <button className="cn-text-cta" onClick={()=>go('Nest Battles')}>TRY NEST BATTLES ↗</button>
+          <Link className="cn-text-cta" href="/play">TRY NEST BATTLES ↗</Link>
         </div>
         <div className="cn-hero-proof" aria-label="CardNest Season One overview">
           <span><strong>369</strong> Season One Guardians</span>
@@ -80,7 +81,7 @@ export default function HomeExperience({go}:Props){
         <div className="cn-battle-chips" aria-label="Nest Battle strategy roles"><span>ATTACK</span><span>GUARD</span><span>SUPPORT</span><span>SYNERGY</span></div>
         <blockquote>Every rarity should have a reason to matter. A clever Common can still become the Guardian that wins the battle.</blockquote>
         <div className="cn-hero-actions">
-          <button className="cn-primary-cta" onClick={()=>go('Nest Battles')}>PLAY PRACTICE BATTLE <ArrowRight size={17}/></button>
+          <Link className="cn-primary-cta" href="/play">PLAY PRACTICE BATTLE <ArrowRight size={17}/></Link>
           <button className="cn-secondary-cta" onClick={()=>go('My Nest')}>BUILD YOUR NEST</button>
         </div>
         <small>V3 gameplay is an evolving prototype. Current battle values are balance targets, not final competitive rules.</small>
