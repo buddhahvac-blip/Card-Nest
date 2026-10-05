@@ -1,23 +1,14 @@
 import {seasonManifest} from './season-manifest';
 
-export const catalog=seasonManifest.slice(0,11).map(c=>({id:c.id,name:c.name,theme:c.theme,family:c.theme,color:'#edc781',lore:c.lore,tile:-1}));
+export const catalog=seasonManifest.slice(0,21).map(c=>({id:c.id,name:c.name,theme:c.theme,family:c.theme,color:'#edc781',lore:c.lore,tile:-1}));
 
 /**
- * Cards that have passed the current founder art savepoint and may be awarded
- * in the free beta. They remain ineligible for paid packs.
- *
- * CN1-001, CN1-007 and CN1-008 stay out until their saved corrections land.
+ * Current founder-approved beta pull pool. These Common cards may be awarded
+ * in free beta openings while remaining ineligible for paid packs.
+ * Higher rarities stay protected for a later market release.
  */
-export const previewCollectibleIds=[
-  'emberwing-002',
-  'tidefin-003',
-  'bloomtail-004',
-  'voltbeak-005',
-  'mindfeather-006',
-  'reserved-009',
-  'reserved-010',
-  'reserved-011'
-] as const;
+export const previewDropVersion='preview-common-21-v1';
+export const previewCollectibleIds=seasonManifest.slice(0,21).map(card=>card.id) as readonly string[];
 
 export const isPreviewCollectible=(id:string)=>(previewCollectibleIds as readonly string[]).includes(id);
 
@@ -31,8 +22,7 @@ export const packDefinitions=[
 export function previewPackDrops(pack:string){
   const p=packDefinitions.find(x=>x.id===pack);
   if(!p)throw Error('Unknown pack');
-  const ids=pack==='hatchling'?previewCollectibleIds.slice(0,1):previewCollectibleIds;
-  return ids.map(card=>({card,weight:1}));
+  return previewCollectibleIds.map(card=>({card,weight:1}));
 }
 
 export function previewPackCards(pack:string){
