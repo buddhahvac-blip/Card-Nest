@@ -3,7 +3,7 @@
 import {useMemo,useState} from 'react';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Zap} from 'lucide-react';
 import {GuardianCard} from './cards';
-import {seasonManifest,themeColors,type SeasonCard} from '@/lib/season-manifest';
+import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
 
