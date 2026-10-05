@@ -13,11 +13,11 @@ type ActionKind='strike'|'ability';
 const learningPoolIds=['sproutling-001','tidefin-003','voltbeak-005','shadowclaw-007','reserved-008','reserved-012'];
 
 function cardById(id:string){return seasonManifest.find(card=>card.id===id)!}
-function makeTeam(ids:string[]):Fighter[]{return ids.map(id=>{const c=cardById(id);return {id,hp:c.health,guard:0,speedDelta:0,cooldown:0,energy:3}})}
+function makeTeam(ids:string[]):Fighter[]{return ids.map(id=>{const c=cardById(id);return {id,hp:c.health,guard:0,speedDelta:0,cooldown:0,energy:2}})}
 function nextLiving(team:Fighter[],from=0){for(let offset=0;offset<team.length;offset++){const index=(from+offset)%team.length;if(team[index].hp>0)return index}return 0}
 function isTeamDown(team:Fighter[]){return team.every(member=>member.hp<=0)}
 function copyTeam(team:Fighter[]){return team.map(member=>({...member}))}
-function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1),energy:Math.min(3,member.energy+1),speedDelta:0}))}
+function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1)}))}
 
 export default function NestBattles(){
  const pool=useMemo(()=>learningPoolIds.map(cardById),[]);
@@ -83,7 +83,7 @@ export default function NestBattles(){
     target.speedDelta-=ability.amount||20;return prefix+' uses '+ability.name+' and cuts '+foe.name+' Speed by '+(ability.amount||20)+' this round.';
    }
   }
-  const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
+  actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
   return prefix+' uses Quick Strike for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.'+note;
@@ -107,6 +107,7 @@ export default function NestBattles(){
   const rivalKind=rivalChoice(e,eIndex);
   const playerSpeed=pCard.speed+p[pIndex].speedDelta;
   const rivalSpeed=eCard.speed+e[eIndex].speedDelta;
+  p[pIndex].speedDelta=0;e[eIndex].speedDelta=0;
   const notes:string[]=[];
   if(playerSpeed>=rivalSpeed){
    notes.push(perform(p,pIndex,e,eIndex,kind,'you'));
@@ -171,7 +172,7 @@ export default function NestBattles(){
    </div>
   </div>
   <div className="battle-command-deck">
-   <button className="battle-command strike" disabled={phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Reliable damage · no Energy</small></span></button>
+   <button className="battle-command strike" disabled={phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Reliable damage · restores 1 Energy</small></span></button>
    <button className="battle-command ability" disabled={phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
    <div className="battle-tip"><Shield/><div><strong>{CLASS_GUIDE[activeCard.battleClass]?.label} tip</strong><p>{CLASS_GUIDE[activeCard.battleClass]?.purpose}</p></div></div>
   </div>
