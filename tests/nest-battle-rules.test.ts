@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {affinityMultiplier,guardDamage,strikeDamage} from '../lib/nest-battle-rules.ts';
+import {affinityMultiplier,guardDamage,strikeDamage} from '../lib/nest-battle-rules';
 
 test('affinity rewards weakness without overwhelming neutral play',()=>{
  assert.equal(affinityMultiplier('Tide',{weakness:'Tide',resistance:'Shadow'}),1.25);
