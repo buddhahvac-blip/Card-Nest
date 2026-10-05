@@ -10,7 +10,7 @@
 .emblem>i{border-style:dashed}.emblem>b{inset:15px;border-radius:28%;animation-direction:reverse}
 .fighter{--toward:-1;--aura:#8ce4c4;isolation:isolate}
 .fighter[data-battle-side=rival]{--toward:1}
-.fighter:before{content:'';position:absolute;z-index:-1;left:-10%;right:-10%;height:65px;bottom:65px;border:2px solid var(--aura);border-radius:50%;box-shadow:0 0 26px color-mix(in srgb,var(--aura) 45%,transparent),inset 0 0 25px #94ebd225;transform:rotate(-7deg);opacity:.6;animation:breathe 4s ease-in-out infinite}
+.fighter:before{content:'';position:absolute;z-index:-1;left:-10%;right:-10%;height:65px;bottom:140px;border:2px solid var(--aura);border-radius:50%;box-shadow:0 0 26px color-mix(in srgb,var(--aura) 45%,transparent),inset 0 0 25px #94ebd225;transform:rotate(-7deg);opacity:.6;animation:breathe 4s ease-in-out infinite}
 .fighter[data-guard=true]:after{content:'';position:absolute;pointer-events:none;inset:0 0 90px;border:1px solid #b6e8ff88;border-radius:45% 45% 35% 35%;box-shadow:inset 0 0 24px #88caff20,0 0 15px #88caff20}
 .fighter[data-motion=attack]{animation:lunge 600ms ease-in-out}.fighter[data-motion=hit]{animation:recoil 600ms ease-out}.fighter[data-motion=out]{animation:retreat 220ms ease-in both}.fighter[data-motion=in]{animation:arrive 380ms ease-out both}
 .fighter[data-motion=attack]>:global(.guardian-card),.fighter[data-motion=hit]>:global(.guardian-card){animation:none}
@@ -18,7 +18,7 @@
 .fxLayer{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;color:var(--fx-color);contain:layout paint}
 .path{position:absolute;inset:0;overflow:visible}.trail{stroke-dasharray:14 9;opacity:0;animation:trail 600ms ease-out;filter:drop-shadow(0 0 6px currentColor)}
 .projectile{position:absolute;font-size:46px;width:48px;height:48px;line-height:48px;text-align:center;margin:-24px;filter:drop-shadow(0 0 12px currentColor);animation:projectile 600ms cubic-bezier(.35,0,.7,1) both}
-.bloom{border-radius:100% 0;background:#84d68855}.ember{border-radius:60% 15% 60% 60%;background:radial-gradient(#fff5bf,#fba55499,transparent);font-size:34px}.tide{border:3px solid;border-radius:50%;background:#72ddff40}.volt{font-size:64px}.mystic{border:1px dotted;border-radius:50%;background:#cea5ff30}.shadow{font-size:65px;text-shadow:0 0 25px #9d55d9;animation:shadow 600ms ease-out both}
+.bloom{border-radius:100% 0;background:#84d68855}.ember{border-radius:60% 15% 60% 60%;background:radial-gradient(#fff5bf,#fba55499,transparent);font-size:34px}.tide{border:3px solid;border-radius:50%;background:#72ddff40}.volt{font-size:64px}.mystic{border:1px dotted;border-radius:50%;background:#cea5ff30}.shadowProjectile{background:radial-gradient(#9d55d966,transparent);border-radius:50%}.shadow{font-size:65px;text-shadow:0 0 25px #9d55d9;animation:shadow 600ms ease-out both}
 .impact{position:absolute;width:1px;height:1px;opacity:0;animation:impact 600ms ease-out}.impact>i{position:absolute;width:40px;height:3px;background:currentColor;transform:rotate(var(--angle)) translateX(15px);box-shadow:0 0 12px currentColor}.impact>b{position:absolute;font-size:95px;transform:translate(-50%,-50%)}
 .target{position:absolute;width:1px;height:1px}
 .combatText{position:absolute;left:0;top:-70px;min-width:165px;transform:translateX(-50%);text-align:center;animation:textRise 600ms ease-out both;font:700 23px Georgia;color:#fff7db;text-shadow:0 2px 4px #001817,0 0 12px #001817}
