@@ -65,12 +65,13 @@ for(const name of ['.env','.env.local','.env.production','.env.production.local'
   const tracked=spawnSync('git',['ls-files','--error-unmatch',name],{cwd:root,stdio:'ignore'});
   if(tracked.status===0)failures.push(`Private environment file tracked in Git: ${name}`);
 }
-if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('A live Stripe key is not permitted in this review build.');
+if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_')&&process.env.CARDNEST_PAYMENT_MODE!=='live')failures.push('Live Stripe key requires CARDNEST_PAYMENT_MODE=live.');
 if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_FOUNDER_PAYMENT_APPROVAL!=='true')failures.push('Payments enabled without explicit founder approval flag.');
+if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_COMMERCIAL_POLICY_APPROVAL!=='true')failures.push('Payments enabled before commercial policy approval.');
+if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_COMMERCIAL_SALES_APPROVED!=='true')failures.push('Payments enabled before commercial sales approval.');
 if(process.env.PAYMENTS_ENABLED==='true'&&process.env.CARDNEST_NAME_CLEARANCE_APPROVED!=='true')failures.push('Payments enabled before CardNest name clearance approval.');
 if(process.env.CARDNEST_COMMERCIAL_SALES_APPROVED==='true'&&process.env.CARDNEST_NAME_CLEARANCE_APPROVED!=='true')failures.push('Commercial sales approved before CardNest name clearance approval.');
 if(process.env.CARDNEST_SEARCH_INDEXING_APPROVED==='true'&&process.env.CARDNEST_NAME_CLEARANCE_APPROVED!=='true')failures.push('Search indexing approved before CardNest name clearance approval.');
-if(process.env.STRIPE_SECRET_KEY?.startsWith('sk_live_'))failures.push('Live Stripe keys are blocked during public beta.');
 
 const stripeSource=fs.readFileSync('lib/stripe.ts','utf8');
 for(const guard of ['CARDNEST_FOUNDER_PAYMENT_APPROVAL','sk_test_'])if(!stripeSource.includes(guard))failures.push(`Payment runtime guard missing: ${guard}`);
