@@ -1,25 +1,52 @@
 import Image from 'next/image';
-import type {CSSProperties} from 'react';
 import {packDefinitions} from '@/lib/catalog';
-import {packHero} from '@/lib/pack-store';
 
 export default function PackArtwork({packId,hero=false}:{packId?:string;hero?:boolean}){
  const pack=packDefinitions.find(p=>p.id===packId);
- if(hero)return <div className="pack-store-hero" style={{aspectRatio:'1446 / 330',overflow:'hidden'}}>
+
+ if(hero)return <div className="pack-store-hero pack-store-hero-composite" aria-label="CardNest Season One pack lineup in the Garden of Lands">
   <Image
-   src="/art/cardnest-pack-hero-v3.webp"
-   width={1446}
-   height={330}
+   className="pack-hero-world"
+   src="/art/great-nest-world.webp"
+   alt=""
+   fill
+   quality={95}
+   preload
+   sizes="(max-width: 760px) 100vw, 1266px"
+  />
+  <div className="pack-hero-shade" aria-hidden="true"/>
+  <div className="pack-hero-title">
+   <span>THE GARDEN OF LANDS</span>
+   <strong>Choose your path.</strong>
+   <small>Four packs. One world.</small>
+  </div>
+  <div className="pack-hero-packs">
+   {packDefinitions.map((item,index)=><div
+    key={item.id}
+    className={`pack-hero-item pack-hero-${item.id}`}
+    style={{'--pack-index':index} as React.CSSProperties}
+   >
+    <Image
+     src={`/art/${item.file}`}
+     alt={`${item.name} Pack — ${item.tone} Season One pack`}
+     fill
+     quality={100}
+     unoptimized
+     sizes="(max-width: 760px) 45vw, 260px"
+    />
+   </div>)}
+  </div>
+ </div>;
+
+ if(!pack)return null;
+ return <div className={`pack-product-art pack-product-${pack.id}`}>
+  <Image
+   src={`/art/${pack.file}`}
+   alt={`${pack.name} Pack — ${pack.tone} illuminated wrapper`}
+   fill
    quality={100}
    unoptimized
-   preload
-   sizes="(max-width: 700px) 100vw, (max-width: 1300px) 92vw, 1446px"
-   style={{display:'block',width:'100%',height:'100%',objectFit:'cover'}}
-   alt={`CardNest Season One pack lineup in the Garden of Lands: ${packDefinitions.map(p=>p.name+' Pack').join(', ')}`}
+   sizes="(max-width: 480px) 220px, (max-width: 760px) 180px, 260px"
   />
  </div>;
- const crop=pack?.artCrop;
- if(!crop)return null;
- const style={'--art-width':`${packHero.width/crop.width*100}%`,'--art-left':`${-crop.x/crop.width*100}%`,'--art-top':`${-crop.y/crop.height*100}%`,aspectRatio:`${crop.width}/${crop.height}`} as CSSProperties;
- return <div className="pack-art-crop pack-product-art" style={style}><Image className="pack-source-image" src={packHero.src} width={packHero.width} height={packHero.height} quality={95} unoptimized sizes="(max-width: 580px) 100vw, 340px" alt={`${pack!.name} Pack — ${pack!.tone} illuminated wrapper`}/></div>;
 }
