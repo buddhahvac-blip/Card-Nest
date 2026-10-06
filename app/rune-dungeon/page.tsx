@@ -3,7 +3,7 @@ import Link from 'next/link';
 import RuneDungeon from '../rune-dungeon';
 
 export const metadata:Metadata={
- title:'Rune Dungeon · NestRune',
+ title:'Rune Dungeon',
  description:'Clear ten NestRune Rune Dungeon missions, defeat the Runeheart Boss, earn Rune Energy and claim free beta pack rewards.'
 };
 
