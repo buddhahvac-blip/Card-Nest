@@ -4,24 +4,25 @@ import {useEffect,useMemo,useRef,useState,type CSSProperties} from 'react';
 import Image from 'next/image';
 import commonMasterArt from '@/data/common-master-art.json';
 import {AmbientParticles,ArenaEnvironment,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
-import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Zap} from 'lucide-react';
+import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Volume2,VolumeX,Zap} from 'lucide-react';
 import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
+import {playBattleSound} from '@/lib/battle-audio';
 
-type Fighter={id:string;hp:number;guard:number;speedDelta:number;cooldown:number;energy:number};
-type ActionKind='strike'|'ability';
+type Fighter={id:string;hp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
+type ActionKind='strike'|'ability'|'special';
 type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
 const learningPoolIds=['sproutling-001','tidefin-003','voltbeak-005','shadowclaw-007','reserved-008','reserved-012'];
 
 function cardById(id:string){return seasonManifest.find(card=>card.id===id)!}
-function makeTeam(ids:string[]):Fighter[]{return ids.map(id=>{const c=cardById(id);return {id,hp:c.health,guard:0,speedDelta:0,cooldown:0,energy:2}})}
+function makeTeam(ids:string[]):Fighter[]{return ids.map(id=>{const c=cardById(id);return {id,hp:c.health,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,energy:2}})}
 function nextLiving(team:Fighter[],from=0){for(let offset=0;offset<team.length;offset++){const index=(from+offset)%team.length;if(team[index].hp>0)return index}return 0}
 function isTeamDown(team:Fighter[]){return team.every(member=>member.hp<=0)}
 function copyTeam(team:Fighter[]){return team.map(member=>({...member}))}
-function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1)}))}
+function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1),specialCooldown:Math.max(0,member.specialCooldown-1)}))}
 
 export default function NestBattles(){
  const pool=useMemo(()=>learningPoolIds.map(cardById),[]);
@@ -41,6 +42,7 @@ export default function NestBattles(){
  const sequence=useRef(0);
  const [swapEntering,setSwapEntering]=useState(false);
  const [inspectCard,setInspectCard]=useState<string|null>(null);
+ const [soundOn,setSoundOn]=useState(true);
  useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false},[]);
  function cancelPlayback(){timers.current.forEach(clearTimeout);timers.current=[];finishPlayback.current=null;playing.current=false;setBusy(false);setFx(null);setSwapEntering(false)}
  function playback(frames:BattleFrame[],finish:()=>void){
@@ -48,7 +50,7 @@ export default function NestBattles(){
   const complete=()=>{cancelPlayback();finish()};finishPlayback.current=complete;
   const schedule=(fn:()=>void,delay:number)=>{timers.current.push(setTimeout(fn,delay))};
   frames.forEach((frame,index)=>{
-   schedule(()=>{setSwapEntering(false);setFx({...frame.effect,id:++sequence.current})},index*600);
+   schedule(()=>{setSwapEntering(false);setFx({...frame.effect,id:++sequence.current});playBattleSound(frame.effect,soundOn)},index*600);
    schedule(()=>{setPlayer(frame.player);setRival(frame.rival);setPlayerActive(frame.playerActive);setRivalActive(frame.rivalActive);setSwapEntering(frame.effect.kind==='swap')},index*600+(frame.effect.kind==='swap'?220:280));
   });
   schedule(complete,frames.length*600);
@@ -90,30 +92,41 @@ export default function NestBattles(){
   if(!actor||actor.hp<=0||!target||target.hp<=0)return side==='you'?'Your guardian could not act.':'The rival lost its action.';
   const card=cardById(actor.id);const foe=cardById(target.id);
   const prefix=side==='you'?card.name:'Rival '+card.name;
-  if(kind==='ability'&&actor.cooldown===0&&actor.energy>0){
-   const ability=card.abilityPrimary;
-   actor.energy-=Math.max(1,ability.energyCost||1);actor.cooldown=Math.max(1,ability.cooldownTurns||2);
-   if(ability.effect==='deal_damage'){
-    const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'ability',label:ability.name,knockout:target.hp<=0});
-    return prefix+' uses '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.';
-   }
-   if(ability.effect==='gain_guard'){
-    actor.guard+=ability.amount||20;emit({kind:'shield',side,theme:card.theme,amount:ability.amount||20,label:ability.name});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard.';
-   }
-   if(ability.effect==='heal'){
-    const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before,label:ability.name});
-    return prefix+' uses '+ability.name+' and restores '+(actor.hp-before)+' HP.';
-   }
-   if(ability.effect==='gain_speed'){
-    actor.speedDelta+=ability.amount||20;emit({kind:'speed',side,theme:card.theme,amount:ability.amount||20,label:ability.name});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Speed this round.';
-   }
-   if(ability.effect==='reduce_speed'){
-    target.speedDelta-=ability.amount||20;emit({kind:'debuff',side,theme:card.theme,amount:ability.amount||20,label:ability.name});return prefix+' uses '+ability.name+' and cuts '+foe.name+' Speed by '+(ability.amount||20)+' this round.';
+  if(kind==='ability'||kind==='special'){
+   const special=kind==='special';
+   const ability=special?card.abilitySecondary:card.abilityPrimary;
+   const cooldown=special?actor.specialCooldown:actor.cooldown;
+   const cost=Math.max(1,ability.energyCost||1);
+   if(cooldown===0&&actor.energy>=cost){
+    actor.energy-=cost;
+    if(special)actor.specialCooldown=Math.max(4,ability.cooldownTurns||4);
+    else actor.cooldown=Math.max(1,ability.cooldownTurns||2);
+    const variant=special?'special' as const:'ability' as const;
+    if(ability.effect==='deal_damage'){
+     const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
+     emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant,label:ability.name,knockout:target.hp<=0});
+     return prefix+' unleashes '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+(special?' — Special!':'')+'.';
+    }
+    if(ability.effect==='gain_guard'){
+     actor.guard+=ability.amount||20;emit({kind:'shield',side,theme:card.theme,amount:ability.amount||20,variant,label:ability.name});
+     return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard'+(special?' — Special!':'')+'.';
+    }
+    if(ability.effect==='heal'){
+     const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before,variant,label:ability.name});
+     return prefix+' uses '+ability.name+' and restores '+(actor.hp-before)+' HP'+(special?' — Special!':'')+'.';
+    }
+    if(ability.effect==='gain_speed'){
+     actor.speedDelta+=ability.amount||20;emit({kind:'speed',side,theme:card.theme,amount:ability.amount||20,variant,label:ability.name});
+     return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Speed this round'+(special?' — Special!':'')+'.';
+    }
+    if(ability.effect==='reduce_speed'){
+     target.speedDelta-=ability.amount||20;emit({kind:'debuff',side,theme:card.theme,amount:ability.amount||20,variant,label:ability.name});
+     return prefix+' uses '+ability.name+' and cuts '+foe.name+' Speed by '+(ability.amount||20)+(special?' — Special!':'')+'.';
+    }
    }
   }
   actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike',knockout:target.hp<=0});
+  emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike',knockout:target.hp<=0});
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
   return prefix+' uses Quick Strike for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.'+note;
@@ -121,7 +134,16 @@ export default function NestBattles(){
 
  function rivalChoice(team:Fighter[],active:number){
   const member=team[active];if(!member)return 'strike' as ActionKind;
-  const card=cardById(member.id);if(member.cooldown>0||member.energy<=0)return 'strike';
+  const card=cardById(member.id);const special=card.abilitySecondary;
+  if(member.specialCooldown===0){
+   if(member.energy>=Math.max(1,special.energyCost||3)){
+    if(special.effect==='heal'&&member.hp>=card.health*.9)return member.cooldown===0?'ability':'strike';
+    if(special.effect==='gain_guard'&&member.guard>=30)return member.cooldown===0?'ability':'strike';
+    return 'special';
+   }
+   if(member.energy===2&&member.hp>card.health*.5)return 'strike';
+  }
+  if(member.cooldown>0||member.energy<Math.max(1,card.abilityPrimary.energyCost||1))return 'strike';
   if(card.abilityPrimary.effect==='heal'&&member.hp>=card.health*.78)return 'strike';
   if(card.abilityPrimary.effect==='gain_guard'&&member.guard>=12)return 'strike';
   return 'ability';
@@ -196,8 +218,9 @@ export default function NestBattles(){
  </section>;
 
  const active=player[playerActive];const enemy=rival[rivalActive];const activeCard=active?cardById(active.id):pool[0];const enemyCard=enemy?cardById(enemy.id):pool[1];
- const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='ability'?'cast':'attack'):(fx.knockout?'ko':'hit')):fx.side===side?'cast':undefined;
- const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
+ const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='special'?'special':fx.variant==='ability'?'cast':'attack'):(fx.knockout?'ko':'hit')):fx.side===side?(fx.variant==='special'?'special':'cast'):undefined;
+ const abilityReady=!!active&&active.cooldown===0&&active.energy>=Math.max(1,activeCard.abilityPrimary.energyCost||1);
+ const specialReady=!!active&&active.specialCooldown===0&&active.energy>=Math.max(1,activeCard.abilitySecondary.energyCost||3);
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
  const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||(commonMasterArt as Record<string,string>)[id]||card.artworkUrl||card.fullCardUrl||''};
  const cardArtFor=(id:string)=>{const card=cardById(id);return card.fullCardUrl||card.artworkUrl||(commonMasterArt as Record<string,string>)[id]||avatarFor(id)};
@@ -205,7 +228,7 @@ export default function NestBattles(){
   <div className="battle-compact-hud">
    <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
    <div className="battle-hud-matchup"><span>{activeCard.theme}</span><b>VS</b><span>{enemyCard.theme}</span><small>{matchup}</small></div>
-   <button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button>
+   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>setSoundOn(value=>!value)} aria-label={soundOn?'Mute battle sounds':'Enable battle sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Sound on':'Muted'}</span></button><button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button></div>
   </div>
 
   <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
@@ -258,8 +281,8 @@ export default function NestBattles(){
     <div className={`${battleStyles.controls} battle-controls-v4`}><p role="status">{busy?'Guardians in motion…':'Attack now · no scrolling needed.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
     <div className="battle-command-deck battle-command-deck-v4">
      <button className="battle-command strike" disabled={busy||phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Lunge attack · restores 1 Energy</small></span></button>
-     <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
-     <div className="battle-turn-card"><Shield/><span><strong>{CLASS_GUIDE[activeCard.battleClass]?.label}</strong><small>{CLASS_GUIDE[activeCard.battleClass]?.purpose}</small></span></div>
+     <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?(activeCard.abilityPrimary.energyCost||1)+' Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs '+(activeCard.abilityPrimary.energyCost||1)+' Energy'}</small></span></button>
+     <button className="battle-command special" disabled={busy||phase!=='battle'||!specialReady} onClick={()=>act('special')}><Sparkles/><span><strong>{activeCard.abilitySecondary.name}</strong><small>{specialReady?'SPECIAL · 3 Energy · 4-turn cooldown':active?.specialCooldown?'Special cooldown '+active.specialCooldown+' round'+(active.specialCooldown===1?'':'s'):'Needs 3 Energy'}</small></span></button>
     </div>
    </div>
   </div>
