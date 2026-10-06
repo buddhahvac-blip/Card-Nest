@@ -214,12 +214,14 @@ export default function NestBattles(){
 
    <div className="battle-combatant battle-combatant-player">
     <div className="battle-side-label">YOUR GUARDIAN</div>
-    <div className={`battle-avatar-fighter ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
-     <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
-      <span className="battle-avatar-aura"/>
-      <Image src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
-      <span className="battle-avatar-inspect">View card</span>
-     </button>
+    <div className="battle-avatar-fighter">
+     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
+      <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
+       <span className="battle-avatar-aura"/>
+       <Image src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
+       <span className="battle-avatar-inspect">View card</span>
+      </button>
+     </div>
      <div className="battle-status battle-status-v4">
       <div className="battle-status-title"><strong>{activeCard.name}</strong><span style={{color:themeColors[activeCard.theme]}}>{activeCard.theme} · {activeCard.battleClass}</span></div>
       <div className="hp-track"><i style={{width:Math.max(0,(active?.hp||0)/activeCard.health*100)+'%'}}/></div>
@@ -233,12 +235,14 @@ export default function NestBattles(){
 
    <div className="battle-combatant battle-combatant-rival">
     <div className="battle-side-label">RIVAL GUARDIAN</div>
-    <div className={`battle-avatar-fighter rival-fighter ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
-     <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
-      <span className="battle-avatar-aura"/>
-      <Image src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
-      <span className="battle-avatar-inspect">View card</span>
-     </button>
+    <div className="battle-avatar-fighter rival-fighter">
+     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
+      <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
+       <span className="battle-avatar-aura"/>
+       <Image src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
+       <span className="battle-avatar-inspect">View card</span>
+      </button>
+     </div>
      <div className="battle-status battle-status-v4">
       <div className="battle-status-title"><strong>{enemyCard.name}</strong><span>{enemyCard.theme} · {enemyCard.battleClass}</span></div>
       <div className="hp-track"><i style={{width:Math.max(0,(enemy?.hp||0)/enemyCard.health*100)+'%'}}/></div>
