@@ -93,7 +93,7 @@ export default function NestBattles(){
    actor.energy-=Math.max(1,ability.energyCost||1);actor.cooldown=Math.max(1,ability.cooldownTurns||2);
    if(ability.effect==='deal_damage'){
     const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'ability',label:ability.name});
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'ability',label:ability.name,knockout:target.hp<=0});
     return prefix+' uses '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.';
    }
    if(ability.effect==='gain_guard'){
@@ -111,7 +111,7 @@ export default function NestBattles(){
    }
   }
   actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike'});
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike',knockout:target.hp<=0});
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
   return prefix+' uses Quick Strike for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.'+note;
@@ -194,7 +194,7 @@ export default function NestBattles(){
  </section>;
 
  const active=player[playerActive];const enemy=rival[rivalActive];const activeCard=active?cardById(active.id):pool[0];const enemyCard=enemy?cardById(enemy.id):pool[1];
- const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='ability'?'cast':'attack'):'hit'):undefined;
+ const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='ability'?'cast':'attack'):(fx.knockout?'ko':'hit')):fx.side===side?'cast':undefined;
  const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
  const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||card.artworkUrl||card.fullCardUrl||''};
