@@ -65,7 +65,7 @@ export default function HomeExperience({go}:Props){
         <p>The first 21 illustrated Guardians are now the Founding Flight beta pool. Free beta pulls are live, while crowdfunding is being prepared to fund higher-resolution art, more Guardians, stronger Nest Battles, and the next Garden regions.</p>
       </div>
       <div className="cn-founder-actions">
-        <Link className="cn-primary-cta" href="/founders">SEE THE FOUNDING FLIGHT <ArrowRight size={17}/></Link>
+        <Link className="cn-primary-cta" href="/join">JOIN THE FREE BETA <ArrowRight size={17}/></Link>
         <button className="cn-secondary-cta" onClick={()=>scrollTo('packs')}>TRY THE 21-CARD POOL</button>
       </div>
     </section>
