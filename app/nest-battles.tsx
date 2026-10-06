@@ -1,6 +1,8 @@
 'use client';
 
 import {useEffect,useMemo,useRef,useState,type CSSProperties} from 'react';
+import Image from 'next/image';
+import commonMasterArt from '@/data/common-master-art.json';
 import {AmbientParticles,ArenaEnvironment,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Zap} from 'lucide-react';
 import {GuardianCard} from './cards';
@@ -38,6 +40,7 @@ export default function NestBattles(){
  const [fx,setFx]=useState<(BattleEffect&{id:number})|null>(null);
  const sequence=useRef(0);
  const [swapEntering,setSwapEntering]=useState(false);
+ const [inspectCard,setInspectCard]=useState<string|null>(null);
  useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false},[]);
  function cancelPlayback(){timers.current.forEach(clearTimeout);timers.current=[];finishPlayback.current=null;playing.current=false;setBusy(false);setFx(null);setSwapEntering(false)}
  function playback(frames:BattleFrame[],finish:()=>void){
@@ -92,7 +95,7 @@ export default function NestBattles(){
    actor.energy-=Math.max(1,ability.energyCost||1);actor.cooldown=Math.max(1,ability.cooldownTurns||2);
    if(ability.effect==='deal_damage'){
     const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'ability',label:ability.name});
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'ability',label:ability.name,knockout:target.hp<=0});
     return prefix+' uses '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.';
    }
    if(ability.effect==='gain_guard'){
@@ -110,7 +113,7 @@ export default function NestBattles(){
    }
   }
   actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike'});
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike',knockout:target.hp<=0});
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
   return prefix+' uses Quick Strike for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.'+note;
@@ -193,32 +196,77 @@ export default function NestBattles(){
  </section>;
 
  const active=player[playerActive];const enemy=rival[rivalActive];const activeCard=active?cardById(active.id):pool[0];const enemyCard=enemy?cardById(enemy.id):pool[1];
- const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?'attack':'hit'):undefined;
+ const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='ability'?'cast':'attack'):(fx.knockout?'ko':'hit')):fx.side===side?'cast':undefined;
  const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
- return <section className="nest-battles">
-  <div className="battle-match-head"><div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><h1>{phase==='finished'?'Practice complete.':'Read the field. Choose your move.'}</h1><p>Speed decides who acts first. Guard absorbs damage. Affinity can strengthen or soften an attack.</p></div><button className="outline" onClick={reset}><RotateCcw size={16}/>New team</button></div>
-  <div ref={stageRef} className={`battle-stage ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
+ const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
+ const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||(commonMasterArt as Record<string,string>)[id]||card.artworkUrl||card.fullCardUrl||''};
+ return <section className="nest-battles battle-live">
+  <div className="battle-compact-hud">
+   <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
+   <div className="battle-hud-matchup"><span>{activeCard.theme}</span><b>VS</b><span>{enemyCard.theme}</span><small>{matchup}</small></div>
+   <button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button>
+  </div>
+
+  <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
    <ArenaEnvironment/>
    <AmbientParticles/>
    <BattleFxLayer key={fx?.id??0} effect={fx} stageRef={stageRef}/>
-   <div className="battle-sky battle-sky-rival">
-    <div className="battle-team-strip">{rival.map((fighter,index)=><div key={fighter.id} className={'battle-mini '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')}><GuardianCard id={fighter.id}/><span>{fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>)}</div>
-    <div className={`battle-active-card rival-card ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}><GuardianCard id={enemyCard.id}/><div className="battle-status"><strong>{enemyCard.name}</strong><span>{enemyCard.theme} · {enemyCard.battleClass}</span><div className="hp-track"><i style={{width:Math.max(0,(enemy?.hp||0)/enemyCard.health*100)+'%'}}/></div><small>{enemy?.hp||0} / {enemyCard.health} HP · {enemy?.guard||0} Guard</small><span className={battleStyles.speedStatus}>Speed {enemyCard.speed+(enemy?.speedDelta||0)} · {enemy?.energy||0} Energy · Cooldown {enemy?.cooldown||0}</span></div></div>
+
+   <div className="battle-combatant battle-combatant-player">
+    <div className="battle-side-label">YOUR GUARDIAN</div>
+    <div className="battle-avatar-fighter">
+     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
+      <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
+       <span className="battle-avatar-aura"/>
+       <Image src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
+       <span className="battle-avatar-inspect">View card</span>
+      </button>
+     </div>
+     <div className="battle-status battle-status-v4">
+      <div className="battle-status-title"><strong>{activeCard.name}</strong><span style={{color:themeColors[activeCard.theme]}}>{activeCard.theme} · {activeCard.battleClass}</span></div>
+      <div className="hp-track"><i style={{width:Math.max(0,(active?.hp||0)/activeCard.health*100)+'%'}}/></div>
+      <div className="battle-stat-line"><span>{active?.hp||0}/{activeCard.health} HP</span><span>{active?.guard||0} Guard</span><span>{active?.energy||0} Energy</span><span>SPD {activeCard.speed+(active?.speedDelta||0)}</span></div>
+     </div>
+    </div>
+    <div className="battle-reserves" aria-label="Your Guardian team">{player.map((fighter,index)=>{const card=cardById(fighter.id);return <button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-reserve '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')} title={index===playerActive?card.name+' is active':'Swap to '+card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===playerActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></button>})}</div>
    </div>
-   <div className="battle-center"><span>THE GREAT NEST</span><GreatNest/><strong>VS</strong><small>{activeCard.theme} into {enemyCard.theme}: {affinityMultiplier(activeCard.theme,enemyCard)>1?'advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'resisted':'neutral'}</small></div>
-   <div className="battle-sky battle-sky-player">
-    <div className={`battle-active-card ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}><GuardianCard id={activeCard.id}/><div className="battle-status"><strong>{activeCard.name}</strong><span style={{color:themeColors[activeCard.theme]}}>{activeCard.theme} · {activeCard.battleClass}</span><div className="hp-track"><i style={{width:Math.max(0,(active?.hp||0)/activeCard.health*100)+'%'}}/></div><small>{active?.hp||0} / {activeCard.health} HP · {active?.guard||0} Guard · {active?.energy||0} Energy</small><span className={battleStyles.speedStatus}>Speed {activeCard.speed+(active?.speedDelta||0)} · Cooldown {active?.cooldown||0}</span></div></div>
-    <div className="battle-team-strip">{player.map((fighter,index)=><button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-mini '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')}><GuardianCard id={fighter.id}/><span>{index===playerActive?'Active':fighter.hp>0?'Swap · '+fighter.hp+' HP':'Resting'}</span></button>)}</div>
+
+   <div className="battle-center battle-center-v4"><span>THE GREAT NEST</span><GreatNest/><strong>VS</strong><small>{activeCard.theme} → {enemyCard.theme}</small></div>
+
+   <div className="battle-combatant battle-combatant-rival">
+    <div className="battle-side-label">RIVAL GUARDIAN</div>
+    <div className="battle-avatar-fighter rival-fighter">
+     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
+      <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
+       <span className="battle-avatar-aura"/>
+       <Image src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
+       <span className="battle-avatar-inspect">View card</span>
+      </button>
+     </div>
+     <div className="battle-status battle-status-v4">
+      <div className="battle-status-title"><strong>{enemyCard.name}</strong><span>{enemyCard.theme} · {enemyCard.battleClass}</span></div>
+      <div className="hp-track"><i style={{width:Math.max(0,(enemy?.hp||0)/enemyCard.health*100)+'%'}}/></div>
+      <div className="battle-stat-line"><span>{enemy?.hp||0}/{enemyCard.health} HP</span><span>{enemy?.guard||0} Guard</span><span>{enemy?.energy||0} Energy</span><span>SPD {enemyCard.speed+(enemy?.speedDelta||0)}</span></div>
+     </div>
+    </div>
+    <div className="battle-reserves battle-reserves-rival" aria-label="Rival Guardian team">{rival.map((fighter,index)=>{const card=cardById(fighter.id);return <div key={fighter.id} className={'battle-reserve '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')} title={card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===rivalActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>})}</div>
    </div>
   </div>
-  <div className={battleStyles.controls}><p role="status">{busy?'Guardians in motion…':'Your move · Choose a move or swap a Guardian.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
-  <div className="battle-command-deck">
-   <button className="battle-command strike" disabled={busy||phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Reliable damage · restores 1 Energy</small></span></button>
-   <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
-   <div className="battle-tip"><Shield/><div><strong>{CLASS_GUIDE[activeCard.battleClass]?.label} tip</strong><p>{CLASS_GUIDE[activeCard.battleClass]?.purpose}</p></div></div>
+
+  <div className="battle-action-dock">
+   <div className={`${battleStyles.controls} battle-controls-v4`}><p role="status">{busy?'Guardians in motion…':'Choose an attack or swap a Guardian.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
+   <div className="battle-command-deck battle-command-deck-v4">
+    <button className="battle-command strike" disabled={busy||phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Lunge attack · restores 1 Energy</small></span></button>
+    <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
+    <div className="battle-turn-card"><Shield/><span><strong>{CLASS_GUIDE[activeCard.battleClass]?.label}</strong><small>{CLASS_GUIDE[activeCard.battleClass]?.purpose}</small></span></div>
+   </div>
+   <details className="battle-log battle-log-compact"><summary><span>Battle Story</span><strong>{log[0]}</strong></summary><div>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div></details>
   </div>
-  <div className="battle-log" aria-live="polite"><span className="eyebrow">BATTLE STORY</span>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div>
+
   {phase==='finished'&&<div className="battle-finish"><Sparkles/><div><h2>{isTeamDown(rival)?'Your Nest held strong!':'A new strategy is waiting.'}</h2><p>Try another combination. The same Common guardians can play very differently depending on class and matchup.</p></div><button className="gold" onClick={reset}>Build another team</button></div>}
-  <p className="disclaimer">Practice alpha only. No matchmaking, trading, rewards, paid boosts or persistent battle rank are active. Stats and rules remain subject to playtesting.</p>
+
+  {inspectCard&&<div className="battle-card-modal" role="dialog" aria-modal="true" aria-label="Guardian card inspection" onClick={()=>setInspectCard(null)}><div className="battle-card-modal-panel" onClick={event=>event.stopPropagation()}><button className="battle-modal-close" onClick={()=>setInspectCard(null)} aria-label="Close card inspection">×</button><GuardianCard id={inspectCard} eager/><p>Collectible card view · battle uses the Guardian avatar.</p></div></div>}
+
+  <p className="disclaimer battle-live-disclaimer">Practice alpha only. No matchmaking, trading, rewards, paid boosts or persistent battle rank are active. Stats and rules remain subject to playtesting.</p>
  </section>;
 }

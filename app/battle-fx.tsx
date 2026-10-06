@@ -4,7 +4,7 @@ import {useLayoutEffect,useState,type CSSProperties,type RefObject} from 'react'
 import styles from './battle-fx.module.css';
 
 export type BattleSide='you'|'rival';
-export type BattleEffect={kind:'attack'|'heal'|'shield'|'speed'|'debuff'|'swap';side:BattleSide;theme:string;amount?:number;blocked?:number;variant?:'strike'|'ability';label?:string};
+export type BattleEffect={kind:'attack'|'heal'|'shield'|'speed'|'debuff'|'swap';side:BattleSide;theme:string;amount?:number;blocked?:number;variant?:'strike'|'ability';label?:string;knockout?:boolean};
 type Point={x:number;y:number};
 const palettes:Record<string,string>={Bloom:'#98ed99',Ember:'#ffab66',Tide:'#76dfff',Volt:'#ffe887',Mystic:'#d9bdff',Shadow:'#c68eff'};
 const motifs:Record<string,string>={Bloom:'❧',Ember:'◆',Tide:'◜',Volt:'ϟ',Mystic:'✧',Shadow:'⋰'};
@@ -47,7 +47,7 @@ export function BattleFxLayer({effect,stageRef}:{effect:BattleEffect|null;stageR
  const [anchors,setAnchors]=useState<Record<BattleSide,Point>>({you:{x:0,y:0},rival:{x:0,y:0}});
  useLayoutEffect(()=>{
   const stage=stageRef.current;if(!stage)return;
-  const measure=()=>{const base=stage.getBoundingClientRect();const point=(side:BattleSide)=>{const box=stage.querySelector(`[data-battle-side="${side}"] .guardian-card`)?.getBoundingClientRect();return box?{x:box.left-base.left+box.width/2,y:box.top-base.top+box.height*.45}:{x:0,y:0}};setAnchors({you:point('you'),rival:point('rival')})};
+  const measure=()=>{const base=stage.getBoundingClientRect();const point=(side:BattleSide)=>{const box=stage.querySelector(`[data-battle-side="${side}"] [data-battle-anchor]`)?.getBoundingClientRect();return box?{x:box.left-base.left+box.width/2,y:box.top-base.top+box.height*.45}:{x:0,y:0}};setAnchors({you:point('you'),rival:point('rival')})};
   measure();const observer=new ResizeObserver(measure);observer.observe(stage);for(const node of stage.querySelectorAll('[data-battle-side]'))observer.observe(node);
   return ()=>observer.disconnect();
  },[stageRef]);
