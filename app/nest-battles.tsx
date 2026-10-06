@@ -11,20 +11,21 @@ import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,g
 import {trackBeta} from '@/lib/client-analytics';
 import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio} from '@/lib/battle-audio';
 
-type Fighter={id:string;hp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
+type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
+export type DungeonBattleConfig={floor:number;name:string;mission:string;energy:number;boss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onExit:()=>void};
 type ActionKind='strike'|'ability'|'special';
 type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
 const learningPoolIds=['sproutling-001','tidefin-003','voltbeak-005','shadowclaw-007','reserved-008','reserved-012'];
 
 function cardById(id:string){return seasonManifest.find(card=>card.id===id)!}
-function makeTeam(ids:string[]):Fighter[]{return ids.map(id=>{const c=cardById(id);return {id,hp:c.health,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,energy:2}})}
+function makeTeam(ids:string[],hpMultiplier=1):Fighter[]{return ids.map(id=>{const c=cardById(id);const maxHp=Math.max(1,Math.round(c.health*hpMultiplier));return {id,hp:maxHp,maxHp,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,energy:2}})}
 function nextLiving(team:Fighter[],from=0){for(let offset=0;offset<team.length;offset++){const index=(from+offset)%team.length;if(team[index].hp>0)return index}return 0}
 function isTeamDown(team:Fighter[]){return team.every(member=>member.hp<=0)}
 function copyTeam(team:Fighter[]){return team.map(member=>({...member}))}
 function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1),specialCooldown:Math.max(0,member.specialCooldown-1)}))}
 
-export default function NestBattles(){
+export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={}){
  const pool=useMemo(()=>learningPoolIds.map(cardById),[]);
  const [selected,setSelected]=useState<string[]>(['sproutling-001','tidefin-003','shadowclaw-007']);
  const [phase,setPhase]=useState<'setup'|'battle'|'finished'>('setup');
@@ -43,6 +44,7 @@ export default function NestBattles(){
  const [swapEntering,setSwapEntering]=useState(false);
  const [inspectCard,setInspectCard]=useState<string|null>(null);
  const [soundOn,setSoundOn]=useState(true);
+ const victoryReported=useRef(false);
  useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false;stopBattleMusic(.15)},[]);
  function cancelPlayback(){timers.current.forEach(clearTimeout);timers.current=[];finishPlayback.current=null;playing.current=false;setBusy(false);setFx(null);setSwapEntering(false)}
  function playback(frames:BattleFrame[],finish:()=>void){
@@ -66,12 +68,13 @@ export default function NestBattles(){
 
  function start(){
   if(selected.length!==3)return;
+  victoryReported.current=false;
   if(soundOn){unlockBattleAudio();startBattleMusic(true)}
-  const rivalIds=learningPoolIds.filter(id=>!selected.includes(id));
-  setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds));
+  const rivalIds=dungeon?.enemyIds||learningPoolIds.filter(id=>!selected.includes(id));
+  setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds,dungeon?.hpMultiplier||1));
   setPlayerActive(0);setRivalActive(0);setRound(1);setPhase('battle');
-  setLog(['The Garden Arena wakes up. Read the matchup, then choose your first move.']);
-  trackBeta('battle-view','start:'+selected.join(','));
+  setLog([dungeon?`Floor ${dungeon.floor}: ${dungeon.name}. ${dungeon.mission}`:'The Garden Arena wakes up. Read the matchup, then choose your first move.']);
+  trackBeta('battle-view',(dungeon?'dungeon:'+dungeon.floor+':':'start:')+selected.join(','));
  }
 
  function reset(){
@@ -105,7 +108,7 @@ export default function NestBattles(){
     else actor.cooldown=Math.max(1,ability.cooldownTurns||2);
     const variant=special?'special' as const:'ability' as const;
     if(ability.effect==='deal_damage'){
-     const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
+     const raw=abilityDamage(card,foe,ability.amount||20);const amount=Math.max(1,Math.round(raw*(side==='rival'?(dungeon?.damageMultiplier||1):1)));const result=receive(enemy,enemyActive,amount);
      emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant,label:ability.name,knockout:target.hp<=0});
      return prefix+' unleashes '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+(special?' — Special!':'')+'.';
     }
@@ -114,7 +117,7 @@ export default function NestBattles(){
      return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard'+(special?' — Special!':'')+'.';
     }
     if(ability.effect==='heal'){
-     const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before,variant,label:ability.name});
+     const before=actor.hp;actor.hp=Math.min(actor.maxHp,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before,variant,label:ability.name});
      return prefix+' uses '+ability.name+' and restores '+(actor.hp-before)+' HP'+(special?' — Special!':'')+'.';
     }
     if(ability.effect==='gain_speed'){
@@ -127,7 +130,7 @@ export default function NestBattles(){
     }
    }
   }
-  actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
+  actor.energy=Math.min(3,actor.energy+1);const raw=strikeDamage(card,foe);const amount=Math.max(1,Math.round(raw*(side==='rival'?(dungeon?.damageMultiplier||1):1)));const result=receive(enemy,enemyActive,amount);
   emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike',knockout:target.hp<=0});
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
