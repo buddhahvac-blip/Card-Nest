@@ -47,7 +47,7 @@ export function BattleFxLayer({effect,stageRef}:{effect:BattleEffect|null;stageR
  const [anchors,setAnchors]=useState<Record<BattleSide,Point>>({you:{x:0,y:0},rival:{x:0,y:0}});
  useLayoutEffect(()=>{
   const stage=stageRef.current;if(!stage)return;
-  const measure=()=>{const base=stage.getBoundingClientRect();const point=(side:BattleSide)=>{const box=stage.querySelector(`[data-battle-side="${side}"] .guardian-card`)?.getBoundingClientRect();return box?{x:box.left-base.left+box.width/2,y:box.top-base.top+box.height*.45}:{x:0,y:0}};setAnchors({you:point('you'),rival:point('rival')})};
+  const measure=()=>{const base=stage.getBoundingClientRect();const point=(side:BattleSide)=>{const box=stage.querySelector(`[data-battle-side="${side}"] [data-battle-anchor]`)?.getBoundingClientRect();return box?{x:box.left-base.left+box.width/2,y:box.top-base.top+box.height*.45}:{x:0,y:0}};setAnchors({you:point('you'),rival:point('rival')})};
   measure();const observer=new ResizeObserver(measure);observer.observe(stage);for(const node of stage.querySelectorAll('[data-battle-side]'))observer.observe(node);
   return ()=>observer.disconnect();
  },[stageRef]);
