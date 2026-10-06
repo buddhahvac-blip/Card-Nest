@@ -10,7 +10,7 @@ import incidents from '../data/qc-incidents.json';
 export type Severity='CRITICAL'|'HIGH'|'MEDIUM'|'LOW';
 export type Finding={code:string;severity:Severity;subject:string;message:string;fix:string};
 export type Score='PASS'|'FAIL'|'REVIEW';
-export const dimensions=['Canonical Data','Theme Accuracy','Theme Icon','Battle Class','Battle Class Icon','Stats','Rarity','Distinct Identity','CardNest Continuity','Creative Growth','Visual Quality','Typography','Mobile Display','Asset Integrity','Release Safety','Security'] as const;
+export const dimensions=['Canonical Data','Theme Accuracy','Theme Icon','Battle Class','Battle Class Icon','Stats','Rarity','Distinct Identity','NestRune Continuity','Creative Growth','Visual Quality','Typography','Mobile Display','Asset Integrity','Release Safety','Security'] as const;
 export type QcReport={stage:'PREFLIGHT'|'REVIEW'|'PRODUCTION GATE';subject:string;scorecard:Record<(typeof dimensions)[number],Score>;issues:Finding[];recommendedFixes:string[];blockingIssues:Finding[];productionStatus:'REFERENCE ONLY'|'NEEDS REVISION'|'FOUNDER REVIEW'|'PRODUCTION READY'};
 type Card=typeof manifest[number];
 export const canonicalCards:Card[]=manifest;
@@ -55,7 +55,7 @@ export function inspectCard(candidate:Partial<Card>,evidence:Evidence={},cards:C
  if(evidence.assetKind==='REFERENCE'||evidence.assetKind==='REJECTED')issues.push(finding('REFERENCE_ONLY','MEDIUM',subject,'Reference or rejected artwork cannot become final.','Generate and review a single canonical source image.'));
  if(evidence.observedText&&/openart|shutterstock|stock photo|watermark|pokemon|pikachu|disney/i.test(evidence.observedText))add('WATERMARK_OR_FOREIGN_MARK','CRITICAL','Asset Integrity','Detected a watermark or third-party mark in supplied text evidence.','Replace with clean, original, rights-reviewed art.');
  if(evidence.assetPath){const asset=resolve('public',evidence.assetPath.replace(/^\//,''));if(!asset.startsWith(resolve('public')+'/')||!existsSync(asset))add('MISSING_ASSET','CRITICAL','Asset Integrity','Referenced asset does not exist under public/.','Restore the expected asset and verify its path.');else if(scorecard['Asset Integrity']!=='FAIL')scorecard['Asset Integrity']='PASS'}
- if(evidence.visualReviewed){for(const d of ['Visual Quality','CardNest Continuity','Creative Growth','Distinct Identity'] as const)if(scorecard[d]==='REVIEW')scorecard[d]='PASS'}
+ if(evidence.visualReviewed){for(const d of ['Visual Quality','NestRune Continuity','Creative Growth','Distinct Identity'] as const)if(scorecard[d]==='REVIEW')scorecard[d]='PASS'}
  if(evidence.mobileReviewed)scorecard['Mobile Display']='PASS';if(evidence.rightsReviewed&&scorecard.Security!=='FAIL')scorecard.Security='PASS';
  // Text in a baked image cannot be verified from metadata or an OCR negative alone.
  if(evidence.observedText&&actual&&evidence.assetKind==='FULL CARD'){const t=evidence.observedText.toLowerCase();if(!t.includes(actual.name.toLowerCase())||!t.includes(pad(actual.cardNumber)))add('BAKED_TEXT','HIGH','Typography','Observed text does not confirm canonical name and number.','Render labels deterministically, then inspect the final card.');}
@@ -66,7 +66,7 @@ export function inspectCard(candidate:Partial<Card>,evidence:Evidence={},cards:C
 export function inspectAvatar(profile:{nameCandidate:string;theme:string;battleClassCandidate:string;creatureType:string;habitat:string;silhouette:string;generationPrompt:string},assetPresent:boolean):QcReport{
  const scorecard=Object.fromEntries(dimensions.map(d=>[d,'REVIEW'])) as QcReport['scorecard'];const issues:Finding[]=[];
  if(!assetPresent){scorecard['Asset Integrity']='FAIL';issues.push(finding('MISSING_AVATAR','CRITICAL',profile.nameCandidate,'Generated avatar has no stored image.','Restore the stored image before review.'))}else scorecard['Asset Integrity']='PASS';
- if(!taxonomy.themes[profile.theme as keyof typeof taxonomy.themes]||!taxonomy.battleClasses[profile.battleClassCandidate as keyof typeof taxonomy.battleClasses]){scorecard['Canonical Data']='FAIL';issues.push(finding('INVALID_TAXONOMY','CRITICAL',profile.nameCandidate,'Unknown theme or battle class.','Use established CardNest taxonomy.'))}else{scorecard['Theme Icon']='PASS';scorecard['Battle Class']='PASS';scorecard['Battle Class Icon']='PASS'}
+ if(!taxonomy.themes[profile.theme as keyof typeof taxonomy.themes]||!taxonomy.battleClasses[profile.battleClassCandidate as keyof typeof taxonomy.battleClasses]){scorecard['Canonical Data']='FAIL';issues.push(finding('INVALID_TAXONOMY','CRITICAL',profile.nameCandidate,'Unknown theme or battle class.','Use established NestRune taxonomy.'))}else{scorecard['Theme Icon']='PASS';scorecard['Battle Class']='PASS';scorecard['Battle Class Icon']='PASS'}
  const p=preflight({name:profile.nameCandidate,theme:profile.theme,creatureType:profile.creatureType,habitat:profile.habitat,silhouette:profile.silhouette});issues.push(...p.issues);
  scorecard.Typography='PASS'; // Avatar is source illustration with no baked game text.
  scorecard['Release Safety']='PASS';scorecard.Security='PASS';
@@ -76,7 +76,7 @@ export function inspectAvatar(profile:{nameCandidate:string;theme:string;battleC
 export function completeFounderReview(report:QcReport,checks:{visual:boolean;mobile:boolean;originality:boolean;theme:boolean;quality:boolean}){
  const result:QcReport=structuredClone(report);
  if(result.blockingIssues.length)return result;
- for(const [dimension,approved] of [['Visual Quality',checks.visual],['Mobile Display',checks.mobile],['Distinct Identity',checks.originality],['Theme Accuracy',checks.theme],['CardNest Continuity',checks.quality],['Creative Growth',checks.quality],['Canonical Data',checks.quality],['Rarity',checks.quality],['Stats',checks.quality]] as const)if(approved&&result.scorecard[dimension]==='REVIEW')result.scorecard[dimension]='PASS';
+ for(const [dimension,approved] of [['Visual Quality',checks.visual],['Mobile Display',checks.mobile],['Distinct Identity',checks.originality],['Theme Accuracy',checks.theme],['NestRune Continuity',checks.quality],['Creative Growth',checks.quality],['Canonical Data',checks.quality],['Rarity',checks.quality],['Stats',checks.quality]] as const)if(approved&&result.scorecard[dimension]==='REVIEW')result.scorecard[dimension]='PASS';
  if(Object.values(result.scorecard).every(x=>x==='PASS')){result.stage='PRODUCTION GATE';result.productionStatus='PRODUCTION READY'}
  return result;
 }

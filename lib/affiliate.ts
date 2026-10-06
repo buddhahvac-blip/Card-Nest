@@ -61,6 +61,6 @@ export function affiliateDestination(slug:string){
 
 export async function recordAffiliateClick(slug:string){
  const entry=entries.find(x=>x.slug===slug);if(!entry)return;
- // Privacy-first aggregate event: no CardNest account id, email, IP address, or user-agent value is stored in this database event.
+ // Privacy-first aggregate event: no NestRune account id, email, IP address, or user-agent value is stored in this database event.
  await database().query("INSERT INTO security_events(kind,actor_id,subject,details) VALUES('affiliate-click',NULL,$1,$2)",[slug,JSON.stringify({partner:entry.partner,category:entry.category,placement:'discover'})]).catch(()=>{});
 }
