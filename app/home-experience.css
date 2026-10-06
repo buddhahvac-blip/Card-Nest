@@ -156,3 +156,11 @@ nav a.active{color:#ffd992}
 @media(prefers-reduced-motion:reduce){
   .cn-world-hero:hover .cn-hero-card,.cn-path-card:hover,.cn-primary-cta:hover,.cn-secondary-cta:hover{transform:none}
 }
+
+.cn-founder-strip{display:flex;align-items:center;justify-content:space-between;gap:34px;margin:30px 0 20px;padding:34px 38px;border:1px solid #dec27b4d;border-radius:20px;background:radial-gradient(circle at 86% 35%,#4b8a7040,transparent 30%),linear-gradient(135deg,#12343a,#09252c);box-shadow:0 18px 50px #0003}
+.cn-founder-strip>div:first-child{max-width:860px}
+.cn-founder-strip h2{font-size:clamp(32px,3.3vw,48px);line-height:1.03;margin:10px 0 12px;color:#fff0cc}
+.cn-founder-strip p{color:#b9cec7;line-height:1.7;margin:0}
+.cn-founder-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;min-width:320px}
+@media(max-width:900px){.cn-founder-strip{display:block}.cn-founder-actions{justify-content:flex-start;min-width:0;margin-top:22px}}
+@media(max-width:560px){.cn-founder-strip{padding:28px 22px;border-radius:18px}.cn-founder-actions .cn-primary-cta,.cn-founder-actions .cn-secondary-cta{width:100%}}
