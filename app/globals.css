@@ -373,3 +373,19 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .brand-film-frame video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
 .brand-film-mark{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:17px;font:600 clamp(18px,2.5vw,27px) Georgia,serif;letter-spacing:.5px;color:#f0d98c;text-shadow:0 0 22px #d5b65d55}.brand-film-mark strong{color:#fff0bd}.brand-film-mark span{color:#d6eee5}
 @media(max-width:700px){.brand-film{margin-top:24px;padding:14px;border-radius:18px}.brand-film-frame{border-radius:12px}.brand-film-copy p{font-size:12px}.brand-film-mark{margin-top:12px}}
+
+
+/* NestRune cinematic homepage hero */
+.cn-video-hero{position:relative;isolation:isolate;min-height:min(78vh,860px);overflow:hidden;background:#031317}
+.cn-world-hero-video,.cn-world-hero-poster{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center center!important;z-index:-4}
+.cn-world-hero-video{display:block;background:#031317}
+.cn-world-hero-poster{z-index:-5!important}
+.cn-video-hero .cn-world-hero-shade{z-index:-2;background:linear-gradient(90deg,rgba(3,17,22,.92) 0%,rgba(3,17,22,.75) 34%,rgba(3,17,22,.2) 66%,rgba(3,17,22,.48) 100%),linear-gradient(0deg,rgba(3,17,22,.72),transparent 42%)}
+.cn-video-hero .cn-world-hero-glow{z-index:-1}
+.cn-video-hero .cn-world-copy{position:relative;z-index:2}
+.cn-video-hero .cn-hero-card-stage,.cn-video-hero .cn-world-caption{position:relative;z-index:2}
+.cn-hero-sound{position:absolute;z-index:5;top:18px;right:18px;display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border-radius:999px;border:1px solid #f0d58a66;background:#061d24cc;color:#fff2bd;backdrop-filter:blur(10px);font-size:12px;font-weight:800;letter-spacing:.4px;box-shadow:0 10px 30px #0006}
+.cn-hero-sound:hover{transform:translateY(-1px);background:#0b2a33e8}
+@media(max-width:900px){.cn-video-hero{min-height:62vh}.cn-world-hero-video{object-position:center center!important}}
+@media(max-width:580px){.cn-video-hero{min-height:56vh}.cn-world-hero-video{object-position:58% center!important}.cn-hero-sound{top:12px;right:12px;padding:9px 10px}.cn-hero-sound span{display:none}}
+@media(prefers-reduced-motion:reduce){.cn-world-hero-video{display:none!important}}
