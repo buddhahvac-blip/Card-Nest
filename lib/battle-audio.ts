@@ -11,22 +11,21 @@ type WebkitWindow=Window&typeof globalThis&{webkitAudioContext?:typeof AudioCont
 
 let context:AudioContext|null=null;
 let masterBus:GainNode|null=null;
-let musicBus:GainNode|null=null;
 let sfxBus:GainNode|null=null;
 let compressor:DynamicsCompressorNode|null=null;
-let musicTimer:ReturnType<typeof setTimeout>|null=null;
-let musicPlaying=false;
-let musicGeneration=0;
-let nextMusicStart=0;
+let battleTrack:HTMLAudioElement|null=null;
+let battleTrackTarget=.30;
+let duckTimer:ReturnType<typeof setTimeout>|null=null;
+let fadeTimer:ReturnType<typeof setInterval>|null=null;
 
-const MUSIC_LEVEL=.18;
-const MUSIC_DUCK=.045;
-const SFX_LEVEL=.92;
-const MASTER_LEVEL=.86;
-const BPM=122;
-const BEAT=60/BPM;
-const BAR=BEAT*4;
-const BLOCK_BARS=4;
+// CC0 battle music:
+// "Hope (Orchestral battle music)" by MintoDog, OpenGameArt.
+// Source page: https://opengameart.org/content/hopeorchestral-battle-music
+const BATTLE_MUSIC_OGG='https://opengameart.org/sites/default/files/hope_orchestral_battle_music_bpm165_0.ogg';
+const BATTLE_MUSIC_FLAC='https://opengameart.org/sites/default/files/hope_orchestral_battle_music_bpm165.flac';
+
+const SFX_LEVEL=1.0;
+const MASTER_LEVEL=.9;
 
 const themeRoots:Record<string,number>={
  Ember:220,
@@ -38,23 +37,20 @@ const themeRoots:Record<string,number>={
 };
 
 function ensureGraph(ctx:AudioContext){
- if(masterBus&&musicBus&&sfxBus&&compressor)return;
+ if(masterBus&&sfxBus&&compressor)return;
  masterBus=ctx.createGain();
- musicBus=ctx.createGain();
  sfxBus=ctx.createGain();
  compressor=ctx.createDynamicsCompressor();
 
  masterBus.gain.value=MASTER_LEVEL;
- musicBus.gain.value=.0001;
  sfxBus.gain.value=SFX_LEVEL;
 
- compressor.threshold.value=-16;
- compressor.knee.value=16;
- compressor.ratio.value=8;
- compressor.attack.value=.003;
- compressor.release.value=.2;
+ compressor.threshold.value=-18;
+ compressor.knee.value=14;
+ compressor.ratio.value=9;
+ compressor.attack.value=.002;
+ compressor.release.value=.18;
 
- musicBus.connect(compressor);
  sfxBus.connect(compressor);
  compressor.connect(masterBus);
  masterBus.connect(ctx.destination);
@@ -68,6 +64,25 @@ function audioContext(){
  ensureGraph(context);
  if(context.state==='suspended')void context.resume();
  return context;
+}
+
+function ensureBattleTrack(){
+ if(typeof document==='undefined')return null;
+ if(battleTrack)return battleTrack;
+ const audio=document.createElement('audio');
+ audio.loop=true;
+ audio.preload='auto';
+ audio.volume=battleTrackTarget;
+ audio.crossOrigin='anonymous';
+ const ogg=document.createElement('source');
+ ogg.src=BATTLE_MUSIC_OGG;
+ ogg.type='audio/ogg';
+ const flac=document.createElement('source');
+ flac.src=BATTLE_MUSIC_FLAC;
+ flac.type='audio/flac';
+ audio.append(ogg,flac);
+ battleTrack=audio;
+ return audio;
 }
 
 function tone(
@@ -152,177 +167,97 @@ function noiseSweep(
  source.start(start);
 }
 
-function kick(ctx:AudioContext,start:number,gain=.12){
- if(!musicBus)return;
- tone(ctx,musicBus,start,.18,125,46,gain,'sine');
- tone(ctx,musicBus,start,.045,1800,260,.018,'triangle');
-}
-
-function snare(ctx:AudioContext,start:number,gain=.055){
- if(!musicBus)return;
- noiseBurst(ctx,musicBus,start,.12,gain,2200,'highpass');
- tone(ctx,musicBus,start,.1,190,120,.024,'triangle');
-}
-
-function hat(ctx:AudioContext,start:number,gain=.012){
- if(!musicBus)return;
- noiseBurst(ctx,musicBus,start,.045,gain,6200,'highpass');
-}
-
-function musicTone(ctx:AudioContext,start:number,duration:number,freq:number,gain=.025,type:OscillatorType='triangle',detune=0){
- if(!musicBus)return;
- tone(ctx,musicBus,start,duration,freq,freq,gain,type,detune);
-}
-
-function chordFrequencies(root:number,minor:boolean){
- const third=minor?Math.pow(2,3/12):Math.pow(2,4/12);
- return [root,root*third,root*Math.pow(2,7/12)];
-}
-
-function scheduleMusicBlock(ctx:AudioContext,start:number){
- const progression=[
-  {root:146.83,minor:true},  // Dm
-  {root:116.54,minor:false}, // Bb
-  {root:174.61,minor:false}, // F
-  {root:130.81,minor:false}, // C
- ];
-
- for(let bar=0;bar<BLOCK_BARS;bar++){
-  const barStart=start+bar*BAR;
-  const chord=chordFrequencies(progression[bar].root,progression[bar].minor);
-
-  // Warm cinematic pad.
-  chord.forEach((freq,index)=>{
-   musicTone(ctx,barStart,BAR*.96,freq,index===0?.017:.012,index===0?'triangle':'sine',index===1?-5:5);
-  });
-
-  // Four-on-the-floor battle percussion with accented backbeat.
-  kick(ctx,barStart,.10);
-  kick(ctx,barStart+BEAT*2,.105);
-  kick(ctx,barStart+BEAT*2.75,.06);
-  snare(ctx,barStart+BEAT,.048);
-  snare(ctx,barStart+BEAT*3,.055);
-  for(let step=0;step<8;step++)hat(ctx,barStart+step*(BEAT/2),step%2===0?.011:.008);
-
-  // Low marching bass.
-  for(let beat=0;beat<4;beat++){
-   const bass=progression[bar].root/2;
-   musicTone(ctx,barStart+beat*BEAT,BEAT*.62,bass,beat===0?.044:.034,'square');
-   musicTone(ctx,barStart+beat*BEAT,BEAT*.58,bass*2,.012,'triangle');
-  }
-
-  // Fast fantasy arpeggio.
-  const arp=[0,1,2,1,0,2,1,2];
-  for(let step=0;step<8;step++){
-   const note=chord[arp[step]]*2;
-   musicTone(ctx,barStart+step*(BEAT/2),(BEAT/2)*.68,note,.018,step%2?'triangle':'sine');
-  }
-
-  // A short heroic top line in the second half of the loop.
-  if(bar>=2){
-   const melody=bar===2?[2,4,5,4]:[2,0,4,2];
-   const scale=[146.83,164.81,174.61,196,220,233.08];
-   melody.forEach((degree,index)=>{
-    musicTone(ctx,barStart+index*BEAT,BEAT*.7,scale[degree]*2,.022,'triangle');
-   });
-  }
- }
-}
-
-function scheduleNextMusicBlock(generation:number){
- const ctx=audioContext();
- if(!ctx||!musicPlaying||generation!==musicGeneration)return;
- const now=ctx.currentTime;
- if(nextMusicStart<now+.15)nextMusicStart=now+.15;
- scheduleMusicBlock(ctx,nextMusicStart);
- nextMusicStart+=BAR*BLOCK_BARS;
- const wait=Math.max(250,(nextMusicStart-ctx.currentTime-.35)*1000);
- musicTimer=setTimeout(()=>scheduleNextMusicBlock(generation),wait);
-}
-
-function duckMusic(ctx:AudioContext){
- if(!musicBus||!musicPlaying)return;
- const now=ctx.currentTime;
- musicBus.gain.cancelScheduledValues(now);
- musicBus.gain.setValueAtTime(Math.max(.0001,musicBus.gain.value),now);
- musicBus.gain.exponentialRampToValueAtTime(MUSIC_DUCK,now+.025);
- musicBus.gain.exponentialRampToValueAtTime(MUSIC_LEVEL,now+.48);
+function duckMusic(){
+ const track=battleTrack;
+ if(!track||track.paused)return;
+ if(duckTimer){clearTimeout(duckTimer);duckTimer=null}
+ track.volume=.095;
+ duckTimer=setTimeout(()=>{if(battleTrack&&!battleTrack.paused)battleTrack.volume=battleTrackTarget},520);
 }
 
 function elementalAccent(ctx:AudioContext,start:number,theme:string,intensity=1){
  if(!sfxBus)return;
  const root=themeRoots[theme]||220;
  if(theme==='Volt'){
-  tone(ctx,sfxBus,start,.16,root*5,root*1.1,.11*intensity,'square');
-  noiseBurst(ctx,sfxBus,start+.04,.09,.12*intensity,5200,'highpass');
+  tone(ctx,sfxBus,start,.16,root*5,root*1.1,.12*intensity,'square');
+  noiseBurst(ctx,sfxBus,start+.04,.09,.13*intensity,5200,'highpass');
  }else if(theme==='Ember'){
-  noiseSweep(ctx,sfxBus,start,.28,.13*intensity,4200,380);
-  tone(ctx,sfxBus,start+.04,.24,root*2.2,root*.65,.085*intensity,'sawtooth');
+  noiseSweep(ctx,sfxBus,start,.28,.14*intensity,4200,380);
+  tone(ctx,sfxBus,start+.04,.24,root*2.2,root*.65,.095*intensity,'sawtooth');
  }else if(theme==='Tide'){
-  tone(ctx,sfxBus,start,.34,root*.7,root*2.2,.1*intensity,'sine');
-  noiseSweep(ctx,sfxBus,start+.02,.3,.075*intensity,500,2300);
+  tone(ctx,sfxBus,start,.34,root*.7,root*2.2,.11*intensity,'sine');
+  noiseSweep(ctx,sfxBus,start+.02,.3,.082*intensity,500,2300);
  }else if(theme==='Bloom'){
-  tone(ctx,sfxBus,start,.28,root,root*2.5,.085*intensity,'triangle');
-  tone(ctx,sfxBus,start+.07,.32,root*1.5,root*3,.06*intensity,'sine');
+  tone(ctx,sfxBus,start,.28,root,root*2.5,.095*intensity,'triangle');
+  tone(ctx,sfxBus,start+.07,.32,root*1.5,root*3,.068*intensity,'sine');
  }else if(theme==='Mystic'){
-  tone(ctx,sfxBus,start,.32,root*2,root*4,.095*intensity,'sine');
-  tone(ctx,sfxBus,start+.06,.38,root*2.98,root*1.5,.06*intensity,'triangle');
+  tone(ctx,sfxBus,start,.32,root*2,root*4,.105*intensity,'sine');
+  tone(ctx,sfxBus,start+.06,.38,root*2.98,root*1.5,.07*intensity,'triangle');
  }else{
-  tone(ctx,sfxBus,start,.34,root*.72,root*.34,.12*intensity,'sawtooth');
-  noiseBurst(ctx,sfxBus,start+.04,.24,.08*intensity,500,'lowpass');
+  tone(ctx,sfxBus,start,.34,root*.72,root*.34,.13*intensity,'sawtooth');
+  noiseBurst(ctx,sfxBus,start+.04,.24,.09*intensity,500,'lowpass');
  }
 }
 
 function heavyImpact(ctx:AudioContext,start:number,intensity=1){
  if(!sfxBus)return;
- tone(ctx,sfxBus,start,.34,105,38,.2*intensity,'sine');
- tone(ctx,sfxBus,start,.16,220,70,.11*intensity,'triangle');
- noiseBurst(ctx,sfxBus,start,.16,.16*intensity,1250,'bandpass');
- noiseBurst(ctx,sfxBus,start+.025,.07,.1*intensity,5600,'highpass');
+ tone(ctx,sfxBus,start,.34,105,38,.22*intensity,'sine');
+ tone(ctx,sfxBus,start,.16,220,70,.12*intensity,'triangle');
+ noiseBurst(ctx,sfxBus,start,.16,.18*intensity,1250,'bandpass');
+ noiseBurst(ctx,sfxBus,start+.025,.07,.11*intensity,5600,'highpass');
 }
 
 function abilityBlast(ctx:AudioContext,start:number,theme:string,special=false){
  if(!sfxBus)return;
- const power=special?1.32:1;
- noiseSweep(ctx,sfxBus,start,.22,.14*power,420,4800);
- tone(ctx,sfxBus,start,.26,70,145,.16*power,'sine');
+ const power=special?1.38:1.08;
+ noiseSweep(ctx,sfxBus,start,.22,.15*power,420,4800);
+ tone(ctx,sfxBus,start,.26,70,145,.18*power,'sine');
  elementalAccent(ctx,start+.08,theme,power);
  heavyImpact(ctx,start+.22,power);
  if(special){
-  tone(ctx,sfxBus,start+.02,.5,52,34,.19,'sine');
-  noiseSweep(ctx,sfxBus,start+.16,.38,.13,5200,260);
+  tone(ctx,sfxBus,start+.02,.5,52,34,.21,'sine');
+  noiseSweep(ctx,sfxBus,start+.16,.38,.14,5200,260);
  }
 }
 
 export function unlockBattleAudio(){
  const ctx=audioContext();
+ ensureBattleTrack();
  if(ctx?.state==='suspended')void ctx.resume();
 }
 
 export function startBattleMusic(enabled=true){
  if(!enabled)return;
- const ctx=audioContext();if(!ctx||!musicBus)return;
- musicPlaying=true;
- musicGeneration+=1;
- if(musicTimer){clearTimeout(musicTimer);musicTimer=null}
- const now=ctx.currentTime;
- musicBus.gain.cancelScheduledValues(now);
- musicBus.gain.setValueAtTime(Math.max(.0001,musicBus.gain.value),now);
- musicBus.gain.exponentialRampToValueAtTime(MUSIC_LEVEL,now+.35);
- nextMusicStart=now+.06;
- scheduleNextMusicBlock(musicGeneration);
+ const track=ensureBattleTrack();
+ if(!track)return;
+ if(fadeTimer){clearInterval(fadeTimer);fadeTimer=null}
+ battleTrackTarget=.30;
+ track.volume=battleTrackTarget;
+ if(track.ended)track.currentTime=0;
+ void track.play().catch(()=>{});
 }
 
 export function stopBattleMusic(fadeSeconds=.35){
- const ctx=context;
- musicPlaying=false;
- musicGeneration+=1;
- if(musicTimer){clearTimeout(musicTimer);musicTimer=null}
- if(!ctx||!musicBus)return;
- const now=ctx.currentTime;
- musicBus.gain.cancelScheduledValues(now);
- musicBus.gain.setValueAtTime(Math.max(.0001,musicBus.gain.value),now);
- musicBus.gain.exponentialRampToValueAtTime(.0001,now+Math.max(.05,fadeSeconds));
+ const track=battleTrack;
+ if(!track)return;
+ if(duckTimer){clearTimeout(duckTimer);duckTimer=null}
+ if(fadeTimer){clearInterval(fadeTimer);fadeTimer=null}
+ if(fadeSeconds<=.05){track.pause();track.volume=battleTrackTarget;return}
+ const steps=8;
+ const interval=Math.max(20,(fadeSeconds*1000)/steps);
+ const startVolume=track.volume;
+ let step=0;
+ fadeTimer=setInterval(()=>{
+  step+=1;
+  if(!battleTrack){if(fadeTimer)clearInterval(fadeTimer);fadeTimer=null;return}
+  battleTrack.volume=Math.max(0,startVolume*(1-step/steps));
+  if(step>=steps){
+   battleTrack.pause();
+   battleTrack.volume=battleTrackTarget;
+   if(fadeTimer)clearInterval(fadeTimer);
+   fadeTimer=null;
+  }
+ },interval);
 }
 
 export function playBattleSound(effect:BattleSoundEffect,enabled=true){
@@ -330,72 +265,71 @@ export function playBattleSound(effect:BattleSoundEffect,enabled=true){
  const ctx=audioContext();if(!ctx||!sfxBus)return;
  const now=ctx.currentTime+.01;
  const root=themeRoots[effect.theme]||220;
- duckMusic(ctx);
+ duckMusic();
 
  if(effect.variant==='special'){
   abilityBlast(ctx,now,effect.theme,true);
-  tone(ctx,sfxBus,now,.42,root*.6,root*2.5,.14,'sawtooth');
-  tone(ctx,sfxBus,now+.08,.38,root,root*3,.11,'triangle');
+  tone(ctx,sfxBus,now,.42,root*.6,root*2.5,.16,'sawtooth');
+  tone(ctx,sfxBus,now+.08,.38,root,root*3,.13,'triangle');
   if(effect.kind==='heal'){
-   tone(ctx,sfxBus,now+.18,.46,root,root*3.2,.11,'sine');
+   tone(ctx,sfxBus,now+.18,.46,root,root*3.2,.13,'sine');
   }else if(effect.kind==='shield'){
-   tone(ctx,sfxBus,now+.18,.42,root*.72,root*.72,.12,'square');
+   tone(ctx,sfxBus,now+.18,.42,root*.72,root*.72,.14,'square');
   }else if(effect.kind==='speed'){
-   tone(ctx,sfxBus,now+.16,.34,root,root*4,.1,'sawtooth');
+   tone(ctx,sfxBus,now+.16,.34,root,root*4,.12,'sawtooth');
   }else if(effect.kind==='debuff'){
-   tone(ctx,sfxBus,now+.18,.42,root*.8,root*.3,.12,'square');
+   tone(ctx,sfxBus,now+.18,.42,root*.8,root*.3,.14,'square');
   }
-  if(effect.knockout)tone(ctx,sfxBus,now+.38,.65,92,34,.18,'sawtooth');
+  if(effect.knockout)tone(ctx,sfxBus,now+.38,.65,92,34,.2,'sawtooth');
   return;
  }
 
  if(effect.variant==='ability'){
   abilityBlast(ctx,now,effect.theme,false);
   if(effect.kind==='heal'){
-   tone(ctx,sfxBus,now+.1,.38,root,root*2.8,.095,'sine');
+   tone(ctx,sfxBus,now+.1,.38,root,root*2.8,.11,'sine');
   }else if(effect.kind==='shield'){
-   tone(ctx,sfxBus,now+.08,.3,root*.72,root*.72,.105,'square');
+   tone(ctx,sfxBus,now+.08,.3,root*.72,root*.72,.12,'square');
   }else if(effect.kind==='speed'){
-   tone(ctx,sfxBus,now+.08,.26,root,root*3.4,.09,'sawtooth');
+   tone(ctx,sfxBus,now+.08,.26,root,root*3.4,.105,'sawtooth');
   }else if(effect.kind==='debuff'){
-   tone(ctx,sfxBus,now+.08,.32,root*.8,root*.38,.105,'square');
+   tone(ctx,sfxBus,now+.08,.32,root*.8,root*.38,.12,'square');
   }
-  if(effect.knockout)tone(ctx,sfxBus,now+.34,.55,86,34,.16,'sawtooth');
+  if(effect.knockout)tone(ctx,sfxBus,now+.34,.55,86,34,.18,'sawtooth');
   return;
  }
 
  if(effect.kind==='swap'){
-  noiseSweep(ctx,sfxBus,now,.22,.07,500,2600);
-  tone(ctx,sfxBus,now,.2,root*.7,root*1.6,.075,'triangle');
+  noiseSweep(ctx,sfxBus,now,.22,.08,500,2600);
+  tone(ctx,sfxBus,now,.2,root*.7,root*1.6,.085,'triangle');
   return;
  }
 
  if(effect.kind==='heal'){
-  tone(ctx,sfxBus,now,.36,root*.8,root*2.4,.085,'sine');
-  tone(ctx,sfxBus,now+.08,.42,root,root*3,.055,'triangle');
+  tone(ctx,sfxBus,now,.36,root*.8,root*2.4,.095,'sine');
+  tone(ctx,sfxBus,now+.08,.42,root,root*3,.065,'triangle');
   return;
  }
 
  if(effect.kind==='shield'){
-  heavyImpact(ctx,now,.55);
-  tone(ctx,sfxBus,now,.26,root*.7,root*.7,.085,'square');
+  heavyImpact(ctx,now,.62);
+  tone(ctx,sfxBus,now,.26,root*.7,root*.7,.095,'square');
   return;
  }
 
  if(effect.kind==='speed'){
-  noiseSweep(ctx,sfxBus,now,.18,.075,800,4800);
-  tone(ctx,sfxBus,now,.22,root,root*3,.08,'sawtooth');
+  noiseSweep(ctx,sfxBus,now,.18,.085,800,4800);
+  tone(ctx,sfxBus,now,.22,root,root*3,.09,'sawtooth');
   return;
  }
 
  if(effect.kind==='debuff'){
-  tone(ctx,sfxBus,now,.34,root*.8,root*.3,.1,'square');
-  noiseBurst(ctx,sfxBus,now+.05,.18,.065,700,'lowpass');
+  tone(ctx,sfxBus,now,.34,root*.8,root*.3,.115,'square');
+  noiseBurst(ctx,sfxBus,now+.05,.18,.075,700,'lowpass');
   return;
  }
 
- // Quick Strike: short whoosh + hard contact hit.
- noiseSweep(ctx,sfxBus,now,.14,.11,700,3800);
- heavyImpact(ctx,now+.11,.78);
- if(effect.knockout)tone(ctx,sfxBus,now+.18,.5,82,32,.15,'sawtooth');
+ noiseSweep(ctx,sfxBus,now,.14,.12,700,3800);
+ heavyImpact(ctx,now+.11,.86);
+ if(effect.knockout)tone(ctx,sfxBus,now+.18,.5,82,32,.17,'sawtooth');
 }
