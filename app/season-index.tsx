@@ -24,6 +24,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const supportingShowcase=approvedShowcase.filter(c=>c.rarity!=='legendary');
  const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
  const featuredCommons=illustratedCommons.slice(0,8);
+ const currentCommonRun=useMemo(()=>seasonManifest.filter(c=>c.cardNumber>=21&&c.cardNumber<=31).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
 
  const filteredBase=seasonManifest.filter(c=>
    (theme==='all'||c.theme===theme)&&
@@ -94,6 +95,31 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
      </article>)}
     </div>
    </section>}
+
+   <section className="common-flight-showcase current-common-run" aria-labelledby="current-common-run-title">
+    <div className="common-flight-heading">
+     <div>
+      <span className="eyebrow">CURRENT COMMON RUN · CN1-021—031</span>
+      <h2 id="current-common-run-title">Meet the next eleven Commons.</h2>
+      <p>Cards 021–031 are now part of the live Season One gallery. Finished artwork appears when approved; cards still in art production use the official NestRune card back so the full run stays visible in order.</p>
+     </div>
+    </div>
+    <div className="common-flight-grid">
+     {currentCommonRun.map((c,i)=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={'current-run-'+c.id}>
+      <button className="common-flight-art" onClick={()=>onInspect(c.id)} aria-label={'Inspect '+c.name}>
+       <GuardianCard id={c.id} eager={i<3}/>
+       <span className="common-flight-sheen" aria-hidden="true"/>
+      </button>
+      <div className="common-flight-meta">
+       <span>CN1 · {String(c.cardNumber).padStart(3,'0')}</span>
+       <span>{c.theme} · {c.battleClass}</span>
+      </div>
+      <h3>{c.name}</h3>
+      <p>{c.description}</p>
+      <button className="index-inspect" onClick={()=>onInspect(c.id)}>Explore story & battle profile ↗</button>
+     </article>)}
+    </div>
+   </section>
 
    {!!supportingShowcase.length&&<>
     <div className="gallery-section-head"><div><span className="eyebrow">APPROVED SHOWCASE ART</span><h2>Rare and Epic worlds taking shape.</h2></div><span>{supportingShowcase.length} founder-approved previews</span></div>
