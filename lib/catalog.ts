@@ -3,11 +3,11 @@ import {seasonManifest} from './season-manifest';
 export const catalog=seasonManifest.slice(0,21).map(c=>({id:c.id,name:c.name,theme:c.theme,family:c.theme,color:'#edc781',lore:c.lore,tile:-1}));
 
 /**
- * Current founder-approved beta pull pool. These Common cards may be awarded
- * in free beta openings while remaining ineligible for paid packs.
- * Higher rarities stay protected for a later market release.
+ * Founding Flight beta pull pool. The first 21 illustrated Guardians may be
+ * collected through free beta openings while remaining separate from paid
+ * randomized commerce. The remaining Season One slots stay reserved.
  */
-export const previewDropVersion='preview-common-21-v1';
+export const previewDropVersion='founding-flight-21-beta-v1';
 export const previewCollectibleIds=seasonManifest.slice(0,21).map(card=>card.id) as readonly string[];
 
 export const isPreviewCollectible=(id:string)=>(previewCollectibleIds as readonly string[]).includes(id);
