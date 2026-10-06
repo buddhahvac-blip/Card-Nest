@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "NestRune",
+    "slug": "nestrune",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "nestrune",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nestrune.app"
+    },
+    "android": {
+      "package": "com.nestrune.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#071c1b"
+      }
+    },
+    "extra": {
+      "apiBaseUrl": "https://nestrune.vercel.app"
+    }
+  }
+}
