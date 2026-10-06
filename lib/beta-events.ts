@@ -6,7 +6,7 @@ const ids=new Set(seasonManifest.map(c=>c.id));
 const cardDimension=z.string().refine(id=>ids.has(id),'Unknown guardian');
 const session=z.string().uuid();
 export const eventSchema=z.discriminatedUnion('event',[
- z.strictObject({event:z.literal('visit'),session}),
+ z.strictObject({event:z.literal('visit'),session,dimension:z.string().max(64).regex(/^[a-z0-9_-]*$/i).optional()}),
  z.strictObject({event:z.literal('season-view'),session}),
  z.strictObject({event:z.literal('discover-view'),session}),
  z.strictObject({event:z.literal('battle-view'),session}),
