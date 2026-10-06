@@ -41,6 +41,7 @@
   ],
   "exclude": [
     "node_modules",
-    "legacy-app"
+    "legacy-app",
+    "mobile"
   ]
 }
