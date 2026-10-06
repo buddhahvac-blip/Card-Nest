@@ -61,6 +61,26 @@ export function playBattleSound(effect:BattleSoundEffect,enabled=true){
  const now=ctx.currentTime+.01;
  const root=roots[effect.theme]||220;
 
+ if(effect.variant==='special'){
+  tone(ctx,now,.32,root*.55,root*1.15,.046,'triangle');
+  tone(ctx,now+.07,.3,root,root*2,.04,'sine');
+  tone(ctx,now+.14,.28,root*1.5,root*2.6,.032,'sawtooth');
+  if(effect.kind==='attack'){
+   noise(ctx,now+.3,.13,.036);
+   tone(ctx,now+.31,.24,root*.7,root*.42,.052,'square');
+  }else if(effect.kind==='heal'){
+   tone(ctx,now+.28,.38,root*1.2,root*2.4,.034,'sine');
+  }else if(effect.kind==='shield'){
+   tone(ctx,now+.28,.34,root*.8,root*.8,.038,'triangle');
+  }else if(effect.kind==='speed'){
+   tone(ctx,now+.25,.2,root*1.4,root*2.8,.03,'sawtooth');
+  }else if(effect.kind==='debuff'){
+   tone(ctx,now+.25,.32,root*.8,root*.35,.04,'square');
+  }
+  if(effect.knockout)tone(ctx,now+.43,.42,root*.55,70,.05,'sawtooth');
+  return;
+ }
+
  if(effect.kind==='swap'){
   tone(ctx,now,.12,root*.75,root,0.025,'sine');
   tone(ctx,now+.09,.18,root,root*1.5,0.032,'triangle');
@@ -83,16 +103,6 @@ export function playBattleSound(effect:BattleSoundEffect,enabled=true){
  }
  if(effect.kind==='debuff'){
   tone(ctx,now,.28,root*.8,root*.45,.035,'square');
-  return;
- }
-
- if(effect.kind==='attack'&&effect.variant==='special'){
-  tone(ctx,now,.34,root*.6,root*1.2,.045,'triangle');
-  tone(ctx,now+.08,.3,root,root*2,.038,'sine');
-  tone(ctx,now+.16,.26,root*1.5,root*2.5,.03,'sawtooth');
-  noise(ctx,now+.31,.12,.035);
-  tone(ctx,now+.31,.22,root*.7,root*.42,.05,'square');
-  if(effect.knockout)tone(ctx,now+.43,.42,root*.55,70,.05,'sawtooth');
   return;
  }
 
