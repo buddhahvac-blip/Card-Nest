@@ -5,6 +5,8 @@ import LegendaryFlight from '@/app/legendary-flight';
 import SeasonArtGallery from '@/app/season-art-gallery';
 import {cardPath,themePath} from '@/lib/card-paths';
 import ThemeEmblem from '@/app/theme-emblem';
+import commonMasterArt from '@/data/common-master-art.json';
+import showcaseRecords from '@/data/season-one-showcase.json';
 
 export const metadata:Metadata={
  title:'Season One: The First Flight',
@@ -15,6 +17,7 @@ export const metadata:Metadata={
 export default function SeasonOnePage(){
  const progress=artProgress();
  const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
+ const showcaseArt=new Map(showcaseRecords.map(art=>[art.cardId,art.artworkUrl]));
  return <main className="shell">
   <Link className="brand" href="/">✧ Nest<span>Rune</span></Link>
   <div className="eyebrow">SEASON ONE · THE FIRST FLIGHT</div>
@@ -47,13 +50,18 @@ export default function SeasonOnePage(){
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:12}}>
        {cards.map(card=>{
-        const imageSrc=card.thumbnailUrl||card.avatarUrl||card.artworkUrl||card.fullCardUrl||null;
-        const illustrated=hasSeasonArtwork(card)&&!!imageSrc;
+        const currentArt=(commonMasterArt as Record<string,string>)[card.id]
+         ||card.masterArtworkUrl
+         ||card.highResolutionArtworkUrl
+         ||showcaseArt.get(card.id)
+         ||card.artworkUrl
+         ||null;
+        const illustrated=hasSeasonArtwork(card)&&!!currentArt;
+        const imageSrc=currentArt||'/art/nestrune-card-back.svg';
         return <Link key={card.id} href={cardPath(card)} style={{display:'block',textDecoration:'none',color:'inherit',border:'1px solid rgba(255,255,255,.08)',borderRadius:14,padding:9,background:'rgba(255,255,255,.025)'}}>
          <div style={{position:'relative',width:'100%',aspectRatio:'3 / 4',borderRadius:10,overflow:'hidden',background:'rgba(255,255,255,.035)',marginBottom:9}}>
-          {illustrated
-           ? <img src={imageSrc!} alt={card.name} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/>
-           : <div style={{width:'100%',height:'100%',display:'grid',placeItems:'center',padding:12,textAlign:'center',fontSize:12,opacity:.58}}>Artwork coming soon</div>}
+          <img src={imageSrc} alt={illustrated?card.name:'NestRune card back'} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/>
+          {!illustrated&&<div style={{position:'absolute',left:8,right:8,bottom:8,padding:'7px 8px',borderRadius:8,textAlign:'center',fontSize:10,fontWeight:800,letterSpacing:'.08em',textTransform:'uppercase',color:'#f4e4a6',background:'rgba(4,22,28,.78)',border:'1px solid rgba(217,184,95,.38)'}}>Art reveal coming soon</div>}
          </div>
          <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:5}}>
           <ThemeEmblem theme={card.theme} size={20} label={false}/>
