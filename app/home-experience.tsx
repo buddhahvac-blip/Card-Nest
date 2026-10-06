@@ -32,7 +32,7 @@ export default function HomeExperience({go}:Props){
         </div>
         <div className="cn-hero-proof" aria-label="CardNest Season One overview">
           <span><strong>369</strong> Season One Guardians</span>
-          <span><strong>6</strong> visual themes</span>
+          <span><strong>21</strong> Founding Guardians live</span>
           <span><strong>1</strong> connected world</span>
         </div>
       </div>
@@ -48,6 +48,18 @@ export default function HomeExperience({go}:Props){
       <div className="cn-world-caption">
         <span>✧</span>
         <div><strong>THE GARDEN OF LANDS</strong><small>A living world built around your collection.</small></div>
+      </div>
+    </section>
+
+    <section className="cn-founder-strip" aria-label="Founding Flight crowdfunding">
+      <div>
+        <span className="eyebrow">FOUNDING FLIGHT · 21 GUARDIANS LIVE</span>
+        <h2>Help CardNest grow from its first collection into a living world.</h2>
+        <p>The first 21 illustrated Guardians are now the Founding Flight beta pool. Free beta pulls are live, while crowdfunding is being prepared to fund higher-resolution art, more Guardians, stronger Nest Battles, and the next Garden regions.</p>
+      </div>
+      <div className="cn-founder-actions">
+        <Link className="cn-primary-cta" href="/founders">SEE THE FOUNDING FLIGHT <ArrowRight size={17}/></Link>
+        <button className="cn-secondary-cta" onClick={()=>scrollTo('packs')}>TRY THE 21-CARD POOL</button>
       </div>
     </section>
 
