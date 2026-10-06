@@ -4,7 +4,6 @@ import {Search,Check,Sparkles,ArrowRight,Crown} from 'lucide-react';
 import {seasonManifest,artProgress,hasSeasonArtwork,hasApprovedShowcaseArt} from '@/lib/season-manifest';
 import {GuardianCard} from './cards';
 import LegendaryFlight from './legendary-flight';
-import ArtInspect from './art-inspect';
 import {Progress} from '@/components/ui/progress';
 import ThemeEmblem from './theme-emblem';
 
@@ -20,12 +19,18 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const [page,setPage]=useState(0);
  const owned=useMemo(()=>new Set<string>((data?.cards||[]).map((x:any)=>x.card)),[data]);
  const progress=artProgress();
- const approvedShowcase=useMemo(()=>seasonManifest.filter(hasApprovedShowcaseArt).sort((a,b)=>(rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||a.cardNumber-b.cardNumber),[]);
  const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
  const featuredCommons=illustratedCommons.slice(0,8);
  const currentCommonRun=useMemo(()=>seasonManifest.filter(c=>c.cardNumber>=21&&c.cardNumber<=31).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
+ const defaultHighlightedIds=new Set([
+   ...featuredCommons.map(c=>c.id),
+   ...currentCommonRun.map(c=>c.id),
+   ...seasonManifest.filter(c=>c.rarity==='legendary'&&hasApprovedShowcaseArt(c)).slice(0,1).map(c=>c.id)
+ ]);
+ const suppressDefaultDuplicates=query===''&&theme==='all'&&rarity==='all'&&show==='illustrated'&&sortMode==='showcase';
 
  const filteredBase=seasonManifest.filter(c=>
+   (!suppressDefaultDuplicates||!defaultHighlightedIds.has(c.id))&&
    (theme==='all'||c.theme===theme)&&
    (rarity==='all'||c.rarity===rarity)&&
    (show==='all'||(show==='owned'?owned.has(c.id):show==='illustrated'?hasSeasonArtwork(c):show==='approved'?hasApprovedShowcaseArt(c):!owned.has(c.id)))&&
