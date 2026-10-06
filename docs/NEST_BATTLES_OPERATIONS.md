@@ -1,7 +1,7 @@
 # Nest Battles operating plan
 
-Status: playable alpha foundation  
-Rules version: nest-battles-alpha-1
+Status: playable alpha + Rune Dungeon beta  
+Rules version: nest-battles-alpha-2-specials
 
 ## Product promise
 
@@ -15,7 +15,7 @@ The alpha uses illustrated Common guardians to prove that ordinary cards can be 
 
 ## Battle pillars
 
-1. **Readable action** — large cards, clear HP/Guard/Energy, two primary actions, obvious feedback and short battle logs.
+1. **Readable action** — Guardian avatars plus collectible card art, clear HP/Guard/Energy, Quick Strike + Ability + Special, obvious feedback and short battle logs.
 2. **Strategic timing** — Speed, cooldowns, Energy, switching and affinity affect the order and value of actions.
 3. **Team identity** — Scout, Striker, Vanguard, Support, Warden and Disruptor must each have a recognizable purpose.
 4. **Collection usefulness** — owning more guardians should create new strategies, not mandatory power escalation.
@@ -29,11 +29,15 @@ The alpha uses illustrated Common guardians to prove that ordinary cards can be 
 - No rewards, trading, rank or purchases.
 - Measure clarity, match length, class diversity and rematch intent.
 
-### Beta — Garden Adventure
-- Six Theme regions with tutorial encounters and bosses.
-- Starter missions and cosmetic/lore rewards.
-- Team builder connected to My Nest.
-- Server persistence for progress, but battle balance remains versioned and reversible.
+### Beta — Rune Dungeon / Garden Adventure
+- Rune Dungeon launches the PvE foundation with ten sequential mission floors and a boss on Floor 10.
+- Enemy HP and damage scale by floor; Specials, swapping, affinity and Energy remain the strategic core.
+- First clears persist per account and award account-bound Rune Energy once per floor.
+- Rune Energy cannot be purchased, transferred or cashed out. It may only claim free preview-pack entitlements while the beta preview pool is enabled.
+- Reward costs are server-defined: Hatchling 20, Nest 50, Guardian 90, Royal Nest 140 Rune Energy.
+- All ten first clears award 240 Rune Energy total. Replays award zero additional Energy.
+- The team builder remains a starter learning pool for this first pass; My Nest roster selection is a later gate.
+- Expand toward six Theme regions after mission completion, balance and reward telemetry are validated.
 
 ### League — Ranked Battles
 Do not launch until:
@@ -76,7 +80,7 @@ Do not optimize primarily for spend, pack openings or time-on-site. Fun, compreh
 
 ## Technical direction
 
-The current alpha is local and non-authoritative. Before rewards or PvP:
+The current battle resolution is still client-side and non-authoritative. Rune Dungeon therefore limits beta rewards to finite, account-bound, no-cash-value preview entitlements with one server-recorded Energy award per floor. Before any economically valuable reward, paid competitive reward or PvP:
 - move match resolution to trusted server code;
 - persist match IDs and rules version;
 - validate owned/deck-eligible cards server-side;
