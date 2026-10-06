@@ -73,7 +73,6 @@ function ensureBattleTrack(){
  audio.loop=true;
  audio.preload='auto';
  audio.volume=battleTrackTarget;
- audio.crossOrigin='anonymous';
  const ogg=document.createElement('source');
  ogg.src=BATTLE_MUSIC_OGG;
  ogg.type='audio/ogg';
