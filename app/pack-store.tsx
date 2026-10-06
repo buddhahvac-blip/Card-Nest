@@ -21,7 +21,7 @@ export default function PackStore({busy,onPreview,onFree}:{busy:boolean;onPrevie
   }catch(e){setError(e instanceof Error?e.message:'Checkout is unavailable.')}finally{setPending(null)}
  }
  return <section id="packs" className="integrated-pack-store" aria-labelledby="pack-store-title">
-  <div className="pack-store-heading"><span className="eyebrow">SEASON ONE · THE FIRST FLIGHT</span><h1 id="pack-store-title">A world worth collecting.</h1><p>Choose your pack. Meet a new friend. Find your place in the Garden of Lands.</p><span className="store-beta-state">{store?.paymentsEnabled?store.paymentMode==='live'?'Secure digital pack checkout':'Test checkout only — no real purchases':'Public beta · purchases coming soon'}</span></div>
+  <div className="pack-store-heading"><span className="eyebrow">SEASON ONE · THE FIRST FLIGHT</span><h1 id="pack-store-title">A world worth collecting.</h1><p>Choose your pack. Meet a new friend. Find your place in the Garden of Lands.</p><span className="store-beta-state">{store?.paymentsEnabled?store.paymentMode==='live'?'Secure digital pack checkout':'Test checkout only — no real purchases':'Founding Flight beta · 21-card pull pool live'}</span></div>
   <PackArtwork hero/>
   <div className="store-garden-title"><span>✧</span> GARDEN OF LANDS <span>✧</span></div>
   <div className="store-product-grid">{packs.map(p=>{const Icon=icons[p.id as keyof typeof icons];return <article key={p.id} data-pack-id={p.id} className={`store-product store-${p.id}`}>
@@ -32,7 +32,7 @@ export default function PackStore({busy,onPreview,onFree}:{busy:boolean;onPrevie
    {p.freeAvailable?<button className="store-free" disabled={busy||!!pending} onClick={()=>onFree(p.id)} aria-label={`Open free beta ${p.name}`}>Open free beta pack · save to My Nest</button>:<p className="store-free-note">{store?'Saved beta opening currently unavailable.':'Checking free beta availability…'}</p>}
   </div></article>})}</div>
   {error&&<p role="alert" className="notice error">{error} <Link href="/auth">Sign in</Link></p>}{loadFailed&&<p role="status">Pack availability could not be loaded. Purchases and saved openings are paused; animation previews remain available.</p>}
-  <p className="store-disclosure">Digital cards only. Animation previews do not award cards. Available free beta openings require sign-in and save eligible pulls to My Nest; limits apply. Pack artwork celebrates the CardNest world and does not guarantee the featured character in a pull.</p>
+  <p className="store-disclosure">Digital cards only. The Founding Flight beta pool contains the first 21 illustrated Guardians. Animation previews do not award cards. Available free beta openings require sign-in and save eligible pulls to My Nest; limits apply. Crowdfunding supporter rewards are kept separate from randomized pulls while commercial launch safeguards are completed.</p>
   {store?.commonSupply?.capActive&&<p className="store-disclosure">Founding Common beta supply: {store.commonSupply.remaining.toLocaleString()} of {store.commonSupply.commonPullCap.toLocaleString()} awards remain.</p>}
   <div className="store-policy-links"><Link href="/terms">Terms</Link><Link href="/refunds">Refund information</Link><Link href="/support">Support</Link></div>
  </section>;
