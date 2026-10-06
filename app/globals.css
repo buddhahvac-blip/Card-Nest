@@ -271,7 +271,7 @@ main>.lower-grid{display:grid}
 .battle-card-echo-rival{right:-12%;top:11%;transform:rotate(9deg) scale(1.02);-webkit-mask-image:linear-gradient(270deg,#000 0 68%,transparent 100%);mask-image:linear-gradient(270deg,#000 0 68%,transparent 100%)}
 .battle-guardian-avatar{appearance:none;border:0;background:transparent;padding:0;position:relative;z-index:2;width:clamp(160px,18vw,235px);aspect-ratio:1/1;border-radius:46%;cursor:zoom-in;isolation:isolate;transition:transform .18s ease,filter .18s ease}
 .battle-guardian-avatar:hover{transform:translateY(-3px) scale(1.015);filter:brightness(1.08)}
-.battle-guardian-avatar img{position:relative;z-index:2;width:100%;height:100%;object-fit:cover;border-radius:46%;border:2px solid color-mix(in srgb,var(--aura) 75%,#f3dfa0);box-shadow:0 20px 35px #0009,0 0 28px color-mix(in srgb,var(--aura) 42%,transparent);background:#0b2630}
+.battle-guardian-avatar img{position:relative;z-index:2;width:100%;height:100%;object-fit:cover;object-position:center 36%;border-radius:46%;border:2px solid color-mix(in srgb,var(--aura) 75%,#f3dfa0);box-shadow:0 20px 35px #0009,0 0 28px color-mix(in srgb,var(--aura) 42%,transparent);background:#0b2630}
 .battle-avatar-aura{position:absolute;z-index:1;inset:-9%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--aura) 30%,transparent),transparent 68%);filter:blur(8px);animation:battleAvatarAura 3.5s ease-in-out infinite}
 .battle-avatar-inspect{position:absolute;z-index:4;left:50%;bottom:8px;transform:translateX(-50%);opacity:0;white-space:nowrap;padding:4px 8px;border-radius:999px;background:#061b22d9;border:1px solid #ead49055;color:#fff0c6;font-size:9px;font-weight:800;transition:opacity .18s}.battle-guardian-avatar:hover .battle-avatar-inspect,.battle-guardian-avatar:focus-visible .battle-avatar-inspect{opacity:1}
 .rival-avatar img{box-shadow:0 20px 35px #0009,0 0 30px color-mix(in srgb,var(--aura) 46%,transparent)}
@@ -282,7 +282,7 @@ main>.lower-grid{display:grid}
 .battle-reserves{align-self:end;display:flex;justify-content:center;gap:6px;min-height:60px;padding:4px;margin-bottom:2px}
 .battle-reserve{width:66px;min-height:57px;padding:4px;border:1px solid #ffffff20;border-radius:11px;background:#071f27b8;color:#d8e4df;text-align:center;display:grid;justify-items:center;gap:2px}
 button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border-color:#efd58988;transform:translateY(-2px)}
-.battle-reserve img{width:38px;height:38px;object-fit:cover;border-radius:50%;border:1px solid #ffffff38}.battle-reserve span{font-size:8px;line-height:1.1}.battle-reserve.active{border-color:#f0d68c;box-shadow:0 0 18px #efce7d2e}.battle-reserve.down{filter:grayscale(1);opacity:.4}.battle-reserve:disabled{cursor:default}
+.battle-reserve img{width:38px;height:38px;object-fit:cover;object-position:center 36%;border-radius:50%;border:1px solid #ffffff38}.battle-reserve span{font-size:8px;line-height:1.1}.battle-reserve.active{border-color:#f0d68c;box-shadow:0 0 18px #efce7d2e}.battle-reserve.down{filter:grayscale(1);opacity:.4}.battle-reserve:disabled{cursor:default}
 .battle-center-v4{align-self:center;position:relative;z-index:3;padding:8px 10px;min-width:82px}.battle-center-v4>div{width:64px!important;height:64px!important;margin:-5px auto!important}.battle-center-v4>div>span{font-size:44px!important}.battle-center-v4 strong{font-size:23px}.battle-center-v4 small{font-size:9px;white-space:nowrap}
 
 .battle-action-dock{display:grid;gap:7px}
