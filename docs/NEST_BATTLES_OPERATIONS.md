@@ -29,6 +29,13 @@ The alpha uses illustrated Common guardians to prove that ordinary cards can be 
 - No rewards, trading, rank or purchases.
 - Measure clarity, match length, class diversity and rematch intent.
 
+### Rune Dungeon World Map
+- **World I — Verdant Skywilds (Floors 1–3):** Bloom / Tide / Mystic encounters, enchanted Great Nest landscape treatment, and the CC0 track *Fairy Battles*.
+- **World II — Emberstorm Crucible (Floors 4–7):** Ember / Volt encounters, volcanic forge landscape treatment, and the CC0 track *Hope (Orchestral battle music)*.
+- **World III — Eclipse Runeheart (Floors 8–10):** Shadow / Mystic / Ember encounters, moonlit Runeheart landscape treatment, and the CC0 track *Heavy Boss Battle 2*.
+- Each world changes the arena lighting, foreground/particle treatment, enemy Theme mix and background music while preserving the same battle rules and Rune Energy economy.
+- Music provenance and license evidence are kept in `docs/AUDIO_SOURCES.md`.
+
 ### Beta — Rune Dungeon / Garden Adventure
 - Rune Dungeon launches the PvE foundation with ten sequential mission floors and a boss on Floor 10.
 - Enemy HP and damage scale by floor; Specials, swapping, affinity and Energy remain the strategic core.
