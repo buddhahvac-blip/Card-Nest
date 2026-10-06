@@ -4,7 +4,7 @@ import {useLayoutEffect,useState,type CSSProperties,type RefObject} from 'react'
 import styles from './battle-fx.module.css';
 
 export type BattleSide='you'|'rival';
-export type BattleEffect={kind:'attack'|'heal'|'shield'|'speed'|'debuff'|'swap';side:BattleSide;theme:string;amount?:number;blocked?:number;variant?:'strike'|'ability';label?:string;knockout?:boolean};
+export type BattleEffect={kind:'attack'|'heal'|'shield'|'speed'|'debuff'|'swap';side:BattleSide;theme:string;amount?:number;blocked?:number;variant?:'strike'|'ability'|'special';label?:string;knockout?:boolean};
 type Point={x:number;y:number};
 const palettes:Record<string,string>={Bloom:'#98ed99',Ember:'#ffab66',Tide:'#76dfff',Volt:'#ffe887',Mystic:'#d9bdff',Shadow:'#c68eff'};
 const motifs:Record<string,string>={Bloom:'❧',Ember:'◆',Tide:'◜',Volt:'ϟ',Mystic:'✧',Shadow:'⋰'};
