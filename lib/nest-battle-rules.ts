@@ -1,4 +1,4 @@
-export const NEST_BATTLE_RULES_VERSION = 'nest-battles-alpha-1';
+export const NEST_BATTLE_RULES_VERSION = 'nest-battles-alpha-2-specials';
 
 export const CLASS_GUIDE: Record<string,{label:string;purpose:string}> = {
   Scout:{label:'Scout',purpose:'Acts quickly and changes turn order.'},
