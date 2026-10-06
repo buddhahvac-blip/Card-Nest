@@ -20,16 +20,16 @@ export default function Auth(){
     redirectTo:window.location.origin+'/auth/reset'
    });
    if(r.error)setError(r.error.message||'Could not send the password setup email.');
-   else setMessage('Check your email for the secure CardNest password setup link.')
+   else setMessage('Check your email for the secure NestRune password setup link.')
   }catch{
    setError('Could not send the password setup email. Please retry.')
   }finally{setBusy(false)}
  }
 
  return <main className="shell" style={{maxWidth:520,paddingTop:80}}>
-  <Link className="brand" href="/">✧ CardNest</Link>
+  <Link className="brand" href="/">✧ NestRune</Link>
   <h1 className="page-title">Welcome to your nest.</h1>
-  <p>Sign in to save your guardians and manage your CardNest account. Public signup remains closed during launch review.</p>
+  <p>Sign in to save your guardians and manage your NestRune account. Public signup remains closed during launch review.</p>
   <form className="panel" onSubmit={async e=>{
    e.preventDefault();setBusy(true);setError('');setMessage('');
    try{

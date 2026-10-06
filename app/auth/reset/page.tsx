@@ -16,9 +16,9 @@ export default function ResetPassword(){
  },[]);
 
  return <main className="shell" style={{maxWidth:520,paddingTop:80}}>
-  <Link className="brand" href="/">✧ CardNest</Link>
-  <h1 className="page-title">Set your CardNest password.</h1>
-  <p>Create a strong password for your account. This password is sent directly to Neon Auth and is never stored in CardNest application code.</p>
+  <Link className="brand" href="/">✧ NestRune</Link>
+  <h1 className="page-title">Set your NestRune password.</h1>
+  <p>Create a strong password for your account. This password is sent directly to Neon Auth and is never stored in NestRune application code.</p>
   <form className="panel" onSubmit={async e=>{
    e.preventDefault();setError('');
    if(!token){setError('This setup link is missing or invalid. Request a new one from the sign-in page.');return}
