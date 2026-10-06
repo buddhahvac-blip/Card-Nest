@@ -4,6 +4,7 @@ import {seasonManifest,artProgress} from '@/lib/season-manifest';
 import LegendaryFlight from '@/app/legendary-flight';
 import SeasonArtGallery from '@/app/season-art-gallery';
 import {cardPath,themePath} from '@/lib/card-paths';
+import ThemeEmblem from '@/app/theme-emblem';
 
 export const metadata:Metadata={
  title:'Season One: The First Flight',
@@ -34,7 +35,7 @@ export default function SeasonOnePage(){
    <h2>Complete collector index</h2>
    <p>Every stable Season One card number has a permanent public URL for sharing, linking, and future collection history.</p>
    <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(220px,1fr))',gap:10}}>
-    {seasonManifest.map(card=><Link key={card.id} className="outline" href={cardPath(card)}>CN1-{String(card.cardNumber).padStart(3,'0')} · {card.name}</Link>)}
+    {seasonManifest.map(card=><Link key={card.id} className="outline" href={cardPath(card)} style={{display:'flex',alignItems:'center',justifyContent:'flex-start',gap:10,textAlign:'left'}}><ThemeEmblem theme={card.theme} size={28} label={false}/><span>CN1-{String(card.cardNumber).padStart(3,'0')} · {card.name}</span></Link>)}
    </div>
   </section>
  </main>;
