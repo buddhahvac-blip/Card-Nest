@@ -24,7 +24,7 @@ export default function HomeExperience({go}:Props){
   return <>
     <section className="cn-world-hero cn-video-hero" aria-labelledby="nestrune-home-title">
       <Image className="cn-world-hero-image cn-world-hero-poster" src="/art/great-nest-world.webp" alt="" fill quality={95} preload sizes="100vw" aria-hidden="true"/>
-      {!videoFailed&&<video ref={heroVideoRef} className="cn-world-hero-video" autoPlay muted loop playsInline preload="metadata" poster="/art/great-nest-world.webp" onError={()=>setVideoFailed(true)} aria-hidden="true"><source src="https://cdn.openart.ai/openart-uploads/production/attachment-transfers/96fcf5eb06b053081fd6542aaa0416b026035e80615bb55f0babc7a1d5bb2994.mp4" type="video/mp4"/></video>}
+      {!videoFailed&&<video ref={heroVideoRef} className="cn-world-hero-video" autoPlay muted loop playsInline preload="metadata" poster="/art/great-nest-world.webp" onError={()=>setVideoFailed(true)} aria-hidden="true"><source src="/api/nestrune-intro" type="video/mp4"/></video>}
       <div className="cn-world-hero-shade" aria-hidden="true"/>
       <div className="cn-world-hero-glow" aria-hidden="true"/>
       <button className="cn-hero-sound" type="button" onClick={toggleHeroSound} aria-label={heroMuted?'Turn NestRune intro sound on':'Mute NestRune intro sound'}>{heroMuted?<VolumeX size={18}/>:<Volume2 size={18}/>}<span>{heroMuted?'Sound on':'Mute'}</span></button>
