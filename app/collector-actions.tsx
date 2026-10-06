@@ -26,7 +26,7 @@ export default function CollectorActions({cardId,cardName,trackView=false}:{card
     const card=seasonCard(cardId);
     const url=new URL(card?cardPath(card):location.pathname,location.origin).toString();
     try{
-      if(navigator.share)await navigator.share({title:`${cardName} · CardNest`,text:`Explore ${cardName} from CardNest Season One.`,url});
+      if(navigator.share)await navigator.share({title:`${cardName} · NestRune`,text:`Explore ${cardName} from NestRune Season One.`,url});
       else await navigator.clipboard.writeText(url);
       setShared(true);trackBeta('share-card',cardId);
       setTimeout(()=>setShared(false),1800);
