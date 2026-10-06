@@ -1,9 +1,9 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
-import {seasonManifest} from '@/lib/season-manifest';
+import {hasSeasonArtwork,seasonManifest} from '@/lib/season-manifest';
 import {cardPath,themePath} from '@/lib/card-paths';
-import {siteUrl} from '@/lib/site';
+import {searchIndexingApproved,siteUrl} from '@/lib/site';
 import {GuardianCard} from '@/app/cards';
 import {BattleProfile} from '@/app/battle-profile';
 import CollectorActions from '@/app/collector-actions';
