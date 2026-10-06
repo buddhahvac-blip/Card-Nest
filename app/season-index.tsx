@@ -21,7 +21,6 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const owned=useMemo(()=>new Set<string>((data?.cards||[]).map((x:any)=>x.card)),[data]);
  const progress=artProgress();
  const approvedShowcase=useMemo(()=>seasonManifest.filter(hasApprovedShowcaseArt).sort((a,b)=>(rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||a.cardNumber-b.cardNumber),[]);
- const supportingShowcase=approvedShowcase.filter(c=>c.rarity!=='legendary');
  const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
  const featuredCommons=illustratedCommons.slice(0,8);
  const currentCommonRun=useMemo(()=>seasonManifest.filter(c=>c.cardNumber>=21&&c.cardNumber<=31).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
@@ -121,15 +120,6 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
     </div>
    </section>
 
-   {!!supportingShowcase.length&&<>
-    <div className="gallery-section-head"><div><span className="eyebrow">APPROVED SHOWCASE ART</span><h2>Rare and Epic worlds taking shape.</h2></div><span>{supportingShowcase.length} founder-approved previews</span></div>
-    <div className="showcase-tray">
-     {supportingShowcase.map(c=><article className={'showcase-tile rarity-'+c.rarity} key={c.id}>
-      <ArtInspect cardId={c.id}/>
-      <div className="showcase-tile-copy"><span className="rarity-token">{c.rarity}</span><h3>{c.name}</h3><p>{c.theme} Theme · {c.battleClass}</p><button className="index-inspect" onClick={()=>onInspect(c.id)}>Explore guardian ↗</button></div>
-     </article>)}
-    </div>
-   </>}
   </section>
 
   <div className="gallery-shortcuts" role="group" aria-label="Season One gallery views">
