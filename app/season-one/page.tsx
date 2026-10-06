@@ -7,7 +7,7 @@ import {cardPath,themePath} from '@/lib/card-paths';
 
 export const metadata:Metadata={
  title:'Season One: The First Flight',
- description:'Explore all 369 CardNest Season One guardian concepts across Ember, Tide, Bloom, Volt, Mystic, and Shadow.',
+ description:'Explore all 369 NestRune Season One guardian concepts across Ember, Tide, Bloom, Volt, Mystic, and Shadow.',
  alternates:{canonical:'/season-one'}
 };
 
