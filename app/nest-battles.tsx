@@ -200,6 +200,7 @@ export default function NestBattles(){
  const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
  const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||(commonMasterArt as Record<string,string>)[id]||card.artworkUrl||card.fullCardUrl||''};
+ const cardArtFor=(id:string)=>{const card=cardById(id);return card.fullCardUrl||card.artworkUrl||(commonMasterArt as Record<string,string>)[id]||avatarFor(id)};
  return <section className="nest-battles battle-live">
   <div className="battle-compact-hud">
    <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
@@ -216,6 +217,7 @@ export default function NestBattles(){
     <div className="battle-side-label">YOUR GUARDIAN</div>
     <div className="battle-avatar-fighter">
      <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
+      <span className="battle-card-echo battle-card-echo-player" aria-hidden="true"><Image src={cardArtFor(activeCard.id)} alt="" fill sizes="150px" quality={72}/></span>
       <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
        <span className="battle-avatar-aura"/>
        <Image src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
@@ -237,6 +239,7 @@ export default function NestBattles(){
     <div className="battle-side-label">RIVAL GUARDIAN</div>
     <div className="battle-avatar-fighter rival-fighter">
      <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
+      <span className="battle-card-echo battle-card-echo-rival" aria-hidden="true"><Image src={cardArtFor(enemyCard.id)} alt="" fill sizes="150px" quality={72}/></span>
       <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
        <span className="battle-avatar-aura"/>
        <Image src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
@@ -251,17 +254,17 @@ export default function NestBattles(){
     </div>
     <div className="battle-reserves battle-reserves-rival" aria-label="Rival Guardian team">{rival.map((fighter,index)=>{const card=cardById(fighter.id);return <div key={fighter.id} className={'battle-reserve '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')} title={card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===rivalActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>})}</div>
    </div>
+   <div className="battle-action-dock battle-action-dock-overlay">
+    <div className={`${battleStyles.controls} battle-controls-v4`}><p role="status">{busy?'Guardians in motion…':'Attack now · no scrolling needed.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
+    <div className="battle-command-deck battle-command-deck-v4">
+     <button className="battle-command strike" disabled={busy||phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Lunge attack · restores 1 Energy</small></span></button>
+     <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
+     <div className="battle-turn-card"><Shield/><span><strong>{CLASS_GUIDE[activeCard.battleClass]?.label}</strong><small>{CLASS_GUIDE[activeCard.battleClass]?.purpose}</small></span></div>
+    </div>
+   </div>
   </div>
 
-  <div className="battle-action-dock">
-   <div className={`${battleStyles.controls} battle-controls-v4`}><p role="status">{busy?'Guardians in motion…':'Choose an attack or swap a Guardian.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
-   <div className="battle-command-deck battle-command-deck-v4">
-    <button className="battle-command strike" disabled={busy||phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Lunge attack · restores 1 Energy</small></span></button>
-    <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
-    <div className="battle-turn-card"><Shield/><span><strong>{CLASS_GUIDE[activeCard.battleClass]?.label}</strong><small>{CLASS_GUIDE[activeCard.battleClass]?.purpose}</small></span></div>
-   </div>
-   <details className="battle-log battle-log-compact"><summary><span>Battle Story</span><strong>{log[0]}</strong></summary><div>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div></details>
-  </div>
+  <details className="battle-log battle-log-compact"><summary><span>Battle Story</span><strong>{log[0]}</strong></summary><div>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div></details>
 
   {phase==='finished'&&<div className="battle-finish"><Sparkles/><div><h2>{isTeamDown(rival)?'Your Nest held strong!':'A new strategy is waiting.'}</h2><p>Try another combination. The same Common guardians can play very differently depending on class and matchup.</p></div><button className="gold" onClick={reset}>Build another team</button></div>}
 
