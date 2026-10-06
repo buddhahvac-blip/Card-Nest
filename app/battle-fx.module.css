@@ -1,4 +1,14 @@
 .arena{isolation:isolate;background:radial-gradient(ellipse at 50% 48%,#37675b88 0,transparent 48%),linear-gradient(155deg,#081b2c,#174741 55%,#081e29)!important;border-color:#d6bd6c55!important;box-shadow:inset 0 0 100px #020e1bc9,0 22px 65px #0003}
+.world{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.worldArt{position:absolute;inset:-4%;background:linear-gradient(180deg,#04131f80 0,#0b2c3066 42%,#061a20d9 100%),url('/art/great-nest-world.webp') center 46%/cover no-repeat;filter:saturate(.9) brightness(.72) contrast(1.04);transform:scale(1.045);animation:worldPan 18s ease-in-out infinite alternate}
+.worldGlow{position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,#f1d88920 0 8%,#64d4b719 24%,transparent 52%),linear-gradient(90deg,#02101f99,transparent 20% 80%,#02101f99);mix-blend-mode:screen;animation:worldGlow 5s ease-in-out infinite}
+.lightShafts{position:absolute;inset:-20% 0 0;opacity:.28;filter:blur(1px)}
+.lightShafts i{position:absolute;top:0;width:18%;height:92%;background:linear-gradient(180deg,#f4e9b23b,transparent 76%);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);transform-origin:top center;animation:shaftSway 9s ease-in-out infinite alternate}
+.lightShafts i:nth-child(1){left:12%;transform:rotate(8deg)}.lightShafts i:nth-child(2){left:48%;width:13%;animation-delay:-3s}.lightShafts i:nth-child(3){right:8%;transform:rotate(-10deg);animation-delay:-6s}
+.foregroundLeaves{position:absolute;inset:auto 0 0;height:28%;background:linear-gradient(0deg,#020f17e8,transparent)}
+.foregroundLeaves i{--leaf-x:50%;--leaf-delay:0s;position:absolute;left:var(--leaf-x);bottom:-12px;width:14px;height:42px;border-radius:100% 0 100% 0;background:linear-gradient(180deg,#4f8b6a,#102f31);box-shadow:0 0 16px #061819;transform-origin:50% 100%;animation:leafSway 4.5s ease-in-out var(--leaf-delay) infinite alternate}
+.arena[data-fx=heal] .worldGlow,.arena[data-fx=shield] .worldGlow{animation:restoreGlow 700ms ease-out}
+.arena[data-fx=attack] .worldGlow{animation:impactGlow 600ms ease-out}
 .ambient{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
 .ambient>i{position:absolute;width:3px;height:3px;background:#f7dfa0;border-radius:50%;box-shadow:0 0 10px 2px #c5eccd7a;animation:drift 10s ease-in-out infinite}
 .mist,.mistBack{position:absolute;inset:20% -15%;background:radial-gradient(ellipse at 35% 45%,#8cddd321,transparent 50%),radial-gradient(ellipse at 70% 60%,#b2cca41a,transparent 45%);animation:mist 18s ease-in-out infinite alternate}
@@ -17,18 +27,35 @@
 .arena[data-impact=true]{animation:shake 600ms ease-out}
 .fxLayer{position:absolute;inset:0;z-index:5;pointer-events:none;overflow:hidden;color:var(--fx-color);contain:layout paint}
 .path{position:absolute;inset:0;overflow:visible}.trail{stroke-dasharray:14 9;opacity:0;animation:trail 600ms ease-out;filter:drop-shadow(0 0 6px currentColor)}
+.strikeTrail{stroke-dasharray:22 12;opacity:0;filter:drop-shadow(0 0 8px currentColor);animation:strikeTrail 600ms ease-out}
+.slashImpact{position:absolute;width:140px;height:140px;margin:-70px;opacity:0;animation:slashPop 600ms ease-out}
+.slashImpact i{position:absolute;left:20px;top:68px;width:100px;height:4px;border-radius:999px;background:linear-gradient(90deg,transparent,#fff7d0 25% 70%,transparent);box-shadow:0 0 14px currentColor;transform:rotate(-34deg)}
+.slashImpact i:nth-child(2){transform:rotate(-54deg) scale(.82);top:74px}
+.slashImpact b{position:absolute;inset:0;display:grid;place-items:center;font-size:78px;color:#fff4c6;text-shadow:0 0 20px currentColor}
 .projectile{position:absolute;font-size:46px;width:48px;height:48px;line-height:48px;text-align:center;margin:-24px;filter:drop-shadow(0 0 12px currentColor);animation:projectile 600ms cubic-bezier(.35,0,.7,1) both}
+.projectileSparks{position:absolute;width:1px;height:1px;animation:sparkTravel 600ms cubic-bezier(.35,0,.7,1) both}
+.projectileSparks i{--spark-angle:0deg;--spark-gap:14px;position:absolute;width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor;transform:rotate(var(--spark-angle)) translateX(var(--spark-gap));animation:sparkTwinkle 260ms ease-in-out infinite alternate}
 .bloom{border-radius:100% 0;background:#84d68855}.ember{border-radius:60% 15% 60% 60%;background:radial-gradient(#fff5bf,#fba55499,transparent);font-size:34px}.tide{border:3px solid;border-radius:50%;background:#72ddff40}.volt{font-size:64px}.mystic{border:1px dotted;border-radius:50%;background:#cea5ff30}.shadowProjectile{background:radial-gradient(#9d55d966,transparent);border-radius:50%}.shadow{font-size:65px;text-shadow:0 0 25px #9d55d9;animation:shadow 600ms ease-out both}
 .impact{position:absolute;width:1px;height:1px;opacity:0;animation:impact 600ms ease-out}.impact>i{position:absolute;width:40px;height:3px;background:currentColor;transform:rotate(var(--angle)) translateX(15px);box-shadow:0 0 12px currentColor}.impact>b{position:absolute;font-size:95px;transform:translate(-50%,-50%)}
 .target{position:absolute;width:1px;height:1px}
 .combatText{position:absolute;left:0;top:-70px;min-width:165px;transform:translateX(-50%);text-align:center;animation:textRise 600ms ease-out both;font:700 23px Georgia;color:#fff7db;text-shadow:0 2px 4px #001817,0 0 12px #001817}
-.combatText strong{white-space:nowrap;background:#06232de8;border:1px solid #dfce8a77;border-radius:12px;padding:6px 12px}.combatText small{display:block;white-space:nowrap;font:700 13px sans-serif;color:#d6f2ff;margin-top:10px;background:#102c3af2;border-radius:8px;padding:5px}.combatText[data-impact=true]{animation-delay:140ms}
+.combatText em{display:block;margin:0 auto 7px;width:max-content;max-width:190px;font:800 10px sans-serif;font-style:normal;letter-spacing:1.2px;text-transform:uppercase;color:#f1d991;background:#071a23db;border:1px solid #e2cb8547;border-radius:999px;padding:4px 8px}.combatText strong{white-space:nowrap;background:#06232de8;border:1px solid #dfce8a77;border-radius:12px;padding:6px 12px}.combatText small{display:block;white-space:nowrap;font:700 13px sans-serif;color:#d6f2ff;margin-top:10px;background:#102c3af2;border-radius:8px;padding:5px}.combatText[data-impact=true]{animation-delay:140ms}
 .heal,.shield,.summon,.wind{position:absolute;left:-85px;top:-85px;width:170px;height:170px;animation:restore 600ms ease-out both}
 .heal>i,.summon>i{position:absolute;inset:0;border:3px dashed currentColor;border-radius:50%;box-shadow:inset 0 0 35px #9bffbb44,0 0 25px #9bffbb44;animation:rune 600ms ease-out}.heal>b{font:64px Georgia;position:absolute;left:58px;top:45px}.heal>span{font-size:42px;position:absolute;right:10px;bottom:10px}
 .shield{border:3px solid #c7f2ff;clip-path:polygon(50% 0,96% 18%,89% 70%,50% 100%,11% 70%,4% 18%);background:linear-gradient(135deg,#b5e8ff55,#558de52a);box-shadow:inset 0 0 35px #d3f3ff;color:#e3f8ff;display:grid;place-items:center;font-size:80px}
 .summon{color:#f5db93}.summon>i{border-style:solid;transform:rotateX(55deg)}.summon>span{position:absolute;inset:30px;text-align:center;font-size:80px}
 .wind{color:#d9fff7}.wind>i{position:absolute;inset:30px -15px;border-top:4px solid;border-radius:50%;transform:rotate(-20deg)}.wind>i:nth-child(2){inset:60px -25px;transform:rotate(-30deg)}.wind>span{font-size:72px;position:absolute;inset:40px}
 .controls{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:50px;color:#cadfd6;font-size:13px}.controls button{min-height:40px;padding:8px 16px}.controls p{margin:0}.speedStatus{display:block;color:#d6e9e1;font-size:11px;margin-top:5px}
+@keyframes worldPan{from{transform:scale(1.045) translate3d(-.6%,0,0)}to{transform:scale(1.075) translate3d(.8%,-.7%,0)}}
+@keyframes worldGlow{50%{opacity:.72;filter:brightness(1.12)}}
+@keyframes shaftSway{to{transform:translateX(18px) rotate(2deg)}}
+@keyframes leafSway{from{transform:rotate(-5deg)}to{transform:rotate(7deg)}}
+@keyframes restoreGlow{0%,100%{opacity:.45}35%{opacity:1;filter:brightness(1.45)}}
+@keyframes impactGlow{0%,100%{opacity:.45}45%{opacity:.9;filter:brightness(1.35)}}
+@keyframes strikeTrail{0%,12%,75%,100%{opacity:0;stroke-dashoffset:45}30%,58%{opacity:.9;stroke-dashoffset:0}}
+@keyframes slashPop{0%,30%,100%{opacity:0;transform:scale(.45) rotate(-8deg)}48%{opacity:1;transform:scale(1.05) rotate(2deg)}75%{opacity:.3;transform:scale(1.35) rotate(6deg)}}
+@keyframes sparkTravel{0%,12%{opacity:0;transform:translate(0,0) scale(.3)}24%{opacity:1}52%{opacity:.85;transform:translate(var(--dx),var(--dy)) scale(1)}75%,100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.25)}}
+@keyframes sparkTwinkle{to{opacity:.25;transform:rotate(calc(var(--spark-angle) + 22deg)) translateX(var(--spark-gap)) scale(.6)}}
 @keyframes drift{0%,100%{transform:translate(0,0);opacity:.2}50%{transform:translate(16px,-28px);opacity:.85}}
 @keyframes mist{to{transform:translate(7%,-3%) scale(1.07)}}
 @keyframes breathe{50%{opacity:.85;filter:brightness(1.18)}}
@@ -47,4 +74,4 @@
 @keyframes shadow{0%,100%{opacity:0;transform:translate(-50%,-50%) scale(.6)}50%{opacity:.8;transform:translate(-50%,-50%) scale(2)}}
 @keyframes fade{0%,100%{opacity:0}25%,80%{opacity:1}}
 @media(max-width:700px){.arena{padding:14px!important}.arena :global(.battle-sky){grid-template-columns:85px minmax(0,1fr);gap:10px}.arena :global(.battle-sky-player){grid-template-columns:minmax(0,1fr) 85px}.arena :global(.battle-team-strip){flex-direction:column}.arena :global(.battle-active-card){width:min(220px,100%)}.arena :global(.battle-mini){width:72px}.arena :global(.battle-sky-player .battle-team-strip){order:2}.arena :global(.battle-sky-player .battle-active-card){order:1}.emblem{width:65px;height:65px}.emblem>span{font-size:46px}.ambient>i:nth-of-type(n+13){display:none}.combatText{font-size:18px;min-width:130px}.combatText small{font-size:11px}.controls{font-size:12px}.arena :global(.battle-center){padding:12px 20px}}
-@media(prefers-reduced-motion:reduce){.arena,.arena *,.arena *:before,.arena *:after{animation:none!important;transform:none!important;scroll-behavior:auto!important}.ambient>i{opacity:.4}.projectile,.trail,.impact,.wind{display:none}.combatText{transform:translateX(-50%)!important;animation:fade 600ms ease-out both!important}.heal,.shield,.summon,.shadow{animation:fade 600ms ease-out both!important}.shadow{transform:translate(-50%,-50%)!important}.arena :global(.hp-track i){transition:width 150ms linear}.fighter[data-motion=out]{opacity:.3}.fighter[data-motion=hit]{box-shadow:0 0 18px #f6d99b55}.emblem>span{opacity:.85}}
+@media(prefers-reduced-motion:reduce){.arena,.arena *,.arena *:before,.arena *:after{animation:none!important;transform:none!important;scroll-behavior:auto!important}.worldArt{transform:scale(1.04)!important}.lightShafts{opacity:.16}.ambient>i{opacity:.4}.projectile,.trail,.impact,.wind{display:none}.combatText{transform:translateX(-50%)!important;animation:fade 600ms ease-out both!important}.heal,.shield,.summon,.shadow{animation:fade 600ms ease-out both!important}.shadow{transform:translate(-50%,-50%)!important}.arena :global(.hp-track i){transition:width 150ms linear}.fighter[data-motion=out]{opacity:.3}.fighter[data-motion=hit]{box-shadow:0 0 18px #f6d99b55}.emblem>span{opacity:.85}}
