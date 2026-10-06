@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
-import RuneDungeon from '../rune-dungeon';
+import RuneDungeon from '../rune-dungeon-client';
 
 export const metadata:Metadata={
  title:'Rune Dungeon',
