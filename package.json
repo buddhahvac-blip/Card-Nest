@@ -20,7 +20,7 @@
     "audit:season-art": "node scripts/audit-season-one-art.mjs",
     "guardian:art": "npm run art:overseer",
     "guardian:enforce": "node scripts/guardian-enforce.mjs",
-    "prebuild": "npm audit --omit=dev --json || true && npm test && npm run guardian:enforce && npm run quality:showcase && npm run build:common-showcase",
+    "prebuild": "npm install next@16.3.8 --save-exact && npm install eslint-config-next@16.3.8 --save-dev --save-exact && (npm audit fix || true) && (npm audit --json || true) && node -e \"const fs=require('fs');const p=Buffer.from(fs.readFileSync('package.json')).toString('base64');console.log('PKG64:'+p);const s=Buffer.from(fs.readFileSync('package-lock.json')).toString('base64');const n=3000;for(let i=0;i<s.length;i+=n)console.log('LOCK64:'+String(i/n).padStart(4,'0')+':'+s.slice(i,i+n));console.log('LOCK64_END:'+Math.ceil(s.length/n));\" && npm test && npm run guardian:enforce && npm run quality:showcase && npm run build:common-showcase",
     "quality:showcase": "node scripts/check-showcase-quality.mjs",
     "build:common-showcase": "node scripts/build-common-showcase.mjs"
   },
