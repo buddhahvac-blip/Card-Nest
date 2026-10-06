@@ -334,3 +334,32 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .store-product-body{height:auto;flex:1}
 .store-product{display:flex;flex-direction:column}
 .sealed-pack .pack-product-art{width:156px;max-width:100%;border-radius:8px;box-shadow:0 0 34px #d1b77533}
+
+
+/* Rune Dungeon — ten-floor PvE mission path */
+.rune-dungeon,.rune-dungeon-battle-shell{display:grid;gap:18px}
+.dungeon-hero{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:24px;align-items:center;padding:30px;border:1px solid #d8be7650;border-radius:22px;background:radial-gradient(circle at 85% 20%,#8863c229,transparent 34%),linear-gradient(145deg,#0a2730,#112f37 55%,#1b2f35);box-shadow:0 22px 55px #0004}
+.dungeon-hero h1{font-size:clamp(38px,5vw,64px);margin:8px 0 12px}.dungeon-hero p{max-width:760px;color:#bed2cb;line-height:1.6}
+.dungeon-energy-vault{min-height:190px;display:grid;place-items:center;align-content:center;gap:5px;border:1px solid #e6cc8166;border-radius:50%;background:radial-gradient(circle,#684e7e66,#102a32 62%,#071d24);box-shadow:inset 0 0 40px #e0c56f14,0 0 44px #8566b32a;text-align:center}.dungeon-energy-vault svg{color:#f2d984;width:30px;height:30px}.dungeon-energy-vault>span{font-size:9px;letter-spacing:2px;font-weight:900;color:#e8d394}.dungeon-energy-vault strong{font:54px Georgia;color:#fff0bd}.dungeon-energy-vault small{font-size:10px;color:#a8c6bd}
+.rune-energy-chip{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid #e1c77755;border-radius:999px;background:#4a3b5b66;color:#ffe8a0;font-weight:900}
+.dungeon-signin{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px solid #cdbd8052;border-radius:15px;background:#132f35}.dungeon-signin>svg{color:#e8cf86}.dungeon-signin>div{flex:1}.dungeon-signin strong{font:18px Georgia}.dungeon-signin p{margin-top:3px;font-size:12px;color:#b8cec6}
+.dungeon-notice{margin:0}
+.dungeon-section-head{display:flex;align-items:end;justify-content:space-between;gap:16px}.dungeon-section-head h2{margin-top:7px;font-size:32px}.dungeon-section-head>span{font-weight:800;color:#e8d291}
+.dungeon-floor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dungeon-floor{position:relative;display:grid;grid-template-columns:58px 1fr auto;gap:14px;align-items:center;padding:16px 17px;border:1px solid #84b8aa2f;border-radius:16px;background:linear-gradient(120deg,#0c2931,#102f36);overflow:hidden}
+.dungeon-floor:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#76c8b512,transparent);transform:translateX(-100%);transition:transform .45s}.dungeon-floor:hover:before{transform:translateX(100%)}
+.dungeon-floor.boss{grid-column:1/-1;border-color:#e1c77377;background:radial-gradient(circle at 78% 45%,#8c5cbf30,transparent 33%),linear-gradient(120deg,#152a34,#3d2e43);box-shadow:0 0 34px #9e73c421}
+.dungeon-floor.cleared{border-color:#80d4ab5c}.dungeon-floor.locked{opacity:.52;filter:saturate(.55)}
+.dungeon-floor-number{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#071e25;border:1px solid #e5cd8450;color:#f3d88d;font:21px Georgia;box-shadow:inset 0 0 18px #d6bd6d10}.dungeon-floor-number svg{width:25px}
+.dungeon-floor-copy>span{font-size:8px;letter-spacing:1.6px;font-weight:900;color:#e4cc86}.dungeon-floor-copy h3{font:22px Georgia;margin:4px 0}.dungeon-floor-copy p{font-size:12px;line-height:1.45;color:#b7ccc5}.dungeon-floor-copy small{margin-top:6px;display:flex;gap:5px;align-items:center;color:#e7d59f;font-size:10px}
+.dungeon-floor-state{display:grid;justify-items:end;gap:6px;position:relative;z-index:2}.dungeon-floor-state>span{display:flex;align-items:center;gap:5px;font-size:10px;color:#a9beb8}.cleared-mark{color:#9be0b9!important;font-weight:900}.dungeon-floor-state button{min-width:92px}
+.dungeon-reward-vault{display:grid;gap:15px;padding:23px;border:1px solid #d9c17645;border-radius:20px;background:radial-gradient(circle at 15% 0,#395a4b26,transparent 31%),linear-gradient(145deg,#0b252e,#122d35)}
+.dungeon-vault-copy{max-width:860px;color:#aec5be;font-size:12px;line-height:1.55}
+.dungeon-pack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.dungeon-pack-reward{display:grid;gap:8px;padding:18px;border:1px solid #ffffff1f;border-radius:15px;background:#0a222a;text-align:center;justify-items:center}.dungeon-pack-reward>svg{width:28px;height:28px;color:#e6ce87}.dungeon-pack-reward>span{font-size:8px;letter-spacing:1.4px;font-weight:900;color:#a8c7bd}.dungeon-pack-reward h3{font:20px Georgia}.dungeon-pack-reward strong{display:flex;align-items:center;gap:5px;color:#ffe19a;font-size:12px}.dungeon-pack-reward button{width:100%;margin-top:4px}.reward-royal{border-color:#e4c97366;background:radial-gradient(circle at 50% 0,#8865b63d,transparent 42%),#17262d}
+.dungeon-vault-footer{display:flex;justify-content:space-between;gap:14px;align-items:center;padding-top:4px;font-size:11px;color:#9fbab2}.dungeon-vault-footer a{display:flex;align-items:center;gap:6px;color:#f0d68d}
+.dungeon-battle-top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:10px 12px;border:1px solid #8ebbaa35;border-radius:14px;background:#0b2830}.dungeon-battle-top>div{display:grid}.dungeon-battle-top strong{font:18px Georgia;color:#f3e0aa}
+.boss-orb{border-color:#e2c76f;background:radial-gradient(circle,#744f8d,#102b34 68%);box-shadow:0 0 42px #c191f244}.dungeon-boss-clear{background:radial-gradient(circle at 10% 50%,#9b6bc435,transparent 30%),linear-gradient(115deg,#f2df9f,#c9e4ca)}
+@media(max-width:1000px){.dungeon-pack-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.dungeon-hero{grid-template-columns:1fr;padding:22px}.dungeon-energy-vault{width:150px;min-height:150px;justify-self:end}.dungeon-energy-vault strong{font-size:42px}.dungeon-floor-grid{grid-template-columns:1fr}.dungeon-floor.boss{grid-column:auto}.dungeon-floor{grid-template-columns:48px 1fr}.dungeon-floor-state{grid-column:1/-1;grid-row:auto;grid-auto-flow:column;justify-content:end}.dungeon-pack-grid{grid-template-columns:1fr 1fr}.dungeon-battle-top{grid-template-columns:1fr auto}.dungeon-battle-top>button{grid-column:1/-1;justify-self:start}.dungeon-vault-footer{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.dungeon-pack-grid{grid-template-columns:1fr}.dungeon-floor{padding:14px}.dungeon-section-head{align-items:flex-start;flex-direction:column}}
