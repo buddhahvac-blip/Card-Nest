@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "Nest Mind Art Overseer",
-  "purpose": "Protect CardNest Season One from duplicate art, visual drift, and low-creativity repetition while preserving canonical metadata.",
+  "purpose": "Protect NestRune Season One from duplicate art, visual drift, and low-creativity repetition while preserving canonical metadata.",
   "sourceOfTruth": [
     "data/season-one.json",
     "data/season-one-art-ledger.json",
@@ -26,7 +26,7 @@
     "frameLanguage": "dark teal / deep blue-green with metallic gold",
     "audience": "family-friendly, kids and young adults",
     "creatureLanguage": [
-      "original CardNest creature",
+      "original NestRune creature",
       "expressive eyes",
       "appealing readable silhouette",
       "premium fantasy environment",
@@ -78,10 +78,10 @@
       ]
     },
     "continuity": {
-      "title": "CardNest Continuity",
+      "title": "NestRune Continuity",
       "hardRules": [
         "Canonical name, clan, rarity, battle class and stats must match data/season-one.json.",
-        "Final cards follow the First Flight frame hierarchy and CardNest visual language.",
+        "Final cards follow the First Flight frame hierarchy and NestRune visual language.",
         "Clan identity must remain visually recognizable.",
         "Rarity treatment may escalate visual impact but must not change canonical identity.",
         "No watermarks, generator UI, unrelated card layouts, or third-party franchise copying.",
@@ -151,7 +151,7 @@
     },
     "creativity": {
       "title": "Creative Growth",
-      "goal": "Every card should add a new visual idea to CardNest without breaking canon or theme.",
+      "goal": "Every card should add a new visual idea to NestRune without breaking canon or theme.",
       "minimumDistinctCreativeDimensions": 3,
       "creativeDimensions": [
         "silhouette innovation",
@@ -180,5 +180,5 @@
     "rejected-low-creativity",
     "needs-regeneration"
   ],
-  "productionRule": "Only approved assets may enter /CardNest/Season One Art/00 Production Ready or production card folders."
+  "productionRule": "Only approved assets may enter /NestRune/Season One Art/00 Production Ready or production card folders."
 }

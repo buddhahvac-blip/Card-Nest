@@ -9,11 +9,11 @@
       "id": "brand-clearance",
       "number": 1,
       "priority": "BLOCKER",
-      "title": "Resolve the CardNest name",
+      "title": "Complete NestRune name clearance",
       "status": "NEEDS REVIEW",
       "gate": "commercial-launch",
-      "why": "Existing trading-card businesses use similar CardNest naming. Do not invest heavily in the mark until professional clearance is complete.",
-      "next": "Founder obtains qualified trademark/name clearance and records approval."
+      "why": "NestRune was selected after CardNest showed direct trading-card conflicts. A preliminary screen found no obvious exact-match TCG/game conflict, but professional clearance is still required before major trademark spending or commercial launch.",
+      "next": "Founder obtains a qualified U.S. trademark clearance review for NESTRUNE, NEST RUNE, phonetic variants, similar NEST-formative marks, and the planned software/game/card services."
     },
     {
       "id": "public-beta",
@@ -63,7 +63,7 @@
       "status": "CONFIGURED",
       "gate": "commerce",
       "why": "Public commerce needs a real support path, clear seller identity, delivery/refund rules, privacy process, and transparent pack terms.",
-      "next": "Maintain cardnestsupport@gmail.com, respond consistently, and finalize the customer-request/retention workflow before commercial sales."
+      "next": "Use the NestRune support form consistently and finalize the customer-request, retention, seller-identity, delivery, and refund workflow before commercial sales."
     },
     {
       "id": "funnel-measurement",
@@ -72,7 +72,7 @@
       "title": "Measure the collector funnel",
       "status": "PARTIAL",
       "gate": "growth",
-      "why": "Traffic is useful only if CardNest learns which pages, Themes, cards, and intentional interest clicks create return visits.",
+      "why": "Traffic is useful only if NestRune learns which pages, Themes, cards, and intentional interest clicks create return visits.",
       "next": "Use privacy-conscious first-party measurements; avoid invasive behavioral advertising."
     },
     {
@@ -92,7 +92,7 @@
       "title": "Keep third-party discovery separate",
       "status": "INFRASTRUCTURE READY",
       "gate": "brand",
-      "why": "Pokémon and Magic can support discovery/affiliate revenue without confusing them with original CardNest IP.",
+      "why": "Pokémon and Magic can support discovery/affiliate revenue without confusing them with original NestRune IP.",
       "next": "Complete TCGplayer/Impact and eBay Partner Network acceptance, then add only the exact network-generated HTTPS links through protected environment variables."
     },
     {
@@ -107,18 +107,17 @@
     }
   ],
   "brandClearance": {
-    "status": "hold-for-counsel",
-    "exactName": "CardNest",
+    "status": "preliminary-screen-complete-hold-for-counsel",
+    "exactName": "NestRune",
     "commercialUseApproved": false,
     "registrationFiled": false,
-    "rule": "Do not treat the CardNest name as legally cleared until a qualified trademark professional completes a comprehensive clearance review covering federal records, common-law use, state records, domains, app stores, and relevant international markets.",
-    "knownRisk": "Active third-party CardNest uses exist in card collecting/trading and adjacent card retail categories, increasing likelihood-of-confusion risk.",
+    "rule": "Treat NestRune as the working replacement brand, not as legally cleared, until a qualified trademark professional completes a comprehensive review covering federal records, common-law use, state records, domains, app stores, software/game marks, card-related goods, and relevant international markets.",
+    "knownRisk": "The preliminary screen found no obvious exact-match NestRune TCG/game conflict and the nestrune.com domain was available when checked, but similarity risks can still arise from NEST-formative and software/entertainment marks.",
     "ethics": [
-      "Do not imply affiliation with other CardNest businesses.",
       "Do not use the registered trademark symbol unless a registration actually issues for the relevant mark.",
-      "Keep third-party franchises and affiliate products clearly separated from original CardNest IP.",
-      "Do not copy logos, trade dress, product descriptions, or branding from existing CardNest users.",
-      "Preserve evidence of first use, design creation, and original artwork provenance."
+      "Keep third-party franchises and affiliate products clearly separated from original NestRune IP.",
+      "Do not copy logos, trade dress, product descriptions, mascots, or branding from third parties.",
+      "Preserve evidence of first use, design creation, original artwork provenance, and the CardNest-to-NestRune transition."
     ]
   },
   "affiliateReadiness": {
@@ -129,13 +128,14 @@
       "eBay Partner Network"
     ],
     "rules": [
-      "No affiliate link becomes active until the relevant network approves CardNest.",
+      "No affiliate link becomes active until the relevant network approves NestRune.",
       "Use exact network-generated links; do not invent tracking parameters.",
       "Disclose commissions clearly and conspicuously next to the shopping area.",
       "Use rel=sponsored on affiliate links.",
       "Do not use unlicensed product images.",
-      "Do not imply that CardNest authenticates, fulfills, or guarantees third-party listings.",
-      "Store aggregate CardNest click events only; do not create behavioral ad profiles."
+      "Do not imply that NestRune authenticates, fulfills, or guarantees third-party listings.",
+      "Store aggregate NestRune click events only; do not create behavioral ad profiles.",
+      "Update pending affiliate applications and verified media properties from the former CardNest URL/name to NestRune before activating links."
     ]
   }
 }

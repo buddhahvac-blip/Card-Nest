@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "purpose": "Founder-only affiliate application tracker. Application links are official program entry points; activation on CardNest remains separately gated.",
+  "purpose": "Founder-only affiliate application tracker. Application links are official program entry points; activation on NestRune remains separately gated.",
   "programs": [
     {
       "id": "tcgplayer",
@@ -11,7 +11,7 @@
       "status": "in-review",
       "officialTiming": "No exact SLA published; TCGplayer says it will reach out shortly after the form is submitted.",
       "planningBuffer": "Allow about 1–2 weeks for planning, but this is not a promised approval time.",
-      "notes": "Application submitted through Impact; CardNest website verified and connected. Awaiting TCGplayer review. Do not activate affiliate links until approval and exact network-generated links are available."
+      "notes": "Application submitted through Impact; NestRune website verified and connected. Awaiting TCGplayer review. Do not activate affiliate links until approval and exact network-generated links are available."
     },
     {
       "id": "ebay",
@@ -77,7 +77,7 @@
       "status": "not-applied",
       "officialTiming": "No public affiliate approval SLA found on the current Vault X affiliate entry point.",
       "planningBuffer": "Allow about 1–2 weeks for planning, but this is not a promised approval time.",
-      "notes": "Excellent accessory fit for CardNest collectors. Do not confuse this with Vault X's separate retail-partner program."
+      "notes": "Excellent accessory fit for NestRune collectors. Do not confuse this with Vault X's separate retail-partner program."
     },
     {
       "id": "psa",
@@ -88,7 +88,7 @@
       "status": "not-applied",
       "officialTiming": "No public affiliate approval SLA is stated; PSA routes affiliate interest through its partnerships contact flow.",
       "planningBuffer": "Allow several business days to a few weeks for a partnership response; this is only a planning buffer.",
-      "notes": "Best added after CardNest has meaningful collector traffic and grading-oriented content."
+      "notes": "Best added after NestRune has meaningful collector traffic and grading-oriented content."
     }
   ]
 }

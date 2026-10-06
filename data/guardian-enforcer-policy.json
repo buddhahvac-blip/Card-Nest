@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "name": "Guardian Enforcer",
-  "purpose": "Deterministic release gate for CardNest programs, agents, code changes, card data, and production assets.",
+  "purpose": "Deterministic release gate for NestRune programs, agents, code changes, card data, and production assets.",
   "principles": [
     "canonical data before convenience",
     "tests before deployment",
@@ -98,7 +98,7 @@
     "theme badge icon does not match canonical visual theme",
     "commercial sales enabled while launch-readiness gate is closed",
     "founder tools exposed without server authorization",
-    "commercial sales enabled before CardNest name clearance approval",
+    "commercial sales enabled before NestRune name clearance approval",
     "registered trademark symbol used before registration is confirmed",
     "affiliate redirect points to an unapproved hostname",
     "affiliate shopping link is active without explicit partner approval",
@@ -119,7 +119,7 @@
     "open public commercial sales",
     "approve public support and customer-request process",
     "approve unit economics for paid packs",
-    "change CardNest brand-clearance status to approved",
+    "change NestRune brand-clearance status to approved",
     "file or authorize a trademark application",
     "adopt a replacement brand name",
     "activate TCGplayer affiliate links after network acceptance",
