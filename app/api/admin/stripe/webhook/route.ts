@@ -17,8 +17,8 @@ export async function POST(req:Request){
     const payment=paymentReadiness();
     if(!payment.stripeConnected||!payment.keyMatchesMode)throw new RequestError('Stripe key does not match the configured payment mode',503);
     const api=stripe();
-    const url=(process.env.APP_URL||'https://card-nest-iota.vercel.app')+'/api/webhooks/stripe';
-    const description=`CardNest ${payment.mode} payment webhook`;
+    const url=(process.env.APP_URL||'https://nestrune.vercel.app')+'/api/webhooks/stripe';
+    const description=`NestRune ${payment.mode} payment webhook`;
     const existing=await api.webhookEndpoints.list({limit:100});
     for(const endpoint of existing.data){
       if(endpoint.url===url&&endpoint.description===description){

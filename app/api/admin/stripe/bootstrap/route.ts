@@ -55,7 +55,7 @@ export async function POST(req:Request){
       let product=existingProducts.data.find(p=>p.metadata?.cardnest_pack_id===pack.id&&p.metadata?.cardnest_environment===payment.mode);
       if(!product){
         product=await api.products.create({
-          name:`CardNest ${pack.name} Pack`,
+          name:`NestRune ${pack.name} Pack`,
           description:`Season One: The First Flight digital collectible pack — Stripe ${payment.mode} configuration.`,
           metadata:{cardnest_pack_id:pack.id,cardnest_environment:payment.mode}
         });

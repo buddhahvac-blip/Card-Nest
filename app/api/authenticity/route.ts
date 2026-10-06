@@ -7,7 +7,7 @@ export const dynamic='force-dynamic';
 export async function GET(req:Request){
   try{
     const serial=new URL(req.url).searchParams.get('serial')?.trim();
-    if(!serial)return json({error:'Enter a CardNest copy serial.'},400);
+    if(!serial)return json({error:'Enter a NestRune copy serial.'},400);
     const parsed=parseCopySerial(serial);
     if(!parsed)return json({verified:false,reason:'invalid-format'},200);
     const p=database();

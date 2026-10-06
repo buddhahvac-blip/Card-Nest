@@ -18,8 +18,8 @@ export async function POST(req:Request){
       line_items:[{price:pack.stripe_price_id,quantity:1}],
       customer_email:u.email,
       metadata:{purpose:'integration-test',pack_id:'hatchling'},
-      success_url:(process.env.APP_URL||'https://card-nest-iota.vercel.app')+'/?stripe_test=success#My%20Nest',
-      cancel_url:(process.env.APP_URL||'https://card-nest-iota.vercel.app')+'/?stripe_test=cancel#My%20Nest',
+      success_url:(process.env.APP_URL||'https://nestrune.vercel.app')+'/?stripe_test=success#My%20Nest',
+      cancel_url:(process.env.APP_URL||'https://nestrune.vercel.app')+'/?stripe_test=cancel#My%20Nest',
       allow_promotion_codes:false
     });
     if(!s.url)throw new RequestError('Stripe did not return a checkout URL',503);

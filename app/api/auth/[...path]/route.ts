@@ -5,7 +5,7 @@ export const dynamic='force-dynamic';
 
 function logAuthFailure(error:unknown){
  const e=error as {name?:string;message?:string;code?:string};
- console.error('CardNest auth failure',{
+ console.error('NestRune auth failure',{
   name:e?.name,
   code:e?.code,
   cookieSecretConfigured:!!process.env.NEON_AUTH_COOKIE_SECRET,
