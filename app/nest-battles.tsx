@@ -1,7 +1,7 @@
 'use client';
 
 import {useEffect,useMemo,useRef,useState,type CSSProperties} from 'react';
-import {AmbientParticles,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
+import {AmbientParticles,ArenaEnvironment,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Zap} from 'lucide-react';
 import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
@@ -92,25 +92,25 @@ export default function NestBattles(){
    actor.energy-=Math.max(1,ability.energyCost||1);actor.cooldown=Math.max(1,ability.cooldownTurns||2);
    if(ability.effect==='deal_damage'){
     const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed});
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'ability',label:ability.name});
     return prefix+' uses '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.';
    }
    if(ability.effect==='gain_guard'){
-    actor.guard+=ability.amount||20;emit({kind:'shield',side,theme:card.theme,amount:ability.amount||20});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard.';
+    actor.guard+=ability.amount||20;emit({kind:'shield',side,theme:card.theme,amount:ability.amount||20,label:ability.name});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard.';
    }
    if(ability.effect==='heal'){
-    const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before});
+    const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before,label:ability.name});
     return prefix+' uses '+ability.name+' and restores '+(actor.hp-before)+' HP.';
    }
    if(ability.effect==='gain_speed'){
-    actor.speedDelta+=ability.amount||20;emit({kind:'speed',side,theme:card.theme,amount:ability.amount||20});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Speed this round.';
+    actor.speedDelta+=ability.amount||20;emit({kind:'speed',side,theme:card.theme,amount:ability.amount||20,label:ability.name});return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Speed this round.';
    }
    if(ability.effect==='reduce_speed'){
-    target.speedDelta-=ability.amount||20;emit({kind:'debuff',side,theme:card.theme,amount:ability.amount||20});return prefix+' uses '+ability.name+' and cuts '+foe.name+' Speed by '+(ability.amount||20)+' this round.';
+    target.speedDelta-=ability.amount||20;emit({kind:'debuff',side,theme:card.theme,amount:ability.amount||20,label:ability.name});return prefix+' uses '+ability.name+' and cuts '+foe.name+' Speed by '+(ability.amount||20)+' this round.';
    }
   }
   actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
-    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed});
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike'});
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
   return prefix+' uses Quick Strike for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+'.'+note;
@@ -197,7 +197,8 @@ export default function NestBattles(){
  const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
  return <section className="nest-battles">
   <div className="battle-match-head"><div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><h1>{phase==='finished'?'Practice complete.':'Read the field. Choose your move.'}</h1><p>Speed decides who acts first. Guard absorbs damage. Affinity can strengthen or soften an attack.</p></div><button className="outline" onClick={reset}><RotateCcw size={16}/>New team</button></div>
-  <div ref={stageRef} className={`battle-stage ${battleStyles.arena}`} data-impact={fx?.kind==='attack'}>
+  <div ref={stageRef} className={`battle-stage ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
+   <ArenaEnvironment/>
    <AmbientParticles/>
    <BattleFxLayer key={fx?.id??0} effect={fx} stageRef={stageRef}/>
    <div className="battle-sky battle-sky-rival">
