@@ -9,7 +9,7 @@ import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
-import {playBattleSound,unlockBattleAudio} from '@/lib/battle-audio';
+import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio} from '@/lib/battle-audio';
 
 type Fighter={id:string;hp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
 type ActionKind='strike'|'ability'|'special';
@@ -43,7 +43,7 @@ export default function NestBattles(){
  const [swapEntering,setSwapEntering]=useState(false);
  const [inspectCard,setInspectCard]=useState<string|null>(null);
  const [soundOn,setSoundOn]=useState(true);
- useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false},[]);
+ useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false;stopBattleMusic(.15)},[]);
  function cancelPlayback(){timers.current.forEach(clearTimeout);timers.current=[];finishPlayback.current=null;playing.current=false;setBusy(false);setFx(null);setSwapEntering(false)}
  function playback(frames:BattleFrame[],finish:()=>void){
   playing.current=true;setBusy(true);
@@ -66,7 +66,7 @@ export default function NestBattles(){
 
  function start(){
   if(selected.length!==3)return;
-  if(soundOn)unlockBattleAudio();
+  if(soundOn){unlockBattleAudio();startBattleMusic(true)}
   const rivalIds=learningPoolIds.filter(id=>!selected.includes(id));
   setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds));
   setPlayerActive(0);setRivalActive(0);setRound(1);setPhase('battle');
@@ -76,6 +76,7 @@ export default function NestBattles(){
 
  function reset(){
   cancelPlayback();
+  stopBattleMusic(.22);
   setPhase('setup');setPlayer([]);setRival([]);setRound(1);
   setLog(['Choose three guardians. The practice rival will use the other three.']);
   trackBeta('battle-view','reset');
@@ -180,7 +181,7 @@ export default function NestBattles(){
   playback(frames,()=>{
   setPlayer(p);setRival(e);setPlayerActive(pIndex);setRivalActive(eIndex);setRound(value=>value+1);
   setLog(current=>[...notes,...current].slice(0,8));
-  if(won||lost){setPhase('finished');trackBeta('battle-view',won?'finish:win':'finish:loss')}
+  if(won||lost){setPhase('finished');stopBattleMusic(.9);trackBeta('battle-view',won?'finish:win':'finish:loss')}
   });
  }
 
@@ -231,7 +232,7 @@ export default function NestBattles(){
   <div className="battle-compact-hud">
    <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
    <div className="battle-hud-matchup"><span>{activeCard.theme}</span><b>VS</b><span>{enemyCard.theme}</span><small>{matchup}</small></div>
-   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next)unlockBattleAudio()}} aria-label={soundOn?'Mute battle sounds':'Enable battle sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Sound on':'Muted'}</span></button><button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button></div>
+   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next){unlockBattleAudio();if(phase==='battle')startBattleMusic(true)}else stopBattleMusic(.18)}} aria-label={soundOn?'Mute battle music and sounds':'Enable battle music and sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Music + SFX':'Muted'}</span></button><button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button></div>
   </div>
 
   <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
