@@ -248,7 +248,7 @@ export default function NestBattles(){
   </div>
 
   <div className="battle-action-dock">
-   <div className={battleStyles.controls}><p role="status">{busy?'Guardians in motion…':'Choose an attack or swap a Guardian.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
+   <div className={`${battleStyles.controls} battle-controls-v4`}><p role="status">{busy?'Guardians in motion…':'Choose an attack or swap a Guardian.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
    <div className="battle-command-deck battle-command-deck-v4">
     <button className="battle-command strike" disabled={busy||phase!=='battle'} onClick={()=>act('strike')}><Swords/><span><strong>Quick Strike</strong><small>Lunge attack · restores 1 Energy</small></span></button>
     <button className="battle-command ability" disabled={busy||phase!=='battle'||!abilityReady} onClick={()=>act('ability')}><Zap/><span><strong>{activeCard.abilityPrimary.name}</strong><small>{abilityReady?'1 Energy · '+activeCard.abilityPrimary.effect.replaceAll('_',' '):active?.cooldown?'Cooldown '+active.cooldown+' round'+(active.cooldown===1?'':'s'):'Needs Energy'}</small></span></button>
