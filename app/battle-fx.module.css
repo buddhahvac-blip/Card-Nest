@@ -34,7 +34,7 @@
 .slashImpact b{position:absolute;inset:0;display:grid;place-items:center;font-size:78px;color:#fff4c6;text-shadow:0 0 20px currentColor}
 .projectile{position:absolute;font-size:46px;width:48px;height:48px;line-height:48px;text-align:center;margin:-24px;filter:drop-shadow(0 0 12px currentColor);animation:projectile 600ms cubic-bezier(.35,0,.7,1) both}
 .projectileSparks{position:absolute;width:1px;height:1px;animation:sparkTravel 600ms cubic-bezier(.35,0,.7,1) both}
-.projectileSparks i{--spark:0;position:absolute;width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor;transform:rotate(calc(var(--spark)*60deg)) translateX(calc(14px + var(--spark)*2px));animation:sparkTwinkle 260ms ease-in-out infinite alternate}
+.projectileSparks i{--spark-angle:0deg;--spark-gap:14px;position:absolute;width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 10px currentColor;transform:rotate(var(--spark-angle)) translateX(var(--spark-gap));animation:sparkTwinkle 260ms ease-in-out infinite alternate}
 .bloom{border-radius:100% 0;background:#84d68855}.ember{border-radius:60% 15% 60% 60%;background:radial-gradient(#fff5bf,#fba55499,transparent);font-size:34px}.tide{border:3px solid;border-radius:50%;background:#72ddff40}.volt{font-size:64px}.mystic{border:1px dotted;border-radius:50%;background:#cea5ff30}.shadowProjectile{background:radial-gradient(#9d55d966,transparent);border-radius:50%}.shadow{font-size:65px;text-shadow:0 0 25px #9d55d9;animation:shadow 600ms ease-out both}
 .impact{position:absolute;width:1px;height:1px;opacity:0;animation:impact 600ms ease-out}.impact>i{position:absolute;width:40px;height:3px;background:currentColor;transform:rotate(var(--angle)) translateX(15px);box-shadow:0 0 12px currentColor}.impact>b{position:absolute;font-size:95px;transform:translate(-50%,-50%)}
 .target{position:absolute;width:1px;height:1px}
@@ -55,7 +55,7 @@
 @keyframes strikeTrail{0%,12%,75%,100%{opacity:0;stroke-dashoffset:45}30%,58%{opacity:.9;stroke-dashoffset:0}}
 @keyframes slashPop{0%,30%,100%{opacity:0;transform:scale(.45) rotate(-8deg)}48%{opacity:1;transform:scale(1.05) rotate(2deg)}75%{opacity:.3;transform:scale(1.35) rotate(6deg)}}
 @keyframes sparkTravel{0%,12%{opacity:0;transform:translate(0,0) scale(.3)}24%{opacity:1}52%{opacity:.85;transform:translate(var(--dx),var(--dy)) scale(1)}75%,100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.25)}}
-@keyframes sparkTwinkle{to{opacity:.25;transform:rotate(calc(var(--spark)*60deg + 22deg)) translateX(calc(8px + var(--spark)*2px)) scale(.6)}}
+@keyframes sparkTwinkle{to{opacity:.25;transform:rotate(calc(var(--spark-angle) + 22deg)) translateX(var(--spark-gap)) scale(.6)}}
 @keyframes drift{0%,100%{transform:translate(0,0);opacity:.2}50%{transform:translate(16px,-28px);opacity:.85}}
 @keyframes mist{to{transform:translate(7%,-3%) scale(1.07)}}
 @keyframes breathe{50%{opacity:.85;filter:brightness(1.18)}}
