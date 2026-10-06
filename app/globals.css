@@ -363,3 +363,13 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 @media(max-width:1000px){.dungeon-pack-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.dungeon-hero{grid-template-columns:1fr;padding:22px}.dungeon-energy-vault{width:150px;min-height:150px;justify-self:end}.dungeon-energy-vault strong{font-size:42px}.dungeon-floor-grid{grid-template-columns:1fr}.dungeon-floor.boss{grid-column:auto}.dungeon-floor{grid-template-columns:48px 1fr}.dungeon-floor-state{grid-column:1/-1;grid-row:auto;grid-auto-flow:column;justify-content:end}.dungeon-pack-grid{grid-template-columns:1fr 1fr}.dungeon-battle-top{grid-template-columns:1fr auto}.dungeon-battle-top>button{grid-column:1/-1;justify-self:start}.dungeon-vault-footer{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.dungeon-pack-grid{grid-template-columns:1fr}.dungeon-floor{padding:14px}.dungeon-section-head{align-items:flex-start;flex-direction:column}}
+
+
+/* NestRune homepage cinematic — preserve 16:9 composition and source quality. */
+.brand-film{position:relative;margin:34px auto 12px;padding:clamp(18px,3vw,30px);max-width:1280px;border:1px solid #dfc57955;border-radius:24px;background:radial-gradient(circle at 50% 100%,#6f5aa025,transparent 36%),linear-gradient(145deg,#071d24,#0d2b33 60%,#101f2a);box-shadow:0 30px 80px #0007,inset 0 0 45px #e6ce7a0b;overflow:hidden}
+.brand-film:before{content:"";position:absolute;inset:-30%;pointer-events:none;background:radial-gradient(circle,#d9bd6e12 0 1px,transparent 2px);background-size:34px 34px;opacity:.45;transform:rotate(8deg)}
+.brand-film-copy{position:relative;z-index:1;max-width:760px;margin-bottom:18px}.brand-film-copy h2{margin:7px 0 8px;font-size:clamp(27px,4vw,44px);line-height:1.03}.brand-film-copy p{max-width:690px;color:#b9cec7;line-height:1.55}
+.brand-film-frame{position:relative;z-index:1;width:min(100%,1280px);margin-inline:auto;aspect-ratio:16/9;border:1px solid #efd58266;border-radius:18px;overflow:hidden;background:#02080b;box-shadow:0 24px 64px #0009,0 0 45px #b9974d1f}
+.brand-film-frame video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
+.brand-film-mark{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:17px;font:600 clamp(18px,2.5vw,27px) Georgia,serif;letter-spacing:.5px;color:#f0d98c;text-shadow:0 0 22px #d5b65d55}.brand-film-mark strong{color:#fff0bd}.brand-film-mark span{color:#d6eee5}
+@media(max-width:700px){.brand-film{margin-top:24px;padding:14px;border-radius:18px}.brand-film-frame{border-radius:12px}.brand-film-copy p{font-size:12px}.brand-film-mark{margin-top:12px}}
