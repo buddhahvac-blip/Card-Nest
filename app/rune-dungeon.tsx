@@ -4,7 +4,7 @@ import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
 import {BatteryCharging,Check,Crown,LockKeyhole,PackageOpen,Sparkles,Swords} from 'lucide-react';
 import NestBattles from './nest-battles';
-import {RUNE_DUNGEON_FLOORS,RUNE_PACK_COSTS,type RuneRewardPack} from '@/lib/rune-dungeon';
+import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeWorld,type RuneRewardPack} from '@/lib/rune-dungeon';
 
 type DungeonProgress={
  signedIn:boolean;
@@ -71,32 +71,40 @@ export default function RuneDungeon(){
 
  if(activeFloor){
   const floor=RUNE_DUNGEON_FLOORS.find(entry=>entry.floor===activeFloor)!;
-  return <section className="rune-dungeon-battle-shell">
-   <div className="dungeon-battle-top"><button className="outline" onClick={()=>setActiveFloor(null)}>← Dungeon map</button><div><span className="eyebrow">RUNE DUNGEON · FLOOR {floor.floor}</span><strong>{floor.name}{floor.boss?' · BOSS':''}</strong></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <NestBattles dungeon={{...floor,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onExit:()=>setActiveFloor(null)}}/>
+  const world=runeWorld(floor.world);
+  return <section className={'rune-dungeon-battle-shell world-'+world.id}>
+   <div className="dungeon-battle-top"><button className="outline" onClick={()=>setActiveFloor(null)}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · FLOOR {floor.floor}</span><strong>{floor.name}{floor.boss?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
+   <NestBattles dungeon={{...floor,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onExit:()=>setActiveFloor(null)}}/>
    {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
  }
 
  return <section className="rune-dungeon">
   <div className="dungeon-hero">
-   <div><span className="eyebrow">NESTRUNE MISSIONS · PVE EXPEDITION</span><h1>Descend into the Rune Dungeon.</h1><p>Clear ten mission floors, gather account-bound Rune Energy, and defeat the Runeheart Boss. First clears unlock the next floor and award Energy that can be exchanged for free Founding Flight beta packs.</p><div className="battle-pill-row"><span>10 floors</span><span>Floor 10 boss</span><span>First-clear rewards</span><span>No paid Energy</span></div></div>
+   <div><span className="eyebrow">NESTRUNE MISSIONS · THREE WORLDS</span><h1>Journey through the Rune Worlds.</h1><p>Clear ten mission floors across three changing landscapes, gather account-bound Rune Energy, and defeat the Runeheart Boss. Each world has its own Theme mix, battlefield atmosphere and battle song.</p><div className="battle-pill-row"><span>3 worlds</span><span>10 floors</span><span>3 battle themes</span><span>Floor 10 boss</span></div></div>
    <div className="dungeon-energy-vault"><Sparkles/><span>RUNE ENERGY</span><strong>{loading?'…':progress?.runeEnergy||0}</strong><small>{progress?.signedIn?'Saved to your account':'Sign in to save rewards'}</small></div>
   </div>
 
   {message&&<p className="notice dungeon-notice">{message}</p>}
   {!progress?.signedIn&&!loading&&<div className="dungeon-signin"><LockKeyhole/><div><strong>Play the first floor now. Sign in to bank rewards.</strong><p>Persistent clears, Rune Energy and pack claims are account-bound.</p></div><Link className="gold" href="/auth">Sign in</Link></div>}
 
-  <div className="dungeon-section-head"><div><span className="eyebrow">THE TEN SEALS</span><h2>Rune Dungeon floors</h2></div><span>{progress?.highestCleared||0} / 10 cleared</span></div>
+  <div className="dungeon-section-head"><div><span className="eyebrow">THE THREE RUNE WORLDS</span><h2>Worlds & mission floors</h2></div><span>{progress?.highestCleared||0} / 10 cleared</span></div>
 
-  <div className="dungeon-floor-grid">{RUNE_DUNGEON_FLOORS.map(floor=>{
-   const isCleared=cleared.has(floor.floor);
-   const unlocked=floor.floor===1||floor.floor<=(progress?.highestCleared||0)+1;
-   return <article key={floor.floor} className={'dungeon-floor '+(floor.boss?'boss ':'')+(isCleared?'cleared ':'')+(!unlocked?'locked':'')}>
-    <div className="dungeon-floor-number">{floor.boss?<Crown/>:String(floor.floor).padStart(2,'0')}</div>
-    <div className="dungeon-floor-copy"><span>{floor.boss?'RUNEHEART BOSS':'FLOOR '+floor.floor}</span><h3>{floor.name}</h3><p>{floor.mission}</p><small><BatteryCharging size={13}/> First clear +{floor.energy} Rune Energy</small></div>
-    <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>Cleared</span>:unlocked?<button className={floor.boss?'gold':'outline'} onClick={()=>setActiveFloor(floor.floor)}><Swords size={15}/>{floor.boss?'Challenge Boss':'Enter'}</button>:<span><LockKeyhole size={15}/>Locked</span>}{isCleared&&<button className="outline" onClick={()=>setActiveFloor(floor.floor)}>Replay</button>}</div>
-   </article>
+  <div className="dungeon-worlds">{RUNE_DUNGEON_WORLDS.map(world=>{
+   const worldFloors=RUNE_DUNGEON_FLOORS.filter(floor=>floor.world===world.id);
+   const worldUnlocked=world.floorRange[0]===1||world.floorRange[0]<=(progress?.highestCleared||0)+1;
+   return <section key={world.id} className={'dungeon-world world-'+world.id+(!worldUnlocked?' locked':'')}>
+    <div className="dungeon-world-banner"><div><span className="eyebrow">{world.subtitle}</span><h2>{world.name}</h2><p>{world.description}</p></div><div className="dungeon-world-meta"><span>{world.landscape}</span><strong>{world.themes.join(' · ')}</strong><small>♪ {world.musicTitle}</small></div></div>
+    <div className="dungeon-floor-grid">{worldFloors.map(floor=>{
+     const isCleared=cleared.has(floor.floor);
+     const unlocked=floor.floor===1||floor.floor<=(progress?.highestCleared||0)+1;
+     return <article key={floor.floor} className={'dungeon-floor '+(floor.boss?'boss ':'')+(isCleared?'cleared ':'')+(!unlocked?'locked':'')}>
+      <div className="dungeon-floor-number">{floor.boss?<Crown/>:String(floor.floor).padStart(2,'0')}</div>
+      <div className="dungeon-floor-copy"><span>{floor.boss?'RUNEHEART BOSS':'FLOOR '+floor.floor}</span><h3>{floor.name}</h3><p>{floor.mission}</p><small><BatteryCharging size={13}/> First clear +{floor.energy} Rune Energy</small></div>
+      <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>Cleared</span>:unlocked?<button className={floor.boss?'gold':'outline'} onClick={()=>setActiveFloor(floor.floor)}><Swords size={15}/>{floor.boss?'Challenge Boss':'Enter'}</button>:<span><LockKeyhole size={15}/>Locked</span>}{isCleared&&<button className="outline" onClick={()=>setActiveFloor(floor.floor)}>Replay</button>}</div>
+     </article>
+    })}</div>
+   </section>
   })}</div>
 
   <div className="dungeon-reward-vault">

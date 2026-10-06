@@ -14,15 +14,33 @@ let masterBus:GainNode|null=null;
 let sfxBus:GainNode|null=null;
 let compressor:DynamicsCompressorNode|null=null;
 let battleTrack:HTMLAudioElement|null=null;
+let battleTrackKey:BattleMusicKey|null=null;
 let battleTrackTarget=.30;
 let duckTimer:ReturnType<typeof setTimeout>|null=null;
 let fadeTimer:ReturnType<typeof setInterval>|null=null;
 
-// CC0 battle music:
-// "Hope (Orchestral battle music)" by MintoDog, OpenGameArt.
-// Source page: https://opengameart.org/content/hopeorchestral-battle-music
-const BATTLE_MUSIC_OGG='https://opengameart.org/sites/default/files/hope_orchestral_battle_music_bpm165_0.ogg';
-const BATTLE_MUSIC_FLAC='https://opengameart.org/sites/default/files/hope_orchestral_battle_music_bpm165.flac';
+export type BattleMusicKey='verdant'|'emberstorm'|'eclipse';
+
+const BATTLE_MUSIC:Record<BattleMusicKey,{src:string;type:string;title:string;source:string}>={
+ verdant:{
+  src:'https://opengameart.org/sites/default/files/fairy_battles_bpm180_0.ogg',
+  type:'audio/ogg',
+  title:'Fairy Battles',
+  source:'https://opengameart.org/content/fairy-battles'
+ },
+ emberstorm:{
+  src:'https://opengameart.org/sites/default/files/hope_orchestral_battle_music_bpm165_0.ogg',
+  type:'audio/ogg',
+  title:'Hope (Orchestral battle music)',
+  source:'https://opengameart.org/content/hopeorchestral-battle-music'
+ },
+ eclipse:{
+  src:'https://opengameart.org/sites/default/files/heavy_boss_battle_2_bpm110_0.ogg',
+  type:'audio/ogg',
+  title:'Heavy Boss Battle 2',
+  source:'https://opengameart.org/content/heavy-boss-battle-2'
+ }
+};
 
 const SFX_LEVEL=1.0;
 const MASTER_LEVEL=.9;
@@ -66,21 +84,18 @@ function audioContext(){
  return context;
 }
 
-function ensureBattleTrack(){
+function ensureBattleTrack(key:BattleMusicKey='emberstorm'){
  if(typeof document==='undefined')return null;
- if(battleTrack)return battleTrack;
+ if(battleTrack&&battleTrackKey===key)return battleTrack;
+ if(battleTrack){battleTrack.pause();battleTrack.src=''}
  const audio=document.createElement('audio');
+ const music=BATTLE_MUSIC[key];
  audio.loop=true;
  audio.preload='auto';
  audio.volume=battleTrackTarget;
- const ogg=document.createElement('source');
- ogg.src=BATTLE_MUSIC_OGG;
- ogg.type='audio/ogg';
- const flac=document.createElement('source');
- flac.src=BATTLE_MUSIC_FLAC;
- flac.type='audio/flac';
- audio.append(ogg,flac);
+ audio.src=music.src;
  battleTrack=audio;
+ battleTrackKey=key;
  return audio;
 }
 
@@ -221,13 +236,13 @@ function abilityBlast(ctx:AudioContext,start:number,theme:string,special=false){
 
 export function unlockBattleAudio(){
  const ctx=audioContext();
- ensureBattleTrack();
+ ensureBattleTrack('emberstorm');
  if(ctx?.state==='suspended')void ctx.resume();
 }
 
-export function startBattleMusic(enabled=true){
+export function startBattleMusic(enabled=true,key:BattleMusicKey='emberstorm'){
  if(!enabled)return;
- const track=ensureBattleTrack();
+ const track=ensureBattleTrack(key);
  if(!track)return;
  if(fadeTimer){clearInterval(fadeTimer);fadeTimer=null}
  battleTrackTarget=.30;
