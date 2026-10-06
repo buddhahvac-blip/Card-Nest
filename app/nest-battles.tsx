@@ -194,7 +194,7 @@ export default function NestBattles(){
  </section>;
 
  const active=player[playerActive];const enemy=rival[rivalActive];const activeCard=active?cardById(active.id):pool[0];const enemyCard=enemy?cardById(enemy.id):pool[1];
- const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?'attack':'hit'):undefined;
+ const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='ability'?'cast':'attack'):'hit'):undefined;
  const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
  const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||card.artworkUrl||card.fullCardUrl||''};
