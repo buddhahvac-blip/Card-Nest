@@ -21,6 +21,6 @@ Season One remains review-only and production art is promoted only after Guardia
 
 
 ## Nest Battles alpha
-The first playable Nest Battles foundation lives at `/play`. It uses six illustrated Common guardians covering Scout, Striker, Vanguard, Support, Warden and Disruptor roles. The current mode is local practice only: 3v3 teams, HP, Guard, Energy, cooldowns, Speed ordering and Theme affinity. It does not award cards, rank, rewards or paid power.
+The playable Nest Battles foundation lives at `/play`. It uses illustrated Common guardians across Scout, Striker, Vanguard, Support, Warden and Disruptor roles with 3v3 teams, HP, Guard, Energy, normal/Special cooldowns, Speed ordering and Theme affinity. Practice Arena still awards nothing. `/rune-dungeon` adds a ten-floor PvE beta with a Floor 10 boss, persistent first-clear Rune Energy and free beta pack entitlements. Rune Energy is account-bound, cannot be purchased or cashed out, and replays award no additional Energy.
 
 Game operations, launch gates, balance policy and family-safety requirements are documented in `docs/NEST_BATTLES_OPERATIONS.md`. Keep rarity presentation separate from competitive base-stat budget, and do not enable ranked PvP or cooperative social systems until their server-authoritative and safety gates are complete.

@@ -11,20 +11,21 @@ import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,g
 import {trackBeta} from '@/lib/client-analytics';
 import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio} from '@/lib/battle-audio';
 
-type Fighter={id:string;hp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
+type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
+export type DungeonBattleConfig={floor:number;name:string;mission:string;energy:number;boss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onExit:()=>void};
 type ActionKind='strike'|'ability'|'special';
 type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
 const learningPoolIds=['sproutling-001','tidefin-003','voltbeak-005','shadowclaw-007','reserved-008','reserved-012'];
 
 function cardById(id:string){return seasonManifest.find(card=>card.id===id)!}
-function makeTeam(ids:string[]):Fighter[]{return ids.map(id=>{const c=cardById(id);return {id,hp:c.health,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,energy:2}})}
+function makeTeam(ids:string[],hpMultiplier=1):Fighter[]{return ids.map(id=>{const c=cardById(id);const maxHp=Math.max(1,Math.round(c.health*hpMultiplier));return {id,hp:maxHp,maxHp,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,energy:2}})}
 function nextLiving(team:Fighter[],from=0){for(let offset=0;offset<team.length;offset++){const index=(from+offset)%team.length;if(team[index].hp>0)return index}return 0}
 function isTeamDown(team:Fighter[]){return team.every(member=>member.hp<=0)}
 function copyTeam(team:Fighter[]){return team.map(member=>({...member}))}
 function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1),specialCooldown:Math.max(0,member.specialCooldown-1)}))}
 
-export default function NestBattles(){
+export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={}){
  const pool=useMemo(()=>learningPoolIds.map(cardById),[]);
  const [selected,setSelected]=useState<string[]>(['sproutling-001','tidefin-003','shadowclaw-007']);
  const [phase,setPhase]=useState<'setup'|'battle'|'finished'>('setup');
@@ -43,6 +44,7 @@ export default function NestBattles(){
  const [swapEntering,setSwapEntering]=useState(false);
  const [inspectCard,setInspectCard]=useState<string|null>(null);
  const [soundOn,setSoundOn]=useState(true);
+ const victoryReported=useRef(false);
  useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false;stopBattleMusic(.15)},[]);
  function cancelPlayback(){timers.current.forEach(clearTimeout);timers.current=[];finishPlayback.current=null;playing.current=false;setBusy(false);setFx(null);setSwapEntering(false)}
  function playback(frames:BattleFrame[],finish:()=>void){
@@ -66,12 +68,13 @@ export default function NestBattles(){
 
  function start(){
   if(selected.length!==3)return;
+  victoryReported.current=false;
   if(soundOn){unlockBattleAudio();startBattleMusic(true)}
-  const rivalIds=learningPoolIds.filter(id=>!selected.includes(id));
-  setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds));
+  const rivalIds=dungeon?.enemyIds||learningPoolIds.filter(id=>!selected.includes(id));
+  setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds,dungeon?.hpMultiplier||1));
   setPlayerActive(0);setRivalActive(0);setRound(1);setPhase('battle');
-  setLog(['The Garden Arena wakes up. Read the matchup, then choose your first move.']);
-  trackBeta('battle-view','start:'+selected.join(','));
+  setLog([dungeon?`Floor ${dungeon.floor}: ${dungeon.name}. ${dungeon.mission}`:'The Garden Arena wakes up. Read the matchup, then choose your first move.']);
+  trackBeta('battle-view',(dungeon?'dungeon:'+dungeon.floor+':':'start:')+selected.join(','));
  }
 
  function reset(){
@@ -105,7 +108,7 @@ export default function NestBattles(){
     else actor.cooldown=Math.max(1,ability.cooldownTurns||2);
     const variant=special?'special' as const:'ability' as const;
     if(ability.effect==='deal_damage'){
-     const amount=abilityDamage(card,foe,ability.amount||20);const result=receive(enemy,enemyActive,amount);
+     const raw=abilityDamage(card,foe,ability.amount||20);const amount=Math.max(1,Math.round(raw*(side==='rival'?(dungeon?.damageMultiplier||1):1)));const result=receive(enemy,enemyActive,amount);
      emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant,label:ability.name,knockout:target.hp<=0});
      return prefix+' unleashes '+ability.name+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+(special?' — Special!':'')+'.';
     }
@@ -114,7 +117,7 @@ export default function NestBattles(){
      return prefix+' uses '+ability.name+' and gains '+(ability.amount||20)+' Guard'+(special?' — Special!':'')+'.';
     }
     if(ability.effect==='heal'){
-     const before=actor.hp;actor.hp=Math.min(card.health,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before,variant,label:ability.name});
+     const before=actor.hp;actor.hp=Math.min(actor.maxHp,actor.hp+(ability.amount||20));emit({kind:'heal',side,theme:card.theme,amount:actor.hp-before,variant,label:ability.name});
      return prefix+' uses '+ability.name+' and restores '+(actor.hp-before)+' HP'+(special?' — Special!':'')+'.';
     }
     if(ability.effect==='gain_speed'){
@@ -127,7 +130,7 @@ export default function NestBattles(){
     }
    }
   }
-  actor.energy=Math.min(3,actor.energy+1);const amount=strikeDamage(card,foe);const result=receive(enemy,enemyActive,amount);
+  actor.energy=Math.min(3,actor.energy+1);const raw=strikeDamage(card,foe);const amount=Math.max(1,Math.round(raw*(side==='rival'?(dungeon?.damageMultiplier||1):1)));const result=receive(enemy,enemyActive,amount);
   emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike',knockout:target.hp<=0});
   const mult=affinityMultiplier(card.theme,foe);
   const note=mult>1?' Super effective!':mult<1?' Resisted.':'';
@@ -139,14 +142,14 @@ export default function NestBattles(){
   const card=cardById(member.id);const special=card.abilitySecondary;
   if(member.specialCooldown===0){
    if(member.energy>=Math.max(1,special.energyCost||3)){
-    if(special.effect==='heal'&&member.hp>=card.health*.9)return member.cooldown===0?'ability':'strike';
+    if(special.effect==='heal'&&member.hp>=member.maxHp*.9)return member.cooldown===0?'ability':'strike';
     if(special.effect==='gain_guard'&&member.guard>=30)return member.cooldown===0?'ability':'strike';
     return 'special';
    }
    if(member.energy===2&&member.hp>card.health*.5)return 'strike';
   }
   if(member.cooldown>0||member.energy<Math.max(1,card.abilityPrimary.energyCost||1))return 'strike';
-  if(card.abilityPrimary.effect==='heal'&&member.hp>=card.health*.78)return 'strike';
+  if(card.abilityPrimary.effect==='heal'&&member.hp>=member.maxHp*.78)return 'strike';
   if(card.abilityPrimary.effect==='gain_guard'&&member.guard>=12)return 'strike';
   return 'ability';
  }
@@ -176,12 +179,12 @@ export default function NestBattles(){
   if(e[eIndex].hp<=0&&!isTeamDown(e)){const next=nextLiving(e,eIndex+1);eIndex=next;emit({kind:'swap',side:'rival',theme:cardById(e[next].id).theme});notes.push('The rival sends in '+cardById(e[next].id).name+'.')}
   if(p[pIndex].hp<=0&&!isTeamDown(p)){const next=nextLiving(p,pIndex+1);pIndex=next;emit({kind:'swap',side:'you',theme:cardById(p[next].id).theme});notes.push(cardById(p[next].id).name+' flies in for your team.')}
   const won=isTeamDown(e);const lost=isTeamDown(p);
-  if(won)notes.push('The Great Nest is safe. Your team wins the practice match!');
+  if(won)notes.push(dungeon?(dungeon.boss?'The Runeheart shatters. The dungeon boss is defeated!':'Floor '+dungeon.floor+' cleared. Rune Energy spills from the seal!'):'The Great Nest is safe. Your team wins the practice match!');
   if(lost)notes.push('Your team needs a rest. Try a different trio or order.');
   playback(frames,()=>{
   setPlayer(p);setRival(e);setPlayerActive(pIndex);setRivalActive(eIndex);setRound(value=>value+1);
   setLog(current=>[...notes,...current].slice(0,8));
-  if(won||lost){setPhase('finished');stopBattleMusic(.9);trackBeta('battle-view',won?'finish:win':'finish:loss')}
+  if(won||lost){setPhase('finished');stopBattleMusic(.9);trackBeta('battle-view',dungeon?(won?'dungeon-clear:'+dungeon.floor:'dungeon-loss:'+dungeon.floor):(won?'finish:win':'finish:loss'));if(won&&dungeon&&!victoryReported.current){victoryReported.current=true;dungeon.onVictory()}}
   });
  }
 
@@ -208,17 +211,17 @@ export default function NestBattles(){
 
  if(phase==='setup')return <section className="nest-battles">
   <div className="battle-hero">
-   <div><span className="eyebrow">NEST BATTLES · PLAYABLE ALPHA</span><h1>Pick your flock. Protect the Great Nest.</h1><p>Choose any three Common guardians. Each class teaches a different kind of strategy, and the practice rival uses the three you leave behind.</p><div className="battle-pill-row"><span>3 Guardian teams</span><span>No paid advantage</span><span>Common cards matter</span><span>2–5 minute practice</span></div></div>
-   <div className="battle-orb" aria-hidden="true"><Sparkles/><strong>3</strong><span>Choose three</span></div>
+   <div><span className="eyebrow">{dungeon?`RUNE DUNGEON · FLOOR ${dungeon.floor}${dungeon.boss?' · BOSS':''}`:'NEST BATTLES · PLAYABLE ALPHA'}</span><h1>{dungeon?dungeon.name:'Pick your flock. Protect the Great Nest.'}</h1><p>{dungeon?dungeon.mission:'Choose any three Common guardians. Each class teaches a different kind of strategy, and the practice rival uses the three you leave behind.'}</p><div className="battle-pill-row"><span>3 Guardian teams</span><span>{dungeon?`+${dungeon.energy} Rune Energy`:'No paid advantage'}</span><span>{dungeon?`Rival HP ×${dungeon.hpMultiplier.toFixed(2)}`:'Common cards matter'}</span><span>{dungeon?.boss?'Boss encounter':'2–5 minute battle'}</span></div></div>
+   <div className={`battle-orb ${dungeon?.boss?'boss-orb':''}`} aria-hidden="true"><Sparkles/><strong>{dungeon?dungeon.floor:3}</strong><span>{dungeon?.boss?'BOSS':dungeon?'Floor':'Choose three'}</span></div>
   </div>
-  <div className="battle-picker-head"><div><span className="eyebrow">STARTER LAB</span><h2>Six classes. Three slots. Your strategy.</h2></div><strong>{selected.length} / 3 selected</strong></div>
+  <div className="battle-picker-head"><div><span className="eyebrow">{dungeon?'DUNGEON LOADOUT':'STARTER LAB'}</span><h2>{dungeon?'Choose three Guardians for this floor.':'Six classes. Three slots. Your strategy.'}</h2></div><strong>{selected.length} / 3 selected</strong></div>
   <div className="battle-picker-grid">{pool.map(card=>{const picked=selected.includes(card.id);const guide=CLASS_GUIDE[card.battleClass];return <button key={card.id} className={'battle-picker '+(picked?'selected':'')} onClick={()=>toggle(card.id)} aria-pressed={picked}>
    <div className="battle-picker-art"><GuardianCard id={card.id}/><span className="battle-check">{picked?'✓':'+'}</span></div>
    <div className="battle-picker-copy"><span style={{color:themeColors[card.theme]}}>{card.theme} · {card.battleClass}</span><h3>{card.name}</h3><p>{guide?.purpose}</p><small>HP {card.health} · ATK {card.attack} · DEF {card.defense} · SPD {card.speed}</small></div>
   </button>})}</div>
-  <div className="battle-launch"><div><Shield/><strong>Kid-friendly surface, grown-up decisions.</strong><p>Big readable moves and bright feedback on top; affinity, timing, class roles, Guard, Energy and cooldowns underneath.</p></div><button className="gold" disabled={selected.length!==3} onClick={start}>Start practice match <ArrowRight size={17}/></button></div>
-  <div className="battle-roadmap"><article><span>01</span><h3>Practice Arena</h3><p>Local battles and rule testing with no rewards or spending.</p></article><article><span>02</span><h3>Garden Adventure</h3><p>PvE chapters, habitats and boss encounters built around the six Themes.</p></article><article><span>03</span><h3>Nest League</h3><p>Ranked play after balance, account safety and anti-cheat validation.</p></article><article><span>04</span><h3>Flocks</h3><p>Cooperative groups and shared bosses without open child chat at launch.</p></article></div>
-  <p className="disclaimer">Alpha rules: {NEST_BATTLE_RULES_VERSION}. Battle results do not change ownership, rarity, collection value, pack odds or commercial eligibility.</p>
+  <div className="battle-launch"><div><Shield/><strong>{dungeon?`${dungeon.boss?'Boss':'Floor'} ${dungeon.floor} mission`:'Kid-friendly surface, grown-up decisions.'}</strong><p>{dungeon?`${dungeon.rewardsEnabled?'First clear awards':'Sign in to bank'} ${dungeon.energy} Rune Energy. Replays do not award additional Energy.`:'Big readable moves and bright feedback on top; affinity, timing, class roles, Guard, Energy and cooldowns underneath.'}</p></div><button className="gold" disabled={selected.length!==3} onClick={start}>{dungeon?`Enter Floor ${dungeon.floor}`:'Start practice match'} <ArrowRight size={17}/></button>{dungeon&&<button className="outline" onClick={dungeon.onExit}>Back to dungeon map</button>}</div>
+  {!dungeon&&<div className="battle-roadmap"><article><span>01</span><h3>Practice Arena</h3><p>Local battles and rule testing with no rewards or spending.</p></article><article><span>02</span><h3>Rune Dungeon</h3><p>Ten PvE floors, missions, Rune Energy and a boss at the Runeheart.</p></article><article><span>03</span><h3>Nest League</h3><p>Ranked play after balance, account safety and anti-cheat validation.</p></article><article><span>04</span><h3>Flocks</h3><p>Cooperative groups and shared bosses without open child chat at launch.</p></article></div>}
+  <p className="disclaimer">Alpha rules: {NEST_BATTLE_RULES_VERSION}. {dungeon?'Rune Energy is a free beta gameplay reward with no cash value. First-clear rewards only.':'Battle results do not change ownership, rarity, collection value, pack odds or commercial eligibility.'}</p>
  </section>;
 
  const active=player[playerActive];const enemy=rival[rivalActive];const activeCard=active?cardById(active.id):pool[0];const enemyCard=enemy?cardById(enemy.id):pool[1];
@@ -231,9 +234,9 @@ export default function NestBattles(){
  const cardArtFor=(id:string)=>{const card=cardById(id);return currentMasterFor(id)||card.fullCardUrl||card.artworkUrl||card.avatarUrl||card.thumbnailUrl||''};
  return <section className="nest-battles battle-live">
   <div className="battle-compact-hud">
-   <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
+   <div><span className="eyebrow">{dungeon?`RUNE DUNGEON · FLOOR ${dungeon.floor}${dungeon.boss?' · BOSS':''}`:'GARDEN ARENA'} · ROUND {round}</span><strong>{phase==='finished'?(dungeon?'Floor complete':'Practice complete'):'Your turn'}</strong></div>
    <div className="battle-hud-matchup"><span>{activeCard.theme}</span><b>VS</b><span>{enemyCard.theme}</span><small>{matchup}</small></div>
-   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next){unlockBattleAudio();if(phase==='battle')startBattleMusic(true)}else stopBattleMusic(.18)}} aria-label={soundOn?'Mute battle music and sounds':'Enable battle music and sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Music + SFX':'Muted'}</span></button><button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button></div>
+   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next){unlockBattleAudio();if(phase==='battle')startBattleMusic(true)}else stopBattleMusic(.18)}} aria-label={soundOn?'Mute battle music and sounds':'Enable battle music and sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Music + SFX':'Muted'}</span></button><button className="outline" onClick={dungeon?dungeon.onExit:reset}><RotateCcw size={15}/>{dungeon?'Dungeon map':'New team'}</button></div>
   </div>
 
   <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
@@ -254,8 +257,8 @@ export default function NestBattles(){
      </div>
      <div className="battle-status battle-status-v4">
       <div className="battle-status-title"><strong>{activeCard.name}</strong><span style={{color:themeColors[activeCard.theme]}}>{activeCard.theme} · {activeCard.battleClass}</span></div>
-      <div className="hp-track"><i style={{width:Math.max(0,(active?.hp||0)/activeCard.health*100)+'%'}}/></div>
-      <div className="battle-stat-line"><span>{active?.hp||0}/{activeCard.health} HP</span><span>{active?.guard||0} Guard</span><span>{active?.energy||0} Energy</span><span>SPD {activeCard.speed+(active?.speedDelta||0)}</span></div>
+      <div className="hp-track"><i style={{width:Math.max(0,(active?.hp||0)/(active?.maxHp||activeCard.health)*100)+'%'}}/></div>
+      <div className="battle-stat-line"><span>{active?.hp||0}/{active?.maxHp||activeCard.health} HP</span><span>{active?.guard||0} Guard</span><span>{active?.energy||0} Energy</span><span>SPD {activeCard.speed+(active?.speedDelta||0)}</span></div>
      </div>
     </div>
     <div className="battle-reserves" aria-label="Your Guardian team">{player.map((fighter,index)=>{const card=cardById(fighter.id);return <button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-reserve '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')} title={index===playerActive?card.name+' is active':'Swap to '+card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===playerActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></button>})}</div>
@@ -276,8 +279,8 @@ export default function NestBattles(){
      </div>
      <div className="battle-status battle-status-v4">
       <div className="battle-status-title"><strong>{enemyCard.name}</strong><span>{enemyCard.theme} · {enemyCard.battleClass}</span></div>
-      <div className="hp-track"><i style={{width:Math.max(0,(enemy?.hp||0)/enemyCard.health*100)+'%'}}/></div>
-      <div className="battle-stat-line"><span>{enemy?.hp||0}/{enemyCard.health} HP</span><span>{enemy?.guard||0} Guard</span><span>{enemy?.energy||0} Energy</span><span>SPD {enemyCard.speed+(enemy?.speedDelta||0)}</span></div>
+      <div className="hp-track"><i style={{width:Math.max(0,(enemy?.hp||0)/(enemy?.maxHp||enemyCard.health)*100)+'%'}}/></div>
+      <div className="battle-stat-line"><span>{enemy?.hp||0}/{enemy?.maxHp||enemyCard.health} HP</span><span>{enemy?.guard||0} Guard</span><span>{enemy?.energy||0} Energy</span><span>SPD {enemyCard.speed+(enemy?.speedDelta||0)}</span></div>
      </div>
     </div>
     <div className="battle-reserves battle-reserves-rival" aria-label="Rival Guardian team">{rival.map((fighter,index)=>{const card=cardById(fighter.id);return <div key={fighter.id} className={'battle-reserve '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')} title={card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===rivalActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>})}</div>
@@ -294,10 +297,10 @@ export default function NestBattles(){
 
   <details className="battle-log battle-log-compact"><summary><span>Battle Story</span><strong>{log[0]}</strong></summary><div>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div></details>
 
-  {phase==='finished'&&<div className="battle-finish"><Sparkles/><div><h2>{isTeamDown(rival)?'Your Nest held strong!':'A new strategy is waiting.'}</h2><p>Try another combination. The same Common guardians can play very differently depending on class and matchup.</p></div><button className="gold" onClick={reset}>Build another team</button></div>}
+  {phase==='finished'&&<div className={`battle-finish ${dungeon?.boss&&isTeamDown(rival)?'dungeon-boss-clear':''}`}><Sparkles/><div><h2>{isTeamDown(rival)?(dungeon?(dungeon.boss?'Runeheart Boss defeated!':`Floor ${dungeon.floor} cleared!`):'Your Nest held strong!'):'A new strategy is waiting.'}</h2><p>{isTeamDown(rival)&&dungeon?(dungeon.rewardsEnabled?`First-clear reward: +${dungeon.energy} Rune Energy.`:`Sign in to save this clear and bank ${dungeon.energy} Rune Energy.`):'Try another combination. The same Common guardians can play very differently depending on class and matchup.'}</p></div><button className="gold" onClick={dungeon?dungeon.onExit:reset}>{dungeon?(isTeamDown(rival)?'Return to Rune Dungeon':'Return to dungeon map'):'Build another team'}</button>{dungeon&&!isTeamDown(rival)&&<button className="outline" onClick={reset}>Retry floor</button>}</div>}
 
   {inspectCard&&<div className="battle-card-modal" role="dialog" aria-modal="true" aria-label="Guardian card inspection" onClick={()=>setInspectCard(null)}><div className="battle-card-modal-panel" onClick={event=>event.stopPropagation()}><button className="battle-modal-close" onClick={()=>setInspectCard(null)} aria-label="Close card inspection">×</button><GuardianCard id={inspectCard} eager/><p>Collectible card view · Special: <strong>{cardById(inspectCard).abilitySecondary.name}</strong> · 3 Energy · 4-turn cooldown.</p></div></div>}
 
-  <p className="disclaimer battle-live-disclaimer">Practice alpha only. No matchmaking, trading, rewards, paid boosts or persistent battle rank are active. Stats and rules remain subject to playtesting.</p>
+  <p className="disclaimer battle-live-disclaimer">{dungeon?'Rune Dungeon beta: first-clear Rune Energy is account-bound, has no cash value, cannot be purchased, and only redeems free beta pack entitlements while preview rewards are enabled.':'Practice alpha only. No matchmaking, trading, rewards, paid boosts or persistent battle rank are active. Stats and rules remain subject to playtesting.'}</p>
  </section>;
 }
