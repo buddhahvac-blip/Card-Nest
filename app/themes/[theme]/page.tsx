@@ -18,7 +18,7 @@ export default async function ThemePage({params}:{params:Promise<{theme:string}>
  const {theme:slug}=await params;const theme=resolveTheme(slug);if(!theme)notFound();
  const cards=seasonManifest.filter(card=>card.theme===theme);
  return <main className="shell">
-  <Link className="brand" href="/">✧ Card<span>Nest</span></Link>
+  <Link className="brand" href="/">✧ Nest<span>Rune</span></Link>
   <div className="eyebrow">SEASON ONE · {theme.toUpperCase()} THEME</div>
   <h1 className="page-title">{theme} guardians</h1>
   <p className="intro">Explore every {theme} Theme guardian concept currently defined for The First Flight. Theme describes the visual world around a guardian, not its species or battle class.</p>

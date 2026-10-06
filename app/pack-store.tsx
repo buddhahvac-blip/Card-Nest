@@ -21,7 +21,7 @@ export default function PackStore({busy,onPreview,onFree}:{busy:boolean;onPrevie
   }catch(e){setError(e instanceof Error?e.message:'Checkout is unavailable.')}finally{setPending(null)}
  }
  return <section id="packs" className="integrated-pack-store" aria-labelledby="pack-store-title">
-  <div className="pack-store-heading"><span className="eyebrow">SEASON ONE · THE FIRST FLIGHT</span><h1 id="pack-store-title">A world worth collecting.</h1><p>Choose your pack. Meet a new friend. Find your place in the Garden of Lands.</p><span className="store-beta-state">{store?.paymentsEnabled?store.paymentMode==='live'?'Secure digital pack checkout':'Test checkout only — no real purchases':'Founding Flight beta · 21-card pull pool live'}</span></div>
+  <div className="pack-store-heading"><span className="eyebrow">SEASON ONE · THE FIRST FLIGHT</span><h1 id="pack-store-title">A World Worth Collecting.</h1><p>Choose your pack. Meet a new friend. Find your place in the Garden of Lands.</p><span className="store-beta-state">{store?.paymentsEnabled?store.paymentMode==='live'?'Secure digital pack checkout':'Test checkout only — no real purchases':'Founding Flight beta · 21-card pull pool live'}</span></div>
   <PackArtwork hero/>
   <div className="store-garden-title"><span>✧</span> GARDEN OF LANDS <span>✧</span></div>
   <div className="store-product-grid">{packs.map(p=>{const Icon=icons[p.id as keyof typeof icons];return <article key={p.id} data-pack-id={p.id} className={`store-product store-${p.id}`}>

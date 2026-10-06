@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import {GuardianCard} from '../cards';
 import styles from './founders.module.css';
 
 const rewards=[
@@ -11,6 +12,7 @@ const rewards=[
 
 export const metadata={
   title:'Founding Flight — Help Build NestRune',
+  alternates:{canonical:'/founders'},
   description:'Meet the first 21 NestRune Guardians and see how the Founding Flight crowdfunding campaign will help grow the Garden of Lands.'
 };
 
@@ -30,9 +32,9 @@ export default function FoundersPage(){
         <small>Free beta pulls are separate from crowdfunding rewards. Paid randomized packs remain closed while launch and compliance safeguards are completed.</small>
       </div>
       <div className={styles.cardFan} aria-label="Three Founding Flight Guardian cards">
-        <Image src="/cards/season-01/001/full-card.jpg" alt="Nestling card" width={320} height={427} className={styles.cardA}/>
-        <Image src="/cards/season-01/002/full-card.jpg" alt="Leafpaw card" width={320} height={427} className={styles.cardB}/>
-        <Image src="/cards/season-01/003/full-card.jpg" alt="Emberkit card" width={320} height={427} className={styles.cardC}/>
+        <div className={styles.cardA}><GuardianCard id="sproutling-001"/></div>
+        <div className={styles.cardB}><GuardianCard id="emberwing-002"/></div>
+        <div className={styles.cardC}><GuardianCard id="tidefin-003"/></div>
       </div>
     </section>
 

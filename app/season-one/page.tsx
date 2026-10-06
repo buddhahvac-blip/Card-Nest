@@ -15,7 +15,7 @@ export default function SeasonOnePage(){
  const progress=artProgress();
  const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
  return <main className="shell">
-  <Link className="brand" href="/">✧ Card<span>Nest</span></Link>
+  <Link className="brand" href="/">✧ Nest<span>Rune</span></Link>
   <div className="eyebrow">SEASON ONE · THE FIRST FLIGHT</div>
   <h1 className="page-title">369 guardians. Six Themes. One world taking flight.</h1>
   <p className="intro">Explore illustrated guardians and the full Season One roster. The six featured artworks are founder-approved; cards remain unreleased and battle profiles are still being developed.</p>

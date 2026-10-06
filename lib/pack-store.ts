@@ -5,7 +5,7 @@ import {packCardAvailable} from './release';
 export type StoreCard={id:string;rarity:string;status:string;release_status:string;is_collectible:boolean;is_pack_eligible:boolean;art:string|null;art_status:string};
 export type StorePack={id:string;name:string;count:number;price_cents:number;currency:string;sale_enabled:boolean;drop_version:string;drops:{card:string;weight:number}[]};
 export type PackCatalog={paymentsEnabled:boolean;paymentMode:string;packs:StorePack[];cards:StoreCard[];commonSupply?:{capActive:boolean;remaining:number;commonPullCap:number}};
-export const packHero={src:'/art/cardnest-pack-hero.webp',width:1586,height:992,crop:{x:160,y:64,width:1266,height:506}};
+export const packHero={src:'/art/nestrune-pack-hero.webp',width:1672,height:941};
 const rarityOrder=['common','uncommon','rare','epic','ultra','legendary'];
 export function storefrontPacks(store:PackCatalog|null){
  return packDefinitions.map(def=>{

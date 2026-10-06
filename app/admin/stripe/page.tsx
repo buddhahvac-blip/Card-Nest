@@ -53,10 +53,10 @@ export default function StripeSetup(){
 
  const mode=status?.mode||'test';
  return <main className="shell" style={{maxWidth:900,paddingTop:70}}>
-   <Link className="brand" href="/">✧ CardNest</Link>
+   <Link className="brand" href="/">✧ NestRune</Link>
    <div className="eyebrow">FOUNDER · STRIPE PAYMENT READINESS</div>
    <h1 className="page-title">Payment setup</h1>
-   <p className="intro">Prepare Stripe test or live infrastructure without accidentally opening sales. CardNest requires several independent gates before checkout can charge a customer.</p>
+   <p className="intro">Prepare Stripe test or live infrastructure without accidentally opening sales. NestRune requires several independent gates before checkout can charge a customer.</p>
 
    <section className="panel">
      <h2>Current mode · {mode.toUpperCase()}</h2>
@@ -83,7 +83,7 @@ export default function StripeSetup(){
 
    <section className="panel" style={{marginTop:20}}>
      <h2>1. Link {mode} products & prices</h2>
-     <p>Creates or reuses the four CardNest {mode} products and stores matching Stripe price IDs in Neon. It never turns on pack sales.</p>
+     <p>Creates or reuses the four NestRune {mode} products and stores matching Stripe price IDs in Neon. It never turns on pack sales.</p>
      <button type="button" className="gold" disabled={!!busy||!status?.keyMatchesMode} onClick={()=>run('products','/api/admin/stripe/bootstrap')}>{busy==='products'?'Working…':!status?'Checking Stripe…':!status.keyMatchesMode?`${mode.toUpperCase()} Stripe key mismatch`:`Create / link ${mode} prices`}</button>
      {status?.packs?.length?<div style={{marginTop:18}}>
        {status.packs.map(p=><p key={p.id}><strong>{p.name}</strong> · {'$'}{(p.price_cents/100).toFixed(2)} · {p.stripe_price_id?'price linked':'not linked'} · sales {p.sale_enabled?'ON':'OFF'}</p>)}
@@ -92,8 +92,8 @@ export default function StripeSetup(){
 
    <section className="panel" style={{marginTop:20}}>
      <h2>2. Create {mode} webhook</h2>
-     <p>Creates the Stripe endpoint for CardNest payment confirmations, refunds, and disputes. The signing secret is shown once and must be saved as <code>STRIPE_WEBHOOK_SECRET</code> in Vercel.</p>
-     <button type="button" className="outline" disabled={!!busy||!status?.keyMatchesMode} onClick={()=>run('webhook','/api/admin/stripe/webhook')}>{busy==='webhook'?'Creating…':!status?'Checking Stripe…':!status.keyMatchesMode?`${mode.toUpperCase()} webhook blocked`:`Create ${mode} webhook`}</button>{status&&!status.keyMatchesMode?<p className="notice" style={{marginTop:12}}>Webhook creation is blocked because CardNest is in <strong>{mode.toUpperCase()}</strong> mode but the connected Stripe secret key is <strong>{status.keyMode.toUpperCase()}</strong>. Update the Stripe secret for this environment, redeploy, then refresh this page.</p>:null}
+     <p>Creates the Stripe endpoint for NestRune payment confirmations, refunds, and disputes. The signing secret is shown once and must be saved as <code>STRIPE_WEBHOOK_SECRET</code> in Vercel.</p>
+     <button type="button" className="outline" disabled={!!busy||!status?.keyMatchesMode} onClick={()=>run('webhook','/api/admin/stripe/webhook')}>{busy==='webhook'?'Creating…':!status?'Checking Stripe…':!status.keyMatchesMode?`${mode.toUpperCase()} webhook blocked`:`Create ${mode} webhook`}</button>{status&&!status.keyMatchesMode?<p className="notice" style={{marginTop:12}}>Webhook creation is blocked because NestRune is in <strong>{mode.toUpperCase()}</strong> mode but the connected Stripe secret key is <strong>{status.keyMode.toUpperCase()}</strong>. Update the Stripe secret for this environment, redeploy, then refresh this page.</p>:null}
      {secret&&<div className="notice" style={{marginTop:18}}>
        <strong>Webhook signing secret — copy this now and do not share it:</strong>
        <input value={secret} readOnly onFocus={e=>e.currentTarget.select()} style={{width:'100%',marginTop:10}}/>
@@ -103,7 +103,7 @@ export default function StripeSetup(){
 
    {mode==='test'?<section className="panel" style={{marginTop:20}}>
      <h2>3. Run sandbox checkout test</h2>
-     <p>Opens Stripe-hosted test checkout using the Hatchling test price. It is an integration test only and does not grant a paid CardNest pack.</p>
+     <p>Opens Stripe-hosted test checkout using the Hatchling test price. It is an integration test only and does not grant a paid NestRune pack.</p>
      <button type="button" className="outline" disabled={!!busy||!status?.packs?.find(p=>p.id==='hatchling')?.stripe_price_id} onClick={()=>run('test','/api/admin/stripe/test-session')}>{busy==='test'?'Opening…':'Open Stripe sandbox checkout'}</button>
    </section>:<section className="panel" style={{marginTop:20}}>
      <h2>3. Live mode safety</h2>
@@ -117,6 +117,6 @@ export default function StripeSetup(){
    </section>
 
    {message&&<div className="notice" style={{marginTop:20}}>{message}</div>}
-   <p className="disclaimer">Stripe-hosted Checkout handles card entry. CardNest grants an unopened paid pack only after a signed Stripe server webhook confirms the exact order, user, amount, currency and pack. Refunds and disputes can hold unopened entitlements even when new checkout is paused.</p>
+   <p className="disclaimer">Stripe-hosted Checkout handles card entry. NestRune grants an unopened paid pack only after a signed Stripe server webhook confirms the exact order, user, amount, currency and pack. Refunds and disputes can hold unopened entitlements even when new checkout is paused.</p>
  </main>
 }

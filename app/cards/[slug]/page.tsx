@@ -43,7 +43,7 @@ export default async function CardPage({params}:{params:Promise<{slug:string}>})
  };
  return <main className="shell">
   <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify(structured)}}/>
-  <Link className="brand" href="/">✧ Card<span>Nest</span></Link>
+  <Link className="brand" href="/">✧ Nest<span>Rune</span></Link>
   <div className="viewer-grid">
    <div className="view-stage"><div className="view-card">{showcaseFor(card.id)?<ShowcaseCard card={card} large/>:<GuardianCard id={card.id}/>}</div></div>
    <article>

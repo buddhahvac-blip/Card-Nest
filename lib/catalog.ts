@@ -13,10 +13,10 @@ export const previewCollectibleIds=seasonManifest.slice(0,21).map(card=>card.id)
 export const isPreviewCollectible=(id:string)=>(previewCollectibleIds as readonly string[]).includes(id);
 
 export const packDefinitions=[
-{id:'hatchling',tone:'emerald green',tag:'YOUR FIRST CHAPTER',description:'A little guardian. A grand beginning.',artCrop:{x:205,y:238,width:263,height:330},name:'Hatchling',file:'Hatchling Pack.webp',count:1,priceCents:199},
-{id:'nest',tone:'purple',tag:'BUILD YOUR COLLECTION',description:'New friends from a world of wonder.',artCrop:{x:525,y:238,width:255,height:330},name:'Nest',file:'Nest Pack.webp',count:3,priceCents:499},
-{id:'guardian',tone:'luminous blue',tag:'MEET THE PROTECTORS',description:'Discover the guardians of the Garden.',artCrop:{x:824,y:238,width:246,height:330},name:'Guardian',file:'Guardian Pack.webp',count:5,priceCents:799},
-{id:'royal',tone:'premium gold',tag:'DISCOVER THE CROWN',description:'A grand opening for your growing nest.',artCrop:{x:1126,y:238,width:258,height:330},name:'Royal Nest',file:'Royal Nest Pack.webp',count:7,priceCents:999}
+{id:'hatchling',tone:'emerald green',tag:'YOUR FIRST CHAPTER',description:'A little guardian. A grand beginning.',artCrop:{x:160,y:390,width:328,height:438},name:'Hatchling',file:'packs/nestrune-hatchling-pack.webp',count:1,priceCents:199},
+{id:'nest',tone:'purple',tag:'BUILD YOUR COLLECTION',description:'New friends from a world of wonder.',artCrop:{x:504,y:390,width:318,height:438},name:'Nest',file:'packs/nestrune-nest-pack.webp',count:3,priceCents:499},
+{id:'guardian',tone:'luminous blue',tag:'MEET THE PROTECTORS',description:'Discover the guardians of the Garden.',artCrop:{x:842,y:390,width:320,height:438},name:'Guardian',file:'packs/nestrune-guardian-pack.webp',count:5,priceCents:799},
+{id:'royal',tone:'premium gold',tag:'DISCOVER THE CROWN',description:'A grand opening for your growing nest.',artCrop:{x:1174,y:390,width:328,height:438},name:'Royal Nest',file:'packs/nestrune-royal-nest-pack.webp',count:7,priceCents:999}
 ];
 
 export function previewPackDrops(pack:string){

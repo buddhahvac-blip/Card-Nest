@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   metadataBase: siteUrl,
   applicationName: siteName,
   title: {
-    default: "NestRune — A world worth collecting",
+    default: "NestRune — A World Worth Collecting.",
     template: "%s · NestRune",
   },
   description: siteDescription,
@@ -29,16 +29,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName,
-    title: "NestRune — A world worth collecting",
+    title: "NestRune — A World Worth Collecting.",
     description: siteDescription,
     url: "/",
-    images: [{url:"/art/great-nest-world.webp",alt:"The Great Nest — NestRune original guardian world"}],
+    images: [{url:"/art/nestrune-pack-hero.webp",alt:"NestRune — four packs in the Garden of Lands"}],
   },
   twitter: {
     card: "summary_large_image",
-    title: "NestRune — A world worth collecting",
+    title: "NestRune — A World Worth Collecting.",
     description: siteDescription,
-    images: ["/art/great-nest-world.webp"],
+    images: ["/art/nestrune-pack-hero.webp"],
   },
   robots: {index:searchIndexingApproved,follow:searchIndexingApproved},
   icons: {

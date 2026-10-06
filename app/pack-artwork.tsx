@@ -1,54 +1,30 @@
 import Image from 'next/image';
 import {packDefinitions} from '@/lib/catalog';
+import {packHero} from '@/lib/pack-store';
 
 export default function PackArtwork({packId,hero=false}:{packId?:string;hero?:boolean}){
- const pack=packDefinitions.find(p=>p.id===packId);
-
- if(hero)return <div className="pack-store-hero pack-store-hero-composite" aria-label="NestRune Season One pack lineup in the Garden of Lands">
+ if(hero)return <div className="pack-store-hero pack-store-hero-nestrune">
   <Image
-   className="pack-hero-world"
-   src="/art/great-nest-world.webp"
-   alt=""
-   fill
+   src={packHero.src}
+   alt="NestRune in the Garden of Lands: green Hatchling Pack, purple Nest Pack, blue Guardian Pack, and gold Royal Nest Pack"
+   width={packHero.width}
+   height={packHero.height}
    quality={95}
    preload
-   sizes="(max-width: 760px) 100vw, 1266px"
+   sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1346px) calc(100vw - 80px), 1266px"
   />
-  <div className="pack-hero-shade" aria-hidden="true"/>
-  <div className="pack-hero-title">
-   <span>THE GARDEN OF LANDS</span>
-   <strong>Choose your path.</strong>
-   <small>Four packs. One world.</small>
-  </div>
-  <div className="pack-hero-packs">
-   {packDefinitions.map((item,index)=><div
-    key={item.id}
-    className={`pack-hero-item pack-hero-${item.id}`}
-    style={{'--pack-index':index} as React.CSSProperties}
-   >
-    <Image
-     src={`/art/${item.file}`}
-     alt={`${item.name} Pack — ${item.tone} Season One pack`}
-     fill
-     quality={100}
-     unoptimized
-     sizes="(max-width: 760px) 45vw, 260px"
-    />
-    <span className="pack-hero-brand-cover" aria-hidden="true"><b>Nest</b><strong>Rune</strong><small>SEASON 1</small></span>
-   </div>)}
-  </div>
  </div>;
 
+ const pack=packDefinitions.find(p=>p.id===packId);
  if(!pack)return null;
  return <div className={`pack-product-art pack-product-${pack.id}`}>
   <Image
    src={`/art/${pack.file}`}
-   alt={`${pack.name} Pack — ${pack.tone} illuminated wrapper`}
-   fill
-   quality={100}
+   alt={`NestRune ${pack.name} Pack — ${pack.tone} illustrated wrapper`}
+   width={pack.artCrop.width}
+   height={pack.artCrop.height}
    unoptimized
-   sizes="(max-width: 480px) 220px, (max-width: 760px) 180px, 260px"
+   sizes="156px"
   />
-  <span className="pack-product-brand-cover" aria-hidden="true"><b>Nest</b><strong>Rune</strong><small>SEASON 1</small></span>
  </div>;
 }

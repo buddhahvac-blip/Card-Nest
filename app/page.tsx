@@ -1,2 +1,2 @@
-import CardNest from './ui';
-export default function Page(){return <CardNest/>}
+import NestRune from './ui';
+export default function Page(){return <NestRune/>}
