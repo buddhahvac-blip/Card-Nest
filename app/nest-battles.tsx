@@ -142,14 +142,14 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   const card=cardById(member.id);const special=card.abilitySecondary;
   if(member.specialCooldown===0){
    if(member.energy>=Math.max(1,special.energyCost||3)){
-    if(special.effect==='heal'&&member.hp>=card.health*.9)return member.cooldown===0?'ability':'strike';
+    if(special.effect==='heal'&&member.hp>=member.maxHp*.9)return member.cooldown===0?'ability':'strike';
     if(special.effect==='gain_guard'&&member.guard>=30)return member.cooldown===0?'ability':'strike';
     return 'special';
    }
    if(member.energy===2&&member.hp>card.health*.5)return 'strike';
   }
   if(member.cooldown>0||member.energy<Math.max(1,card.abilityPrimary.energyCost||1))return 'strike';
-  if(card.abilityPrimary.effect==='heal'&&member.hp>=card.health*.78)return 'strike';
+  if(card.abilityPrimary.effect==='heal'&&member.hp>=member.maxHp*.78)return 'strike';
   if(card.abilityPrimary.effect==='gain_guard'&&member.guard>=12)return 'strike';
   return 'ability';
  }
