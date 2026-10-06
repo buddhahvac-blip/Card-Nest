@@ -23,6 +23,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const approvedShowcase=useMemo(()=>seasonManifest.filter(hasApprovedShowcaseArt).sort((a,b)=>(rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||a.cardNumber-b.cardNumber),[]);
  const supportingShowcase=approvedShowcase.filter(c=>c.rarity!=='legendary');
  const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
+ const featuredCommons=illustratedCommons.slice(0,8);
 
  const filteredBase=seasonManifest.filter(c=>
    (theme==='all'||c.theme===theme)&&
@@ -71,14 +72,14 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
    {!!illustratedCommons.length&&<section className="common-flight-showcase" aria-labelledby="common-flight-title">
     <div className="common-flight-heading">
      <div>
-      <span className="eyebrow">COMMON FLIGHT · {illustratedCommons.length} ILLUSTRATED</span>
+      <span className="eyebrow">COMMON FLIGHT · FEATURED GUARDIANS</span>
       <h2 id="common-flight-title">The adventure starts with the Commons.</h2>
-      <p>These are the illustrated Common guardians of The First Flight, now including the Ember run through CN1-021. They use high-resolution master artwork, responsive presentation, and one-tap inspection so every guardian still feels worth discovering.</p>
+      <p>A focused look at a few Common guardians from The First Flight. Browse the full illustrated roster below when you want to explore every card.</p>
      </div>
-     <button className="outline" onClick={showCommons}>See only Commons <ArrowRight size={16}/></button>
+     <button className="outline" onClick={showCommons}>Browse illustrated Commons <ArrowRight size={16}/></button>
     </div>
     <div className="common-flight-grid">
-     {illustratedCommons.map((c,i)=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={c.id}>
+     {featuredCommons.map((c,i)=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={c.id}>
       <button className="common-flight-art" onClick={()=>onInspect(c.id)} aria-label={'Inspect '+c.name}>
        <GuardianCard id={c.id} eager={i<4}/>
        <span className="common-flight-sheen" aria-hidden="true"/>
@@ -108,7 +109,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
   <div className="gallery-shortcuts" role="group" aria-label="Season One gallery views">
    <button className={show==='illustrated'&&rarity==='all'?'gold':'outline'} onClick={showIllustrated}><Sparkles size={16}/>Illustrated <strong>{progress.illustrated}</strong></button>
    <button className={rarity==='legendary'?'gold':'outline'} onClick={showLegendary}><Crown size={16}/>Legendary <strong>20</strong></button>
-   <button className={show==='illustrated'&&rarity==='common'?'gold':'outline'} onClick={showCommons}><Sparkles size={16}/>Common showcase <strong>{illustratedCommons.length}</strong></button>
+   <button className={show==='illustrated'&&rarity==='common'?'gold':'outline'} onClick={showCommons}><Sparkles size={16}/>Illustrated Commons</button>
    <button className={show==='all'&&rarity==='all'?'gold':'outline'} onClick={showAll}>All Season One <strong>369</strong></button>
   </div>
 
