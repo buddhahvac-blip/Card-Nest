@@ -55,6 +55,11 @@ function noise(ctx:AudioContext,start:number,duration=.1,gain=.028){
  source.start(start);
 }
 
+export function unlockBattleAudio(){
+ const ctx=audioContext();
+ if(ctx?.state==='suspended')void ctx.resume();
+}
+
 export function playBattleSound(effect:BattleSoundEffect,enabled=true){
  if(!enabled)return;
  const ctx=audioContext();if(!ctx)return;
