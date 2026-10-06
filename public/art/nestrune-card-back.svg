@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 840" role="img" aria-labelledby="title desc">
+<title id="title">NestRune card back</title>
+<desc id="desc">Dark teal and gold NestRune card back with a glowing rune emblem.</desc>
+<defs>
+  <radialGradient id="bg" cx="50%" cy="42%" r="72%">
+    <stop offset="0" stop-color="#174c4d"/>
+    <stop offset=".58" stop-color="#0a2e33"/>
+    <stop offset="1" stop-color="#061c22"/>
+  </radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#fff1b5"/>
+    <stop offset=".42" stop-color="#d9b85f"/>
+    <stop offset="1" stop-color="#8c6725"/>
+  </linearGradient>
+  <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="10" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <pattern id="stars" width="72" height="72" patternUnits="userSpaceOnUse">
+    <circle cx="12" cy="17" r="1.2" fill="#d9b85f" opacity=".25"/>
+    <circle cx="52" cy="43" r=".9" fill="#fff1b5" opacity=".18"/>
+  </pattern>
+</defs>
+<rect width="600" height="840" rx="36" fill="url(#bg)"/>
+<rect x="18" y="18" width="564" height="804" rx="28" fill="none" stroke="url(#gold)" stroke-width="5"/>
+<rect x="34" y="34" width="532" height="772" rx="22" fill="url(#stars)" stroke="#d9b85f" stroke-opacity=".34" stroke-width="2"/>
+<g transform="translate(300 385)" fill="none" stroke="url(#gold)" filter="url(#glow)">
+  <circle r="144" stroke-width="4" opacity=".72"/>
+  <circle r="116" stroke-width="2" opacity=".48"/>
+  <path d="M0-110 L28-30 L110 0 L28 30 L0 110 L-28 30 L-110 0 L-28-30 Z" stroke-width="7"/>
+  <circle r="42" stroke-width="5"/>
+  <path d="M0-155 C38-130 65-95 76-55 M155 0 C130 38 95 65 55 76 M0 155 C-38 130-65 95-76 55 M-155 0 C-130-38-95-65-55-76" stroke-width="3" opacity=".64"/>
+</g>
+<text x="300" y="610" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="54" font-weight="700" fill="url(#gold)" letter-spacing="2">NestRune</text>
+<text x="300" y="652" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#f2e2ae" opacity=".86" letter-spacing="6">A WORLD WORTH COLLECTING</text>
+<path d="M210 704 H390" stroke="url(#gold)" stroke-width="2" opacity=".62"/>
+<text x="300" y="742" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#d9c98d" opacity=".78" letter-spacing="4">SEASON ONE · THE FIRST FLIGHT</text>
+</svg>
