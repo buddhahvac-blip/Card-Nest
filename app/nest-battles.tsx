@@ -1,6 +1,8 @@
 'use client';
 
 import {useEffect,useMemo,useRef,useState,type CSSProperties} from 'react';
+import Image from 'next/image';
+import commonMasterArt from '@/data/common-master-art.json';
 import {AmbientParticles,ArenaEnvironment,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Zap} from 'lucide-react';
 import {GuardianCard} from './cards';
@@ -197,7 +199,7 @@ export default function NestBattles(){
  const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='ability'?'cast':'attack'):(fx.knockout?'ko':'hit')):fx.side===side?'cast':undefined;
  const abilityReady=!!active&&active.cooldown===0&&active.energy>0;
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
- const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||card.artworkUrl||card.fullCardUrl||''};
+ const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||(commonMasterArt as Record<string,string>)[id]||card.artworkUrl||card.fullCardUrl||''};
  return <section className="nest-battles battle-live">
   <div className="battle-compact-hud">
    <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
@@ -215,7 +217,7 @@ export default function NestBattles(){
     <div className={`battle-avatar-fighter ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
      <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
       <span className="battle-avatar-aura"/>
-      <img src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`}/>
+      <Image src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
       <span className="battle-avatar-inspect">View card</span>
      </button>
      <div className="battle-status battle-status-v4">
@@ -224,7 +226,7 @@ export default function NestBattles(){
       <div className="battle-stat-line"><span>{active?.hp||0}/{activeCard.health} HP</span><span>{active?.guard||0} Guard</span><span>{active?.energy||0} Energy</span><span>SPD {activeCard.speed+(active?.speedDelta||0)}</span></div>
      </div>
     </div>
-    <div className="battle-reserves" aria-label="Your Guardian team">{player.map((fighter,index)=>{const card=cardById(fighter.id);return <button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-reserve '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')} title={index===playerActive?card.name+' is active':'Swap to '+card.name}><img src={avatarFor(fighter.id)} alt=""/><span>{index===playerActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></button>})}</div>
+    <div className="battle-reserves" aria-label="Your Guardian team">{player.map((fighter,index)=>{const card=cardById(fighter.id);return <button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-reserve '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')} title={index===playerActive?card.name+' is active':'Swap to '+card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===playerActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></button>})}</div>
    </div>
 
    <div className="battle-center battle-center-v4"><span>THE GREAT NEST</span><GreatNest/><strong>VS</strong><small>{activeCard.theme} → {enemyCard.theme}</small></div>
@@ -234,7 +236,7 @@ export default function NestBattles(){
     <div className={`battle-avatar-fighter rival-fighter ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
      <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
       <span className="battle-avatar-aura"/>
-      <img src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`}/>
+      <Image src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={88}/>
       <span className="battle-avatar-inspect">View card</span>
      </button>
      <div className="battle-status battle-status-v4">
@@ -243,7 +245,7 @@ export default function NestBattles(){
       <div className="battle-stat-line"><span>{enemy?.hp||0}/{enemyCard.health} HP</span><span>{enemy?.guard||0} Guard</span><span>{enemy?.energy||0} Energy</span><span>SPD {enemyCard.speed+(enemy?.speedDelta||0)}</span></div>
      </div>
     </div>
-    <div className="battle-reserves battle-reserves-rival" aria-label="Rival Guardian team">{rival.map((fighter,index)=>{const card=cardById(fighter.id);return <div key={fighter.id} className={'battle-reserve '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')} title={card.name}><img src={avatarFor(fighter.id)} alt=""/><span>{index===rivalActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>})}</div>
+    <div className="battle-reserves battle-reserves-rival" aria-label="Rival Guardian team">{rival.map((fighter,index)=>{const card=cardById(fighter.id);return <div key={fighter.id} className={'battle-reserve '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')} title={card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===rivalActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>})}</div>
    </div>
   </div>
 
