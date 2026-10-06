@@ -9,7 +9,7 @@ type Point={x:number;y:number};
 const palettes:Record<string,string>={Bloom:'#98ed99',Ember:'#ffab66',Tide:'#76dfff',Volt:'#ffe887',Mystic:'#d9bdff',Shadow:'#c68eff'};
 const motifs:Record<string,string>={Bloom:'❧',Ember:'◆',Tide:'◜',Volt:'ϟ',Mystic:'✧',Shadow:'⋰'};
 
-export function ArenaEnvironment(){return <div className={styles.world} aria-hidden="true"><div className={styles.worldArt}/><div className={styles.worldGlow}/><div className={styles.lightShafts}><i/><i/><i/></div><div className={styles.foregroundLeaves}>{Array.from({length:12},(_,i)=><i key={i} style={{'--leaf-x':`${(i*29+5)%100}%`,'--leaf-delay':`-${i*.45}s`}} as CSSProperties}/>)}</div></div>}
+export function ArenaEnvironment(){return <div className={styles.world} aria-hidden="true"><div className={styles.worldArt}/><div className={styles.worldGlow}/><div className={styles.lightShafts}><i/><i/><i/></div><div className={styles.foregroundLeaves}>{Array.from({length:12},(_,i)=><i key={i} style={{'--leaf-x':`${(i*29+5)%100}%`,'--leaf-delay':`-${i*.45}s`} as CSSProperties}}/>)}</div></div>}
 
 export function AmbientParticles(){return <div className={styles.ambient} aria-hidden="true"><div className={styles.mist}/><div className={styles.mistBack}/><div className={styles.gardenRings}/>{Array.from({length:22},(_,i)=><i key={i} style={{left:`${(i*37+7)%100}%`,top:`${(i*23+11)%100}%`,animationDelay:`-${i*.7}s`,animationDuration:`${8+i%5}s`}}/>)}</div>}
 export function GreatNest(){return <div className={styles.emblem} aria-hidden="true"><span>✧</span><i/><b/></div>}
