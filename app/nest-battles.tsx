@@ -9,7 +9,7 @@ import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
-import {playBattleSound} from '@/lib/battle-audio';
+import {playBattleSound,unlockBattleAudio} from '@/lib/battle-audio';
 
 type Fighter={id:string;hp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
 type ActionKind='strike'|'ability'|'special';
@@ -66,6 +66,7 @@ export default function NestBattles(){
 
  function start(){
   if(selected.length!==3)return;
+  if(soundOn)unlockBattleAudio();
   const rivalIds=learningPoolIds.filter(id=>!selected.includes(id));
   setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds));
   setPlayerActive(0);setRivalActive(0);setRound(1);setPhase('battle');
@@ -151,6 +152,7 @@ export default function NestBattles(){
 
  function act(kind:ActionKind){
   if(phase!=='battle'||playing.current)return;
+  if(soundOn)unlockBattleAudio();
   const p=tickTeam(copyTeam(player));const e=tickTeam(copyTeam(rival));
   let pIndex=playerActive;let eIndex=rivalActive;
   if(p[pIndex]?.hp<=0)pIndex=nextLiving(p,pIndex+1);
@@ -184,6 +186,7 @@ export default function NestBattles(){
 
  function swap(index:number){
   if(phase!=='battle'||playing.current||index===playerActive||player[index]?.hp<=0)return;
+  if(soundOn)unlockBattleAudio();
   const p=tickTeam(copyTeam(player));const e=tickTeam(copyTeam(rival));
   const old=cardById(p[playerActive].id);const incoming=cardById(p[index].id);
   const eIndex=e[rivalActive]?.hp>0?rivalActive:nextLiving(e,rivalActive+1);
@@ -228,7 +231,7 @@ export default function NestBattles(){
   <div className="battle-compact-hud">
    <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
    <div className="battle-hud-matchup"><span>{activeCard.theme}</span><b>VS</b><span>{enemyCard.theme}</span><small>{matchup}</small></div>
-   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>setSoundOn(value=>!value)} aria-label={soundOn?'Mute battle sounds':'Enable battle sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Sound on':'Muted'}</span></button><button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button></div>
+   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next)unlockBattleAudio()}} aria-label={soundOn?'Mute battle sounds':'Enable battle sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Sound on':'Muted'}</span></button><button className="outline" onClick={reset}><RotateCcw size={15}/>New team</button></div>
   </div>
 
   <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
@@ -291,7 +294,7 @@ export default function NestBattles(){
 
   {phase==='finished'&&<div className="battle-finish"><Sparkles/><div><h2>{isTeamDown(rival)?'Your Nest held strong!':'A new strategy is waiting.'}</h2><p>Try another combination. The same Common guardians can play very differently depending on class and matchup.</p></div><button className="gold" onClick={reset}>Build another team</button></div>}
 
-  {inspectCard&&<div className="battle-card-modal" role="dialog" aria-modal="true" aria-label="Guardian card inspection" onClick={()=>setInspectCard(null)}><div className="battle-card-modal-panel" onClick={event=>event.stopPropagation()}><button className="battle-modal-close" onClick={()=>setInspectCard(null)} aria-label="Close card inspection">×</button><GuardianCard id={inspectCard} eager/><p>Collectible card view · battle uses the Guardian avatar.</p></div></div>}
+  {inspectCard&&<div className="battle-card-modal" role="dialog" aria-modal="true" aria-label="Guardian card inspection" onClick={()=>setInspectCard(null)}><div className="battle-card-modal-panel" onClick={event=>event.stopPropagation()}><button className="battle-modal-close" onClick={()=>setInspectCard(null)} aria-label="Close card inspection">×</button><GuardianCard id={inspectCard} eager/><p>Collectible card view · Special: <strong>{cardById(inspectCard).abilitySecondary.name}</strong> · 3 Energy · 4-turn cooldown.</p></div></div>}
 
   <p className="disclaimer battle-live-disclaimer">Practice alpha only. No matchmaking, trading, rewards, paid boosts or persistent battle rank are active. Stats and rules remain subject to playtesting.</p>
  </section>;
