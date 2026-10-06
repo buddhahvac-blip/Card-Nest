@@ -6,7 +6,7 @@ import {siteUrl} from '@/lib/site';
 export default function sitemap():MetadataRoute.Sitemap{
  const now=new Date();
  const items:MetadataRoute.Sitemap=[];
- const staticPaths=['/','/season-one','/guides','/about','/support','/feedback','/privacy','/terms','/refunds','/affiliate-disclosure','/founders'];
+ const staticPaths=['/','/season-one','/play','/rune-dungeon','/guides','/about','/support','/feedback','/privacy','/terms','/refunds','/affiliate-disclosure','/founders'];
  const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
  for(const path of staticPaths)items.push({url:new URL(path,siteUrl).toString(),lastModified:now,changeFrequency:path==='/'?'weekly':'monthly',priority:path==='/'?1:.65});
  for(const theme of themes)items.push({url:new URL(themePath(theme),siteUrl).toString(),lastModified:now,changeFrequency:'weekly',priority:.75});
