@@ -26,7 +26,7 @@ export async function generateMetadata({params}:{params:Promise<{slug:string}>})
  return {
   title,description,
   alternates:{canonical:cardPath(card)},
-  openGraph:{title,description,url:new URL(cardPath(card),siteUrl),type:'article',images:[{url:image,alt:`${card.name} CardNest guardian`}]},
+  openGraph:{title,description,url:new URL(cardPath(card),siteUrl),type:'article',images:[{url:image,alt:`${card.name} NestRune guardian`}]},
   twitter:{card:'summary_large_image',title,description,images:[image]}
  };
 }
@@ -38,7 +38,7 @@ export default async function CardPage({params}:{params:Promise<{slug:string}>})
  const structured={
   '@context':'https://schema.org','@type':'CreativeWork',name:card.name,
   description:card.description||card.lore,url:canonical,
-  isPartOf:{'@type':'CreativeWorkSeries',name:'CardNest Season One: The First Flight'},
+  isPartOf:{'@type':'CreativeWorkSeries',name:'NestRune Season One: The First Flight'},
   identifier:`CN1-${String(card.cardNumber).padStart(3,'0')}`
  };
  return <main className="shell">

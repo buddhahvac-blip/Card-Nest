@@ -21,7 +21,7 @@ export default function SupportInbox(){
  return <section>
   <div className="eyebrow">FOUNDER WORKSPACE · CUSTOMER CARE</div>
   <h1 className="page-title">Support Inbox</h1>
-  <p className="intro">Customer tickets stay inside CardNest. Reply from cardnestsupport@gmail.com, then update the ticket status here. No automatic customer email is sent yet.</p>
+  <p className="intro">Customer tickets stay inside NestRune. Reply from your configured support mailbox, then update the ticket status here. No automatic customer email is sent yet.</p>
   {error&&<div className="notice error">{error}</div>}
   <div className="stats"><div className="stat"><span>Open</span><strong>{count('open')}</strong></div><div className="stat"><span>In progress</span><strong>{count('in-progress')}</strong></div><div className="stat"><span>Waiting</span><strong>{count('waiting')}</strong></div></div>
   <div className="studio-list">{tickets.map(t=><article className="studio-job" key={t.id}>
