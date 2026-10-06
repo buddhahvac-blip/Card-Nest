@@ -17,20 +17,20 @@ export default function HomeExperience({go}:Props){
   const leafpaw=seasonCard('emberwing-002');
 
   return <>
-    <section className="cn-world-hero" aria-labelledby="cardnest-home-title">
-      <Image className="cn-world-hero-image" src="/art/great-nest-world.webp" alt="The Garden of Lands, home of the CardNest guardians" fill quality={95} preload sizes="(max-width: 760px) 150vw, 100vw"/>
+    <section className="cn-world-hero" aria-labelledby="nestrune-home-title">
+      <Image className="cn-world-hero-image" src="/art/great-nest-world.webp" alt="The Garden of Lands, home of the NestRune guardians" fill quality={95} preload sizes="(max-width: 760px) 150vw, 100vw"/>
       <div className="cn-world-hero-shade" aria-hidden="true"/>
       <div className="cn-world-hero-glow" aria-hidden="true"/>
       <div className="cn-world-copy">
         <span className="cn-season-pill"><Sparkles size={14}/> SEASON ONE · THE FIRST FLIGHT · V3 VISION</span>
-        <h1 id="cardnest-home-title">Collect the Guardians.<br/><span>Build your Nest.</span><br/>Enter the Battle.</h1>
+        <h1 id="nestrune-home-title">Collect the Guardians.<br/><span>Build your Nest.</span><br/>Enter the Battle.</h1>
         <p>Step into the Garden of Lands, discover original Guardians, grow a collection that feels personal, and bring your favorites into fast strategic Nest Battles.</p>
         <div className="cn-hero-actions">
-          <button className="cn-primary-cta" onClick={()=>scrollTo('cardnest-paths')}>ENTER THE WORLD <ArrowRight size={17}/></button>
+          <button className="cn-primary-cta" onClick={()=>scrollTo('nestrune-paths')}>ENTER THE WORLD <ArrowRight size={17}/></button>
           <button className="cn-secondary-cta" onClick={()=>scrollTo('packs')}>OPEN A PACK</button>
           <Link className="cn-text-cta" href="/play">TRY NEST BATTLES ↗</Link>
         </div>
-        <div className="cn-hero-proof" aria-label="CardNest Season One overview">
+        <div className="cn-hero-proof" aria-label="NestRune Season One overview">
           <span><strong>369</strong> Season One Guardians</span>
           <span><strong>21</strong> Founding Guardians live</span>
           <span><strong>1</strong> connected world</span>
@@ -54,7 +54,7 @@ export default function HomeExperience({go}:Props){
     <section className="cn-founder-strip" aria-label="Founding Flight crowdfunding">
       <div>
         <span className="eyebrow">FOUNDING FLIGHT · 21 GUARDIANS LIVE</span>
-        <h2>Help CardNest grow from its first collection into a living world.</h2>
+        <h2>Help NestRune grow from its first collection into a living world.</h2>
         <p>The first 21 illustrated Guardians are now the Founding Flight beta pool. Free beta pulls are live, while crowdfunding is being prepared to fund higher-resolution art, more Guardians, stronger Nest Battles, and the next Garden regions.</p>
       </div>
       <div className="cn-founder-actions">
@@ -63,10 +63,10 @@ export default function HomeExperience({go}:Props){
       </div>
     </section>
 
-    <section className="cn-path-section" id="cardnest-paths" aria-labelledby="choose-journey-title">
+    <section className="cn-path-section" id="nestrune-paths" aria-labelledby="choose-journey-title">
       <div className="cn-section-intro">
         <span className="eyebrow">CHOOSE YOUR JOURNEY</span>
-        <h2 id="choose-journey-title">How will you enter CardNest?</h2>
+        <h2 id="choose-journey-title">How will you enter NestRune?</h2>
         <p>Start with the part that excites you. Every path connects back to the same world, collection, and future battle system.</p>
       </div>
       <div className="cn-path-grid">
@@ -89,7 +89,7 @@ export default function HomeExperience({go}:Props){
       <div className="cn-v3-copy">
         <span className="cn-season-pill"><Swords size={14}/> V3 · NEST BATTLES</span>
         <h2 id="v3-home-title">Your cards are more than a collection.</h2>
-        <p>The long-term CardNest loop is simple to understand: discover a Guardian, collect it, learn what makes it special, build a team, then find new combinations in battle.</p>
+        <p>The long-term NestRune loop is simple to understand: discover a Guardian, collect it, learn what makes it special, build a team, then find new combinations in battle.</p>
         <div className="cn-battle-chips" aria-label="Nest Battle strategy roles"><span>ATTACK</span><span>GUARD</span><span>SUPPORT</span><span>SYNERGY</span></div>
         <blockquote>Every rarity should have a reason to matter. A clever Common can still become the Guardian that wins the battle.</blockquote>
         <div className="cn-hero-actions">

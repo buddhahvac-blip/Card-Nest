@@ -3,8 +3,8 @@ import Link from 'next/link';
 import NestBattles from '../nest-battles';
 
 export const metadata:Metadata={
- title:'Nest Battles · CardNest',
- description:'Build a three-Guardian team and try the playable CardNest Nest Battles alpha.'
+ title:'Nest Battles · NestRune',
+ description:'Build a three-Guardian team and try the playable NestRune Nest Battles alpha.'
 };
 
 export default function PlayPage(){

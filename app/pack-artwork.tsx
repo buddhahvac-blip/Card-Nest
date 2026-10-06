@@ -4,7 +4,7 @@ import {packDefinitions} from '@/lib/catalog';
 export default function PackArtwork({packId,hero=false}:{packId?:string;hero?:boolean}){
  const pack=packDefinitions.find(p=>p.id===packId);
 
- if(hero)return <div className="pack-store-hero pack-store-hero-composite" aria-label="CardNest Season One pack lineup in the Garden of Lands">
+ if(hero)return <div className="pack-store-hero pack-store-hero-composite" aria-label="NestRune Season One pack lineup in the Garden of Lands">
   <Image
    className="pack-hero-world"
    src="/art/great-nest-world.webp"
@@ -34,6 +34,7 @@ export default function PackArtwork({packId,hero=false}:{packId?:string;hero?:bo
      unoptimized
      sizes="(max-width: 760px) 45vw, 260px"
     />
+    <span className="pack-hero-brand-cover" aria-hidden="true"><b>Nest</b><strong>Rune</strong><small>SEASON 1</small></span>
    </div>)}
   </div>
  </div>;
@@ -48,5 +49,6 @@ export default function PackArtwork({packId,hero=false}:{packId?:string;hero?:bo
    unoptimized
    sizes="(max-width: 480px) 220px, (max-width: 760px) 180px, 260px"
   />
+  <span className="pack-product-brand-cover" aria-hidden="true"><b>Nest</b><strong>Rune</strong><small>SEASON 1</small></span>
  </div>;
 }
