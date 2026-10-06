@@ -264,6 +264,7 @@ main>.lower-grid{display:grid}
 .battle-combatant{height:100%;min-width:0;position:relative;z-index:2;display:grid;grid-template-rows:auto 1fr auto;align-items:center;justify-items:center}
 .battle-side-label{font-size:9px;font-weight:900;letter-spacing:1.8px;color:#e9d698;opacity:.86;padding-top:3px}
 .battle-avatar-fighter{position:relative;width:min(100%,310px);align-self:center;display:grid;justify-items:center;z-index:2}
+.battle-guardian-actor{position:relative;width:100%;display:grid;place-items:center;z-index:2}
 .battle-guardian-avatar{appearance:none;border:0;background:transparent;padding:0;position:relative;width:clamp(160px,18vw,235px);aspect-ratio:1/1;border-radius:46%;cursor:zoom-in;isolation:isolate;transition:transform .18s ease,filter .18s ease}
 .battle-guardian-avatar:hover{transform:translateY(-3px) scale(1.015);filter:brightness(1.08)}
 .battle-guardian-avatar img{position:relative;z-index:2;width:100%;height:100%;object-fit:cover;border-radius:46%;border:2px solid color-mix(in srgb,var(--aura) 75%,#f3dfa0);box-shadow:0 20px 35px #0009,0 0 28px color-mix(in srgb,var(--aura) 42%,transparent);background:#0b2630}
