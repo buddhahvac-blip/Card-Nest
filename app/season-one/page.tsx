@@ -50,14 +50,15 @@ export default function SeasonOnePage(){
       </div>
       <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:12}}>
        {cards.map(card=>{
-        const currentArt=(commonMasterArt as Record<string,string>)[card.id]
-         ||card.masterArtworkUrl
+        const masterArt=(commonMasterArt as Record<string,string>)[card.id];
+        const localArt=card.masterArtworkUrl
          ||card.highResolutionArtworkUrl
          ||showcaseArt.get(card.id)
          ||card.artworkUrl
          ||null;
+        const currentArt=masterArt||localArt;
         const illustrated=hasSeasonArtwork(card)&&!!currentArt;
-        const imageSrc=currentArt||'/art/nestrune-card-back.svg';
+        const imageSrc=masterArt?'/api/card-art/'+encodeURIComponent(card.id):(localArt||'/art/nestrune-card-back.svg');
         return <Link key={card.id} href={cardPath(card)} style={{display:'block',textDecoration:'none',color:'inherit',border:'1px solid rgba(255,255,255,.08)',borderRadius:14,padding:9,background:'rgba(255,255,255,.025)'}}>
          <div style={{position:'relative',width:'100%',aspectRatio:'3 / 4',borderRadius:10,overflow:'hidden',background:'rgba(255,255,255,.035)',marginBottom:9}}>
           <img src={imageSrc} alt={illustrated?card.name:'NestRune card back'} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/>
