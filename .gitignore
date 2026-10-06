@@ -15,3 +15,12 @@ public/art/ChatGPT Image Sep 25, 2026, 03_57_04 PM.png
 
 public/art/guardian-concepts.png
 public/art/*.png
+
+# Legacy root-level PNG exports replaced by optimized NestRune WebP assets
+public/cardnest-hero*.png
+public/cardnest-season1-packs.png.png
+public/ChatGPT Image*.png
+public/Hatchling Pack.png
+public/Nest Pack.png
+public/Guardian Pack.png
+public/Royal Nest Pack.png
