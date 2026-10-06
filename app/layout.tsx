@@ -56,6 +56,19 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="impact-site-verification" {...({value:"127ac962-5c21-4273-820a-6d64fb17e00e"} as any)} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{__html:JSON.stringify({
+          '@context':'https://schema.org',
+          '@type':'VideoGame',
+          name:'NestRune',
+          url:siteUrl.toString(),
+          description:siteDescription,
+          genre:['Digital card game','Collectible card game','Fantasy'],
+          gamePlatform:'Web browser',
+          operatingSystem:'Web',
+          applicationCategory:'Game',
+          isAccessibleForFree:true,
+          inLanguage:'en'
+        })}} />
       </head>
       <body className={`${worldSerif.variable} ${worldSans.variable} antialiased`}>{children}</body>
     </html>
