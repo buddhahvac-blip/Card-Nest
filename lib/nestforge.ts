@@ -33,7 +33,16 @@ export function makeConcept(signals:string[],conceptId:string,createdAt=new Date
  const body=pick(conceptId,bodies),feature=pick(conceptId,anatomy,1),personality=pick(conceptId,temperament,2);
  const creatureType=signals.includes('Birds')?'avian '+body:body;
  const silhouette=`${body} with ${feature}`;
- const nameCandidate=`${pick(conceptId,['Aster','Moss','Cinder','Ripple','Vesper','Kite','Lumen','Cairn'],3)}${pick(conceptId,['whorl','crest','glow','ling','drift','plume','tide','spark'],4)}`;
+ const stems=['Aster','Moss','Cinder','Ripple','Vesper','Kite','Lumen','Cairn'];
+ const endings=['whorl','crest','glow','ling','drift','plume','tide','spark'];
+ const canonicalNames=new Set(seasonManifest.map(card=>card.name.toLowerCase()));
+ let nameCandidate=`${pick(conceptId,stems,3)}${pick(conceptId,endings,4)}`;
+ for(let attempt=5;canonicalNames.has(nameCandidate.toLowerCase())&&attempt<21;attempt++){
+  nameCandidate=`${pick(conceptId,stems,attempt)}${pick(conceptId,endings,attempt+17)}`;
+ }
+ if(canonicalNames.has(nameCandidate.toLowerCase())){
+  nameCandidate=`${nameCandidate}${createHash('sha256').update(conceptId).digest('hex').slice(0,4).toUpperCase()}`;
+ }
  const battleClassCandidate=signals.includes('Fast')?'Scout':signals.includes('Strong')?'Vanguard':signals.includes('Cute')?'Support':'Warden';
  const habitat=places[theme],colorDirection=colors[theme];
  const generationPrompt=`Create one original NestRune avatar concept: ${nameCandidate}, a ${personality} ${creatureType}. Distinct silhouette: ${silhouette}. Habitat: ${habitat}. Theme: ${theme}, color direction: ${colorDirection}. Battle class: ${battleClassCandidate}, using its independent class icon only in later card layout. Premium dark teal and metallic gold First Flight presentation. Original anatomy, expressive personality, family-friendly illustration. No text, logos, watermark, famous character, franchise design, or existing card frame. Avoid resemblance to canonical NestRune guardians. Human rights and art review required.`;
