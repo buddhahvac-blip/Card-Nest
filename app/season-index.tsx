@@ -6,6 +6,7 @@ import {GuardianCard} from './cards';
 import LegendaryFlight from './legendary-flight';
 import ArtInspect from './art-inspect';
 import {Progress} from '@/components/ui/progress';
+import ThemeEmblem from './theme-emblem';
 
 const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
 const rarityWeight:Record<string,number>={common:1,uncommon:2,rare:3,epic:4,ultra:5,legendary:6};
@@ -124,7 +125,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
   <div className="gallery-section-head archive-heading"><div><span className="eyebrow">FIELD GUIDE</span><h2>{rarity==='legendary'?'The Legendary roster':rarity==='common'&&show==='illustrated'?'Common Flight showcase':show==='illustrated'?'Illustrated Season One':show==='approved'?'Approved showcase artwork':'Explore all 369 guardians'}</h2></div><span>{filtered.length} matching cards</span></div>
 
   <div className="season-grid">{filtered.slice(currentPage*24,(currentPage+1)*24).map(c=><article className={'index-card '+(hasSeasonArtwork(c)?'has-art ':'')+(c.rarity==='legendary'?'legendary-index-card':'')} key={c.id}>
-   <div className="index-card-top"><span>CN1 · {String(c.cardNumber).padStart(3,'0')} / 369</span><span className={owned.has(c.id)?'owned-label':hasSeasonArtwork(c)?'illustrated-label':'missing-label'}>{owned.has(c.id)?<><Check size={14}/> Owned</>:hasSeasonArtwork(c)?<><Sparkles size={13}/> Illustrated</>:c.releaseStatus==='preview'?'Free preview':'Unreleased'}</span></div>
+   <div className="index-card-top"><span style={{display:'inline-flex',alignItems:'center',gap:8}}><ThemeEmblem theme={c.theme} size={24} label={false}/>CN1 · {String(c.cardNumber).padStart(3,'0')} / 369</span><span className={owned.has(c.id)?'owned-label':hasSeasonArtwork(c)?'illustrated-label':'missing-label'}>{owned.has(c.id)?<><Check size={14}/> Owned</>:hasSeasonArtwork(c)?<><Sparkles size={13}/> Illustrated</>:c.releaseStatus==='preview'?'Free preview':'Unreleased'}</span></div>
    <button aria-label={'Inspect '+c.name} onClick={()=>onInspect(c.id)}><GuardianCard id={c.id}/></button>
    <div className="index-card-title-row"><h2>{c.name}</h2><span className={'rarity-token rarity-'+c.rarity}>{c.rarity}</span></div>
    <p>Theme: {c.theme} · {c.battleClass}</p>
