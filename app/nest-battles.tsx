@@ -226,8 +226,9 @@ export default function NestBattles(){
  const abilityReady=!!active&&active.cooldown===0&&active.energy>=Math.max(1,activeCard.abilityPrimary.energyCost||1);
  const specialReady=!!active&&active.specialCooldown===0&&active.energy>=Math.max(1,activeCard.abilitySecondary.energyCost||3);
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
- const avatarFor=(id:string)=>{const card=cardById(id);return card.avatarUrl||card.thumbnailUrl||(commonMasterArt as Record<string,string>)[id]||card.artworkUrl||card.fullCardUrl||''};
- const cardArtFor=(id:string)=>{const card=cardById(id);return card.fullCardUrl||card.artworkUrl||(commonMasterArt as Record<string,string>)[id]||avatarFor(id)};
+ const currentMasterFor=(id:string)=>(commonMasterArt as Record<string,string>)[id]||'';
+ const avatarFor=(id:string)=>{const card=cardById(id);return currentMasterFor(id)||card.artworkUrl||card.fullCardUrl||card.avatarUrl||card.thumbnailUrl||''};
+ const cardArtFor=(id:string)=>{const card=cardById(id);return currentMasterFor(id)||card.fullCardUrl||card.artworkUrl||card.avatarUrl||card.thumbnailUrl||''};
  return <section className="nest-battles battle-live">
   <div className="battle-compact-hud">
    <div><span className="eyebrow">GARDEN ARENA · ROUND {round}</span><strong>{phase==='finished'?'Practice complete':'Your turn'}</strong></div>
