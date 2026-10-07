@@ -73,7 +73,7 @@ export default function RuneDungeon(){
   const floor=RUNE_DUNGEON_FLOORS.find(entry=>entry.floor===activeFloor)!;
   const world=runeWorld(floor.world);
   return <section className={'rune-dungeon-battle-shell world-'+world.id}>
-   <div className="dungeon-battle-top"><button className="outline" onClick={()=>setActiveFloor(null)}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · FLOOR {floor.floor}</span><strong>{floor.name}{floor.boss?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
+   <div className="dungeon-battle-top"><button className="outline" onClick={()=>setActiveFloor(null)}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · FLOOR {floor.floor}</span><strong>{floor.name}{(floor.boss||floor.worldBoss)?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
    <NestBattles dungeon={{...floor,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onExit:()=>setActiveFloor(null)}}/>
    {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
@@ -98,10 +98,10 @@ export default function RuneDungeon(){
     <div className="dungeon-floor-grid">{worldFloors.map(floor=>{
      const isCleared=cleared.has(floor.floor);
      const unlocked=floor.floor===1||floor.floor<=(progress?.highestCleared||0)+1;
-     return <article key={floor.floor} className={'dungeon-floor '+(floor.boss?'boss ':'')+(isCleared?'cleared ':'')+(!unlocked?'locked':'')}>
-      <div className="dungeon-floor-number">{floor.boss?<Crown/>:String(floor.floor).padStart(2,'0')}</div>
-      <div className="dungeon-floor-copy"><span>{floor.boss?(floor.floor===10?'RUNEHEART EPIC BOSS':'WORLD BOSS'):'FLOOR '+floor.floor}</span><h3>{floor.name}</h3><p>{floor.mission}</p><small><BatteryCharging size={13}/> First clear +{floor.energy} Rune Energy</small></div>
-      <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>Cleared</span>:unlocked?<button className={floor.boss?'gold':'outline'} onClick={()=>setActiveFloor(floor.floor)}><Swords size={15}/>{floor.boss?(floor.floor===10?'Challenge Epic Bosses':'Challenge World Boss'):'Enter'}</button>:<span><LockKeyhole size={15}/>Locked</span>}{isCleared&&<button className="outline" onClick={()=>setActiveFloor(floor.floor)}>Replay</button>}</div>
+     return <article key={floor.floor} className={'dungeon-floor '+((floor.boss||floor.worldBoss)?'boss ':'')+(isCleared?'cleared ':'')+(!unlocked?'locked':'')}>
+      <div className="dungeon-floor-number">{(floor.boss||floor.worldBoss)?<Crown/>:String(floor.floor).padStart(2,'0')}</div>
+      <div className="dungeon-floor-copy"><span>{(floor.boss||floor.worldBoss)?(floor.boss?'RUNEHEART EPIC BOSS':'WORLD BOSS'):'FLOOR '+floor.floor}</span><h3>{floor.name}</h3><p>{floor.mission}</p><small><BatteryCharging size={13}/> First clear +{floor.energy} Rune Energy</small></div>
+      <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>Cleared</span>:unlocked?<button className={(floor.boss||floor.worldBoss)?'gold':'outline'} onClick={()=>setActiveFloor(floor.floor)}><Swords size={15}/>{(floor.boss||floor.worldBoss)?(floor.boss?'Challenge Epic Bosses':'Challenge World Boss'):'Enter'}</button>:<span><LockKeyhole size={15}/>Locked</span>}{isCleared&&<button className="outline" onClick={()=>setActiveFloor(floor.floor)}>Replay</button>}</div>
      </article>
     })}</div>
    </section>
