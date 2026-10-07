@@ -54,13 +54,13 @@ export default function HomeExperience({go}:Props){
 
     <section className="cn-founder-strip" aria-label="Founding Flight crowdfunding">
       <div>
-        <span className="eyebrow">FOUNDING FLIGHT · 21 GUARDIANS LIVE</span>
+        <span className="eyebrow">FOUNDING FLIGHT · SEASON ONE LIVE</span>
         <h2>Help NestRune grow from its first collection into a living world.</h2>
-        <p>The first 21 illustrated Guardians are now the Founding Flight beta pool. Free beta pulls are live, while crowdfunding is being prepared to fund higher-resolution art, more Guardians, stronger Nest Battles, and the next Garden regions.</p>
+        <p>Season One is growing with new illustrated Guardians, free beta pulls, Nest Battles, and expanding Rune Dungeon worlds. Explore the roster, find a Theme you love, then join the Founding Flight beta.</p>
       </div>
       <div className="cn-founder-actions">
         <Link className="cn-primary-cta" href="/join">JOIN THE FREE BETA <ArrowRight size={17}/></Link>
-        <button className="cn-secondary-cta" onClick={()=>scrollTo('packs')}>TRY THE 21-CARD POOL</button>
+        <Link className="cn-secondary-cta" href="/season-one">EXPLORE SEASON ONE</Link>
       </div>
     </section>
 
