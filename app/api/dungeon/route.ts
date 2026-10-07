@@ -9,8 +9,8 @@ import {RUNE_DUNGEON_FLOORS,RUNE_PACK_COSTS,runeEnergyForFloor,runePackCost} fro
 export const dynamic='force-dynamic';
 
 const command=z.discriminatedUnion('action',[
- z.strictObject({action:z.literal('start'),floor:z.number().int().min(1).max(10)}),
- z.strictObject({action:z.literal('clear'),floor:z.number().int().min(1).max(10),attempt:z.string().uuid().optional()}),
+ z.strictObject({action:z.literal('start'),floor:z.number().int().min(1).max(30)}),
+ z.strictObject({action:z.literal('clear'),floor:z.number().int().min(1).max(30),attempt:z.string().uuid().optional()}),
  z.strictObject({action:z.literal('claim'),pack:z.enum(['hatchling','nest','guardian'])})
 ]);
 
@@ -25,7 +25,7 @@ async function readProgress(userId:string){
  return {
   signedIn:true,
   highestCleared:Number(row.highest_cleared||0),
-  unlockedFloor:Math.min(10,Number(row.highest_cleared||0)+1),
+  unlockedFloor:Math.min(30,Number(row.highest_cleared||0)+1),
   runeEnergy:Number(row.rune_energy||0),
   clears:clears.rows,
   claims:claims.rows,
@@ -82,7 +82,7 @@ export async function POST(req:Request){
     const {rows:[updated]}=await c.query('UPDATE rune_dungeon_progress SET highest_cleared=$2,rune_energy=rune_energy+$3,updated_at=now() WHERE user_id=$1 RETURNING highest_cleared,rune_energy',[user.userId,body.floor,reward]);
     return {alreadyCleared:false,reward,highestCleared:Number(updated.highest_cleared),runeEnergy:Number(updated.rune_energy)};
    });
-   return json({...result,unlockedFloor:Math.min(10,result.highestCleared+1),bossCleared:result.highestCleared===10});
+   return json({...result,unlockedFloor:Math.min(30,result.highestCleared+1),bossCleared:result.highestCleared===30});
   }
 
   const cost=runePackCost(body.pack);
