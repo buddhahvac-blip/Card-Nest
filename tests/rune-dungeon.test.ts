@@ -19,8 +19,10 @@ test('Dungeon difficulty and first-clear Energy rise toward the boss',()=>{
  assert.equal(RUNE_DUNGEON_TOTAL_ENERGY,240);
 });
 
-test('Rune Energy reward pack prices are server-defined and nonzero',()=>{
- assert.deepEqual(RUNE_PACK_COSTS,{hatchling:20,nest:50,guardian:90,royal:140});
+test('Rune Energy reward pack prices are server-defined, nonzero, and Royal requires near-full dungeon saving',()=>{
+ assert.deepEqual(RUNE_PACK_COSTS,{hatchling:10,nest:45,guardian:100,royal:220});
  for(const [pack,cost] of Object.entries(RUNE_PACK_COSTS))assert.equal(runePackCost(pack),cost);
+ assert.ok(RUNE_PACK_COSTS.hatchling<=runeEnergyForFloor(1));
+ assert.ok(RUNE_PACK_COSTS.royal>=RUNE_DUNGEON_TOTAL_ENERGY-20);
  assert.equal(runePackCost('unknown'),0);
 });
