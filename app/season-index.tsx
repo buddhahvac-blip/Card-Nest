@@ -15,19 +15,19 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const [theme,setTheme]=useState('all');
  const [rarity,setRarity]=useState('all');
  const [show,setShow]=useState('illustrated');
- const [sortMode,setSortMode]=useState('showcase');
+ const [sortMode,setSortMode]=useState('theme');
  const [page,setPage]=useState(0);
  const owned=useMemo(()=>new Set<string>((data?.cards||[]).map((x:any)=>x.card)),[data]);
  const progress=artProgress();
  const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
  const featuredCommons=illustratedCommons.slice(0,8);
- const currentCommonRun=useMemo(()=>seasonManifest.filter(c=>c.cardNumber>=21&&c.cardNumber<=31).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
+ const currentSeasonRun=useMemo(()=>seasonManifest.filter(c=>c.cardNumber>=21&&c.cardNumber<=40).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
  const defaultHighlightedIds=new Set([
    ...featuredCommons.map(c=>c.id),
-   ...currentCommonRun.map(c=>c.id),
+   ...currentSeasonRun.map(c=>c.id),
    ...seasonManifest.filter(c=>c.rarity==='legendary'&&hasApprovedShowcaseArt(c)).slice(0,1).map(c=>c.id)
  ]);
- const suppressDefaultDuplicates=query===''&&theme==='all'&&rarity==='all'&&show==='illustrated'&&sortMode==='showcase';
+ const suppressDefaultDuplicates=query===''&&theme==='all'&&rarity==='all'&&show==='illustrated'&&sortMode==='theme';
 
  const filteredBase=seasonManifest.filter(c=>
    (!suppressDefaultDuplicates||!defaultHighlightedIds.has(c.id))&&
@@ -37,6 +37,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
    ((c.name+' '+c.theme+' '+c.creatureType+' '+String(c.cardNumber).padStart(3,'0')).toLowerCase().includes(query.toLowerCase()))
  );
  const filtered=[...filteredBase].sort((a,b)=>{
+   if(sortMode==='theme')return themes.indexOf(a.theme)-themes.indexOf(b.theme)||a.cardNumber-b.cardNumber;
    if(sortMode==='number')return a.cardNumber-b.cardNumber;
    if(sortMode==='rarity')return (rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||Number(hasSeasonArtwork(b))-Number(hasSeasonArtwork(a))||a.cardNumber-b.cardNumber;
    const artDelta=Number(hasApprovedShowcaseArt(b))*2+Number(hasSeasonArtwork(b))-Number(hasApprovedShowcaseArt(a))*2-Number(hasSeasonArtwork(a));
@@ -45,10 +46,10 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const pages=Math.max(1,Math.ceil(filtered.length/24));
  const currentPage=Math.min(page,pages-1);
  const resetPage=()=>setPage(0);
- const showIllustrated=()=>{setShow('illustrated');setRarity('all');setSortMode('showcase');resetPage()};
+ const showIllustrated=()=>{setShow('illustrated');setRarity('all');setSortMode('theme');resetPage()};
  const showLegendary=()=>{setShow('all');setRarity('legendary');setSortMode('showcase');resetPage()};
  const showCommons=()=>{setShow('illustrated');setRarity('common');setSortMode('number');resetPage()};
- const showAll=()=>{setShow('all');setRarity('all');setSortMode('showcase');resetPage()};
+ const showAll=()=>{setShow('all');setRarity('all');setSortMode('theme');resetPage()};
 
  return <>
   <div className="eyebrow">THE FIRST FLIGHT · 369 STORIES TO DISCOVER</div>
@@ -103,13 +104,13 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
    <section className="common-flight-showcase current-common-run" aria-labelledby="current-common-run-title">
     <div className="common-flight-heading">
      <div>
-      <span className="eyebrow">CURRENT COMMON RUN · CN1-021—031</span>
-      <h2 id="current-common-run-title">Meet the next eleven Commons.</h2>
+      <span className="eyebrow">CURRENT EMBER RUN · CN1-021—040</span>
+      <h2 id="current-common-run-title">Meet cards 021 through 040 in order.</h2>
       <p>Cards 021–040 are now part of the live Season One gallery. Finished artwork appears when approved; cards still in art production use the official NestRune card back so the full run stays visible in order.</p>
      </div>
     </div>
     <div className="common-flight-grid">
-     {currentCommonRun.map((c,i)=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={'current-run-'+c.id}>
+     {currentSeasonRun.map((c,i)=><article className={'common-flight-card theme-'+c.theme.toLowerCase()} key={'current-run-'+c.id}>
       <button className="common-flight-art" onClick={()=>onInspect(c.id)} aria-label={'Inspect '+c.name}>
        <GuardianCard id={c.id} eager={i<3}/>
        <span className="common-flight-sheen" aria-hidden="true"/>
@@ -140,22 +141,32 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
    <label className="index-search"><Search size={18}/><input aria-label="Search Season One" value={query} onChange={e=>{setQuery(e.target.value);resetPage()}} placeholder="Name, number, or creature…"/></label>
    <select aria-label="Filter rarity" value={rarity} onChange={e=>{setRarity(e.target.value);resetPage()}}>{['all','common','uncommon','rare','epic','ultra','legendary'].map(r=><option key={r} value={r}>{r==='all'?'All rarities':r}</option>)}</select>
    <select aria-label="Filter collection" value={show} onChange={e=>{setShow(e.target.value);resetPage()}}><option value="all">All guardians</option><option value="owned">In My Nest</option><option value="missing">Missing</option><option value="illustrated">Illustrated cards</option><option value="approved">Approved showcase artwork</option></select>
-   <select aria-label="Sort Season One" value={sortMode} onChange={e=>{setSortMode(e.target.value);resetPage()}}><option value="showcase">Showcase first</option><option value="rarity">Highest rarity first</option><option value="number">Card number</option></select>
+   <select aria-label="Sort Season One" value={sortMode} onChange={e=>{setSortMode(e.target.value);resetPage()}}><option value="theme">Theme, then card number</option><option value="number">Card number only</option><option value="showcase">Showcase first</option><option value="rarity">Highest rarity first</option></select>
    <span aria-live="polite">{filtered.length} cards</span>
   </div>
 
   <div className="gallery-section-head archive-heading"><div><span className="eyebrow">FIELD GUIDE</span><h2>{rarity==='legendary'?'The Legendary roster':rarity==='common'&&show==='illustrated'?'Common Flight showcase':show==='illustrated'?'Illustrated Season One':show==='approved'?'Approved showcase artwork':'Explore all 369 guardians'}</h2></div><span>{filtered.length} matching cards</span></div>
 
-  <div className="season-grid">{filtered.slice(currentPage*24,(currentPage+1)*24).map(c=><article className={'index-card '+(hasSeasonArtwork(c)?'has-art ':'')+(c.rarity==='legendary'?'legendary-index-card':'')} key={c.id}>
-   <div className="index-card-top"><span style={{display:'inline-flex',alignItems:'center',gap:8}}><ThemeEmblem theme={c.theme} size={24} label={false}/>CN1 · {String(c.cardNumber).padStart(3,'0')} / 369</span><span className={owned.has(c.id)?'owned-label':hasSeasonArtwork(c)?'illustrated-label':'missing-label'}>{owned.has(c.id)?<><Check size={14}/> Owned</>:hasSeasonArtwork(c)?<><Sparkles size={13}/> Illustrated</>:c.releaseStatus==='preview'?'Free preview':'Unreleased'}</span></div>
-   <button aria-label={'Inspect '+c.name} onClick={()=>onInspect(c.id)}><GuardianCard id={c.id}/></button>
-   <div className="index-card-title-row"><h2>{c.name}</h2><span className={'rarity-token rarity-'+c.rarity}>{c.rarity}</span></div>
-   <p>Theme: {c.theme} · {c.battleClass}</p>
-   <p className="card-story">{c.description}</p>
-   <button className="index-inspect" onClick={()=>onInspect(c.id)}>Explore story & battle profile ↗</button>
-  </article>)}</div>
+  {themes.map(groupTheme=>{
+   const pageCards=filtered.slice(currentPage*24,(currentPage+1)*24).filter(c=>c.theme===groupTheme);
+   if(!pageCards.length)return null;
+   return <section className={'theme-card-group theme-group-'+groupTheme.toLowerCase()} key={groupTheme} aria-labelledby={'theme-group-'+groupTheme.toLowerCase()}>
+    <div className="theme-card-group-heading">
+     <div><ThemeEmblem theme={groupTheme} size={30} label={false}/><div><span className="eyebrow">{groupTheme.toUpperCase()} THEME</span><h3 id={'theme-group-'+groupTheme.toLowerCase()}>{groupTheme} Guardians</h3></div></div>
+     <span>{pageCards.length} on this page · numerical order</span>
+    </div>
+    <div className="season-grid">{pageCards.map(c=><article className={'index-card '+(hasSeasonArtwork(c)?'has-art ':'')+(c.rarity==='legendary'?'legendary-index-card':'')} key={c.id}>
+     <div className="index-card-top"><span style={{display:'inline-flex',alignItems:'center',gap:8}}><ThemeEmblem theme={c.theme} size={24} label={false}/>CN1 · {String(c.cardNumber).padStart(3,'0')} / 369</span><span className={owned.has(c.id)?'owned-label':hasSeasonArtwork(c)?'illustrated-label':'missing-label'}>{owned.has(c.id)?<><Check size={14}/> Owned</>:hasSeasonArtwork(c)?<><Sparkles size={13}/> Illustrated</>:c.releaseStatus==='preview'?'Free preview':'Unreleased'}</span></div>
+     <button aria-label={'Inspect '+c.name} onClick={()=>onInspect(c.id)}><GuardianCard id={c.id}/></button>
+     <div className="index-card-title-row"><h2>{c.name}</h2><span className={'rarity-token rarity-'+c.rarity}>{c.rarity}</span></div>
+     <p>Theme: {c.theme} · {c.battleClass}</p>
+     <p className="card-story">{c.description}</p>
+     <button className="index-inspect" onClick={()=>onInspect(c.id)}>Explore story & battle profile ↗</button>
+    </article>)}</div>
+   </section>
+  })}
 
-  {!filtered.length&&<section className="panel"><Sparkles/><h2>No guardians match those filters.</h2><button className="outline" onClick={()=>{setQuery('');setTheme('all');setRarity('all');setShow('illustrated');setSortMode('showcase');resetPage()}}>Reset filters</button></section>}
+  {!filtered.length&&<section className="panel"><Sparkles/><h2>No guardians match those filters.</h2><button className="outline" onClick={()=>{setQuery('');setTheme('all');setRarity('all');setShow('illustrated');setSortMode('theme');resetPage()}}>Reset filters</button></section>}
   <div className="actions index-pagination"><button className="outline" disabled={currentPage===0} onClick={()=>setPage(currentPage-1)}>Previous</button><span>Page {currentPage+1} of {pages}</span><button className="outline" disabled={currentPage+1>=pages} onClick={()=>setPage(currentPage+1)}>Next</button></div>
   <div className="notice">Season One remains a review gallery. Illustrated and founder-approved showcase artwork is unreleased and cannot appear in paid packs. The 369 canonical IDs remain unchanged, and V3 battle profiles are still unplaytested concepts.</div>
  </>;
