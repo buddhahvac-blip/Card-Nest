@@ -516,3 +516,20 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .battle-command-deck-v4.profile-high .battle-command small{font-size:9px}
 @media(max-width:1100px){.battle-command-deck-v4.profile-high{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.battle-command-deck-v4.profile-high,.battle-command-deck-v4.profile-uncommon{grid-template-columns:1fr}}
+
+
+/* App-game battle arena polish */
+.battle-stage-v4{border-radius:24px;overflow:hidden;box-shadow:inset 0 0 90px #000a,0 28px 80px #0005}
+.battle-avatar-fighter{transition:transform .25s ease,filter .25s ease}
+.battle-guardian-avatar{box-shadow:0 18px 42px #0009,0 0 28px color-mix(in srgb,var(--aura) 26%,transparent);transition:transform .2s ease,filter .2s ease,box-shadow .2s ease}
+.battle-guardian-avatar:active{transform:scale(.985)}
+.battle-status-v4{box-shadow:0 14px 30px #0004,inset 0 0 22px #ffffff08}
+.battle-command-deck-v4 .battle-command{position:relative;overflow:hidden;box-shadow:0 10px 22px #0004,inset 0 1px 0 #ffffff18;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease}
+.battle-command-deck-v4 .battle-command:before{content:"";position:absolute;inset:-30% auto -30% -50%;width:42%;background:linear-gradient(90deg,transparent,#ffffff18,transparent);transform:skewX(-18deg);transition:left .35s ease}
+.battle-command-deck-v4 .battle-command:hover:not(:disabled):before{left:120%}
+.battle-command-deck-v4 .battle-command:hover:not(:disabled){transform:translateY(-2px) scale(1.01);box-shadow:0 14px 30px #0006,inset 0 1px 0 #ffffff26}
+.battle-command-deck-v4 .battle-command:active:not(:disabled){transform:translateY(1px) scale(.99)}
+.battle-command-deck-v4 .battle-command:disabled{filter:saturate(.45) brightness(.72)}
+.battle-reserve{transition:transform .18s ease,border-color .18s ease,filter .18s ease}.battle-reserve:hover:not(:disabled){transform:translateY(-3px) scale(1.03)}
+.battle-center-v4{backdrop-filter:blur(10px);box-shadow:0 0 38px #77dac32a,inset 0 0 20px #ffffff08}
+@media(max-width:700px){.battle-stage-v4{border-radius:16px}.battle-command-deck-v4 .battle-command{min-height:62px}}
