@@ -77,10 +77,10 @@ export const RUNE_DUNGEON_FLOORS:RuneDungeonFloor[]=[
 ];
 
 export const RUNE_PACK_COSTS={
- hatchling:20,
- nest:50,
- guardian:90,
- royal:140
+ hatchling:10,
+ nest:45,
+ guardian:100,
+ royal:220
 } as const;
 
 export type RuneRewardPack=keyof typeof RUNE_PACK_COSTS;
