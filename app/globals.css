@@ -346,6 +346,21 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .dungeon-notice{margin:0}
 .dungeon-section-head{display:flex;align-items:end;justify-content:space-between;gap:16px}.dungeon-section-head h2{margin-top:7px;font-size:32px}.dungeon-section-head>span{font-weight:800;color:#e8d291}
 .dungeon-floor-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dungeon-worlds{display:grid;gap:22px}
+.dungeon-world{display:grid;gap:12px;padding:16px;border:1px solid #ffffff1f;border-radius:20px;overflow:hidden;position:relative}
+.dungeon-world.locked{opacity:.68}
+.dungeon-world-banner{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end;padding:18px 20px;border-radius:15px;min-height:150px;position:relative;overflow:hidden}
+.dungeon-world-banner:before{content:"";position:absolute;inset:0;z-index:0;background:url('/art/great-nest-world.webp') center/cover no-repeat;opacity:.24;filter:saturate(.9)}
+.dungeon-world-banner>div{position:relative;z-index:1}
+.dungeon-world-banner h2{font-size:clamp(28px,4vw,42px);margin:5px 0 7px}.dungeon-world-banner p{max-width:700px;font-size:12px;line-height:1.5;color:#c6d6d0}
+.dungeon-world-meta{display:grid;justify-items:end;gap:5px;text-align:right}.dungeon-world-meta>span{font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:#d8e4df}.dungeon-world-meta strong{font-size:11px;color:#ffe0a0}.dungeon-world-meta small{font-size:10px;color:#a8c5bc}
+.dungeon-world.world-verdant{background:linear-gradient(145deg,#0a2b2b,#14382f)}.dungeon-world.world-verdant .dungeon-world-banner{background:radial-gradient(circle at 80% 25%,#9de69e2b,transparent 30%),linear-gradient(120deg,#113b30,#1d4d3d)}.dungeon-world.world-verdant .dungeon-world-banner:before{filter:saturate(1.2) brightness(.78)}
+.dungeon-world.world-emberstorm{background:linear-gradient(145deg,#2a1510,#3b2118)}.dungeon-world.world-emberstorm .dungeon-world-banner{background:radial-gradient(circle at 78% 28%,#ff8c3a32,transparent 30%),linear-gradient(120deg,#3c1a12,#55301c)}.dungeon-world.world-emberstorm .dungeon-world-banner:before{filter:sepia(.55) saturate(2) hue-rotate(-18deg) brightness(.62)}
+.dungeon-world.world-eclipse{background:linear-gradient(145deg,#100d21,#271935)}.dungeon-world.world-eclipse .dungeon-world-banner{background:radial-gradient(circle at 78% 24%,#aa86ec30,transparent 30%),linear-gradient(120deg,#171026,#342344)}.dungeon-world.world-eclipse .dungeon-world-banner:before{filter:grayscale(.2) saturate(.9) hue-rotate(40deg) brightness(.5)}
+.dungeon-battle-top small{margin-top:2px;font-size:9px;color:#9fbdb4;letter-spacing:.4px}
+.rune-dungeon-battle-shell.world-verdant .dungeon-battle-top{background:linear-gradient(100deg,#0d332d,#173b32)}
+.rune-dungeon-battle-shell.world-emberstorm .dungeon-battle-top{background:linear-gradient(100deg,#351912,#4a2719);border-color:#df8d4b55}
+.rune-dungeon-battle-shell.world-eclipse .dungeon-battle-top{background:linear-gradient(100deg,#171026,#332141);border-color:#a687d55c}
 .dungeon-floor{position:relative;display:grid;grid-template-columns:58px 1fr auto;gap:14px;align-items:center;padding:16px 17px;border:1px solid #84b8aa2f;border-radius:16px;background:linear-gradient(120deg,#0c2931,#102f36);overflow:hidden}
 .dungeon-floor:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,#76c8b512,transparent);transform:translateX(-100%);transition:transform .45s}.dungeon-floor:hover:before{transform:translateX(100%)}
 .dungeon-floor.boss{grid-column:1/-1;border-color:#e1c77377;background:radial-gradient(circle at 78% 45%,#8c5cbf30,transparent 33%),linear-gradient(120deg,#152a34,#3d2e43);box-shadow:0 0 34px #9e73c421}
@@ -361,31 +376,5 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .dungeon-battle-top{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:10px 12px;border:1px solid #8ebbaa35;border-radius:14px;background:#0b2830}.dungeon-battle-top>div{display:grid}.dungeon-battle-top strong{font:18px Georgia;color:#f3e0aa}
 .boss-orb{border-color:#e2c76f;background:radial-gradient(circle,#744f8d,#102b34 68%);box-shadow:0 0 42px #c191f244}.dungeon-boss-clear{background:radial-gradient(circle at 10% 50%,#9b6bc435,transparent 30%),linear-gradient(115deg,#f2df9f,#c9e4ca)}
 @media(max-width:1000px){.dungeon-pack-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:760px){.dungeon-hero{grid-template-columns:1fr;padding:22px}.dungeon-energy-vault{width:150px;min-height:150px;justify-self:end}.dungeon-energy-vault strong{font-size:42px}.dungeon-floor-grid{grid-template-columns:1fr}.dungeon-floor.boss{grid-column:auto}.dungeon-floor{grid-template-columns:48px 1fr}.dungeon-floor-state{grid-column:1/-1;grid-row:auto;grid-auto-flow:column;justify-content:end}.dungeon-pack-grid{grid-template-columns:1fr 1fr}.dungeon-battle-top{grid-template-columns:1fr auto}.dungeon-battle-top>button{grid-column:1/-1;justify-self:start}.dungeon-vault-footer{align-items:flex-start;flex-direction:column}}
+@media(max-width:760px){.dungeon-world-banner{grid-template-columns:1fr}.dungeon-world-meta{justify-items:start;text-align:left}.dungeon-hero{grid-template-columns:1fr;padding:22px}.dungeon-energy-vault{width:150px;min-height:150px;justify-self:end}.dungeon-energy-vault strong{font-size:42px}.dungeon-floor-grid{grid-template-columns:1fr}.dungeon-floor.boss{grid-column:auto}.dungeon-floor{grid-template-columns:48px 1fr}.dungeon-floor-state{grid-column:1/-1;grid-row:auto;grid-auto-flow:column;justify-content:end}.dungeon-pack-grid{grid-template-columns:1fr 1fr}.dungeon-battle-top{grid-template-columns:1fr auto}.dungeon-battle-top>button{grid-column:1/-1;justify-self:start}.dungeon-vault-footer{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.dungeon-pack-grid{grid-template-columns:1fr}.dungeon-floor{padding:14px}.dungeon-section-head{align-items:flex-start;flex-direction:column}}
-
-
-/* NestRune homepage cinematic — preserve 16:9 composition and source quality. */
-.brand-film{position:relative;margin:34px auto 12px;padding:clamp(18px,3vw,30px);max-width:1280px;border:1px solid #dfc57955;border-radius:24px;background:radial-gradient(circle at 50% 100%,#6f5aa025,transparent 36%),linear-gradient(145deg,#071d24,#0d2b33 60%,#101f2a);box-shadow:0 30px 80px #0007,inset 0 0 45px #e6ce7a0b;overflow:hidden}
-.brand-film:before{content:"";position:absolute;inset:-30%;pointer-events:none;background:radial-gradient(circle,#d9bd6e12 0 1px,transparent 2px);background-size:34px 34px;opacity:.45;transform:rotate(8deg)}
-.brand-film-copy{position:relative;z-index:1;max-width:760px;margin-bottom:18px}.brand-film-copy h2{margin:7px 0 8px;font-size:clamp(27px,4vw,44px);line-height:1.03}.brand-film-copy p{max-width:690px;color:#b9cec7;line-height:1.55}
-.brand-film-frame{position:relative;z-index:1;width:min(100%,1280px);margin-inline:auto;aspect-ratio:16/9;border:1px solid #efd58266;border-radius:18px;overflow:hidden;background:#02080b;box-shadow:0 24px 64px #0009,0 0 45px #b9974d1f}
-.brand-film-frame video{display:block;width:100%;height:100%;object-fit:contain;background:#000}
-.brand-film-mark{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:6px;margin-top:17px;font:600 clamp(18px,2.5vw,27px) Georgia,serif;letter-spacing:.5px;color:#f0d98c;text-shadow:0 0 22px #d5b65d55}.brand-film-mark strong{color:#fff0bd}.brand-film-mark span{color:#d6eee5}
-@media(max-width:700px){.brand-film{margin-top:24px;padding:14px;border-radius:18px}.brand-film-frame{border-radius:12px}.brand-film-copy p{font-size:12px}.brand-film-mark{margin-top:12px}}
-
-
-/* NestRune cinematic homepage hero */
-.cn-video-hero{position:relative;isolation:isolate;min-height:min(78vh,860px);overflow:hidden;background:#031317}
-.cn-world-hero-video,.cn-world-hero-poster{position:absolute!important;inset:0;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center center!important;z-index:-4}
-.cn-world-hero-video{display:block;background:#031317}
-.cn-world-hero-poster{z-index:-5!important}
-.cn-video-hero .cn-world-hero-shade{z-index:-2;background:linear-gradient(90deg,rgba(3,17,22,.92) 0%,rgba(3,17,22,.75) 34%,rgba(3,17,22,.2) 66%,rgba(3,17,22,.48) 100%),linear-gradient(0deg,rgba(3,17,22,.72),transparent 42%)}
-.cn-video-hero .cn-world-hero-glow{z-index:-1}
-.cn-video-hero .cn-world-copy{position:relative;z-index:2}
-.cn-video-hero .cn-hero-card-stage,.cn-video-hero .cn-world-caption{position:relative;z-index:2}
-.cn-hero-sound{position:absolute;z-index:5;top:18px;right:18px;display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border-radius:999px;border:1px solid #f0d58a66;background:#061d24cc;color:#fff2bd;backdrop-filter:blur(10px);font-size:12px;font-weight:800;letter-spacing:.4px;box-shadow:0 10px 30px #0006}
-.cn-hero-sound:hover{transform:translateY(-1px);background:#0b2a33e8}
-@media(max-width:900px){.cn-video-hero{min-height:62vh}.cn-world-hero-video{object-position:center center!important}}
-@media(max-width:580px){.cn-video-hero{min-height:56vh}.cn-world-hero-video{object-position:58% center!important}.cn-hero-sound{top:12px;right:12px;padding:9px 10px}.cn-hero-sound span{display:none}}
-@media(prefers-reduced-motion:reduce){.cn-world-hero-video{display:none!important}}
