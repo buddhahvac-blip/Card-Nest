@@ -12,20 +12,21 @@ import {trackBeta} from '@/lib/client-analytics';
 import {showcaseFor} from '@/lib/showcase';
 import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio,type BattleMusicKey} from '@/lib/battle-audio';
 import {battleRosterIds,practiceRivalIds} from '@/lib/battle-roster';
+import {battleAbilityProfile,rarityAttackTuning} from '@/lib/battle-ability-profile';
 
-type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
+type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;defenseCooldown:number;energy:number};
 export type DungeonBattleConfig={floor:number;world:'verdant'|'emberstorm'|'eclipse';worldName:string;worldThemes:string[];musicKey:BattleMusicKey;name:string;mission:string;energy:number;boss?:boolean;worldBoss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onExit:()=>void};
-type ActionKind='strike'|'ability'|'special';
+type ActionKind='strike'|'ability'|'power'|'special'|'guard';
 type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
 const illustratedBattleIds=Object.keys(commonMasterArt as Record<string,string>);
 
 function cardById(id:string){return seasonManifest.find(card=>card.id===id)!}
-function makeTeam(ids:string[],hpMultiplier=1):Fighter[]{return ids.map(id=>{const c=cardById(id);const maxHp=Math.max(1,Math.round(c.health*hpMultiplier));return {id,hp:maxHp,maxHp,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,energy:2}})}
+function makeTeam(ids:string[],hpMultiplier=1):Fighter[]{return ids.map(id=>{const c=cardById(id);const maxHp=Math.max(1,Math.round(c.health*hpMultiplier));return {id,hp:maxHp,maxHp,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,defenseCooldown:0,energy:2}})}
 function nextLiving(team:Fighter[],from=0){for(let offset=0;offset<team.length;offset++){const index=(from+offset)%team.length;if(team[index].hp>0)return index}return 0}
 function isTeamDown(team:Fighter[]){return team.every(member=>member.hp<=0)}
 function copyTeam(team:Fighter[]){return team.map(member=>({...member}))}
-function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1),specialCooldown:Math.max(0,member.specialCooldown-1)}))}
+function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1),specialCooldown:Math.max(0,member.specialCooldown-1),defenseCooldown:Math.max(0,member.defenseCooldown-1)}))}
 
 export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={}){
  const [battlePoolIds,setBattlePoolIds]=useState<string[]>(()=>battleRosterIds([],illustratedBattleIds));
@@ -112,7 +113,39 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   if(!actor||actor.hp<=0||!target||target.hp<=0)return side==='you'?'Your guardian could not act.':'The rival lost its action.';
   const card=cardById(actor.id);const foe=cardById(target.id);
   const prefix=side==='you'?card.name:'Rival '+card.name;
-  if(kind==='ability'||kind==='special'){
+  const profile=battleAbilityProfile(card.rarity);
+  const tuning=rarityAttackTuning(card.rarity);
+
+  if(kind==='guard'){
+   const cost=1;
+   if(actor.defenseCooldown===0&&actor.energy>=cost){
+    actor.energy-=cost;
+    actor.defenseCooldown=2;
+    const amount=Math.max(16,Math.round(tuning.guard+card.defense*.28));
+    actor.guard+=amount;
+    emit({kind:'shield',side,theme:card.theme,amount,variant:'ability',label:'Rune Guard'});
+    return prefix+' raises Rune Guard and gains '+amount+' Guard.';
+   }
+  }
+
+  if(profile==='high'&&(kind==='power'||kind==='special')){
+   const special=kind==='special';
+   const cooldown=special?actor.specialCooldown:actor.cooldown;
+   const cost=special?3:1;
+   if(cooldown===0&&actor.energy>=cost){
+    actor.energy-=cost;
+    if(special)actor.specialCooldown=4;else actor.cooldown=2;
+    const base=special?tuning.special:tuning.power;
+    const raw=abilityDamage(card,foe,base);
+    const amount=Math.max(1,Math.round(raw*(side==='rival'?(dungeon?.damageMultiplier||1):1)));
+    const result=receive(enemy,enemyActive,amount);
+    const label=special?'Signature Strike':'Rune Assault';
+    emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:special?'special':'ability',label,knockout:target.hp<=0});
+    return prefix+' uses '+label+' for '+result.damage+' damage'+(result.absorbed?' ('+result.absorbed+' blocked)':'')+(special?' — Special!':'')+'.';
+   }
+  }
+
+  if(profile!=='uncommon'&&(kind==='ability'||kind==='special')){
    const special=kind==='special';
    const ability=special?card.abilitySecondary:card.abilityPrimary;
    const cooldown=special?actor.specialCooldown:actor.cooldown;
@@ -145,6 +178,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
     }
    }
   }
+
   actor.energy=Math.min(3,actor.energy+1);const raw=strikeDamage(card,foe);const amount=Math.max(1,Math.round(raw*(side==='rival'?(dungeon?.damageMultiplier||1):1)));const result=receive(enemy,enemyActive,amount);
   emit({kind:'attack',side,theme:card.theme,amount:result.damage,blocked:result.absorbed,variant:'strike',label:'Quick Strike',knockout:target.hp<=0});
   const mult=affinityMultiplier(card.theme,foe);
@@ -154,7 +188,22 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
 
  function rivalChoice(team:Fighter[],active:number){
   const member=team[active];if(!member)return 'strike' as ActionKind;
-  const card=cardById(member.id);const special=card.abilitySecondary;
+  const card=cardById(member.id);
+  const profile=battleAbilityProfile(card.rarity);
+
+  if(profile==='uncommon'){
+   if(member.defenseCooldown===0&&member.energy>=1&&member.guard<16&&member.hp<member.maxHp*.72)return 'guard';
+   return 'strike';
+  }
+
+  if(profile==='high'){
+   if(member.defenseCooldown===0&&member.energy>=1&&member.guard<20&&member.hp<member.maxHp*.6)return 'guard';
+   if(member.specialCooldown===0&&member.energy>=3)return 'special';
+   if(member.cooldown===0&&member.energy>=1)return 'power';
+   return 'strike';
+  }
+
+  const special=card.abilitySecondary;
   if(member.specialCooldown===0){
    if(member.energy>=Math.max(1,special.energyCost||3)){
     if(special.effect==='heal'&&member.hp>=member.maxHp*.9)return member.cooldown===0?'ability':'strike';
