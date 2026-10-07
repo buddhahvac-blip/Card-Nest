@@ -117,12 +117,12 @@ export default function RuneDungeon(){
 
   <div className="dungeon-reward-vault">
    <div className="dungeon-section-head"><div><span className="eyebrow">RUNE VAULT</span><h2>Claim beta packs with Rune Energy</h2></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <p className="dungeon-vault-copy">Rune Energy is earned only from first dungeon clears. It cannot be purchased, transferred or exchanged for cash. Reward claims use the existing free beta pack pool and save an unopened entitlement to My Nest.</p>
+   <p className="dungeon-vault-copy">Rune Energy is earned only from first dungeon clears. Hatchling Packs are intentionally easy to earn, while Royal Nest Packs require saving nearly an entire dungeon run. Energy cannot be purchased, transferred or exchanged for cash.</p>
    <div className="dungeon-pack-grid">{(Object.keys(RUNE_PACK_COSTS) as RuneRewardPack[]).map(pack=>{
     const cost=RUNE_PACK_COSTS[pack],enough=(progress?.runeEnergy||0)>=cost;
     return <article key={pack} className={'dungeon-pack-reward reward-'+pack}><PackageOpen/><span>{pack==='royal'?'PREMIUM REWARD':'DUNGEON REWARD'}</span><h3>{packNames[pack]}</h3><strong><BatteryCharging size={16}/>{cost} Rune Energy</strong><button className={pack==='royal'?'gold':'outline'} disabled={!progress?.signedIn||!enough||!!claiming} onClick={()=>claimPack(pack)}>{claiming===pack?'Claiming…':enough?'Claim pack':'Need '+(cost-(progress?.runeEnergy||0))+' more'}</button></article>
    })}</div>
-   <div className="dungeon-vault-footer"><span>All 10 first clears award 240 Rune Energy total.</span><Link href="/#My%20Nest"><PackageOpen size={15}/>Go to My Nest</Link></div>
+   <div className="dungeon-vault-footer"><span>All 10 first clears award 240 Rune Energy total · Royal Nest costs 220.</span><Link href="/#My%20Nest"><PackageOpen size={15}/>Go to My Nest</Link></div>
   </div>
 
   <p className="disclaimer">Rune Dungeon beta rewards have no cash value and do not change card rarity, paid pack odds or commercial eligibility. Each floor awards Rune Energy once per account; replaying a cleared floor is for play only.</p>
