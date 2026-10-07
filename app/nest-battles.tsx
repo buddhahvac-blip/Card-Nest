@@ -9,6 +9,7 @@ import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
+import {showcaseFor} from '@/lib/showcase';
 import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio,type BattleMusicKey} from '@/lib/battle-audio';
 
 type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
@@ -179,7 +180,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   if(e[eIndex].hp<=0&&!isTeamDown(e)){const next=nextLiving(e,eIndex+1);eIndex=next;emit({kind:'swap',side:'rival',theme:cardById(e[next].id).theme});notes.push('The rival sends in '+cardById(e[next].id).name+'.')}
   if(p[pIndex].hp<=0&&!isTeamDown(p)){const next=nextLiving(p,pIndex+1);pIndex=next;emit({kind:'swap',side:'you',theme:cardById(p[next].id).theme});notes.push(cardById(p[next].id).name+' flies in for your team.')}
   const won=isTeamDown(e);const lost=isTeamDown(p);
-  if(won)notes.push(dungeon?(dungeon.boss?'The Runeheart shatters. The dungeon boss is defeated!':'Floor '+dungeon.floor+' cleared. Rune Energy spills from the seal!'):'The Great Nest is safe. Your team wins the practice match!');
+  if(won)notes.push(dungeon?(dungeon.boss?(dungeon.floor===10?'The Runeheart shatters. The final Epic bosses are defeated!':'World boss defeated. The next Rune path opens!'):'Floor '+dungeon.floor+' cleared. Rune Energy spills from the seal!'):'The Great Nest is safe. Your team wins the practice match!');
   if(lost)notes.push('Your team needs a rest. Try a different trio or order.');
   playback(frames,()=>{
   setPlayer(p);setRival(e);setPlayerActive(pIndex);setRivalActive(eIndex);setRound(value=>value+1);
@@ -230,8 +231,8 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  const specialReady=!!active&&active.specialCooldown===0&&active.energy>=Math.max(1,activeCard.abilitySecondary.energyCost||3);
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
  const currentMasterFor=(id:string)=>(commonMasterArt as Record<string,string>)[id]||'';
- const avatarFor=(id:string)=>{const card=cardById(id);return currentMasterFor(id)||card.artworkUrl||card.fullCardUrl||card.avatarUrl||card.thumbnailUrl||''};
- const cardArtFor=(id:string)=>{const card=cardById(id);return currentMasterFor(id)||card.fullCardUrl||card.artworkUrl||card.avatarUrl||card.thumbnailUrl||''};
+ const avatarFor=(id:string)=>{const card=cardById(id);const showcase=showcaseFor(id);return currentMasterFor(id)||showcase?.avatarUrl||showcase?.artworkUrl||card.artworkUrl||card.fullCardUrl||card.avatarUrl||card.thumbnailUrl||'/art/nestrune-card-back.svg'};
+ const cardArtFor=(id:string)=>{const card=cardById(id);const showcase=showcaseFor(id);return currentMasterFor(id)||showcase?.artworkUrl||showcase?.avatarUrl||card.fullCardUrl||card.artworkUrl||card.avatarUrl||card.thumbnailUrl||'/art/nestrune-card-back.svg'};
  return <section className="nest-battles battle-live">
   <div className="battle-compact-hud">
    <div><span className="eyebrow">{dungeon?`RUNE DUNGEON · FLOOR ${dungeon.floor}${dungeon.boss?' · BOSS':''}`:'GARDEN ARENA'} · ROUND {round}</span><strong>{phase==='finished'?(dungeon?'Floor complete':'Practice complete'):'Your turn'}</strong></div>
@@ -297,7 +298,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
 
   <details className="battle-log battle-log-compact"><summary><span>Battle Story</span><strong>{log[0]}</strong></summary><div>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div></details>
 
-  {phase==='finished'&&<div className={`battle-finish ${dungeon?.boss&&isTeamDown(rival)?'dungeon-boss-clear':''}`}><Sparkles/><div><h2>{isTeamDown(rival)?(dungeon?(dungeon.boss?'Runeheart Boss defeated!':`Floor ${dungeon.floor} cleared!`):'Your Nest held strong!'):'A new strategy is waiting.'}</h2><p>{isTeamDown(rival)&&dungeon?(dungeon.rewardsEnabled?`First-clear reward: +${dungeon.energy} Rune Energy.`:`Sign in to save this clear and bank ${dungeon.energy} Rune Energy.`):'Try another combination. The same Common guardians can play very differently depending on class and matchup.'}</p></div><button className="gold" onClick={dungeon?dungeon.onExit:reset}>{dungeon?(isTeamDown(rival)?'Return to Rune Dungeon':'Return to dungeon map'):'Build another team'}</button>{dungeon&&!isTeamDown(rival)&&<button className="outline" onClick={reset}>Retry floor</button>}</div>}
+  {phase==='finished'&&<div className={`battle-finish ${dungeon?.boss&&isTeamDown(rival)?'dungeon-boss-clear':''}`}><Sparkles/><div><h2>{isTeamDown(rival)?(dungeon?(dungeon.boss?(dungeon.floor===10?'Runeheart Epic Bosses defeated!':'World Boss defeated!'):`Floor ${dungeon.floor} cleared!`):'Your Nest held strong!'):'A new strategy is waiting.'}</h2><p>{isTeamDown(rival)&&dungeon?(dungeon.rewardsEnabled?`First-clear reward: +${dungeon.energy} Rune Energy.`:`Sign in to save this clear and bank ${dungeon.energy} Rune Energy.`):'Try another combination. The same Common guardians can play very differently depending on class and matchup.'}</p></div><button className="gold" onClick={dungeon?dungeon.onExit:reset}>{dungeon?(isTeamDown(rival)?'Return to Rune Dungeon':'Return to dungeon map'):'Build another team'}</button>{dungeon&&!isTeamDown(rival)&&<button className="outline" onClick={reset}>Retry floor</button>}</div>}
 
   {inspectCard&&<div className="battle-card-modal" role="dialog" aria-modal="true" aria-label="Guardian card inspection" onClick={()=>setInspectCard(null)}><div className="battle-card-modal-panel" onClick={event=>event.stopPropagation()}><button className="battle-modal-close" onClick={()=>setInspectCard(null)} aria-label="Close card inspection">×</button><GuardianCard id={inspectCard} eager/><p>Collectible card view · Special: <strong>{cardById(inspectCard).abilitySecondary.name}</strong> · 3 Energy · 4-turn cooldown.</p></div></div>}
 
