@@ -105,7 +105,7 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
      <div>
       <span className="eyebrow">CURRENT COMMON RUN · CN1-021—031</span>
       <h2 id="current-common-run-title">Meet the next eleven Commons.</h2>
-      <p>Cards 021–031 are now part of the live Season One gallery. Finished artwork appears when approved; cards still in art production use the official NestRune card back so the full run stays visible in order.</p>
+      <p>Cards 021–040 are now part of the live Season One gallery. Finished artwork appears when approved; cards still in art production use the official NestRune card back so the full run stays visible in order.</p>
      </div>
     </div>
     <div className="common-flight-grid">
