@@ -1,9 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import {useRef,useState} from 'react';
 import Link from 'next/link';
-import {ArrowRight,Compass,PackageOpen,Sparkles,Swords,Volume2,VolumeX} from 'lucide-react';
+import {ArrowRight,Compass,PackageOpen,Sparkles,Swords} from 'lucide-react';
 import {GuardianCard} from './cards';
 import {seasonCard} from '@/lib/season-manifest';
 
@@ -14,20 +13,14 @@ function scrollTo(id:string){
 }
 
 export default function HomeExperience({go}:Props){
-  const heroVideoRef=useRef<HTMLVideoElement|null>(null);
-  const [heroMuted,setHeroMuted]=useState(true);
-  const [videoFailed,setVideoFailed]=useState(false);
-  const toggleHeroSound=()=>{const v=heroVideoRef.current;if(!v)return;const next=!v.muted;v.muted=next;setHeroMuted(next);if(v.paused)v.play().catch(()=>{})};
   const nestling=seasonCard('sproutling-001');
   const leafpaw=seasonCard('emberwing-002');
 
   return <>
     <section className="cn-world-hero cn-video-hero" aria-labelledby="nestrune-home-title">
-      <Image className="cn-world-hero-image cn-world-hero-poster" src="/art/great-nest-world.webp" alt="" fill quality={95} preload sizes="100vw" aria-hidden="true"/>
-      {!videoFailed&&<video ref={heroVideoRef} className="cn-world-hero-video" autoPlay muted loop playsInline preload="metadata" poster="/art/great-nest-world.webp" onError={()=>setVideoFailed(true)} aria-hidden="true"><source src="/api/nestrune-intro" type="video/mp4"/></video>}
+      <Image className="cn-world-hero-image cn-world-hero-poster" src="https://cdn.openart.ai/openart-uploads/production/attachment-transfers/6df6f2a383e82906d2fc9e00740d10dca412f30a28c80fc46210f7e44932ccf2.png" alt="Two legendary NestRune guardians clash with celestial magic above the Garden of Lands" fill quality={95} priority sizes="100vw"/>
       <div className="cn-world-hero-shade" aria-hidden="true"/>
       <div className="cn-world-hero-glow" aria-hidden="true"/>
-      <button className="cn-hero-sound" type="button" onClick={toggleHeroSound} aria-label={heroMuted?'Turn NestRune intro sound on':'Mute NestRune intro sound'}>{heroMuted?<VolumeX size={18}/>:<Volume2 size={18}/>}<span>{heroMuted?'Sound on':'Mute'}</span></button>
       <div className="cn-world-copy">
         <span className="cn-season-pill"><Sparkles size={14}/> SEASON ONE · THE FIRST FLIGHT · V3 VISION</span>
         <h1 id="nestrune-home-title">Collect the Guardians.<br/><span>Build your Nest.</span><br/>Enter the Battle.</h1>
