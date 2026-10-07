@@ -20,7 +20,7 @@ export function GuardianCard({id,eager=false}:{id:string;eager?:boolean}) {
  const commonMaster=(commonMasterArt as Record<string,string>)[id];
  if(commonMaster){
   const number=String(c.cardNumber).padStart(3,'0'); const themeFix=themeBadgeIcons[c.theme];
-  const cleanFullBleed=c.cardNumber>=31&&c.cardNumber<=40;
+  const cleanFullBleed=c.cardNumber>=22&&c.cardNumber<=40;
   if(cleanFullBleed)return <div className="guardian-card clean-master-card">
    <Image src={commonMaster} fill quality={92} loading={eager?'eager':'lazy'} fetchPriority={eager?'high':'auto'} sizes="(max-width: 580px) 44vw, (max-width: 900px) 42vw, 340px" alt={`${c.name} — ${c.theme} theme artwork`}/>
    <span className="clean-master-number">{number}</span>
