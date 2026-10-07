@@ -449,3 +449,58 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .theme-card-group-heading h3{font:30px/1.1 Georgia,serif;margin:5px 0 0;color:#f6e7bf}
 .theme-card-group-heading>span{font-size:12px;color:#b8cabf}
 @media(max-width:700px){.theme-card-group{margin:24px 0 36px}.theme-card-group-heading{align-items:start;flex-direction:column;gap:8px}.theme-card-group-heading h3{font-size:26px}}
+
+
+/* Season One redesign — curated discovery, compact Theme browser, clear beta CTA. */
+.season-one-page{padding-top:30px}
+.season-one-hero{margin:28px 0 34px;padding:clamp(26px,4vw,50px);border:1px solid #d9c27b48;border-radius:24px;background:radial-gradient(circle at 82% 14%,#8a6b2d28,transparent 34%),linear-gradient(135deg,#12363a,#0b252b 68%);display:grid;grid-template-columns:minmax(0,1.25fr) minmax(260px,.75fr);gap:36px;align-items:center;box-shadow:0 24px 70px #03171b52}
+.season-one-hero h1{font:clamp(42px,5.6vw,76px)/1.02 Georgia,serif;letter-spacing:-.035em;margin:16px 0;color:#fff0c8;max-width:900px}
+.season-one-hero p{max-width:760px;color:#c4d8d2;line-height:1.75;font-size:16px}
+.season-one-numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.season-one-numbers div{min-width:0;padding:20px 10px;border:1px solid #d8c27d30;border-radius:15px;background:#071e25a8;text-align:center}
+.season-one-numbers strong{display:block;font:clamp(28px,3.5vw,44px)/1 Georgia,serif;color:#f2d18d;margin-bottom:7px}
+.season-one-numbers span{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#b9cec8}
+
+.season-theme-intro{margin:34px 0 60px}
+.season-section-heading{max-width:760px;margin-bottom:22px}
+.season-section-heading h2{font:clamp(32px,4vw,46px)/1.08 Georgia,serif;margin:10px 0;color:#f5e3b5}
+.season-section-heading p{color:#b9cec7;line-height:1.7}
+.season-theme-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.season-theme-card{display:flex;gap:14px;align-items:flex-start;min-height:145px;padding:20px;border:1px solid #ffffff16;border-radius:17px;background:#0d2b31;transition:transform .2s,border-color .2s,box-shadow .2s}
+.season-theme-card:hover{transform:translateY(-3px);border-color:#e2c87b5c;box-shadow:0 14px 35px #03151855}
+.season-theme-card strong{display:block;font:27px Georgia,serif;color:#f5e5ba;margin-bottom:7px}
+.season-theme-card p{font-size:13px;line-height:1.55;color:#b8cbc6;margin-bottom:12px}
+.season-theme-card small{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#dfc987}
+.season-theme-card.theme-ember{background:linear-gradient(140deg,#3b251e,#102c31)}
+.season-theme-card.theme-tide{background:linear-gradient(140deg,#12334b,#102c31)}
+.season-theme-card.theme-bloom{background:linear-gradient(140deg,#163c2b,#102c31)}
+.season-theme-card.theme-volt{background:linear-gradient(140deg,#23394a,#102c31)}
+.season-theme-card.theme-mystic{background:linear-gradient(140deg,#302d4a,#102c31)}
+.season-theme-card.theme-shadow{background:linear-gradient(140deg,#30243e,#102c31)}
+
+.season-browser{margin:58px 0 64px;padding:clamp(20px,3vw,34px);border:1px solid #a7c7b42b;border-radius:22px;background:#0b282e}
+.season-browser-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:26px;align-items:end;margin-bottom:22px}
+.season-browser-head h2{font:clamp(30px,4vw,44px)/1.1 Georgia,serif;margin:9px 0;color:#f4e2b4}
+.season-browser-head p{max-width:700px;color:#b9cec7;line-height:1.65}
+.season-browser-count{min-width:145px;padding:14px 18px;border:1px solid #ffffff16;border-radius:14px;background:#081f25;text-align:right}
+.season-browser-count strong{display:block;font:32px Georgia,serif;color:#f0cf8a}.season-browser-count span,.season-browser-count small{display:block;font-size:11px;color:#b8cbc6;margin-top:3px}
+.season-theme-tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:18px 0}
+.season-theme-tabs button{min-height:72px;padding:10px 8px;border:1px solid #ffffff14;border-radius:12px;background:#0b2229;color:#d8e3dd;display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap}
+.season-theme-tabs button.selected{border-color:#e2c57780;background:#183a3e;box-shadow:0 0 0 1px #d9bd6540 inset}
+.season-theme-tabs button span{font-weight:800}.season-theme-tabs button small{font-size:10px;color:#c7b57e}
+.season-browser-summary{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:22px 0 17px;padding:13px 15px;border-block:1px solid #ffffff10}
+.season-browser-summary>div{display:flex;align-items:center;gap:11px}.season-browser-summary strong,.season-browser-summary span{display:block}.season-browser-summary strong{font:24px Georgia,serif;color:#f2dfaf}.season-browser-summary span{font-size:11px;color:#aebfba;margin-top:3px}
+.season-browser-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.season-browser-card{min-width:0;padding:10px;border:1px solid #ffffff12;border-radius:15px;background:#082127;transition:transform .18s,border-color .18s,box-shadow .18s}
+.season-browser-card:hover{transform:translateY(-4px);border-color:#d9c37955;box-shadow:0 16px 35px #020f124d}
+.season-browser-card .guardian-card{width:100%;max-width:290px;margin:auto}
+.season-browser-card-copy{padding:11px 3px 3px}.season-browser-card-copy span{display:block;font-size:9px;letter-spacing:.1em;color:#d4c389}.season-browser-card-copy strong{display:block;font:20px/1.15 Georgia,serif;color:#f6e8c5;margin:6px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.season-browser-card-copy small{font-size:10px;text-transform:capitalize;color:#aabfba}
+.season-browser-pagination{display:flex;align-items:center;justify-content:center;gap:15px;margin-top:22px}.season-browser-pagination span{min-width:85px;text-align:center;font-size:12px;color:#b9cbc6}.season-browser-pagination button{min-width:130px}
+.season-browser-note{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:15px;color:#98ada8;font-size:11px}
+
+.season-one-cta{display:flex;align-items:center;justify-content:space-between;gap:30px;margin:45px 0 22px;padding:30px;border:1px solid #e3c77a4d;border-radius:20px;background:linear-gradient(120deg,#1a4440,#102b31)}
+.season-one-cta h2{font:34px Georgia,serif;margin:8px 0;color:#f5dfaa}.season-one-cta p{max-width:700px;color:#bfd0cb;line-height:1.6}.season-one-cta .actions{margin:0;flex-shrink:0}
+.season-one-review-note{text-align:center;color:#859b96;font-size:11px;line-height:1.6;margin:28px auto 0;max-width:720px}
+
+@media(max-width:1050px){.season-one-hero{grid-template-columns:1fr}.season-one-numbers{max-width:600px}.season-theme-cards{grid-template-columns:repeat(2,1fr)}.season-theme-tabs{grid-template-columns:repeat(3,1fr)}.season-browser-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.season-one-cta{align-items:flex-start;flex-direction:column}}
+@media(max-width:700px){.season-one-hero{padding:25px 20px;border-radius:18px}.season-one-hero h1{font-size:44px}.season-one-numbers{grid-template-columns:repeat(3,1fr);gap:6px}.season-one-numbers div{padding:14px 5px}.season-theme-cards{grid-template-columns:1fr}.season-theme-card{min-height:0}.season-browser{padding:18px 12px;border-radius:16px}.season-browser-head{grid-template-columns:1fr}.season-browser-count{text-align:left;min-width:0}.season-theme-tabs{grid-template-columns:repeat(2,1fr)}.season-browser-summary{align-items:flex-start;flex-direction:column}.season-browser-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.season-browser-card{padding:7px}.season-browser-card-copy strong{font-size:16px}.season-browser-pagination{gap:8px}.season-browser-pagination button{min-width:0;flex:1;padding-inline:8px}.season-one-cta{padding:24px 20px}.season-one-cta .actions{width:100%}.season-one-cta .gold,.season-one-cta .outline{flex:1}}
