@@ -20,11 +20,11 @@ export function GuardianCard({id,eager=false}:{id:string;eager?:boolean}) {
  const commonMaster=(commonMasterArt as Record<string,string>)[id];
  if(commonMaster){
   const number=String(c.cardNumber).padStart(3,'0'); const themeFix=themeBadgeIcons[c.theme];
-  const cleanFullBleed=c.cardNumber>=22&&c.cardNumber<=40;
+  const cleanFullBleed=c.cardNumber>=22&&c.cardNumber<=50;
+  const preLabeledArt=c.cardNumber>=41&&c.cardNumber<=50;
   if(cleanFullBleed)return <div className="guardian-card clean-master-card">
    <Image src={commonMaster} fill quality={92} loading={eager?'eager':'lazy'} fetchPriority={eager?'high':'auto'} sizes="(max-width: 580px) 44vw, (max-width: 900px) 42vw, 340px" alt={`${c.name} — ${c.theme} theme artwork`}/>
-   <span className="clean-master-number">{number}</span>
-   <span className="clean-master-rarity">{c.rarity.toUpperCase()}</span>
+   {!preLabeledArt&&<><span className="clean-master-number">{number}</span><span className="clean-master-rarity">{c.rarity.toUpperCase()}</span></>}
   </div>;
   return <div className={`guardian-card common-master-frame theme-${String(c.theme).toLowerCase()}`} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}>
    <div className="common-master-art"><Image src={commonMaster} fill quality={90} loading={eager?'eager':'lazy'} fetchPriority={eager?'high':'auto'} sizes="(max-width: 580px) 44vw, (max-width: 900px) 42vw, 340px" onError={e=>{if(c.fullCardUrl&&!e.currentTarget.dataset.fallback){e.currentTarget.dataset.fallback='1';e.currentTarget.srcset='';e.currentTarget.src=c.fullCardUrl}}} alt={`${c.name} — ${c.theme} theme artwork`}/><span className="common-master-number">{number}</span><span className="common-master-rarity">{c.rarity.toUpperCase()}</span></div>
