@@ -504,3 +504,15 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 
 @media(max-width:1050px){.season-one-hero{grid-template-columns:1fr}.season-one-numbers{max-width:600px}.season-theme-cards{grid-template-columns:repeat(2,1fr)}.season-theme-tabs{grid-template-columns:repeat(3,1fr)}.season-browser-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.season-one-cta{align-items:flex-start;flex-direction:column}}
 @media(max-width:700px){.season-one-hero{padding:25px 20px;border-radius:18px}.season-one-hero h1{font-size:44px}.season-one-numbers{grid-template-columns:repeat(3,1fr);gap:6px}.season-one-numbers div{padding:14px 5px}.season-theme-cards{grid-template-columns:1fr}.season-theme-card{min-height:0}.season-browser{padding:18px 12px;border-radius:16px}.season-browser-head{grid-template-columns:1fr}.season-browser-count{text-align:left;min-width:0}.season-theme-tabs{grid-template-columns:repeat(2,1fr)}.season-browser-summary{align-items:flex-start;flex-direction:column}.season-browser-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.season-browser-card{padding:7px}.season-browser-card-copy strong{font-size:16px}.season-browser-pagination{gap:8px}.season-browser-pagination button{min-width:0;flex:1;padding-inline:8px}.season-one-cta{padding:24px 20px}.season-one-cta .actions{width:100%}.season-one-cta .gold,.season-one-cta .outline{flex:1}}
+
+
+/* Rarity-based battle ability layouts */
+.battle-command-deck-v4.profile-uncommon{grid-template-columns:repeat(2,minmax(0,1fr))}
+.battle-command-deck-v4.profile-high{grid-template-columns:repeat(4,minmax(0,1fr))}
+.battle-command.guard{border-color:#77cfa977;background:linear-gradient(135deg,#123c35,#17394a);box-shadow:inset 0 0 22px #71d2aa12}
+.battle-command.guard svg{color:#9ee3bf}
+.battle-command-deck-v4.profile-high .battle-command{padding:8px 10px}
+.battle-command-deck-v4.profile-high .battle-command strong{font-size:16px}
+.battle-command-deck-v4.profile-high .battle-command small{font-size:9px}
+@media(max-width:1100px){.battle-command-deck-v4.profile-high{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.battle-command-deck-v4.profile-high,.battle-command-deck-v4.profile-uncommon{grid-template-columns:1fr}}
