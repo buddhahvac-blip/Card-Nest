@@ -2,6 +2,24 @@
 .world{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .worldArt{position:absolute;inset:-4%;background:linear-gradient(180deg,#04131f80 0,#0b2c3066 42%,#061a20d9 100%),url('/art/great-nest-world.webp') center 46%/cover no-repeat;filter:saturate(.9) brightness(.72) contrast(1.04);transform:scale(1.045);animation:worldPan 18s ease-in-out infinite alternate}
 .worldGlow{position:absolute;inset:0;background:radial-gradient(circle at 50% 48%,#f1d88920 0 8%,#64d4b719 24%,transparent 52%),linear-gradient(90deg,#02101f99,transparent 20% 80%,#02101f99);mix-blend-mode:screen;animation:worldGlow 5s ease-in-out infinite}
+.worldLandmark{position:absolute;z-index:0;pointer-events:none;opacity:.5;filter:blur(.2px)}
+.world[data-world=verdant] .worldArt{background:linear-gradient(180deg,#05211f66 0,#12352d66 44%,#04191fe8 100%),url('/art/great-nest-world.webp') center 45%/cover no-repeat;filter:saturate(1.12) brightness(.76) contrast(1.03)}
+.world[data-world=verdant] .worldGlow{background:radial-gradient(circle at 42% 38%,#dcffb72b 0 8%,#69e0b020 26%,transparent 53%),linear-gradient(90deg,#02151a99,transparent 18% 82%,#02151a99)}
+.world[data-world=verdant] .worldLandmark{width:170px;height:170px;right:10%;top:10%;border:1px solid #d7efaa5c;border-radius:50%;box-shadow:0 0 0 26px #b8e9a209,0 0 60px #8dd8b31d,inset 0 0 34px #f5e4a822;transform:rotate(14deg)}
+.world[data-world=emberstorm] .worldArt{background:linear-gradient(180deg,#18070673 0,#2c120b66 42%,#090b12e8 100%),url('/art/great-nest-world.webp') center 56%/cover no-repeat;filter:sepia(.58) saturate(2.15) hue-rotate(-18deg) brightness(.58) contrast(1.18);transform:scale(1.08)}
+.world[data-world=emberstorm] .worldGlow{background:radial-gradient(circle at 52% 64%,#ffb14b2c 0 10%,#ff5b321d 28%,transparent 54%),linear-gradient(90deg,#140607b3,transparent 20% 80%,#140607b3);mix-blend-mode:screen}
+.world[data-world=emberstorm] .worldLandmark{width:260px;height:90px;left:50%;bottom:11%;transform:translateX(-50%) perspective(180px) rotateX(64deg);border:2px solid #ffb24e70;border-radius:50%;box-shadow:0 0 24px #ff6a3155,0 0 70px #ff3e1e2f,inset 0 0 44px #ffdf7d21}
+.world[data-world=eclipse] .worldArt{background:linear-gradient(180deg,#0605118c 0,#1710268a 42%,#03070fe9 100%),url('/art/great-nest-world.webp') center 38%/cover no-repeat;filter:grayscale(.22) saturate(.95) hue-rotate(42deg) brightness(.48) contrast(1.24);transform:scale(1.07)}
+.world[data-world=eclipse] .worldGlow{background:radial-gradient(circle at 74% 24%,#e7d6ff38 0 6%,#8f63ce20 18%,transparent 42%),radial-gradient(circle at 48% 60%,#6b4ec51b,transparent 42%),linear-gradient(90deg,#020411c2,transparent 22% 78%,#020411c2)}
+.world[data-world=eclipse] .worldLandmark{width:128px;height:128px;right:14%;top:10%;border-radius:50%;background:radial-gradient(circle at 42% 38%,#fff7d9 0 32%,#c6b5e8 46%,#7761a155 58%,transparent 68%);box-shadow:0 0 40px #c8b3ff38,0 0 90px #6f4cb32b}
+.world[data-world=emberstorm] .foregroundLeaves i{width:7px;height:28px;border-radius:48% 48% 10% 10%;background:linear-gradient(180deg,#ffd66d,#ff6b2e 58%,#532019);box-shadow:0 0 16px #ff652d88}
+.world[data-world=eclipse] .foregroundLeaves i{width:8px;height:24px;border-radius:50%;background:linear-gradient(180deg,#bca8ef,#5d438d 60%,#160d2f);box-shadow:0 0 15px #8d6bd577;transform:rotate(35deg)}
+.ambient[data-world=verdant]>i{background:#f2e9a9;box-shadow:0 0 11px 2px #9ff0bd80}
+.ambient[data-world=emberstorm]>i{background:#ffb862;box-shadow:0 0 12px 3px #ff5d327f}
+.ambient[data-world=eclipse]>i{background:#d7c3ff;box-shadow:0 0 12px 3px #8b6fd285}
+.ambient[data-world=emberstorm] .mist,.ambient[data-world=emberstorm] .mistBack{background:radial-gradient(ellipse at 30% 50%,#ff7b3219,transparent 48%),radial-gradient(ellipse at 72% 66%,#44131d33,transparent 46%)}
+.ambient[data-world=eclipse] .mist,.ambient[data-world=eclipse] .mistBack{background:radial-gradient(ellipse at 34% 42%,#7356b22c,transparent 49%),radial-gradient(ellipse at 70% 62%,#32214f35,transparent 47%)}
+
 .lightShafts{position:absolute;inset:-20% 0 0;opacity:.28;filter:blur(1px)}
 .lightShafts i{position:absolute;top:0;width:18%;height:92%;background:linear-gradient(180deg,#f4e9b23b,transparent 76%);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%);transform-origin:top center;animation:shaftSway 9s ease-in-out infinite alternate}
 .lightShafts i:nth-child(1){left:12%;transform:rotate(8deg)}.lightShafts i:nth-child(2){left:48%;width:13%;animation-delay:-3s}.lightShafts i:nth-child(3){right:8%;transform:rotate(-10deg);animation-delay:-6s}
