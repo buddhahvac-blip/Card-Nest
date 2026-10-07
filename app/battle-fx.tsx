@@ -57,7 +57,7 @@ export function BattleFxLayer({effect,stageRef}:{effect:BattleEffect|null;stageR
  if(!effect)return null;
  const target=effect.kind==='attack'||effect.kind==='debuff'?(effect.side==='you'?'rival':'you'):effect.side;
  const point=anchors[target];
- return <div className={styles.fxLayer} aria-hidden="true" data-kind={effect.kind} data-theme={effect.theme} data-variant={effect.variant||'ability'} style={{'--fx-color':effect.kind==='heal'?'#a0ffc5':palettes[effect.theme]||palettes.Mystic} as CSSProperties}><div className={styles.screenFlash}/>
+ return <div className={styles.fxLayer} aria-hidden="true" data-kind={effect.kind} data-theme={effect.theme} data-variant={effect.variant||'ability'} style={{'--fx-color':effect.kind==='heal'?'#a0ffc5':palettes[effect.theme]||palettes.Mystic} as CSSProperties}><div className={styles.cinematicVignette}/><div className={styles.speedLines}/><div className={styles.screenFlash}/>{effect.label&&<div className={styles.abilityBanner}><span>{effect.variant==='special'?'SIGNATURE ABILITY':effect.kind==='attack'?'ABILITY ACTIVATED':effect.kind==='shield'?'DEFENSE':'RUNE EFFECT'}</span><strong>{effect.label}</strong></div>}
   {effect.kind==='attack'&&<AttackEffect from={anchors[effect.side]} to={point} theme={effect.theme} variant={effect.variant}/>}
   <div className={styles.target} style={{left:point.x,top:point.y}}>
    {effect.kind==='heal'&&<HealEffect/>}{(effect.kind==='shield'||!!effect.blocked)&&<ShieldEffect/>}{effect.kind==='swap'&&<SwapEffect/>}{effect.kind==='attack'&&<div className={styles.hitPulse}/>}
