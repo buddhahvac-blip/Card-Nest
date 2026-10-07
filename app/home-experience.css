@@ -12,7 +12,8 @@ nav a.active{color:#ffd992}
 .shell{max-width:1540px;padding-top:24px}
 
 .cn-world-hero{position:relative;isolation:isolate;min-height:680px;overflow:hidden;border:1px solid #e5cb8e4a;border-radius:28px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);align-items:center;box-shadow:0 32px 90px #0008,0 0 0 1px #ffffff08 inset;background:#123940}
-.cn-world-hero-image{z-index:-5;object-fit:cover;object-position:center 52%;transform:scale(1.018);filter:saturate(1.07) contrast(1.03)}
+.cn-world-hero-image{z-index:-5;object-fit:cover;object-position:center 48%;transform:none;filter:saturate(1.05) contrast(1.03)}
+.cn-hero-mobile-art{display:none}
 .cn-world-hero-shade{position:absolute;inset:0;z-index:-4;background:linear-gradient(90deg,#061e24fa 0%,#08272edb 34%,#08272e79 56%,#06202723 78%),linear-gradient(0deg,#051c22bd 0%,transparent 42%)}
 .cn-world-hero-glow{position:absolute;z-index:-3;width:520px;height:520px;right:3%;top:6%;border-radius:50%;background:radial-gradient(circle,#f5d28f32,transparent 62%);filter:blur(10px)}
 .cn-world-copy{padding:72px 0 78px 62px;max-width:760px}
@@ -103,7 +104,8 @@ nav a.active{color:#ffd992}
 }
 @media(max-width:780px){
   .cn-world-hero{grid-template-columns:1fr;min-height:820px;align-items:start}
-  .cn-world-hero-image{object-position:62% bottom}
+  .cn-hero-desktop-art{display:none}
+  .cn-hero-mobile-art{display:block;object-position:center 42%}
   .cn-world-hero-shade{background:linear-gradient(180deg,#061f25f5 0%,#08282ecf 38%,#08272e2c 67%,#041a20c9 100%)}
   .cn-world-copy{padding:45px 30px 0;max-width:none}
   .cn-world-copy h1{font-size:clamp(46px,10vw,65px)}
