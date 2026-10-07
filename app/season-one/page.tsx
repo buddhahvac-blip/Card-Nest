@@ -1,81 +1,78 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
-import {seasonManifest,artProgress,hasSeasonArtwork} from '@/lib/season-manifest';
+import {seasonManifest,artProgress} from '@/lib/season-manifest';
 import LegendaryFlight from '@/app/legendary-flight';
 import SeasonArtGallery from '@/app/season-art-gallery';
-import {cardPath,themePath} from '@/lib/card-paths';
+import SeasonThemeBrowser from '@/app/season-theme-browser';
 import ThemeEmblem from '@/app/theme-emblem';
-import commonMasterArt from '@/data/common-master-art.json';
-import showcaseRecords from '@/data/season-one-showcase.json';
 
 export const metadata:Metadata={
  title:'Season One: The First Flight',
- description:'Explore all 369 NestRune Season One guardian concepts across Ember, Tide, Bloom, Volt, Mystic, and Shadow.',
- alternates:{canonical:'/season-one'}
+ description:'Meet NestRune Season One: 369 original fantasy Guardians across six Themes. Explore featured artwork, browse Guardians by Theme, and join the free beta.',
+ alternates:{canonical:'/season-one'},
+ openGraph:{
+  title:'NestRune Season One — The First Flight',
+  description:'Discover original fantasy Guardians across Ember, Tide, Bloom, Volt, Mystic, and Shadow. Explore the art and join the free NestRune beta.',
+  url:'/season-one',
+  type:'website'
+ }
+};
+
+const themeCopy:Record<string,string>={
+ Ember:'Heat, courage, volcanic ridges and Guardians built to endure.',
+ Tide:'Flow, patience and creatures shaped by rivers, reefs and open water.',
+ Bloom:'Growth, healing and living sanctuaries filled with wild magic.',
+ Volt:'Speed, sparks and high-energy Guardians from storm-lit lands.',
+ Mystic:'Stars, runes and celestial Guardians tied to ancient mysteries.',
+ Shadow:'Moonlit ruins, stealth and Guardians that thrive beyond the light.'
 };
 
 export default function SeasonOnePage(){
  const progress=artProgress();
  const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
- const showcaseArt=new Map(showcaseRecords.map(art=>[art.cardId,art.artworkUrl]));
- return <main className="shell">
+ return <main className="shell season-one-page">
   <Link className="brand" href="/">✧ Nest<span>Rune</span></Link>
-  <div className="eyebrow">SEASON ONE · THE FIRST FLIGHT</div>
-  <h1 className="page-title">369 guardians. Six Themes. One world taking flight.</h1>
-  <p className="intro">Explore illustrated guardians and the full Season One roster. The six featured artworks are founder-approved; cards remain unreleased and battle profiles are still being developed.</p>
-  <section className="stats">
-   <div className="stat"><span className="muted">Season One</span><strong>{progress.total}</strong><span className="status">planned guardians</span></div>
-   <div className="stat"><span className="muted">Illustrated cards</span><strong>{progress.illustrated}</strong><span className="muted">including approved showcase art</span></div>
-   <div className="stat"><span className="muted">Paid eligible</span><strong>{progress.released}</strong><span className="muted">commerce remains closed</span></div>
-  </section>
-  <LegendaryFlight/>
-  <SeasonArtGallery/>
-  <section className="panel">
-   <h2>Explore by Theme</h2>
-   <div className="actions">{themes.map(theme=><Link className="outline" href={themePath(theme)} key={theme}>{theme} Theme</Link>)}</div>
-  </section>
-  <section className="panel">
-   <h2>Season One visual collector index</h2>
-   <p>Browse every guardian by Theme. Illustrated cards show their artwork; unreleased art slots remain clearly marked.</p>
-   <div style={{display:'grid',gap:24}}>
-    {themes.map(theme=>{
-     const cards=seasonManifest.filter(card=>card.theme===theme).sort((a,b)=>a.cardNumber-b.cardNumber);
-     return <section key={theme} style={{border:'1px solid rgba(255,255,255,.08)',borderRadius:20,padding:18,background:'rgba(255,255,255,.018)'}}>
-      <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',gap:12,marginBottom:16,flexWrap:'wrap'}}>
-       <div style={{display:'flex',alignItems:'center',gap:10}}>
-        <ThemeEmblem theme={theme} size={32}/>
-        <span className="muted">{cards.length} guardians</span>
-       </div>
-       <Link className="outline" href={themePath(theme)}>Open {theme} Theme</Link>
-      </div>
-      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:12}}>
-       {cards.map(card=>{
-        const masterArt=(commonMasterArt as Record<string,string>)[card.id];
-        const localArt=card.masterArtworkUrl
-         ||card.highResolutionArtworkUrl
-         ||showcaseArt.get(card.id)
-         ||card.artworkUrl
-         ||null;
-        const currentArt=masterArt||localArt;
-        const illustrated=hasSeasonArtwork(card)&&!!currentArt;
-        const imageSrc=masterArt?'/api/card-art/'+encodeURIComponent(card.id):(localArt||'/art/nestrune-card-back.svg');
-        return <Link key={card.id} href={cardPath(card)} style={{display:'block',textDecoration:'none',color:'inherit',border:'1px solid rgba(255,255,255,.08)',borderRadius:14,padding:9,background:'rgba(255,255,255,.025)'}}>
-         <div style={{position:'relative',width:'100%',aspectRatio:'3 / 4',borderRadius:10,overflow:'hidden',background:'rgba(255,255,255,.035)',marginBottom:9}}>
-          <img src={imageSrc} alt={illustrated?card.name:'NestRune card back'} loading="lazy" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}}/>
-          {!illustrated&&<div style={{position:'absolute',left:8,right:8,bottom:8,padding:'7px 8px',borderRadius:8,textAlign:'center',fontSize:10,fontWeight:800,letterSpacing:'.08em',textTransform:'uppercase',color:'#f4e4a6',background:'rgba(4,22,28,.78)',border:'1px solid rgba(217,184,95,.38)'}}>Art reveal coming soon</div>}
-         </div>
-         <div style={{display:'flex',alignItems:'center',gap:7,marginBottom:5}}>
-          <ThemeEmblem theme={card.theme} size={20} label={false}/>
-          <span style={{fontSize:11,opacity:.78}}>CN1-{String(card.cardNumber).padStart(3,'0')}</span>
-         </div>
-         <strong style={{display:'block',fontSize:14,lineHeight:1.25,marginBottom:4}}>{card.name}</strong>
-         <span style={{display:'block',fontSize:11,opacity:.68,textTransform:'capitalize'}}>{card.battleClass} · {card.rarity}</span>
-        </Link>
-       })}
-      </div>
-     </section>
-    })}
+
+  <section className="season-one-hero">
+   <div>
+    <span className="eyebrow">SEASON ONE · THE FIRST FLIGHT</span>
+    <h1>Meet the Guardians before you battle them.</h1>
+    <p>Season One introduces 369 original Guardians across six fantasy Themes. Start with the strongest artwork, discover a Theme that fits you, then explore the roster twelve cards at a time.</p>
+    <div className="actions">
+     <Link className="gold" href="/join?ref=season-one">Join the free beta</Link>
+     <Link className="outline" href="/play">Try Nest Battles</Link>
+    </div>
+   </div>
+   <div className="season-one-numbers" aria-label="Season One overview">
+    <div><strong>{progress.total}</strong><span>Guardians</span></div>
+    <div><strong>6</strong><span>Themes</span></div>
+    <div><strong>{progress.illustrated}</strong><span>Illustrated</span></div>
    </div>
   </section>
+
+  <section className="season-theme-intro" aria-labelledby="season-theme-intro-title">
+   <div className="season-section-heading">
+    <span className="eyebrow">CHOOSE YOUR WORLD</span>
+    <h2 id="season-theme-intro-title">Six Themes. Six different ways into NestRune.</h2>
+    <p>You do not need to study all 369 cards. Pick a Theme first, then explore its Guardians in numerical order.</p>
+   </div>
+   <div className="season-theme-cards">
+    {themes.map(theme=><Link href={'/themes/'+theme.toLowerCase()} className={'season-theme-card theme-'+theme.toLowerCase()} key={theme}>
+     <ThemeEmblem theme={theme} size={34} label={false}/>
+     <div><strong>{theme}</strong><p>{themeCopy[theme]}</p><small>{seasonManifest.filter(card=>card.theme===theme).length} Guardians</small></div>
+    </Link>)}
+   </div>
+  </section>
+
+  <LegendaryFlight/>
+  <SeasonArtGallery/>
+  <SeasonThemeBrowser/>
+
+  <section className="season-one-cta">
+   <div><span className="eyebrow">FOUNDING FLIGHT BETA</span><h2>Found a Guardian you like?</h2><p>Create a free beta account, open your first pack, build My Nest and take your Guardians into battle.</p></div>
+   <div className="actions"><Link className="gold" href="/join?ref=season-one-bottom">Join the free beta</Link><Link className="outline" href="/rune-dungeon">Enter Rune Dungeon</Link></div>
+  </section>
+
+  <p className="season-one-review-note">Season One is still in development. Artwork, balance and release status may change before commercial launch.</p>
  </main>;
 }
