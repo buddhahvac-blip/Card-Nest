@@ -2,13 +2,16 @@ import {randomUUID} from 'node:crypto';
 import {studioOwner,runtime} from '@/lib/studio-auth';
 import {seasonManifest} from '@/lib/season-manifest';
 import {database,transaction} from '@/lib/postgres';
-import {rateLimit} from '@/lib/http';
+import {rateLimit,sameOrigin} from '@/lib/http';
 import {seasonUploadExtension,validSeasonImage,uploadedSeasonCardState} from '@/lib/season-upload';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
 
 export async function POST(req:Request){
+  try{sameOrigin(req)}catch{return Response.json({error:'Request origin rejected'},{status:403})}
+  const length=Number(req.headers.get('content-length'));
+  if(Number.isFinite(length)&&length>13*1024*1024)return Response.json({error:'Upload is too large'},{status:413});
   const owner=await studioOwner();
   if(!owner)return Response.json({error:'Admin access required'},{status:403});
   try{
