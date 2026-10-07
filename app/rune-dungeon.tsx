@@ -19,8 +19,7 @@ type DungeonProgress={
 const packNames:Record<RuneRewardPack,string>={
  hatchling:'Hatchling Pack',
  nest:'Nest Pack',
- guardian:'Guardian Pack',
- royal:'Royal Nest Pack'
+ guardian:'Guardian Pack'
 };
 
 export default function RuneDungeon(){
@@ -109,11 +108,11 @@ export default function RuneDungeon(){
 
   <div className="dungeon-reward-vault">
    <div className="dungeon-section-head"><div><span className="eyebrow">RUNE VAULT</span><h2>Claim beta packs with Rune Energy</h2></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <p className="dungeon-vault-copy">Rune Energy is earned only from first dungeon clears. It cannot be purchased, transferred or exchanged for cash. Reward claims use the existing free beta pack pool and save an unopened entitlement to My Nest.</p>
+   <p className="dungeon-vault-copy">Rune Energy is earned only from first dungeon clears. Save 100 Energy for a Hatchling Pack, 220 for a Nest Pack, or 400 for a Guardian Pack. Royal Nest Packs are premium purchase-only and cannot be claimed with Rune Energy.</p>
    <div className="dungeon-pack-grid">{(Object.keys(RUNE_PACK_COSTS) as RuneRewardPack[]).map(pack=>{
     const cost=RUNE_PACK_COSTS[pack],enough=(progress?.runeEnergy||0)>=cost;
-    return <article key={pack} className={'dungeon-pack-reward reward-'+pack}><PackageOpen/><span>{pack==='royal'?'PREMIUM REWARD':'DUNGEON REWARD'}</span><h3>{packNames[pack]}</h3><strong><BatteryCharging size={16}/>{cost} Rune Energy</strong><button className={pack==='royal'?'gold':'outline'} disabled={!progress?.signedIn||!enough||!!claiming} onClick={()=>claimPack(pack)}>{claiming===pack?'Claiming…':enough?'Claim pack':'Need '+(cost-(progress?.runeEnergy||0))+' more'}</button></article>
-   })}</div>
+    return <article key={pack} className={'dungeon-pack-reward reward-'+pack}><PackageOpen/><span>DUNGEON REWARD</span><h3>{packNames[pack]}</h3><strong><BatteryCharging size={16}/>{cost} Rune Energy</strong><button className="outline" disabled={!progress?.signedIn||!enough||!!claiming} onClick={()=>claimPack(pack)}>{claiming===pack?'Claiming…':enough?'Claim pack':'Need '+(cost-(progress?.runeEnergy||0))+' more'}</button></article>
+   })}<article className="dungeon-pack-reward reward-royal"><PackageOpen/><span>PREMIUM PURCHASE ONLY</span><h3>Royal Nest Pack</h3><strong>No Rune Energy redemption</strong><Link className="gold" href="/#packs">Go to Pack Store</Link></article></div>
    <div className="dungeon-vault-footer"><span>All 10 first clears award 240 Rune Energy total.</span><Link href="/"><PackageOpen size={15}/>Go to My Nest</Link></div>
   </div>
 
