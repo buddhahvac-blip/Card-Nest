@@ -4,7 +4,7 @@ import RuneDungeon from '../rune-dungeon-client';
 
 export const metadata:Metadata={
  title:'Rune Dungeon',
- description:'Clear ten NestRune Rune Dungeon missions, defeat the Runeheart Boss, earn Rune Energy and claim free beta pack rewards.'
+ description:'Clear ten NestRune Rune Dungeon missions, earn Rune Energy for Hatchling, Nest and Guardian rewards, and face the Runeheart Boss.'
 };
 
 export default function RuneDungeonPage(){
