@@ -1,5 +1,5 @@
 import {randomUUID} from 'node:crypto';
-import {studioOwner,runtime} from '@/lib/studio-auth';
+import {studioOwner,runtime as studioRuntime} from '@/lib/studio-auth';
 import {seasonManifest} from '@/lib/season-manifest';
 import {database,transaction} from '@/lib/postgres';
 import {rateLimit,sameOrigin} from '@/lib/http';
@@ -28,7 +28,7 @@ export async function POST(req:Request){
 
     const published=new Date().toISOString();
     const objectKey='season-1/'+String(card.cardNumber).padStart(3,'0')+'/'+randomUUID()+'.'+ext;
-    const bucket=runtime().BUCKET;
+    const bucket=studioRuntime().BUCKET;
     if(!bucket)return Response.json({error:'Artwork storage is unavailable'},{status:503});
     await bucket.put(objectKey,bytes);
 
