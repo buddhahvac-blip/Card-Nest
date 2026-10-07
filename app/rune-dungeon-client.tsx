@@ -4,7 +4,7 @@ import {useEffect,useMemo,useState} from 'react';
 import Link from 'next/link';
 import {BatteryCharging,Check,Crown,LockKeyhole,PackageOpen,Sparkles,Swords} from 'lucide-react';
 import NestBattles from './nest-battles';
-import {RUNE_DUNGEON_FLOORS,RUNE_PACK_COSTS,type RuneRewardPack} from '@/lib/rune-dungeon';
+import {RUNE_DUNGEON_FLOORS,RUNE_PACK_COSTS,runeWorld,type RuneRewardPack} from '@/lib/rune-dungeon';
 
 type DungeonProgress={
  signedIn:boolean;
@@ -32,7 +32,6 @@ export default function RuneDungeon(){
  const [attemptId,setAttemptId]=useState<string|null>(null);
 
  async function load(){
-  setLoading(true);
   try{
    const response=await fetch('/api/dungeon',{cache:'no-store'});
    const data=await response.json();
@@ -42,7 +41,7 @@ export default function RuneDungeon(){
   finally{setLoading(false)}
  }
 
- useEffect(()=>{void load()},[]);
+ useEffect(()=>{queueMicrotask(()=>{void load()})},[]);
 
  async function recordClear(floor:number){
   if(progress?.clears.some(clear=>clear.floor===floor)){setMessage('Floor replay complete. Rune Energy is first-clear only.');return}
@@ -86,9 +85,10 @@ export default function RuneDungeon(){
 
  if(activeFloor){
   const floor=RUNE_DUNGEON_FLOORS.find(entry=>entry.floor===activeFloor)!;
-  return <section className="rune-dungeon-battle-shell">
+  const world=runeWorld(floor.world);
+  return <section className={'rune-dungeon-battle-shell world-'+world.id}>
    <div className="dungeon-battle-top"><button className="outline" onClick={()=>{setAttemptId(null);setActiveFloor(null)}}>← Dungeon map</button><div><span className="eyebrow">RUNE DUNGEON · FLOOR {floor.floor}</span><strong>{floor.name}{floor.boss?' · BOSS':''}</strong></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <NestBattles dungeon={{...floor,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
+   <NestBattles dungeon={{...floor,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
    {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
  }
