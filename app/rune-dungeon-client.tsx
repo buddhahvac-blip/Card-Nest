@@ -41,7 +41,7 @@ export default function RuneDungeon(){
   finally{setLoading(false)}
  }
 
- useEffect(()=>{void load()},[]);
+ useEffect(()=>{queueMicrotask(()=>{void load()})},[]);
 
  async function recordClear(floor:number){
   if(progress?.clears.some(clear=>clear.floor===floor)){setMessage('Floor replay complete. Rune Energy is first-clear only.');return}

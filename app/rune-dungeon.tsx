@@ -40,7 +40,7 @@ export default function RuneDungeon(){
   finally{setLoading(false)}
  }
 
- useEffect(()=>{void load()},[]);
+ useEffect(()=>{queueMicrotask(()=>{void load()})},[]);
 
  async function recordClear(floor:number){
   setMessage('');
