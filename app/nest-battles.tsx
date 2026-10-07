@@ -9,10 +9,10 @@ import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
-import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio} from '@/lib/battle-audio';
+import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio,type BattleMusicKey} from '@/lib/battle-audio';
 
 type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
-export type DungeonBattleConfig={floor:number;name:string;mission:string;energy:number;boss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onExit:()=>void};
+export type DungeonBattleConfig={floor:number;world:'verdant'|'emberstorm'|'eclipse';worldName:string;worldThemes:string[];musicKey:BattleMusicKey;name:string;mission:string;energy:number;boss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onExit:()=>void};
 type ActionKind='strike'|'ability'|'special';
 type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
@@ -69,7 +69,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  function start(){
   if(selected.length!==3)return;
   victoryReported.current=false;
-  if(soundOn){unlockBattleAudio();startBattleMusic(true)}
+  if(soundOn){unlockBattleAudio();startBattleMusic(true,dungeon?.musicKey||'emberstorm')}
   const rivalIds=dungeon?.enemyIds||learningPoolIds.filter(id=>!selected.includes(id));
   setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds,dungeon?.hpMultiplier||1));
   setPlayerActive(0);setRivalActive(0);setRound(1);setPhase('battle');
@@ -236,12 +236,12 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   <div className="battle-compact-hud">
    <div><span className="eyebrow">{dungeon?`RUNE DUNGEON · FLOOR ${dungeon.floor}${dungeon.boss?' · BOSS':''}`:'GARDEN ARENA'} · ROUND {round}</span><strong>{phase==='finished'?(dungeon?'Floor complete':'Practice complete'):'Your turn'}</strong></div>
    <div className="battle-hud-matchup"><span>{activeCard.theme}</span><b>VS</b><span>{enemyCard.theme}</span><small>{matchup}</small></div>
-   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next){unlockBattleAudio();if(phase==='battle')startBattleMusic(true)}else stopBattleMusic(.18)}} aria-label={soundOn?'Mute battle music and sounds':'Enable battle music and sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Music + SFX':'Muted'}</span></button><button className="outline" onClick={dungeon?dungeon.onExit:reset}><RotateCcw size={15}/>{dungeon?'Dungeon map':'New team'}</button></div>
+   <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next){unlockBattleAudio();if(phase==='battle')startBattleMusic(true,dungeon?.musicKey||'emberstorm')}else stopBattleMusic(.18)}} aria-label={soundOn?'Mute battle music and sounds':'Enable battle music and sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Music + SFX':'Muted'}</span></button><button className="outline" onClick={dungeon?dungeon.onExit:reset}><RotateCcw size={15}/>{dungeon?'Dungeon map':'New team'}</button></div>
   </div>
 
   <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
-   <ArenaEnvironment/>
-   <AmbientParticles/>
+   <ArenaEnvironment world={dungeon?.world||'verdant'}/>
+   <AmbientParticles world={dungeon?.world||'verdant'}/>
    <BattleFxLayer key={fx?.id??0} effect={fx} stageRef={stageRef}/>
 
    <div className="battle-combatant battle-combatant-player">
@@ -264,7 +264,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
     <div className="battle-reserves" aria-label="Your Guardian team">{player.map((fighter,index)=>{const card=cardById(fighter.id);return <button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-reserve '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')} title={index===playerActive?card.name+' is active':'Swap to '+card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={78}/><span>{index===playerActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></button>})}</div>
    </div>
 
-   <div className="battle-center battle-center-v4"><span>THE GREAT NEST</span><GreatNest/><strong>VS</strong><small>{activeCard.theme} → {enemyCard.theme}</small></div>
+   <div className="battle-center battle-center-v4"><span>{dungeon?dungeon.worldName.toUpperCase():'THE GREAT NEST'}</span><GreatNest/><strong>VS</strong><small>{activeCard.theme} → {enemyCard.theme}</small></div>
 
    <div className="battle-combatant battle-combatant-rival">
     <div className="battle-side-label">RIVAL GUARDIAN</div>
