@@ -398,3 +398,45 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .dungeon-world-choice.world-emberstorm:before{filter:sepia(.6) saturate(2.1) hue-rotate(-18deg) brightness(.48)}
 .dungeon-world-choice.world-eclipse:before{filter:saturate(.8) hue-rotate(38deg) brightness(.4)}
 @media(max-width:900px){.dungeon-world-picker{grid-template-columns:1fr}}
+
+
+/* Clean full-bleed Season One art for CN1-031–040.
+   Generated art already contains corner plaques; HTML overlays preserve canonical rarity/number. */
+.clean-master-card{
+  width:min(100%,340px)!important;
+  max-width:340px!important;
+  margin-inline:auto;
+  aspect-ratio:3/4!important;
+  border:0!important;
+  border-radius:15px!important;
+  background:#081d22!important;
+  box-shadow:0 16px 38px #0008;
+  overflow:hidden;
+}
+.clean-master-card>img{
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  image-rendering:auto;
+}
+.clean-master-number,.clean-master-rarity{
+  position:absolute;
+  z-index:3;
+  top:2.55%;
+  min-height:7.2%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:.2em .72em;
+  border-radius:999px;
+  background:#0a2028;
+  color:#fff6df;
+  font:800 clamp(10px,1.3vw,16px)/1 system-ui,sans-serif;
+  letter-spacing:.08em;
+  box-shadow:0 0 0 2px #173a41;
+}
+.clean-master-number{left:3.6%;min-width:12.5%}
+.clean-master-rarity{right:3.2%;min-width:22%}
+.index-card .clean-master-card,.common-flight-card .clean-master-card{width:min(100%,340px)!important}
+.view-card .clean-master-card{width:min(100%,360px)!important;max-width:360px!important}
