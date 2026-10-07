@@ -1,4 +1,4 @@
-const fallback='https://nestrune.vercel.app';
+const fallback='https://nestrune.app';
 
 export const siteUrl=(()=>{
   const raw=process.env.NEXT_PUBLIC_SITE_URL||process.env.APP_URL||fallback;
