@@ -11,13 +11,14 @@ import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,g
 import {trackBeta} from '@/lib/client-analytics';
 import {showcaseFor} from '@/lib/showcase';
 import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio,type BattleMusicKey} from '@/lib/battle-audio';
+import {battleRosterIds,practiceRivalIds} from '@/lib/battle-roster';
 
 type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;energy:number};
 export type DungeonBattleConfig={floor:number;world:'verdant'|'emberstorm'|'eclipse';worldName:string;worldThemes:string[];musicKey:BattleMusicKey;name:string;mission:string;energy:number;boss?:boolean;worldBoss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onExit:()=>void};
 type ActionKind='strike'|'ability'|'special';
 type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
-const learningPoolIds=['sproutling-001','tidefin-003','voltbeak-005','shadowclaw-007','reserved-008','reserved-012'];
+const illustratedBattleIds=Object.keys(commonMasterArt as Record<string,string>);
 
 function cardById(id:string){return seasonManifest.find(card=>card.id===id)!}
 function makeTeam(ids:string[],hpMultiplier=1):Fighter[]{return ids.map(id=>{const c=cardById(id);const maxHp=Math.max(1,Math.round(c.health*hpMultiplier));return {id,hp:maxHp,maxHp,guard:0,speedDelta:0,cooldown:0,specialCooldown:0,energy:2}})}
@@ -27,7 +28,9 @@ function copyTeam(team:Fighter[]){return team.map(member=>({...member}))}
 function tickTeam(team:Fighter[]){return team.map(member=>({...member,cooldown:Math.max(0,member.cooldown-1),specialCooldown:Math.max(0,member.specialCooldown-1)}))}
 
 export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={}){
- const pool=useMemo(()=>learningPoolIds.map(cardById),[]);
+ const [battlePoolIds,setBattlePoolIds]=useState<string[]>(()=>battleRosterIds([],illustratedBattleIds));
+ const [uploadedArt,setUploadedArt]=useState<Record<string,string>>({});
+ const pool=useMemo(()=>battlePoolIds.map(cardById).filter(Boolean),[battlePoolIds]);
  const [selected,setSelected]=useState<string[]>(['sproutling-001','tidefin-003','shadowclaw-007']);
  const [phase,setPhase]=useState<'setup'|'battle'|'finished'>('setup');
  const [player,setPlayer]=useState<Fighter[]>([]);
@@ -46,7 +49,18 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  const [inspectCard,setInspectCard]=useState<string|null>(null);
  const [soundOn,setSoundOn]=useState(true);
  const victoryReported=useRef(false);
- useEffect(()=>()=>{timers.current.forEach(clearTimeout);playing.current=false;stopBattleMusic(.15)},[]);
+ useEffect(()=>{
+  let active=true;
+  Promise.all([
+   fetch('/api/catalog',{cache:'no-store'}).then(async response=>response.ok?response.json():{cards:[]}).catch(()=>({cards:[]})),
+   fetch('/api/season-art',{cache:'no-store'}).then(async response=>response.ok?response.json():{art:{}}).catch(()=>({art:{}}))
+  ]).then(([catalogData,artData])=>{
+   if(!active)return;
+   setBattlePoolIds(battleRosterIds(Array.isArray(catalogData.cards)?catalogData.cards:[],illustratedBattleIds));
+   setUploadedArt(artData&&typeof artData.art==='object'?artData.art:{});
+  });
+  return()=>{active=false;timers.current.forEach(clearTimeout);playing.current=false;stopBattleMusic(.15)};
+ },[]);
  function cancelPlayback(){timers.current.forEach(clearTimeout);timers.current=[];finishPlayback.current=null;playing.current=false;setBusy(false);setFx(null);setSwapEntering(false)}
  function playback(frames:BattleFrame[],finish:()=>void){
   playing.current=true;setBusy(true);
@@ -60,7 +74,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  }
  function snapshot(frames:BattleFrame[],effect:BattleEffect,p:Fighter[],e:Fighter[],pIndex:number,eIndex:number){frames.push({effect,player:copyTeam(p),rival:copyTeam(e),playerActive:pIndex,rivalActive:eIndex})}
 
- const [log,setLog]=useState<string[]>(['Choose three guardians. The practice rival will use the other three.']);
+ const [log,setLog]=useState<string[]>(['Choose three battle-ready guardians.']);
 
  function toggle(id:string){
   if(phase!=='setup')return;
@@ -71,7 +85,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   if(selected.length!==3)return;
   victoryReported.current=false;
   if(soundOn){unlockBattleAudio();startBattleMusic(true,dungeon?.musicKey||'emberstorm')}
-  const rivalIds=dungeon?.enemyIds||learningPoolIds.filter(id=>!selected.includes(id));
+  const rivalIds=dungeon?.enemyIds||practiceRivalIds(battlePoolIds,selected);
   setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds,dungeon?.hpMultiplier||1));
   setPlayerActive(0);setRivalActive(0);setRound(1);setPhase('battle');
   setLog([dungeon?`Floor ${dungeon.floor}: ${dungeon.name}. ${dungeon.mission}`:'The Garden Arena wakes up. Read the matchup, then choose your first move.']);
@@ -82,7 +96,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   cancelPlayback();
   stopBattleMusic(.22);
   setPhase('setup');setPlayer([]);setRival([]);setRound(1);
-  setLog(['Choose three guardians. The practice rival will use the other three.']);
+  setLog(['Choose three battle-ready guardians.']);
   trackBeta('battle-view','reset');
  }
 
@@ -212,10 +226,10 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
 
  if(phase==='setup')return <section className="nest-battles">
   <div className="battle-hero">
-   <div><span className="eyebrow">{dungeon?`RUNE DUNGEON · FLOOR ${dungeon.floor}${(dungeon.boss||dungeon.worldBoss)?' · BOSS':''}`:'NEST BATTLES · PLAYABLE ALPHA'}</span><h1>{dungeon?dungeon.name:'Pick your flock. Protect the Great Nest.'}</h1><p>{dungeon?dungeon.mission:'Choose any three Common guardians. Each class teaches a different kind of strategy, and the practice rival uses the three you leave behind.'}</p><div className="battle-pill-row"><span>3 Guardian teams</span><span>{dungeon?`+${dungeon.energy} Rune Energy`:'No paid advantage'}</span><span>{dungeon?`Rival HP ×${dungeon.hpMultiplier.toFixed(2)}`:'Common cards matter'}</span><span>{(dungeon?.boss||dungeon?.worldBoss)?'Boss encounter':'2–5 minute battle'}</span></div></div>
+   <div><span className="eyebrow">{dungeon?`RUNE DUNGEON · FLOOR ${dungeon.floor}${(dungeon.boss||dungeon.worldBoss)?' · BOSS':''}`:'NEST BATTLES · PLAYABLE ALPHA'}</span><h1>{dungeon?dungeon.name:'Pick your flock. Protect the Great Nest.'}</h1><p>{dungeon?dungeon.mission:'Choose any three battle-ready Guardians. Every illustrated card and every successful Card Studio upload can join your team.'}</p><div className="battle-pill-row"><span>{battlePoolIds.length} battle-ready Guardians</span><span>{dungeon?`+${dungeon.energy} Rune Energy`:'No paid advantage'}</span><span>{dungeon?`Rival HP ×${dungeon.hpMultiplier.toFixed(2)}`:'Uploaded cards can battle'}</span><span>{(dungeon?.boss||dungeon?.worldBoss)?'Boss encounter':'2–5 minute battle'}</span></div></div>
    <div className={`battle-orb ${dungeon?.boss?'boss-orb':''}`} aria-hidden="true"><Sparkles/><strong>{dungeon?dungeon.floor:3}</strong><span>{(dungeon?.boss||dungeon?.worldBoss)?'BOSS':dungeon?'Floor':'Choose three'}</span></div>
   </div>
-  <div className="battle-picker-head"><div><span className="eyebrow">{dungeon?'DUNGEON LOADOUT':'STARTER LAB'}</span><h2>{dungeon?'Choose three Guardians for this floor.':'Six classes. Three slots. Your strategy.'}</h2></div><strong>{selected.length} / 3 selected</strong></div>
+  <div className="battle-picker-head"><div><span className="eyebrow">{dungeon?'DUNGEON LOADOUT':'BATTLE ROSTER'}</span><h2>{dungeon?'Choose any three battle-ready Guardians for this floor.':'Your uploaded roster. Three slots. Your strategy.'}</h2></div><strong>{selected.length} / 3 selected · {battlePoolIds.length} available</strong></div>
   <div className="battle-picker-grid">{pool.map(card=>{const picked=selected.includes(card.id);const guide=CLASS_GUIDE[card.battleClass];return <button key={card.id} className={'battle-picker '+(picked?'selected':'')} onClick={()=>toggle(card.id)} aria-pressed={picked}>
    <div className="battle-picker-art"><GuardianCard id={card.id}/><span className="battle-check">{picked?'✓':'+'}</span></div>
    <div className="battle-picker-copy"><span style={{color:themeColors[card.theme]}}>{card.theme} · {card.battleClass}</span><h3>{card.name}</h3><p>{guide?.purpose}</p><small>HP {card.health} · ATK {card.attack} · DEF {card.defense} · SPD {card.speed}</small></div>
@@ -230,7 +244,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  const abilityReady=!!active&&active.cooldown===0&&active.energy>=Math.max(1,activeCard.abilityPrimary.energyCost||1);
  const specialReady=!!active&&active.specialCooldown===0&&active.energy>=Math.max(1,activeCard.abilitySecondary.energyCost||3);
  const matchup=affinityMultiplier(activeCard.theme,enemyCard)>1?'Advantage':affinityMultiplier(activeCard.theme,enemyCard)<1?'Resisted':'Neutral';
- const currentMasterFor=(id:string)=>(commonMasterArt as Record<string,string>)[id]||'';
+ const currentMasterFor=(id:string)=>uploadedArt[id]||(commonMasterArt as Record<string,string>)[id]||'';
  const avatarFor=(id:string)=>{const card=cardById(id);const showcase=showcaseFor(id);return currentMasterFor(id)||showcase?.avatarUrl||showcase?.artworkUrl||card.artworkUrl||card.fullCardUrl||card.avatarUrl||card.thumbnailUrl||'/art/nestrune-card-back.svg'};
  const cardArtFor=(id:string)=>{const card=cardById(id);const showcase=showcaseFor(id);return currentMasterFor(id)||showcase?.artworkUrl||showcase?.avatarUrl||card.fullCardUrl||card.artworkUrl||card.avatarUrl||card.thumbnailUrl||'/art/nestrune-card-back.svg'};
  return <section className="nest-battles battle-live">
@@ -298,7 +312,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
 
   <details className="battle-log battle-log-compact"><summary><span>Battle Story</span><strong>{log[0]}</strong></summary><div>{log.map((entry,index)=><p key={index} className={index===0?'latest':''}>{entry}</p>)}</div></details>
 
-  {phase==='finished'&&<div className={`battle-finish ${(dungeon?.boss||dungeon?.worldBoss)&&isTeamDown(rival)?'dungeon-boss-clear':''}`}><Sparkles/><div><h2>{isTeamDown(rival)?(dungeon?((dungeon.boss||dungeon.worldBoss)?(dungeon.boss?'Runeheart Epic Bosses defeated!':'World Boss defeated!'):`Floor ${dungeon.floor} cleared!`):'Your Nest held strong!'):'A new strategy is waiting.'}</h2><p>{isTeamDown(rival)&&dungeon?(dungeon.rewardsEnabled?`First-clear reward: +${dungeon.energy} Rune Energy.`:`Sign in to save this clear and bank ${dungeon.energy} Rune Energy.`):'Try another combination. The same Common guardians can play very differently depending on class and matchup.'}</p></div><button className="gold" onClick={dungeon?dungeon.onExit:reset}>{dungeon?(isTeamDown(rival)?'Return to Rune Dungeon':'Return to dungeon map'):'Build another team'}</button>{dungeon&&!isTeamDown(rival)&&<button className="outline" onClick={reset}>Retry floor</button>}</div>}
+  {phase==='finished'&&<div className={`battle-finish ${(dungeon?.boss||dungeon?.worldBoss)&&isTeamDown(rival)?'dungeon-boss-clear':''}`}><Sparkles/><div><h2>{isTeamDown(rival)?(dungeon?((dungeon.boss||dungeon.worldBoss)?(dungeon.boss?'Runeheart Epic Bosses defeated!':'World Boss defeated!'):`Floor ${dungeon.floor} cleared!`):'Your Nest held strong!'):'A new strategy is waiting.'}</h2><p>{isTeamDown(rival)&&dungeon?(dungeon.rewardsEnabled?`First-clear reward: +${dungeon.energy} Rune Energy.`:`Sign in to save this clear and bank ${dungeon.energy} Rune Energy.`):'Try another combination. Your battle-ready Guardians can play very differently depending on class and matchup.'}</p></div><button className="gold" onClick={dungeon?dungeon.onExit:reset}>{dungeon?(isTeamDown(rival)?'Return to Rune Dungeon':'Return to dungeon map'):'Build another team'}</button>{dungeon&&!isTeamDown(rival)&&<button className="outline" onClick={reset}>Retry floor</button>}</div>}
 
   {inspectCard&&<div className="battle-card-modal" role="dialog" aria-modal="true" aria-label="Guardian card inspection" onClick={()=>setInspectCard(null)}><div className="battle-card-modal-panel" onClick={event=>event.stopPropagation()}><button className="battle-modal-close" onClick={()=>setInspectCard(null)} aria-label="Close card inspection">×</button><GuardianCard id={inspectCard} eager/><p>Collectible card view · Special: <strong>{cardById(inspectCard).abilitySecondary.name}</strong> · 3 Energy · 4-turn cooldown.</p></div></div>}
 
