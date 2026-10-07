@@ -3,7 +3,7 @@
 import {useEffect,useMemo,useRef,useState,type CSSProperties} from 'react';
 import Image from 'next/image';
 import commonMasterArt from '@/data/common-master-art.json';
-import {AmbientParticles,ArenaEnvironment,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
+import {AmbientParticles,ArenaEnvironment,BossEntrance,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Volume2,VolumeX,Zap} from 'lucide-react';
 import {GuardianCard} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
@@ -314,15 +314,16 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
    <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next){unlockBattleAudio();if(phase==='battle')startBattleMusic(true,dungeon?.musicKey||'emberstorm')}else stopBattleMusic(.18)}} aria-label={soundOn?'Mute battle music and sounds':'Enable battle music and sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Music + SFX':'Muted'}</span></button><button className="outline" onClick={dungeon?dungeon.onExit:reset}><RotateCcw size={15}/>{dungeon?'Dungeon map':'New team'}</button></div>
   </div>
 
-  <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'}>
+  <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'} data-variant={fx?.variant} data-attacker={fx?.side}>
    <ArenaEnvironment world={dungeon?.world||'verdant'}/>
    <AmbientParticles world={dungeon?.world||'verdant'}/>
+   {(dungeon?.boss||dungeon?.worldBoss)&&<BossEntrance name={dungeon.name} theme={enemyCard.theme}/>}
    <BattleFxLayer key={fx?.id??0} effect={fx} stageRef={stageRef}/>
 
    <div className="battle-combatant battle-combatant-player">
     <div className="battle-side-label">YOUR GUARDIAN</div>
     <div className="battle-avatar-fighter">
-     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
+     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-theme={activeCard.theme} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
       <span className="battle-card-echo battle-card-echo-player" aria-hidden="true"><Image src={cardArtFor(activeCard.id)} alt="" fill sizes="150px" quality={72}/></span>
       <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
        <span className="battle-avatar-aura"/>
@@ -344,7 +345,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
    <div className="battle-combatant battle-combatant-rival">
     <div className="battle-side-label">RIVAL GUARDIAN</div>
     <div className="battle-avatar-fighter rival-fighter">
-     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
+     <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-theme={enemyCard.theme} data-boss={!!(dungeon?.boss||dungeon?.worldBoss)} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
       <span className="battle-card-echo battle-card-echo-rival" aria-hidden="true"><Image src={cardArtFor(enemyCard.id)} alt="" fill sizes="150px" quality={72}/></span>
       <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
        <span className="battle-avatar-aura"/>

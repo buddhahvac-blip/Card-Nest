@@ -155,3 +155,43 @@
 @keyframes specialBanner{0%{opacity:0;transform:translate(-50%,-26px) scale(.88)}16%{opacity:1;transform:translate(-50%,2px) scale(1.05)}58%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-8px) scale(1.02)}}
 @keyframes combatCameraPan{0%,100%{transform:scale(1.045)}36%{transform:scale(1.085) translate3d(.6%,-.4%,0)}58%{transform:scale(1.095) translate3d(-.4%,.2%,0)}}
 @keyframes restoreCamera{0%,100%{transform:scale(1.045)}42%{transform:scale(1.065) translate3d(0,-.35%,0)}}
+
+/* Shared themed combat pass. Match existing frame settlement; never delay game state. */
+.fxLayer{--settle:300ms}.fxLayer[data-variant=special]{--settle:390ms}
+.combatText[data-impact=true]{animation:readableDamage 340ms var(--settle) ease-out both;font-size:clamp(23px,3vw,32px)}
+.combatText[data-impact=true] em{display:none}
+.fxLayer[data-variant=strike] .abilityBanner{display:none}
+.fxLayer[data-variant=special] .abilityBanner{animation:signatureReveal 820ms ease-out both}
+.fighter[data-motion=hit]{animation:themedRecoil 680ms ease-out both}
+.arena[data-variant=special] .fighter[data-motion=hit]{animation:specialRecoil 820ms ease-out both}
+.arena[data-impact=true]{animation:controlledShake 680ms ease-out}
+.arena[data-impact=true][data-variant=strike]{animation:none}
+.arena[data-impact=true][data-variant=special]{animation:specialShake 820ms ease-out}
+.fighter[data-guard=true]:after{border-color:var(--aura);background:radial-gradient(ellipse,color-mix(in srgb,var(--aura) 15%,transparent),transparent 70%);box-shadow:inset 0 0 20px color-mix(in srgb,var(--aura) 22%,transparent)}
+.fighter[data-theme=Volt][data-guard=true]:after{border-radius:18%;border-style:dashed}
+.fighter[data-theme=Ember][data-guard=true]:after{border-radius:70% 20% 60% 35%;border-width:4px}
+.fighter[data-theme=Tide][data-guard=true]:after{border-style:double;border-width:6px}
+.fighter[data-theme=Bloom][data-guard=true]:after{border-radius:100% 0 100% 0;border-width:4px}
+.fighter[data-theme=Mystic][data-guard=true]:after{border-style:dotted;outline:1px solid var(--aura);outline-offset:5px}
+.fighter[data-theme=Shadow][data-guard=true]:after{background:#18092955;border-width:5px}
+.fighter[data-boss=true]:before{border-width:3px;box-shadow:0 0 30px var(--aura),inset 0 0 22px var(--aura);animation:bossAura 3s ease-in-out infinite}
+.fighter[data-boss=true][data-motion=special]:before{animation:bossCast 820ms ease-out}
+.bossEntrance{position:absolute;inset:15% 6% auto;z-index:12;pointer-events:none;text-align:center;padding:24px 12px;background:linear-gradient(90deg,transparent,#080b20ed 20% 80%,transparent);border-block:1px solid var(--fx-color);color:var(--fx-color);animation:bossReveal 1800ms ease-out both}
+.bossEntrance span{display:block;font:800 10px/1.5 sans-serif;letter-spacing:4px}.bossEntrance strong{display:block;margin-top:7px;font:600 clamp(22px,4vw,40px)/1.2 Georgia;color:#fff0ce}
+@keyframes readableDamage{0%{opacity:1;transform:translate(-50%,0) scale(1.15)}20%,72%{opacity:1;transform:translate(-50%,-8px) scale(1)}100%{opacity:0;transform:translate(-50%,-25px)}}
+@keyframes signatureReveal{0%,14%{opacity:0;transform:translate(-50%,-10px) scale(.94)}26%,48%{opacity:1;transform:translate(-50%,0) scale(1)}75%,100%{opacity:0;transform:translate(-50%,-8px)}}
+@keyframes themedRecoil{0%,43%,100%{transform:none}44%,51%{transform:translateX(calc(var(--toward-x)*-15px)) scale(.97)}68%{transform:translateX(calc(var(--toward-x)*4px))}}
+@keyframes specialRecoil{0%,47%,100%{transform:none}48%,54%{transform:translateX(calc(var(--toward-x)*-23px)) scale(.94)}70%{transform:translateX(calc(var(--toward-x)*6px))}}
+@keyframes controlledShake{0%,43%,65%,100%{transform:none}45%,51%{transform:translateX(1px)}56%{transform:translateX(-1px)}}
+@keyframes specialShake{0%,47%,70%,100%{transform:none}48%,54%{transform:translate(2px,-1px)}60%{transform:translate(-2px,1px)}}
+@keyframes bossReveal{0%{opacity:0;transform:translateY(12px) scale(.95)}18%,65%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-10px)}}
+@keyframes bossAura{50%{opacity:1;transform:rotate(-7deg) scale(1.08)}}
+@keyframes bossCast{0%,100%{opacity:.65;transform:scale(1)}40%,48%{opacity:1;transform:scale(1.5)}70%{opacity:.8;transform:scale(1.2)}}
+@media(max-width:700px){.abilityBanner{min-width:0;width:78%;padding:7px 12px}.fxLayer[data-variant=special] .abilityBanner{padding:8px 14px}.combatText[data-special=true] strong{font-size:25px}.bossEntrance{padding:15px 8px}}
+@media(prefers-reduced-motion:reduce){.bossEntrance{animation:fade 1800ms ease-out both!important;transform:none!important}.fxLayer .cinematicVignette,.fxLayer .abilityBanner{display:none}.combatText[data-impact=true]{animation:fade 340ms var(--settle) ease-out both!important;transform:translateX(-50%)!important}.fighter[data-boss=true]:before{animation:none!important}}
+.fighter:not([data-motion]) :global(.battle-guardian-avatar){animation:guardianIdle 4s ease-in-out infinite}
+.fighter[data-battle-side=rival]:not([data-motion]) :global(.battle-guardian-avatar){animation-delay:-2s}
+.arena[data-variant=special] .fighter[data-motion=ko]{animation:specialKnockout 820ms ease-out both}
+@keyframes guardianIdle{50%{transform:translateY(-5px) rotate(.6deg)}}
+@keyframes specialKnockout{0%,47%{opacity:1;transform:none}48%,54%{opacity:1;transform:translateX(calc(var(--toward-x)*-23px)) scale(.96)}75%{opacity:.6;transform:translateY(12px) rotate(-4deg) scale(.9)}100%{opacity:.12;transform:translateY(24px) scale(.8)}}
+@media(prefers-reduced-motion:reduce){.fighter:not([data-motion]) :global(.battle-guardian-avatar),.arena[data-variant=special] .fighter[data-motion=ko]{animation:none!important}.fighter[data-motion=ko]{opacity:.3}}
