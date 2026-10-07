@@ -31,7 +31,6 @@ export default function RuneDungeon(){
  const [claiming,setClaiming]=useState<RuneRewardPack|null>(null);
 
  async function load(){
-  setLoading(true);
   try{
    const response=await fetch('/api/dungeon',{cache:'no-store'});
    const data=await response.json();
@@ -81,7 +80,7 @@ export default function RuneDungeon(){
 
  return <section className="rune-dungeon">
   <div className="dungeon-hero">
-   <div><span className="eyebrow">NESTRUNE MISSIONS · THREE WORLDS</span><h1>Journey through the Rune Worlds.</h1><p>Clear ten mission floors across three changing landscapes, gather account-bound Rune Energy, and defeat Rare and Epic world bosses drawn from NestRune's illustrated roster. Each world has its own Theme mix, battlefield atmosphere and battle song.</p><div className="battle-pill-row"><span>3 worlds</span><span>10 floors</span><span>3 boss encounters</span><span>Rare + Epic bosses</span></div></div>
+   <div><span className="eyebrow">NESTRUNE MISSIONS · THREE WORLDS</span><h1>Journey through the Rune Worlds.</h1><p>Clear ten mission floors across three changing landscapes, gather account-bound Rune Energy, and defeat Rare and Epic world bosses drawn from NestRune&apos;s illustrated roster. Each world has its own Theme mix, battlefield atmosphere and battle song.</p><div className="battle-pill-row"><span>3 worlds</span><span>10 floors</span><span>3 boss encounters</span><span>Rare + Epic bosses</span></div></div>
    <div className="dungeon-energy-vault"><Sparkles/><span>RUNE ENERGY</span><strong>{loading?'…':progress?.runeEnergy||0}</strong><small>{progress?.signedIn?'Saved to your account':'Sign in to save rewards'}</small></div>
   </div>
 

@@ -32,7 +32,6 @@ export default function RuneDungeon(){
  const [attemptId,setAttemptId]=useState<string|null>(null);
 
  async function load(){
-  setLoading(true);
   try{
    const response=await fetch('/api/dungeon',{cache:'no-store'});
    const data=await response.json();
