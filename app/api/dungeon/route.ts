@@ -11,7 +11,7 @@ export const dynamic='force-dynamic';
 const command=z.discriminatedUnion('action',[
  z.strictObject({action:z.literal('start'),floor:z.number().int().min(1).max(10)}),
  z.strictObject({action:z.literal('clear'),floor:z.number().int().min(1).max(10),attempt:z.string().uuid().optional()}),
- z.strictObject({action:z.literal('claim'),pack:z.enum(['hatchling','nest','guardian','royal'])})
+ z.strictObject({action:z.literal('claim'),pack:z.enum(['hatchling','nest','guardian'])})
 ]);
 
 async function readProgress(userId:string){
