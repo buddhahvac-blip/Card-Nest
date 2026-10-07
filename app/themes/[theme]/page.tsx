@@ -1,13 +1,15 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
 import {notFound} from 'next/navigation';
-import {seasonManifest} from '@/lib/season-manifest';
+import {seasonOneThemes,seasonOneCardsForTheme,isSeasonOneTheme,type SeasonOneTheme} from '@/lib/season-one-view';
 import {cardPath,slugify} from '@/lib/card-paths';
 
-const themes=['Ember','Tide','Bloom','Volt','Mystic','Shadow'];
-export function generateStaticParams(){return themes.map(theme=>({theme:slugify(theme)}))}
+export function generateStaticParams(){return seasonOneThemes.map(theme=>({theme:slugify(theme)}))}
 
-function resolveTheme(slug:string){return themes.find(theme=>slugify(theme)===slug)}
+function resolveTheme(slug:string):SeasonOneTheme|undefined{
+ const match=seasonOneThemes.find(theme=>slugify(theme)===slug);
+ return match&&isSeasonOneTheme(match)?match:undefined;
+}
 
 export async function generateMetadata({params}:{params:Promise<{theme:string}>}):Promise<Metadata>{
  const {theme:slug}=await params;const theme=resolveTheme(slug);if(!theme)return {};
@@ -16,7 +18,7 @@ export async function generateMetadata({params}:{params:Promise<{theme:string}>}
 
 export default async function ThemePage({params}:{params:Promise<{theme:string}>}){
  const {theme:slug}=await params;const theme=resolveTheme(slug);if(!theme)notFound();
- const cards=seasonManifest.filter(card=>card.theme===theme);
+ const cards=seasonOneCardsForTheme(theme);
  return <main className="shell">
   <Link className="brand" href="/">✧ Nest<span>Rune</span></Link>
   <div className="eyebrow">SEASON ONE · {theme.toUpperCase()} THEME</div>
