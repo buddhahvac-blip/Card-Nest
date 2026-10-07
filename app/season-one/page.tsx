@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
-import {seasonManifest,artProgress} from '@/lib/season-manifest';
+import {artProgress} from '@/lib/season-manifest';
 import LegendaryFlight from '@/app/legendary-flight';
 import SeasonArtGallery from '@/app/season-art-gallery';
 import SeasonThemeBrowser from '@/app/season-theme-browser';
