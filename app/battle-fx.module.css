@@ -97,3 +97,30 @@
 @keyframes fade{0%,100%{opacity:0}25%,80%{opacity:1}}
 @media(max-width:700px){.arena{padding:14px!important}.arena :global(.battle-sky){grid-template-columns:85px minmax(0,1fr);gap:10px}.arena :global(.battle-sky-player){grid-template-columns:minmax(0,1fr) 85px}.arena :global(.battle-team-strip){flex-direction:column}.arena :global(.battle-active-card){width:min(220px,100%)}.arena :global(.battle-mini){width:72px}.arena :global(.battle-sky-player .battle-team-strip){order:2}.arena :global(.battle-sky-player .battle-active-card){order:1}.emblem{width:65px;height:65px}.emblem>span{font-size:46px}.ambient>i:nth-of-type(n+13){display:none}.combatText{font-size:18px;min-width:130px}.combatText small{font-size:11px}.controls{font-size:12px}.arena :global(.battle-center){padding:12px 20px}}
 @media(prefers-reduced-motion:reduce){.arena,.arena *,.arena *:before,.arena *:after{animation:none!important;transform:none!important;scroll-behavior:auto!important}.worldArt{transform:scale(1.04)!important}.lightShafts{opacity:.16}.ambient>i{opacity:.4}.projectile,.trail,.impact,.wind{display:none}.combatText{transform:translateX(-50%)!important;animation:fade 600ms ease-out both!important}.heal,.shield,.summon,.shadow{animation:fade 600ms ease-out both!important}.shadow{transform:translate(-50%,-50%)!important}.arena :global(.hp-track i){transition:width 150ms linear}.fighter[data-motion=out]{opacity:.3}.fighter[data-motion=hit]{box-shadow:0 0 18px #f6d99b55}.emblem>span{opacity:.85}}
+
+
+/* Cinematic battle impact pass */
+.chargeBurst{position:absolute;width:1px;height:1px;z-index:4;pointer-events:none}
+.chargeBurst i{position:absolute;left:-42px;top:-42px;width:84px;height:84px;border:2px solid currentColor;border-radius:50%;opacity:0;box-shadow:0 0 18px currentColor,inset 0 0 18px color-mix(in srgb,currentColor 35%,transparent);animation:chargeRing 600ms ease-out}
+.chargeBurst i:nth-child(2){animation-delay:70ms;transform:scale(.7)}
+.chargeBurst b{position:absolute;left:-24px;top:-31px;width:48px;text-align:center;font-size:48px;color:#fff6cf;text-shadow:0 0 18px currentColor;opacity:0;animation:chargeCore 600ms ease-out}
+.specialChargeBurst i{width:120px;height:120px;left:-60px;top:-60px;border-width:3px;box-shadow:0 0 28px currentColor,inset 0 0 26px currentColor}
+.specialChargeBurst b{font-size:72px;left:-36px;top:-46px;width:72px;filter:drop-shadow(0 0 12px currentColor)}
+.impactRing{position:absolute;width:26px;height:26px;margin:-13px;border:3px solid currentColor;border-radius:50%;opacity:0;box-shadow:0 0 18px currentColor;animation:impactRing 600ms ease-out}
+.specialImpactRing{border-width:5px;box-shadow:0 0 28px #fff3b5,0 0 55px currentColor;animation:specialImpactRing 600ms ease-out}
+.debrisBurst{position:absolute;width:1px;height:1px;z-index:7}
+.debrisBurst i{--angle:0deg;--distance:42px;position:absolute;width:7px;height:16px;margin:-3px;border-radius:999px;background:linear-gradient(180deg,#fff8d0,currentColor);box-shadow:0 0 9px currentColor;opacity:0;transform:rotate(var(--angle)) translateY(-8px);animation:debrisBurst 600ms ease-out}
+.hitPulse{position:absolute;left:-55px;top:-55px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,#fff8ca99 0 10%,currentColor 16%,transparent 58%);mix-blend-mode:screen;opacity:0;animation:hitPulse 600ms ease-out}
+.screenFlash{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:radial-gradient(circle at 50% 50%,#fff8cf55,transparent 55%);animation:screenFlash 600ms ease-out}
+.fxLayer[data-variant=special] .screenFlash{background:radial-gradient(circle at 50% 48%,#fff9da99 0 5%,currentColor 16%,transparent 62%);animation:specialScreenFlash 600ms ease-out}
+.fxLayer[data-kind=shield] .screenFlash,.fxLayer[data-kind=heal] .screenFlash{background:radial-gradient(circle at 50% 50%,currentColor 0,transparent 62%);opacity:.12}
+.combatText[data-special=true] em{font-size:11px;color:#fff2b3;border-color:#ffe39a99;box-shadow:0 0 18px #f2d37a33}
+.combatText[data-special=true] strong{font-size:28px;border-color:#fff0ad99;box-shadow:0 0 20px #f4d9853b}
+@keyframes chargeRing{0%{opacity:0;transform:scale(.35) rotate(0deg)}28%{opacity:.95}68%{opacity:.65;transform:scale(1.08) rotate(55deg)}100%{opacity:0;transform:scale(1.45) rotate(92deg)}}
+@keyframes chargeCore{0%,10%{opacity:0;transform:scale(.45)}35%{opacity:1;transform:scale(1.1)}70%{opacity:.75;transform:scale(.92)}100%{opacity:0;transform:scale(1.4)}}
+@keyframes impactRing{0%,38%{opacity:0;transform:scale(.2)}48%{opacity:1}100%{opacity:0;transform:scale(4.1)}}
+@keyframes specialImpactRing{0%,34%{opacity:0;transform:scale(.2)}46%{opacity:1}100%{opacity:0;transform:scale(5.8)}}
+@keyframes debrisBurst{0%,42%{opacity:0;transform:rotate(var(--angle)) translateY(-6px) scale(.4)}50%{opacity:1}100%{opacity:0;transform:rotate(var(--angle)) translateY(calc(var(--distance)*-1)) scale(.1)}}
+@keyframes hitPulse{0%,40%{opacity:0;transform:scale(.25)}50%{opacity:.95;transform:scale(1)}100%{opacity:0;transform:scale(1.7)}}
+@keyframes screenFlash{0%,40%,100%{opacity:0}48%{opacity:.45}58%{opacity:.16}}
+@keyframes specialScreenFlash{0%,32%,100%{opacity:0}42%{opacity:.72}52%{opacity:.28}}
