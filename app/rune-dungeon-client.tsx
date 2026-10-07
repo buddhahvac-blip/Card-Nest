@@ -19,8 +19,7 @@ type DungeonProgress={
 const packNames:Record<RuneRewardPack,string>={
  hatchling:'Hatchling Pack',
  nest:'Nest Pack',
- guardian:'Guardian Pack',
- royal:'Royal Nest Pack'
+ guardian:'Guardian Pack'
 };
 
 export default function RuneDungeon(){
