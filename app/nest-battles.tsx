@@ -67,11 +67,19 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   playing.current=true;setBusy(true);
   const complete=()=>{cancelPlayback();finish()};finishPlayback.current=complete;
   const schedule=(fn:()=>void,delay:number)=>{timers.current.push(setTimeout(fn,delay))};
+  const frameStarts:number[]=[];
+  let cursor=0;
+  for(const frame of frames){
+   frameStarts.push(cursor);
+   cursor+=frame.effect.variant==='special'?820:frame.effect.kind==='swap'?520:680;
+  }
   frames.forEach((frame,index)=>{
-   schedule(()=>{setSwapEntering(false);setFx({...frame.effect,id:++sequence.current});playBattleSound(frame.effect,soundOn)},index*600);
-   schedule(()=>{setPlayer(frame.player);setRival(frame.rival);setPlayerActive(frame.playerActive);setRivalActive(frame.rivalActive);setSwapEntering(frame.effect.kind==='swap')},index*600+(frame.effect.kind==='swap'?220:280));
+   const start=frameStarts[index];
+   const settle=frame.effect.variant==='special'?390:frame.effect.kind==='swap'?210:300;
+   schedule(()=>{setSwapEntering(false);setFx({...frame.effect,id:++sequence.current});playBattleSound(frame.effect,soundOn)},start);
+   schedule(()=>{setPlayer(frame.player);setRival(frame.rival);setPlayerActive(frame.playerActive);setRivalActive(frame.rivalActive);setSwapEntering(frame.effect.kind==='swap')},start+settle);
   });
-  schedule(complete,frames.length*600);
+  schedule(complete,cursor);
  }
  function snapshot(frames:BattleFrame[],effect:BattleEffect,p:Fighter[],e:Fighter[],pIndex:number,eIndex:number){frames.push({effect,player:copyTeam(p),rival:copyTeam(e),playerActive:pIndex,rivalActive:eIndex})}
 
@@ -289,7 +297,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  </section>;
 
  const active=player[playerActive];const enemy=rival[rivalActive];const activeCard=active?cardById(active.id):pool[0];const enemyCard=enemy?cardById(enemy.id):pool[1];
- const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='special'?'special':fx.variant==='ability'?'cast':'attack'):(fx.knockout?'ko':'hit')):fx.side===side?(fx.variant==='special'?'special':'cast'):undefined;
+ const motion=(side:'you'|'rival')=>!fx?undefined:fx.kind==='swap'&&fx.side===side?(swapEntering?'in':'out'):fx.kind==='attack'?(fx.side===side?(fx.variant==='special'?'special':fx.variant==='ability'?'cast':'attack'):(fx.knockout?'ko':'hit')):fx.kind==='shield'&&fx.side===side?'guard':fx.kind==='heal'&&fx.side===side?'heal':fx.side===side?(fx.variant==='special'?'special':'cast'):undefined;
  const activeProfile=battleAbilityProfile(activeCard.rarity);
  const abilityReady=!!active&&active.cooldown===0&&active.energy>=Math.max(1,activeCard.abilityPrimary.energyCost||1);
  const powerReady=!!active&&active.cooldown===0&&active.energy>=1;
