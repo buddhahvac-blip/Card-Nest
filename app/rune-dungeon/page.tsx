@@ -4,7 +4,7 @@ import RuneDungeon from '../rune-dungeon-client';
 
 export const metadata:Metadata={
  title:'Rune Dungeon',
- description:'Clear ten NestRune Rune Dungeon missions, earn Rune Energy for Hatchling, Nest and Guardian rewards, and face the Runeheart Boss.'
+ description:'Explore three NestRune Rune Worlds with 30 total dungeon levels, world bosses, Rune Energy rewards and a final Runeheart battle.'
 };
 
 export default function RuneDungeonPage(){
