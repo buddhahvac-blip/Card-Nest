@@ -18,7 +18,8 @@ export default function HomeExperience({go}:Props){
 
   return <>
     <section className="cn-world-hero cn-video-hero" aria-labelledby="nestrune-home-title">
-      <Image className="cn-world-hero-image cn-world-hero-poster" src="https://cdn.openart.ai/openart-uploads/production/attachment-transfers/6df6f2a383e82906d2fc9e00740d10dca412f30a28c80fc46210f7e44932ccf2.png" alt="Two legendary NestRune guardians clash with celestial magic above the Garden of Lands" fill quality={95} priority sizes="100vw"/>
+      <Image className="cn-world-hero-image cn-world-hero-poster cn-hero-desktop-art" src="https://cdn.openart.ai/openart-uploads/production/attachment-transfers/6df6f2a383e82906d2fc9e00740d10dca412f30a28c80fc46210f7e44932ccf2.png" alt="Two legendary NestRune guardians clash with celestial magic above the Garden of Lands" fill quality={95} priority sizes="100vw"/>
+      <Image className="cn-world-hero-image cn-world-hero-poster cn-hero-mobile-art" src="https://cdn.openart.ai/openart-uploads/production/attachment-transfers/50c489599f1858f63ed9794c52abb6d9eda3d71078891d66aa42317fd1df1a42.png" alt="" fill quality={95} sizes="(max-width: 780px) 100vw, 1px" aria-hidden="true"/>
       <div className="cn-world-hero-shade" aria-hidden="true"/>
       <div className="cn-world-hero-glow" aria-hidden="true"/>
       <div className="cn-world-copy">
