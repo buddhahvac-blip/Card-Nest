@@ -46,15 +46,15 @@ export default function SeasonOneUploader({cards}:{cards:Card[]}){
  async function bulk(files:FileList|null){
   if(!files?.length)return;
   setBusy(true);
-  let ok=0,failed=0;
+  let ok=0,failed=0;const failures:string[]=[];
   for(const image of Array.from(files)){
    const match=image.name.match(/^(\d{3})/);
    const number=match?Number(match[1]):0;
    const target=state.find(c=>c.number===number);
-   if(!target){failed++;continue}
-   try{await upload(target.id,image);ok++}catch{failed++}
+   if(!target){failed++;failures.push(image.name+': no matching Season One number');continue}
+   try{await upload(target.id,image);ok++}catch(error){failed++;failures.push(image.name+': '+(error instanceof Error?error.message:'failed'))}
   }
-  setMessage('Bulk upload finished: '+ok+' added to pack pool'+(failed?', '+failed+' skipped/failed':'' )+'.');
+  setMessage('Bulk upload finished: '+ok+' integrated'+(failed?', '+failed+' failed. '+failures.slice(0,5).join(' | '):'.'));
   setBusy(false);
  }
 
