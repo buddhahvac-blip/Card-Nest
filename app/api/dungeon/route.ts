@@ -11,6 +11,7 @@ export const dynamic='force-dynamic';
 const command=z.discriminatedUnion('action',[
  z.strictObject({action:z.literal('start'),floor:z.number().int().min(1).max(30)}),
  z.strictObject({action:z.literal('clear'),floor:z.number().int().min(1).max(30),attempt:z.string().uuid().optional()}),
+ z.strictObject({action:z.literal('loss'),floor:z.number().int().min(1).max(30),attempt:z.string().uuid()}),
  z.strictObject({action:z.literal('claim'),pack:z.enum(['hatchling','nest','guardian'])})
 ]);
 
@@ -77,12 +78,25 @@ export async function POST(req:Request){
     if(!body.attempt)throw new RequestError('Start this Rune Dungeon floor before saving a first clear.',409);
     const attempt=await c.query("SELECT id FROM rune_dungeon_attempts WHERE id=$1 AND user_id=$2 AND floor=$3 AND completed_at IS NULL AND expires_at>now() AND started_at<=now()-interval '15 seconds' FOR UPDATE",[body.attempt,user.userId,body.floor]);
     if(!attempt.rows[0])throw new RequestError('This Dungeon attempt is invalid, expired, or completed too quickly. Start the floor again.',409);
-    await c.query('UPDATE rune_dungeon_attempts SET completed_at=now() WHERE id=$1',[body.attempt]);
+    await c.query("UPDATE rune_dungeon_attempts SET completed_at=now(),outcome='won',energy_delta=$2 WHERE id=$1",[body.attempt,reward]);
     await c.query('INSERT INTO rune_dungeon_clears(user_id,floor,energy_awarded) VALUES($1,$2,$3)',[user.userId,body.floor,reward]);
     const {rows:[updated]}=await c.query('UPDATE rune_dungeon_progress SET highest_cleared=$2,rune_energy=rune_energy+$3,updated_at=now() WHERE user_id=$1 RETURNING highest_cleared,rune_energy',[user.userId,body.floor,reward]);
     return {alreadyCleared:false,reward,highestCleared:Number(updated.highest_cleared),runeEnergy:Number(updated.rune_energy)};
    });
    return json({...result,unlockedFloor:Math.min(30,result.highestCleared+1),bossCleared:result.highestCleared===30});
+  }
+
+  if(body.action==='loss'){
+   const result=await transaction(async c=>{
+    await ensureUser(c,user.userId);
+    await c.query('INSERT INTO rune_dungeon_progress(user_id) VALUES($1) ON CONFLICT(user_id) DO NOTHING',[user.userId]);
+    const {rows:[progress]}=await c.query('SELECT highest_cleared,rune_energy FROM rune_dungeon_progress WHERE user_id=$1 FOR UPDATE',[user.userId]);
+    const attempt=await c.query("SELECT id FROM rune_dungeon_attempts WHERE id=$1 AND user_id=$2 AND floor=$3 AND completed_at IS NULL AND expires_at>now() FOR UPDATE",[body.attempt,user.userId,body.floor]);
+    if(!attempt.rows[0])throw new RequestError('This Dungeon attempt is invalid, expired, or already completed.',409);
+    await c.query("UPDATE rune_dungeon_attempts SET completed_at=now(),outcome='lost',energy_delta=0 WHERE id=$1",[body.attempt]);
+    return {highestCleared:Number(progress.highest_cleared),runeEnergy:Number(progress.rune_energy),energyDelta:0};
+   });
+   return json({...result,lost:true,message:'Battle loss recorded. No Rune Energy awarded.'});
   }
 
   const cost=runePackCost(body.pack);

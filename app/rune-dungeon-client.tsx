@@ -69,6 +69,18 @@ export default function RuneDungeon(){
   }catch(error){setMessage(error instanceof Error?error.message:'The Dungeon floor could not be started.')}
  }
 
+ async function recordLoss(floor:number){
+  if(!progress?.signedIn||!attemptId){setAttemptId(null);return}
+  try{
+   const response=await fetch('/api/dungeon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'loss',floor,attempt:attemptId})});
+   const data=await response.json();
+   if(!response.ok)throw Error(data.error||'The loss could not be recorded.');
+   setProgress(current=>current?{...current,runeEnergy:data.runeEnergy,highestCleared:data.highestCleared}:current);
+   setAttemptId(null);
+   setMessage('Battle lost · 0 Rune Energy awarded.');
+  }catch(error){setMessage(error instanceof Error?error.message:'The loss could not be recorded.')}
+ }
+
  async function claimPack(pack:RuneRewardPack){
   if(claiming)return;
   setClaiming(pack);setMessage('');
@@ -91,7 +103,7 @@ export default function RuneDungeon(){
   const world=runeWorld(floor.world);
   return <section className={'rune-dungeon-battle-shell world-'+world.id}>
    <div className="dungeon-battle-top"><button className="outline" onClick={()=>{setAttemptId(null);setActiveFloor(null)}}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · LEVEL {worldFloorNumber(floor.floor)}</span><strong>{floor.name}{(floor.boss||floor.worldBoss)?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <NestBattles dungeon={{...floor,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
+   <NestBattles dungeon={{...floor,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
    {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
  }
