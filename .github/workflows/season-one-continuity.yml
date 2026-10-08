@@ -1,0 +1,25 @@
+name: Season One Continuity Verification
+on:
+  pull_request:
+    paths:
+      - 'data/season-one.json'
+      - 'data/season-one-showcase.json'
+      - 'data/common-master-art.json'
+      - 'scripts/verify-season-one-continuity.mjs'
+      - '.github/workflows/season-one-continuity.yml'
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: node scripts/verify-season-one-continuity.mjs
+      - run: npm test
+      - run: npm run audit:season-art
