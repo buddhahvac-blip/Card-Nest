@@ -1,4 +1,5 @@
 import {randomUUID} from 'node:crypto';
+import {dungeonEnemyRotation} from '@/lib/dungeon-rotation';
 import {z} from 'zod';
 import {currentUser} from '@/lib/auth/server';
 import {database,transaction} from '@/lib/postgres';
@@ -31,6 +32,7 @@ async function readProgress(userId:string){
   clears:clears.rows,
   claims:claims.rows,
   packCosts:RUNE_PACK_COSTS,
+  rotation:dungeonEnemyRotation(),
   floors:RUNE_DUNGEON_FLOORS.map(({floor,name,mission,energy,boss})=>({floor,name,mission,energy,boss:!!boss}))
  };
 }
@@ -38,7 +40,7 @@ async function readProgress(userId:string){
 export async function GET(){
  try{
   const user=await currentUser();
-  if(!user)return json({signedIn:false,highestCleared:0,unlockedFloors:runeUnlockedFloors(new Set()),runeEnergy:0,clears:[],claims:[],packCosts:RUNE_PACK_COSTS,floors:RUNE_DUNGEON_FLOORS.map(({floor,name,mission,energy,boss})=>({floor,name,mission,energy,boss:!!boss}))});
+  if(!user)return json({signedIn:false,highestCleared:0,unlockedFloors:runeUnlockedFloors(new Set()),runeEnergy:0,clears:[],claims:[],packCosts:RUNE_PACK_COSTS,rotation:dungeonEnemyRotation(),floors:RUNE_DUNGEON_FLOORS.map(({floor,name,mission,energy,boss})=>({floor,name,mission,energy,boss:!!boss}))});
   return json(await readProgress(user.userId));
  }catch(error){return failure(error)}
 }
@@ -62,7 +64,7 @@ export async function POST(req:Request){
     if(!isRuneFloorUnlocked(body.floor,new Set(clears.rows.map(clear=>Number(clear.floor)))))throw new RequestError('Clear the earlier levels in this Rune World first.',409);
     await c.query('INSERT INTO rune_dungeon_attempts(id,user_id,floor) VALUES($1,$2,$3)',[attemptId,user.userId,body.floor]);
    });
-   return json({attemptId,floor:body.floor,expiresInSeconds:1800});
+   return json({attemptId,floor:body.floor,rotation:dungeonEnemyRotation(),expiresInSeconds:1800});
   }
 
   if(body.action==='clear'){
