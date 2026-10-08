@@ -22,7 +22,8 @@
     "guardian:enforce": "node scripts/guardian-enforce.mjs",
     "prebuild": "npm test && npm run guardian:enforce && npm run quality:showcase && npm run build:common-showcase",
     "quality:showcase": "node scripts/check-showcase-quality.mjs",
-    "build:common-showcase": "node scripts/build-common-showcase.mjs"
+    "build:common-showcase": "node scripts/build-common-showcase.mjs",
+    "audit:game-integrity": "node --import tsx scripts/game-integrity-monitor.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
