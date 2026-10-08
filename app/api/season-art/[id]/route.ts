@@ -15,6 +15,6 @@ export async function GET(_req:Request,{params}:{params:Promise<{id:string}>}){
   if(!row||!row.is_pack_eligible||!packCardAvailable(row,false))return new Response('Not found',{status:404});
   const obj=await runtime().BUCKET?.get(row.object_key);
   if(!obj)return new Response('Not found',{status:404});
-  return new Response(obj.body,{headers:{'Content-Type':contentType(row.object_key),'Cache-Control':'public, max-age=300','X-Content-Type-Options':'nosniff'}});
+  return new Response(obj.body,{headers:{'Content-Type':contentType(row.object_key),'Cache-Control':'public, max-age=31536000, immutable','CDN-Cache-Control':'public, max-age=31536000, immutable','X-Content-Type-Options':'nosniff'}});
  }catch{return new Response('Image unavailable',{status:503})}
 }
