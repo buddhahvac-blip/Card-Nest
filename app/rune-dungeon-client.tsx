@@ -23,6 +23,24 @@ const packNames:Record<RuneRewardPack,string>={
  guardian:'Guardian Pack'
 };
 
+
+// The 3 AM Eastern boundary is always on a whole UTC hour (07:00 or 08:00).
+// Search UTC hour boundaries rather than hard-coding EST/EDT offsets.
+function nextDungeonRefresh(now:number){
+ const formatter=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',hourCycle:'h23'});
+ const first=Math.floor(now/3600000)*3600000+3600000;
+ for(let i=0;i<30;i++){
+  const candidate=first+i*3600000;
+  if(formatter.format(new Date(candidate))==='03')return candidate;
+ }
+ return first+24*3600000;
+}
+function countdown(remaining:number){
+ const seconds=Math.max(0,Math.floor(remaining/1000));
+ const pad=(n:number)=>String(n).padStart(2,'0');
+ return pad(Math.floor(seconds/3600))+':'+pad(Math.floor((seconds%3600)/60))+':'+pad(seconds%60);
+}
+
 export default function RuneDungeon(){
  const [progress,setProgress]=useState<DungeonProgress|null>(null);
  const [activeFloor,setActiveFloor]=useState<number|null>(null);
@@ -33,6 +51,15 @@ export default function RuneDungeon(){
  const [battleEnemyIds,setBattleEnemyIds]=useState<string[]|null>(null);
  const [selectedWorld,setSelectedWorld]=useState<RuneWorldId>('verdant');
  const [practiceClears,setPracticeClears]=useState<number[]>([]);
+ const [currentTime,setCurrentTime]=useState<number|null>(null);
+ const [nextRefresh,setNextRefresh]=useState<number|null>(null);
+
+ useEffect(()=>{
+  const tick=()=>{const now=Date.now();setCurrentTime(now);setNextRefresh(previous=>previous===null||now>=previous?nextDungeonRefresh(now):previous)};
+  tick();
+  const timer=setInterval(tick,1000);
+  return()=>clearInterval(timer);
+ },[]);
 
  useEffect(()=>{
   const controller=new AbortController();
@@ -114,7 +141,8 @@ export default function RuneDungeon(){
   return <section className={'rune-dungeon-battle-shell world-'+world.id}>
    <div className="dungeon-battle-top"><button className="outline" onClick={()=>{setAttemptId(null);setActiveFloor(null)}}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · LEVEL {worldFloorNumber(floor.floor)}</span><strong>{floor.name}{(floor.boss||floor.worldBoss)?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
    <NestBattles dungeon={{...floor,enemyIds:battleEnemyIds||floor.enemyIds,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
-   {message&&<p className="notice dungeon-notice">{message}</p>}
+   <p className="dungeon-refresh-countdown" role="timer" aria-label="Time until new dungeon challengers">New Challengers Arrive In: <strong>{currentTime===null||nextRefresh===null?'--:--:--':countdown(nextRefresh-currentTime)}</strong> <small>Refreshes daily at 3:00 AM Eastern</small></p>
+  {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
  }
 
