@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_TOTAL_ENERGY,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeEnergyForFloor,runePackCost} from '../lib/rune-dungeon';
+import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_TOTAL_ENERGY,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeEnergyForFloor,runePackCost,isRuneFloorUnlocked,runeUnlockedFloors} from '../lib/rune-dungeon';
 
 test('Rune Dungeon V2 has three ten-level worlds and one final Runeheart boss',()=>{
  assert.equal(RUNE_DUNGEON_WORLDS.length,3);
@@ -34,4 +34,37 @@ test('Rune Energy reward pack prices are server-defined and Royal is not Rune-re
  assert.ok(RUNE_PACK_COSTS.guardian<RUNE_DUNGEON_TOTAL_ENERGY);
  assert.equal(runePackCost('royal'),0);
  assert.equal(runePackCost('unknown'),0);
+});
+
+test('all three worlds start open, but only level one in each is playable',()=>{
+ assert.deepEqual(runeUnlockedFloors(new Set()),[1,11,21]);
+});
+
+test('clears unlock only the next level within their own world',()=>{
+ const clears=new Set<number>();
+ for(const world of [...RUNE_DUNGEON_WORLDS].reverse()){
+  const [first,last]=world.floorRange;
+  for(let floor=first;floor<=last;floor++){
+   assert.equal(isRuneFloorUnlocked(floor,clears),true);
+   if(floor<last)assert.equal(isRuneFloorUnlocked(floor+1,clears),false);
+   clears.add(floor);
+  }
+ }
+ assert.equal(runeUnlockedFloors(clears).length,30);
+});
+
+test('switching worlds, replaying and resuming old progress cannot skip levels',()=>{
+ const mixed=new Set([1,11,21]);
+ assert.deepEqual(runeUnlockedFloors(mixed),[1,2,11,12,21,22]);
+ assert.equal(isRuneFloorUnlocked(10,mixed),false);
+ assert.equal(isRuneFloorUnlocked(20,mixed),false);
+ assert.equal(isRuneFloorUnlocked(30,mixed),false);
+ const legacy=new Set(Array.from({length:15},(_,i)=>i+1));
+ assert.equal(isRuneFloorUnlocked(16,legacy),true);
+ assert.equal(isRuneFloorUnlocked(21,legacy),true);
+ assert.equal(isRuneFloorUnlocked(22,legacy),false);
+ // A sparse historical clear is replayable, but cannot bypass earlier missing levels.
+ assert.equal(isRuneFloorUnlocked(25,new Set([25])),true);
+ assert.equal(isRuneFloorUnlocked(26,new Set([25])),false);
+ for(const floor of [0,31,1.5,NaN])assert.equal(isRuneFloorUnlocked(floor,legacy),false);
 });

@@ -125,3 +125,20 @@ export function worldFloorNumber(floor:number){
 }
 
 export const RUNE_DUNGEON_TOTAL_ENERGY=RUNE_DUNGEON_FLOORS.reduce((sum,floor)=>sum+floor.energy,0);
+
+// Each world is an independent campaign. Never authorize from highestCleared:
+// floor 21 can be cleared before floor 1, and must not unlock floors 2–20.
+export function isRuneFloorUnlocked(floor:number,cleared:ReadonlySet<number>){
+ const entry=runeFloor(floor);
+ if(!entry)return false;
+ if(cleared.has(floor))return true; // Existing clears remain replayable.
+ const first=runeWorld(entry.world).floorRange[0];
+ for(let previous=first;previous<floor;previous++){
+  if(!cleared.has(previous))return false;
+ }
+ return true;
+}
+
+export function runeUnlockedFloors(cleared:ReadonlySet<number>){
+ return RUNE_DUNGEON_FLOORS.filter(entry=>isRuneFloorUnlocked(entry.floor,cleared)).map(entry=>entry.floor);
+}

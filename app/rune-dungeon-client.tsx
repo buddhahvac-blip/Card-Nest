@@ -1,15 +1,15 @@
 'use client';
 
-import {useEffect,useMemo,useState} from 'react';
+import {useEffect,useState} from 'react';
 import Link from 'next/link';
 import {BatteryCharging,Check,Crown,LockKeyhole,PackageOpen,Sparkles,Swords} from 'lucide-react';
 import NestBattles from './nest-battles';
-import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeWorld,worldFloorNumber,type RuneRewardPack,type RuneWorldId} from '@/lib/rune-dungeon';
+import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeWorld,worldFloorNumber,isRuneFloorUnlocked,type RuneRewardPack,type RuneWorldId} from '@/lib/rune-dungeon';
 
 type DungeonProgress={
  signedIn:boolean;
  highestCleared:number;
- unlockedFloor:number;
+ unlockedFloors:number[];
  runeEnergy:number;
  clears:{floor:number;energy_awarded:number;cleared_at:string}[];
  claims:{id:string;pack_id:string;energy_cost:number;entitlement_id:string;created_at:string}[];
@@ -30,35 +30,42 @@ export default function RuneDungeon(){
  const [claiming,setClaiming]=useState<RuneRewardPack|null>(null);
  const [attemptId,setAttemptId]=useState<string|null>(null);
  const [selectedWorld,setSelectedWorld]=useState<RuneWorldId>('verdant');
+ const [practiceClears,setPracticeClears]=useState<number[]>([]);
 
- async function load(){
-  setLoading(true);
-  try{
-   const response=await fetch('/api/dungeon',{cache:'no-store'});
-   const data=await response.json();
-   if(!response.ok)throw Error(data.error||'Rune Dungeon could not be loaded.');
-   setProgress(data);
-  }catch(error){setMessage(error instanceof Error?error.message:'Rune Dungeon could not be loaded.')}
-  finally{setLoading(false)}
- }
-
- useEffect(()=>{void load()},[]);
+ useEffect(()=>{
+  const controller=new AbortController();
+  fetch('/api/dungeon',{cache:'no-store',signal:controller.signal})
+   .then(async response=>{
+    const data=await response.json();
+    if(!response.ok)throw Error(data.error||'Rune Dungeon could not be loaded.');
+    if(!controller.signal.aborted)setProgress(data);
+   })
+   .catch(error=>{if(!controller.signal.aborted)setMessage(error instanceof Error?error.message:'Rune Dungeon could not be loaded.')})
+   .finally(()=>{if(!controller.signal.aborted)setLoading(false)});
+  return()=>controller.abort();
+ },[]);
 
  async function recordClear(floor:number){
+  if(!progress?.signedIn){
+   setPracticeClears(current=>current.includes(floor)?current:[...current,floor]);
+   setMessage((worldFloorNumber(floor)===10?'All ten levels in this world cleared in practice.':'Level '+worldFloorNumber(floor)+' cleared in practice. The next level in this world is available.')+' Sign in to save progress and earn Rune Energy.');
+   return;
+  }
   if(progress?.clears.some(clear=>clear.floor===floor)){setMessage('Floor replay complete. Rune Energy is first-clear only.');return}
   setMessage('');
   try{
    const response=await fetch('/api/dungeon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'clear',floor,attempt:attemptId||undefined})});
    const data=await response.json();
    if(!response.ok)throw Error(data.error||'The clear could not be saved.');
-   setProgress(current=>current?{...current,highestCleared:data.highestCleared,unlockedFloor:data.unlockedFloor,runeEnergy:data.runeEnergy,clears:current.clears.some(clear=>clear.floor===floor)?current.clears:[...current.clears,{floor,energy_awarded:data.reward,cleared_at:new Date().toISOString()}]}:current);
+   setProgress(current=>current?{...current,highestCleared:data.highestCleared,runeEnergy:data.runeEnergy,clears:current.clears.some(clear=>clear.floor===floor)?current.clears:[...current.clears,{floor,energy_awarded:data.reward,cleared_at:new Date().toISOString()}]}:current);
    setAttemptId(null);
-   setMessage(data.alreadyCleared?'Floor replay complete. Rune Energy is first-clear only.':'Floor '+floor+' clear saved · +'+data.reward+' Rune Energy.');
+   setMessage(data.alreadyCleared?'Floor replay complete. Rune Energy is first-clear only.':'Level '+worldFloorNumber(floor)+' clear saved · +'+data.reward+' Rune Energy.');
   }catch(error){setMessage(error instanceof Error?error.message:'The clear could not be saved.')}
  }
 
  async function startFloor(floor:number){
   setMessage('');
+  if(loading||!isRuneFloorUnlocked(floor,cleared)){setMessage('Clear the earlier levels in this Rune World first.');return}
   if(!progress?.signedIn){setAttemptId(null);setActiveFloor(floor);return}
   try{
    const response=await fetch('/api/dungeon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'start',floor})});
@@ -94,7 +101,7 @@ export default function RuneDungeon(){
   finally{setClaiming(null)}
  }
 
- const cleared=useMemo(()=>new Set(progress?.clears.map(clear=>clear.floor)||[]),[progress]);
+ const cleared=new Set(progress?.signedIn?progress.clears.map(clear=>clear.floor):practiceClears);
  const selectedWorldData=runeWorld(selectedWorld);
  const selectedFloors=RUNE_DUNGEON_FLOORS.filter(floor=>floor.world===selectedWorld);
 
@@ -110,35 +117,33 @@ export default function RuneDungeon(){
 
  return <section className="rune-dungeon">
   <div className="dungeon-hero">
-   <div><span className="eyebrow">NESTRUNE MISSIONS · 3 RUNE WORLDS</span><h1>Choose your Rune World.</h1><p>Rune Dungeon V2 now has three full ten-level campaigns. Each world has its own landscape, Theme mix, music, enemy formations and boss encounter. Clear all 30 levels to conquer the Runeheart.</p><div className="battle-pill-row"><span>3 worlds</span><span>30 levels</span><span>3 boss arenas</span><span>720 total first-clear Energy</span></div></div>
+   <div><span className="eyebrow">NESTRUNE MISSIONS · 3 RUNE WORLDS</span><h1>Choose your Rune World.</h1><p>Rune Dungeon V2 now has three full ten-level campaigns. Each world has its own landscape, Theme mix, music, enemy formations and boss encounter. All three worlds are open from the start. Clear levels 1–10 in order within each world, and switch worlds whenever you like.</p><div className="battle-pill-row"><span>3 worlds</span><span>30 levels</span><span>3 boss arenas</span><span>720 total first-clear Energy</span></div></div>
    <div className="dungeon-energy-vault"><Sparkles/><span>RUNE ENERGY</span><strong>{loading?'…':progress?.runeEnergy||0}</strong><small>{progress?.signedIn?'Saved to your account':'Sign in to save rewards'}</small></div>
   </div>
 
   {message&&<p className="notice dungeon-notice">{message}</p>}
-  {!progress?.signedIn&&!loading&&<div className="dungeon-signin"><LockKeyhole/><div><strong>Play the first level now. Sign in to bank rewards.</strong><p>Persistent clears, Rune Energy and pack claims are account-bound.</p></div><Link className="gold" href="/auth">Sign in</Link></div>}
+  {!progress?.signedIn&&!loading&&<div className="dungeon-signin"><LockKeyhole/><div><strong>Try all three worlds. Sign in to bank rewards.</strong><p>Guest progress lasts for this visit. Sign in for saved clears, Rune Energy and pack claims.</p></div><Link className="gold" href="/auth">Sign in</Link></div>}
 
-  <div className="dungeon-section-head"><div><span className="eyebrow">CHOOSE A RUNE WORLD</span><h2>Three worlds. Ten levels each.</h2></div><span>{progress?.highestCleared||0} / 30 cleared</span></div>
+  <div className="dungeon-section-head"><div><span className="eyebrow">CHOOSE A RUNE WORLD</span><h2>Three worlds. Ten levels each.</h2></div><span>{cleared.size} / 30 cleared</span></div>
 
   <div className="dungeon-world-picker">{RUNE_DUNGEON_WORLDS.map(world=>{
    const worldFloors=RUNE_DUNGEON_FLOORS.filter(f=>f.world===world.id);
    const clearedCount=worldFloors.filter(f=>cleared.has(f.floor)).length;
-   const firstFloor=world.floorRange[0];
-   const worldUnlocked=firstFloor===1||firstFloor<=(progress?.highestCleared||0)+1;
-   return <button key={world.id} type="button" className={'dungeon-world-choice world-'+world.id+(selectedWorld===world.id?' selected':'')+(!worldUnlocked?' locked':'')} onClick={()=>setSelectedWorld(world.id)}>
-    <span className="eyebrow">{world.subtitle}</span><strong>{world.name}</strong><small>{world.landscape}</small><em>{clearedCount}/10 cleared · {worldUnlocked?'Available':'Progress to unlock'}</em>
+   return <button key={world.id} type="button" className={'dungeon-world-choice world-'+world.id+(selectedWorld===world.id?' selected':'')} aria-pressed={selectedWorld===world.id} onClick={()=>setSelectedWorld(world.id)}>
+    <span className="eyebrow">{world.subtitle}</span><strong>{world.name}</strong><small>{world.landscape}</small><em>{clearedCount}/10 cleared · Available</em>
    </button>
   })}</div>
 
-  <section className={'dungeon-world world-'+selectedWorld+((selectedWorldData.floorRange[0]>(progress?.highestCleared||0)+1)?' locked':'')}>
+  <section className={'dungeon-world world-'+selectedWorld}>
    <div className="dungeon-world-banner"><div><span className="eyebrow">{selectedWorldData.subtitle}</span><h2>{selectedWorldData.name}</h2><p>{selectedWorldData.description}</p></div><div className="dungeon-world-meta"><span>{selectedWorldData.landscape}</span><strong>{selectedWorldData.themes.join(' · ')}</strong><small>♪ {selectedWorldData.musicTitle}</small></div></div>
    <div className="dungeon-floor-grid">{selectedFloors.map(floor=>{
     const isCleared=cleared.has(floor.floor);
-    const unlocked=floor.floor===1||floor.floor<=(progress?.highestCleared||0)+1;
+    const unlocked=isRuneFloorUnlocked(floor.floor,cleared);
     const localLevel=worldFloorNumber(floor.floor);
     return <article key={floor.floor} className={'dungeon-floor '+((floor.boss||floor.worldBoss)?'boss ':'')+(isCleared?'cleared ':'')+(!unlocked?'locked':'')}>
      <div className="dungeon-floor-number">{(floor.boss||floor.worldBoss)?<Crown/>:String(localLevel).padStart(2,'0')}</div>
      <div className="dungeon-floor-copy"><span>{(floor.boss||floor.worldBoss)?(floor.boss?'RUNEHEART FINAL BOSS':'WORLD BOSS'):'LEVEL '+localLevel}</span><h3>{floor.name}</h3><p>{floor.mission}</p><small><BatteryCharging size={13}/> First clear +{floor.energy} Rune Energy</small></div>
-     <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>Cleared</span>:unlocked?<button className={(floor.boss||floor.worldBoss)?'gold':'outline'} onClick={()=>{void startFloor(floor.floor)}}><Swords size={15}/>{(floor.boss||floor.worldBoss)?'Challenge Boss':'Enter'}</button>:<span><LockKeyhole size={15}/>Locked</span>}{isCleared&&<button className="outline" onClick={()=>{void startFloor(floor.floor)}}>Replay</button>}</div>
+     <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>Cleared</span>:unlocked?<button className={(floor.boss||floor.worldBoss)?'gold':'outline'} disabled={loading} onClick={()=>{void startFloor(floor.floor)}}><Swords size={15}/>{(floor.boss||floor.worldBoss)?'Challenge Boss':'Enter'}</button>:<span><LockKeyhole size={15}/>Clear level {localLevel-1} first</span>}{isCleared&&<button className="outline" onClick={()=>{void startFloor(floor.floor)}}>Replay</button>}</div>
     </article>
    })}</div>
   </section>
