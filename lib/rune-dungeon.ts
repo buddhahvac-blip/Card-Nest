@@ -142,3 +142,48 @@ export function isRuneFloorUnlocked(floor:number,cleared:ReadonlySet<number>){
 export function runeUnlockedFloors(cleared:ReadonlySet<number>){
  return RUNE_DUNGEON_FLOORS.filter(entry=>isRuneFloorUnlocked(entry.floor,cleared)).map(entry=>entry.floor);
 }
+
+
+export type DungeonRotationCard={id:string;theme:string;rarity:string};
+
+function stableHash(value:string){
+ let h=2166136261;
+ for(let i=0;i<value.length;i++){h^=value.charCodeAt(i);h=Math.imul(h,16777619)}
+ return h>>>0;
+}
+
+function etDateKey(date:Date){
+ return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(date);
+}
+
+/** Rotation changes once daily at 3:00 AM America/New_York. */
+export function dungeonRotationKey(now=new Date()){
+ const hour=Number(new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',hour:'2-digit',hourCycle:'h23'}).format(now));
+ return etDateKey(hour<3?new Date(now.getTime()-24*60*60*1000):now);
+}
+
+function rotate<T>(items:T[],offset:number){
+ if(!items.length)return items;
+ const n=offset%items.length;
+ return [...items.slice(n),...items.slice(0,n)];
+}
+
+/**
+ * Only cards supplied here are allowed into the dynamic enemy roster.
+ * Callers must pass cards that have approved shipped art or have passed the live
+ * integration gate. This prevents concept-only records from appearing in combat.
+ */
+export function dungeonEnemyRotations(cards:readonly DungeonRotationCard[],key=dungeonRotationKey()){
+ const unique=[...new Map(cards.map(card=>[card.id,card])).values()];
+ const result:Record<string,string[]>={};
+ for(const floor of RUNE_DUNGEON_FLOORS){
+  const world=runeWorld(floor.world);
+  const themed=unique.filter(card=>world.themes.includes(card.theme));
+  const elite=themed.filter(card=>['rare','epic','ultra','legendary'].includes(card.rarity));
+  const base=(floor.boss||floor.worldBoss)&&elite.length>=3?elite:themed.length>=3?themed:unique;
+  const ordered=[...base].sort((a,b)=>stableHash(key+':'+floor.floor+':'+a.id)-stableHash(key+':'+floor.floor+':'+b.id));
+  const chosen=rotate(ordered,stableHash(key+':offset:'+floor.floor)).slice(0,3).map(card=>card.id);
+  result[String(floor.floor)]=chosen.length===3?chosen:floor.enemyIds;
+ }
+ return result;
+}

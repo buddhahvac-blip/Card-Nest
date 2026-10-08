@@ -4,6 +4,7 @@ import {seasonManifest} from '@/lib/season-manifest';
 import {database,transaction} from '@/lib/postgres';
 import {rateLimit,sameOrigin} from '@/lib/http';
 import {seasonUploadExtension,validSeasonImage,uploadedSeasonCardState} from '@/lib/season-upload';
+import {quickImageCheck,integrationTargets} from '@/lib/card-integration';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -24,7 +25,12 @@ export async function POST(req:Request){
     if(!(file instanceof File))return Response.json({error:'Choose an image file'},{status:400});
     const bytes=new Uint8Array(await file.arrayBuffer());
     const ext=seasonUploadExtension(file.type);
-    if(!ext||!validSeasonImage(file.type,bytes))return Response.json({error:'Use a valid PNG, JPG, or WebP image up to 12 MB'},{status:400});
+    const signatureValid=Boolean(ext&&validSeasonImage(file.type,bytes));
+    const qc=quickImageCheck(file.type,bytes,signatureValid);
+    if(qc.verdict==='FAIL'){
+      await database().query("INSERT INTO security_events(kind,actor_id,subject,details) VALUES('card-integration-failed',$1,$2,$3)",[owner.userId,card.id,JSON.stringify({number:card.cardNumber,qc})]);
+      return Response.json({ok:false,error:'Image failed the fast integration check.',qc,card:{id:card.id,number:card.cardNumber,name:card.name}},{status:422});
+    }
 
     const published=new Date().toISOString();
     const objectKey='season-1/'+String(card.cardNumber).padStart(3,'0')+'/'+randomUUID()+'.'+ext;
@@ -39,6 +45,7 @@ export async function POST(req:Request){
       const {rowCount}=await c.query("UPDATE cards SET art=$2,status=$3,art_status=$4,release_status=$5,is_collectible=$6,is_pack_eligible=$7 WHERE id=$1 AND season_id='season-1'",[card.id,next.art,next.status,next.artStatus,next.releaseStatus,next.isCollectible,next.isPackEligible]);
       if(!rowCount)throw Error('Season One card record is missing');
       await c.query("INSERT INTO card_art(card_id,job_id,object_key,published) VALUES($1,$2,$3,$4) ON CONFLICT(card_id) DO UPDATE SET job_id=excluded.job_id,object_key=excluded.object_key,published=excluded.published",[card.id,'manual-upload:'+randomUUID(),objectKey,published]);
+      await c.query("INSERT INTO security_events(kind,actor_id,subject,details) VALUES('card-integration-pass',$1,$2,$3)",[owner.userId,card.id,JSON.stringify({number:card.cardNumber,qc,targets:integrationTargets()})]);
     });
 
     const {rows:[packState]}=await database().query("SELECT count(*) FILTER (WHERE sale_enabled)::int AS enabled FROM packs");
@@ -46,7 +53,9 @@ export async function POST(req:Request){
       ok:true,
       card:{id:card.id,number:card.cardNumber,name:card.name,art,status:'preview',packEligible:true,collectible:true},
       paidSalesEnabled:Number(packState?.enabled||0)>0,
-      message:'Uploaded and added to the free/gameplay pack pool. Paid sale release is still separate.'
+      qc,
+      integration:integrationTargets(),
+      message:'PASS · Image accepted and integrated into free pack pulls, Nest Battles, and the Rune Dungeon eligible roster. Paid sale release remains separate.'
     });
   }catch(error){
     console.error('Season One upload failed',{name:(error as Error)?.name});

@@ -14,6 +14,9 @@ type DungeonProgress={
  clears:{floor:number;energy_awarded:number;cleared_at:string}[];
  claims:{id:string;pack_id:string;energy_cost:number;entitlement_id:string;created_at:string}[];
  packCosts:typeof RUNE_PACK_COSTS;
+ enemyRotations:Record<string,string[]>;
+ rotationKey:string;
+ eligibleEnemyCount:number;
 };
 
 const packNames:Record<RuneRewardPack,string>={
@@ -108,16 +111,17 @@ export default function RuneDungeon(){
  if(activeFloor){
   const floor=RUNE_DUNGEON_FLOORS.find(entry=>entry.floor===activeFloor)!;
   const world=runeWorld(floor.world);
+  const enemyIds=progress?.enemyRotations?.[String(floor.floor)]||floor.enemyIds;
   return <section className={'rune-dungeon-battle-shell world-'+world.id}>
    <div className="dungeon-battle-top"><button className="outline" onClick={()=>{setAttemptId(null);setActiveFloor(null)}}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · LEVEL {worldFloorNumber(floor.floor)}</span><strong>{floor.name}{(floor.boss||floor.worldBoss)?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <NestBattles dungeon={{...floor,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
+   <NestBattles dungeon={{...floor,enemyIds,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
    {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
  }
 
  return <section className="rune-dungeon">
   <div className="dungeon-hero">
-   <div><span className="eyebrow">NESTRUNE MISSIONS · 3 RUNE WORLDS</span><h1>Choose your Rune World.</h1><p>Rune Dungeon V2 now has three full ten-level campaigns. Each world has its own landscape, Theme mix, music, enemy formations and boss encounter. All three worlds are open from the start. Clear levels 1–10 in order within each world, and switch worlds whenever you like.</p><div className="battle-pill-row"><span>3 worlds</span><span>30 levels</span><span>3 boss arenas</span><span>720 total first-clear Energy</span></div></div>
+   <div><span className="eyebrow">NESTRUNE MISSIONS · 3 RUNE WORLDS</span><h1>Choose your Rune World.</h1><p>Rune Dungeon V2 now has three full ten-level campaigns. Each world has its own landscape, Theme mix, music, enemy formations and boss encounter. All three worlds are open from the start. Clear levels 1–10 in order within each world, and switch worlds whenever you like.</p><div className="battle-pill-row"><span>3 worlds</span><span>30 levels</span><span>3 boss arenas</span><span>Daily enemy rotation · 3 AM ET</span><span>{progress?.eligibleEnemyCount||0} integrated enemies</span></div></div>
    <div className="dungeon-energy-vault"><Sparkles/><span>RUNE ENERGY</span><strong>{loading?'…':progress?.runeEnergy||0}</strong><small>{progress?.signedIn?'Saved to your account':'Sign in to save rewards'}</small></div>
   </div>
 

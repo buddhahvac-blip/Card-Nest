@@ -4,7 +4,9 @@ import {currentUser} from '@/lib/auth/server';
 import {database,transaction} from '@/lib/postgres';
 import {strictBody,failure,json,RequestError,rateLimit} from '@/lib/http';
 import {ensureUser,grantDungeonReward} from '@/lib/commerce';
-import {RUNE_DUNGEON_FLOORS,RUNE_PACK_COSTS,runeEnergyForFloor,runePackCost,isRuneFloorUnlocked,runeUnlockedFloors} from '@/lib/rune-dungeon';
+import {RUNE_DUNGEON_FLOORS,RUNE_PACK_COSTS,runeEnergyForFloor,runePackCost,isRuneFloorUnlocked,runeUnlockedFloors,dungeonEnemyRotations,dungeonRotationKey} from '@/lib/rune-dungeon';
+import {seasonManifest} from '@/lib/season-manifest';
+import commonMasterArt from '@/data/common-master-art.json';
 
 export const dynamic='force-dynamic';
 
@@ -15,12 +17,21 @@ const command=z.discriminatedUnion('action',[
  z.strictObject({action:z.literal('claim'),pack:z.enum(['hatchling','nest','guardian'])})
 ]);
 
+async function readEnemyRotations(){
+ const ready=await database().query("SELECT id FROM cards WHERE season_id='season-1' AND release_status IN ('preview','released') AND is_collectible=true AND is_pack_eligible=true AND art_status='live' AND art IS NOT NULL");
+ const readyIds=new Set<string>([...Object.keys(commonMasterArt as Record<string,string>),...ready.rows.map(row=>String(row.id))]);
+ const cards=seasonManifest.filter(card=>readyIds.has(card.id)).map(card=>({id:card.id,theme:card.theme,rarity:card.rarity}));
+ const rotationKey=dungeonRotationKey();
+ return {rotationKey,enemyRotations:dungeonEnemyRotations(cards,rotationKey),eligibleEnemyCount:cards.length};
+}
+
 async function readProgress(userId:string){
  const p=database();
- const [progress,clears,claims]=await Promise.all([
+ const [progress,clears,claims,rotation]=await Promise.all([
   p.query('SELECT highest_cleared,rune_energy,updated_at FROM rune_dungeon_progress WHERE user_id=$1',[userId]),
   p.query('SELECT floor,energy_awarded,cleared_at FROM rune_dungeon_clears WHERE user_id=$1 ORDER BY floor',[userId]),
-  p.query('SELECT id,pack_id,energy_cost,entitlement_id,created_at FROM rune_dungeon_claims WHERE user_id=$1 ORDER BY created_at DESC LIMIT 50',[userId])
+  p.query('SELECT id,pack_id,energy_cost,entitlement_id,created_at FROM rune_dungeon_claims WHERE user_id=$1 ORDER BY created_at DESC LIMIT 50',[userId]),
+  readEnemyRotations()
  ]);
  const row=progress.rows[0]||{highest_cleared:0,rune_energy:0};
  return {
@@ -31,6 +42,7 @@ async function readProgress(userId:string){
   clears:clears.rows,
   claims:claims.rows,
   packCosts:RUNE_PACK_COSTS,
+  ...rotation,
   floors:RUNE_DUNGEON_FLOORS.map(({floor,name,mission,energy,boss})=>({floor,name,mission,energy,boss:!!boss}))
  };
 }
@@ -38,7 +50,7 @@ async function readProgress(userId:string){
 export async function GET(){
  try{
   const user=await currentUser();
-  if(!user)return json({signedIn:false,highestCleared:0,unlockedFloors:runeUnlockedFloors(new Set()),runeEnergy:0,clears:[],claims:[],packCosts:RUNE_PACK_COSTS,floors:RUNE_DUNGEON_FLOORS.map(({floor,name,mission,energy,boss})=>({floor,name,mission,energy,boss:!!boss}))});
+  if(!user){const rotation=await readEnemyRotations();return json({signedIn:false,highestCleared:0,unlockedFloors:runeUnlockedFloors(new Set()),runeEnergy:0,clears:[],claims:[],packCosts:RUNE_PACK_COSTS,...rotation,floors:RUNE_DUNGEON_FLOORS.map(({floor,name,mission,energy,boss})=>({floor,name,mission,energy,boss:!!boss}))})}
   return json(await readProgress(user.userId));
  }catch(error){return failure(error)}
 }

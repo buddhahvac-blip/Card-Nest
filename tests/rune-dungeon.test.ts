@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_TOTAL_ENERGY,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeEnergyForFloor,runePackCost,isRuneFloorUnlocked,runeUnlockedFloors} from '../lib/rune-dungeon';
+import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_TOTAL_ENERGY,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeEnergyForFloor,runePackCost,isRuneFloorUnlocked,runeUnlockedFloors,dungeonEnemyRotations} from '../lib/rune-dungeon';
 
 test('Rune Dungeon V2 has three ten-level worlds and one final Runeheart boss',()=>{
  assert.equal(RUNE_DUNGEON_WORLDS.length,3);
@@ -67,4 +67,24 @@ test('switching worlds, replaying and resuming old progress cannot skip levels',
  assert.equal(isRuneFloorUnlocked(25,new Set([25])),true);
  assert.equal(isRuneFloorUnlocked(26,new Set([25])),false);
  for(const floor of [0,31,1.5,NaN])assert.equal(isRuneFloorUnlocked(floor,legacy),false);
+});
+
+
+test('Dungeon rotation only uses integrated candidates and prefers elite cards for bosses',()=>{
+ const cards=[
+  {id:'b1',theme:'Bloom',rarity:'common'},{id:'b2',theme:'Bloom',rarity:'uncommon'},{id:'t1',theme:'Tide',rarity:'rare'},
+  {id:'m1',theme:'Mystic',rarity:'epic'},{id:'m2',theme:'Mystic',rarity:'legendary'},{id:'e1',theme:'Ember',rarity:'common'},
+  {id:'e2',theme:'Ember',rarity:'rare'},{id:'e3',theme:'Ember',rarity:'epic'},{id:'v1',theme:'Volt',rarity:'legendary'},
+  {id:'s1',theme:'Shadow',rarity:'rare'},{id:'s2',theme:'Shadow',rarity:'epic'},{id:'s3',theme:'Shadow',rarity:'legendary'}
+ ];
+ const rotations=dungeonEnemyRotations(cards,'2026-10-08');
+ for(const ids of Object.values(rotations)){
+  assert.equal(ids.length,3);
+  assert.equal(new Set(ids).size,3);
+  for(const id of ids)assert.ok(cards.some(card=>card.id===id));
+ }
+ for(const floor of [10,20,30]){
+  const ids=rotations[String(floor)];
+  assert.ok(ids.every(id=>['rare','epic','ultra','legendary'].includes(cards.find(card=>card.id===id)!.rarity)));
+ }
 });
