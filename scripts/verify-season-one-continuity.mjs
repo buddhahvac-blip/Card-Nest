@@ -35,6 +35,15 @@ if(byNumber.get(74)?.name!=='Bubble Pufferfish')fail('RESERVED_074_PROTECTION','
 for(const c of cards.filter(c=>['rare','epic','ultra','legendary'].includes(c.rarity))){
  if(!c.abilityTertiary||!c.abilityDefense)warn('ABILITY_SCHEMA_REVIEW',String(c.cardNumber));
 }
+// Require actual assets before declaring a Tide card ready for production.
+const fsExists=p=>fs.existsSync(path.join(root,'public',p.replace(/^\\//,'')));
+for(const n of [70,71,72,73]){
+ const c=byNumber.get(n);
+ const full=`/cards/season-01/${String(n).padStart(3,'0')}/full-card.webp`;
+ const avatar=`/cards/season-01/${String(n).padStart(3,'0')}/avatar.webp`;
+ if(!fsExists(full)||!fsExists(avatar))warn('TIDE_ASSETS_NOT_COMMITTED',`${n}: ${full} / ${avatar}`);
+ if(c?.rarity!=='common')warn('TIDE_CANON_RARITY_CHANGED',String(n));
+}
 const totals={cards:cards.length,artworkDirect:cards.filter(c=>!!c.artworkUrl).length,showcase:showcase.length,masterArtMappings:Object.keys(master).length,tideCards:cards.filter(c=>c.theme==='Tide').length};
 const blockers=issues.filter(i=>i.severity==='BLOCK');
 console.log(JSON.stringify({totals,blockers,reviewCounts:issues.filter(i=>i.severity==='REVIEW').reduce((a,i)=>(a[i.type]=(a[i.type]||0)+1,a),{}),sample:issues.slice(0,22)},null,2));
