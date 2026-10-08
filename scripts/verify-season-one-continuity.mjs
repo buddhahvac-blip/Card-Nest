@@ -36,7 +36,7 @@ for(const c of cards.filter(c=>['rare','epic','ultra','legendary'].includes(c.ra
  if(!c.abilityTertiary||!c.abilityDefense)warn('ABILITY_SCHEMA_REVIEW',String(c.cardNumber));
 }
 // Require actual assets before declaring a Tide card ready for production.
-const fsExists=p=>fs.existsSync(path.join(root,'public',p.replace(/^\\//,'')));
+const fsExists=p=>fs.existsSync(path.join(root,'public',p.startsWith('/')?p.slice(1):p));
 for(const n of [70,71,72,73]){
  const c=byNumber.get(n);
  const full=`/cards/season-01/${String(n).padStart(3,'0')}/full-card.webp`;
