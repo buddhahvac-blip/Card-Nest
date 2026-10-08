@@ -15,7 +15,7 @@ import {battleRosterIds,practiceRivalIds} from '@/lib/battle-roster';
 import {battleAbilityProfile,rarityAttackTuning} from '@/lib/battle-ability-profile';
 
 type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;defenseCooldown:number;energy:number};
-export type DungeonBattleConfig={floor:number;world:'verdant'|'emberstorm'|'eclipse';worldName:string;worldThemes:string[];musicKey:BattleMusicKey;name:string;mission:string;energy:number;boss?:boolean;worldBoss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onExit:()=>void};
+export type DungeonBattleConfig={floor:number;world:'verdant'|'emberstorm'|'eclipse';worldName:string;worldThemes:string[];musicKey:BattleMusicKey;name:string;mission:string;energy:number;boss?:boolean;worldBoss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onDefeat:()=>void;onExit:()=>void};
 type ActionKind='strike'|'ability'|'power'|'special'|'guard';
 type BattleFrame={effect:BattleEffect;player:Fighter[];rival:Fighter[];playerActive:number;rivalActive:number};
 
@@ -50,6 +50,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  const [inspectCard,setInspectCard]=useState<string|null>(null);
  const [soundOn,setSoundOn]=useState(true);
  const victoryReported=useRef(false);
+ const defeatReported=useRef(false);
  useEffect(()=>{
   let active=true;
   Promise.all([
@@ -93,6 +94,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  function start(){
   if(selected.length!==3)return;
   victoryReported.current=false;
+  defeatReported.current=false;
   if(soundOn){unlockBattleAudio();startBattleMusic(true,dungeon?.musicKey||'emberstorm')}
   const rivalIds=dungeon?.enemyIds||practiceRivalIds(battlePoolIds,selected);
   setPlayer(makeTeam(selected));setRival(makeTeam(rivalIds,dungeon?.hpMultiplier||1));
@@ -256,7 +258,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   playback(frames,()=>{
   setPlayer(p);setRival(e);setPlayerActive(pIndex);setRivalActive(eIndex);setRound(value=>value+1);
   setLog(current=>[...notes,...current].slice(0,8));
-  if(won||lost){setPhase('finished');stopBattleMusic(.9);trackBeta('battle-view',dungeon?(won?'dungeon-clear:'+dungeon.floor:'dungeon-loss:'+dungeon.floor):(won?'finish:win':'finish:loss'));if(won&&dungeon&&!victoryReported.current){victoryReported.current=true;dungeon.onVictory()}}
+  if(won||lost){setPhase('finished');stopBattleMusic(.9);trackBeta('battle-view',dungeon?(won?'dungeon-clear:'+dungeon.floor:'dungeon-loss:'+dungeon.floor):(won?'finish:win':'finish:loss'));if(won&&dungeon&&!victoryReported.current){victoryReported.current=true;dungeon.onVictory()}if(lost&&dungeon&&!defeatReported.current){defeatReported.current=true;dungeon.onDefeat()}}
   });
  }
 
