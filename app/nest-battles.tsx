@@ -13,6 +13,7 @@ import {showcaseFor} from '@/lib/showcase';
 import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio,type BattleMusicKey} from '@/lib/battle-audio';
 import {battleRosterIds,practiceRivalIds} from '@/lib/battle-roster';
 import {battleAbilityProfile,rarityAttackTuning} from '@/lib/battle-ability-profile';
+import NestHeroEmblem from './nest-hero-emblem';
 
 type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;defenseCooldown:number;energy:number};
 export type DungeonBattleConfig={floor:number;world:'verdant'|'emberstorm'|'eclipse';worldName:string;worldThemes:string[];musicKey:BattleMusicKey;name:string;mission:string;energy:number;boss?:boolean;worldBoss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onDefeat:()=>void;onExit:()=>void};
@@ -286,7 +287,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  if(phase==='setup')return <section className="nest-battles">
   <div className="battle-hero">
    <div><span className="eyebrow">{dungeon?`RUNE DUNGEON · FLOOR ${dungeon.floor}${(dungeon.boss||dungeon.worldBoss)?' · BOSS':''}`:'NEST BATTLES · PLAYABLE ALPHA'}</span><h1>{dungeon?dungeon.name:'Pick your flock. Protect the Great Nest.'}</h1><p>{dungeon?dungeon.mission:'Choose any three battle-ready Guardians. Every illustrated card and every successful Card Studio upload can join your team.'}</p><div className="battle-pill-row"><span>{battlePoolIds.length} battle-ready Guardians</span><span>{dungeon?`+${dungeon.energy} Rune Energy`:'No paid advantage'}</span><span>{dungeon?`Rival HP ×${dungeon.hpMultiplier.toFixed(2)}`:'Uploaded cards can battle'}</span><span>{(dungeon?.boss||dungeon?.worldBoss)?'Boss encounter':'2–5 minute battle'}</span></div></div>
-   <div className={`battle-orb ${dungeon?.boss?'boss-orb':''}`} aria-hidden="true"><Sparkles/><strong>{dungeon?dungeon.floor:3}</strong><span>{(dungeon?.boss||dungeon?.worldBoss)?'BOSS':dungeon?'Floor':'Choose three'}</span></div>
+   <NestHeroEmblem value={dungeon?dungeon.floor:3} label={(dungeon?.boss||dungeon?.worldBoss)?'Boss Nest':dungeon?'Dungeon Nest':'Choose three'}/>
   </div>
   <div className="battle-picker-head"><div><span className="eyebrow">{dungeon?'DUNGEON LOADOUT':'BATTLE ROSTER'}</span><h2>{dungeon?'Choose any three battle-ready Guardians for this floor.':'Your uploaded roster. Three slots. Your strategy.'}</h2></div><strong>{selected.length} / 3 selected · {battlePoolIds.length} available</strong></div>
   <div className="battle-picker-grid">{pool.map(card=>{const picked=selected.includes(card.id);const guide=CLASS_GUIDE[card.battleClass];const profile=battleAbilityProfile(card.rarity);const abilityCount=profile==='uncommon'?2:profile==='high'?4:3;return <button key={card.id} className={'battle-picker '+(picked?'selected':'')} onClick={()=>toggle(card.id)} aria-pressed={picked}>
