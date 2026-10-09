@@ -542,3 +542,14 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .battle-reserve{transition:transform .18s ease,border-color .18s ease,filter .18s ease}.battle-reserve:hover:not(:disabled){transform:translateY(-3px) scale(1.03)}
 .battle-center-v4{backdrop-filter:blur(10px);box-shadow:0 0 38px #77dac32a,inset 0 0 20px #ffffff08}
 @media(max-width:700px){.battle-stage-v4{border-radius:16px}.battle-command-deck-v4 .battle-command{min-height:62px}}
+
+
+/* Illustrated Rune Dungeon / Nest Battles three-egg hero */
+.nest-hero-emblem.nest-hero-illustrated{width:230px;height:210px;isolation:isolate}
+.nest-hero-illustration{position:absolute;inset:-10px 0 0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 12px 18px #020e16a8)}
+.nest-hero-illustrated .nest-hero-copy{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);margin:0;gap:0;min-width:100px}
+.nest-hero-illustrated .nest-hero-copy strong{font:700 40px Georgia,serif;color:#fff7d8;text-shadow:0 2px 2px #06202a,0 0 12px #193c7d;background:linear-gradient(135deg,#254c9e,#092857);border:2px solid #efd28b;border-radius:8px 8px 0 0;padding:0 14px;line-height:1.12}
+.nest-hero-illustrated .nest-hero-copy span{background:#07315c;border:2px solid #e8bc68;border-radius:2px 2px 8px 8px;color:#fff9e8;padding:3px 9px;white-space:nowrap;font-size:9px}
+.nest-hero-emblem.nest-hero-illustrated.subtle{width:180px;height:165px}
+.nest-hero-illustrated.subtle .nest-hero-copy{bottom:4px}
+.nest-hero-illustrated.subtle .nest-hero-copy strong{font-size:31px}
