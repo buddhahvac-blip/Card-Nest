@@ -188,13 +188,16 @@ export function dungeonEnemyRotations(cards:readonly DungeonRotationCard[],key=d
   // a themed pool is sparse. A repeated low-rarity enemy is safer than an
   // unexpectedly overpowered opponent; normal pools remain unique.
   const lowRarityFallback=level<=3 && fallback.length>0 && fallback.length<3;
+  const noSafeEarlyPool=level<=3 && fallback.length===0;
   const base=eligible.length>=3?eligible:fallback.length>=3?fallback:lowRarityFallback?fallback:themed.length>=3?themed:unique;
   const ordered=[...base].sort((a,b)=>stableHash(key+':'+floor.floor+':'+a.id)-stableHash(key+':'+floor.floor+':'+b.id));
   const rotated=rotate(ordered,stableHash(key+':offset:'+floor.floor));
   const chosen=lowRarityFallback && rotated.length>0
    ? Array.from({length:3},(_,i)=>rotated[i%rotated.length].id)
    :rotated.slice(0,3).map(card=>card.id);
-  result[String(floor.floor)]=chosen.length===3?chosen:floor.enemyIds;
+  // With no low-rarity candidates, use the original curated floor roster
+  // instead of upgrading the tutorial encounter to a random elite roster.
+  result[String(floor.floor)]=noSafeEarlyPool?floor.enemyIds:chosen.length===3?chosen:floor.enemyIds;
  }
  return result;
 }
