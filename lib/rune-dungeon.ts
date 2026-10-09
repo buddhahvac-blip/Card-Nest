@@ -184,9 +184,16 @@ export function dungeonEnemyRotations(cards:readonly DungeonRotationCard[],key=d
   const allowed=level<=3?['common','uncommon']:level<=6?['common','uncommon','rare']:level<=8?['uncommon','rare','epic']:level===9?['rare','epic','legendary']:['rare','epic','ultra','legendary'];
   const eligible=themed.filter(card=>allowed.includes(card.rarity.toLowerCase()));
   const fallback=unique.filter(card=>allowed.includes(card.rarity.toLowerCase()));
-  const base=eligible.length>=3?eligible:fallback.length>=3?fallback:themed.length>=3?themed:unique;
+  // Never escalate early tutorial floors to Epic or Legendary merely because
+  // a themed pool is sparse. A repeated low-rarity enemy is safer than an
+  // unexpectedly overpowered opponent; normal pools remain unique.
+  const lowRarityFallback=level<=3 && fallback.length>0 && fallback.length<3;
+  const base=eligible.length>=3?eligible:fallback.length>=3?fallback:lowRarityFallback?fallback:themed.length>=3?themed:unique;
   const ordered=[...base].sort((a,b)=>stableHash(key+':'+floor.floor+':'+a.id)-stableHash(key+':'+floor.floor+':'+b.id));
-  const chosen=rotate(ordered,stableHash(key+':offset:'+floor.floor)).slice(0,3).map(card=>card.id);
+  const rotated=rotate(ordered,stableHash(key+':offset:'+floor.floor));
+  const chosen=lowRarityFallback && rotated.length>0
+   ? Array.from({length:3},(_,i)=>rotated[i%rotated.length].id)
+   :rotated.slice(0,3).map(card=>card.id);
   result[String(floor.floor)]=chosen.length===3?chosen:floor.enemyIds;
  }
  return result;
