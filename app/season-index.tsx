@@ -1,5 +1,5 @@
 'use client';
-import {useMemo,useState} from 'react';
+import {useEffect,useMemo,useState} from 'react';
 import {Search,Check,Sparkles,ArrowRight,Crown} from 'lucide-react';
 import {seasonManifest,artProgress,hasSeasonArtwork,hasApprovedShowcaseArt} from '@/lib/season-manifest';
 import {GuardianCard} from './cards';
@@ -17,9 +17,12 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
  const [show,setShow]=useState('illustrated');
  const [sortMode,setSortMode]=useState('theme');
  const [page,setPage]=useState(0);
+ const [uploadedArt,setUploadedArt]=useState<Record<string,string>>({});
+ useEffect(()=>{let active=true;fetch('/api/season-art').then(async r=>{const d=await r.json();if(active)setUploadedArt(d.art||{})}).catch(()=>{});return()=>{active=false}},[]);
+ const isIllustrated=(c:(typeof seasonManifest)[number])=>hasSeasonArtwork(c)||Boolean(uploadedArt[c.id]);
  const owned=useMemo(()=>new Set<string>((data?.cards||[]).map((x:any)=>x.card)),[data]);
  const progress=artProgress();
- const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&hasSeasonArtwork(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
+ const illustratedCommons=useMemo(()=>seasonManifest.filter(c=>c.rarity==='common'&&isIllustrated(c)).sort((a,b)=>a.cardNumber-b.cardNumber),[uploadedArt]);
  const featuredCommons=illustratedCommons.slice(0,8);
  const currentSeasonRun=useMemo(()=>seasonManifest.filter(c=>c.cardNumber>=21&&c.cardNumber<=40).sort((a,b)=>a.cardNumber-b.cardNumber),[]);
  const defaultHighlightedIds=new Set([
@@ -33,14 +36,14 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
    (!suppressDefaultDuplicates||!defaultHighlightedIds.has(c.id))&&
    (theme==='all'||c.theme===theme)&&
    (rarity==='all'||c.rarity===rarity)&&
-   (show==='all'||(show==='owned'?owned.has(c.id):show==='illustrated'?hasSeasonArtwork(c):show==='approved'?hasApprovedShowcaseArt(c):!owned.has(c.id)))&&
+   (show==='all'||(show==='owned'?owned.has(c.id):show==='illustrated'?isIllustrated(c):show==='approved'?hasApprovedShowcaseArt(c):!owned.has(c.id)))&&
    ((c.name+' '+c.theme+' '+c.creatureType+' '+String(c.cardNumber).padStart(3,'0')).toLowerCase().includes(query.toLowerCase()))
  );
  const filtered=[...filteredBase].sort((a,b)=>{
    if(sortMode==='theme')return themes.indexOf(a.theme)-themes.indexOf(b.theme)||a.cardNumber-b.cardNumber;
    if(sortMode==='number')return a.cardNumber-b.cardNumber;
-   if(sortMode==='rarity')return (rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||Number(hasSeasonArtwork(b))-Number(hasSeasonArtwork(a))||a.cardNumber-b.cardNumber;
-   const artDelta=Number(hasApprovedShowcaseArt(b))*2+Number(hasSeasonArtwork(b))-Number(hasApprovedShowcaseArt(a))*2-Number(hasSeasonArtwork(a));
+   if(sortMode==='rarity')return (rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||Number(isIllustrated(b))-Number(isIllustrated(a))||a.cardNumber-b.cardNumber;
+   const artDelta=Number(hasApprovedShowcaseArt(b))*2+Number(isIllustrated(b))-Number(hasApprovedShowcaseArt(a))*2-Number(isIllustrated(a));
    return artDelta||(rarityWeight[b.rarity]||0)-(rarityWeight[a.rarity]||0)||a.cardNumber-b.cardNumber;
  });
  const pages=Math.max(1,Math.ceil(filtered.length/24));
@@ -155,8 +158,8 @@ export default function SeasonIndex({data,onInspect,onOpen}:{data:any;onInspect:
      <div><ThemeEmblem theme={groupTheme} size={30} label={false}/><div><span className="eyebrow">{groupTheme.toUpperCase()} THEME</span><h3 id={'theme-group-'+groupTheme.toLowerCase()}>{groupTheme} Guardians</h3></div></div>
      <span>{pageCards.length} on this page · numerical order</span>
     </div>
-    <div className="season-grid">{pageCards.map(c=><article className={'index-card '+(hasSeasonArtwork(c)?'has-art ':'')+(c.rarity==='legendary'?'legendary-index-card':'')} key={c.id}>
-     <div className="index-card-top"><span style={{display:'inline-flex',alignItems:'center',gap:8}}><ThemeEmblem theme={c.theme} size={24} label={false}/>CN1 · {String(c.cardNumber).padStart(3,'0')} / 369</span><span className={owned.has(c.id)?'owned-label':hasSeasonArtwork(c)?'illustrated-label':'missing-label'}>{owned.has(c.id)?<><Check size={14}/> Owned</>:hasSeasonArtwork(c)?<><Sparkles size={13}/> Illustrated</>:c.releaseStatus==='preview'?'Free preview':'Unreleased'}</span></div>
+    <div className="season-grid">{pageCards.map(c=><article className={'index-card '+(isIllustrated(c)?'has-art ':'')+(c.rarity==='legendary'?'legendary-index-card':'')} key={c.id}>
+     <div className="index-card-top"><span style={{display:'inline-flex',alignItems:'center',gap:8}}><ThemeEmblem theme={c.theme} size={24} label={false}/>CN1 · {String(c.cardNumber).padStart(3,'0')} / 369</span><span className={owned.has(c.id)?'owned-label':isIllustrated(c)?'illustrated-label':'missing-label'}>{owned.has(c.id)?<><Check size={14}/> Owned</>:isIllustrated(c)?<><Sparkles size={13}/> Illustrated</>:c.releaseStatus==='preview'?'Free preview':'Unreleased'}</span></div>
      <button aria-label={'Inspect '+c.name} onClick={()=>onInspect(c.id)}><GuardianCard id={c.id}/></button>
      <div className="index-card-title-row"><h2>{c.name}</h2><span className={'rarity-token rarity-'+c.rarity}>{c.rarity}</span></div>
      <p>Theme: {c.theme} · {c.battleClass}</p>
