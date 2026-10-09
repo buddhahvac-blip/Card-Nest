@@ -553,3 +553,77 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 .nest-hero-emblem.nest-hero-illustrated.subtle{width:180px;height:165px}
 .nest-hero-illustrated.subtle .nest-hero-copy{bottom:4px}
 .nest-hero-illustrated.subtle .nest-hero-copy strong{font-size:31px}
+
+
+/* Mobile-first combat usability: applied to both Nest Battles and Rune Dungeon. */
+@media(max-width:700px){
+ .nest-battles,.rune-dungeon-battle-shell{min-width:0;max-width:100%;overflow-x:clip}
+ .battle-live{gap:10px}
+ .battle-compact-hud{height:auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:10px;border-radius:13px}
+ .battle-compact-hud>div:first-child{min-width:0}
+ .battle-compact-hud .eyebrow{font-size:9px;line-height:1.3;letter-spacing:.8px}
+ .battle-hud-matchup{justify-self:end;min-width:0}
+ .battle-hud-actions{grid-column:1/-1;display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+ .battle-hud-actions button,.dungeon-battle-top button{min-height:44px;touch-action:manipulation}
+ .battle-hud-actions .battle-sound-toggle span{display:inline}
+ .battle-stage.battle-stage-v4{height:auto!important;min-height:0!important;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;align-items:start;gap:8px;padding:12px 8px 10px!important;overflow:hidden}
+ .battle-stage-v4 .battle-combatant{height:auto;min-height:0;min-width:0;display:grid;grid-template-rows:auto auto auto;gap:5px;align-items:start;justify-items:stretch}
+ .battle-stage-v4 .battle-combatant-player{grid-column:1;grid-row:1}
+ .battle-stage-v4 .battle-combatant-rival{grid-column:2;grid-row:1}
+ .battle-stage-v4 .battle-side-label{text-align:center;font-size:9px;line-height:1.25;letter-spacing:.7px}
+ .battle-stage-v4 .battle-avatar-fighter{width:100%;min-width:0;align-self:start}
+ .battle-stage-v4 .battle-guardian-actor{min-height:0;display:grid;place-items:center}
+ .battle-stage-v4 .battle-guardian-avatar{width:clamp(85px,28vw,146px);max-width:100%;touch-action:manipulation}
+ .battle-stage-v4 .battle-card-echo{width:clamp(55px,17vw,85px);opacity:.36;pointer-events:none}
+ .battle-stage-v4 .battle-status-v4{width:100%;min-width:0;max-width:100%;padding:8px 6px}
+ .battle-stage-v4 .battle-status-title{display:grid;gap:3px;justify-items:start;min-width:0}
+ .battle-stage-v4 .battle-status-title strong{font-size:clamp(12px,3.4vw,16px);overflow-wrap:anywhere;line-height:1.15}
+ .battle-stage-v4 .battle-status-title span{font-size:9px;line-height:1.2}
+ .battle-stage-v4 .battle-stat-line{display:grid;grid-template-columns:1fr 1fr;gap:4px 5px;font-size:10px}
+ .battle-stage-v4 .battle-stat-line span{white-space:normal}
+ .battle-stage-v4 .battle-reserves{display:flex;flex-wrap:nowrap;justify-content:center;gap:3px;width:100%;min-height:46px;overflow-x:auto;overscroll-behavior-x:contain}
+ .battle-stage-v4 .battle-reserve{flex:0 0 44px;width:44px;min-height:48px;padding:3px}
+ .battle-stage-v4 .battle-reserve img{width:30px;height:30px;object-fit:cover}
+ .battle-stage-v4 .battle-reserve span{font-size:8px}
+ .battle-stage-v4 .battle-center-v4{display:none}
+ .battle-stage-v4 .battle-action-dock-overlay{position:relative!important;inset:auto!important;grid-column:1/-1;grid-row:2;z-index:12;width:100%;min-width:0;padding:9px!important;margin:0;border-radius:13px;backdrop-filter:none}
+ .battle-stage-v4 .battle-controls-v4{min-height:0!important;padding:0!important}
+ .battle-stage-v4 .battle-controls-v4 p{font-size:11px;line-height:1.4}
+ .battle-stage-v4 .battle-command-deck-v4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command{width:100%;min-width:0;min-height:62px!important;padding:9px 8px;gap:7px;text-align:left;touch-action:manipulation}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command svg{width:20px;height:20px;flex-shrink:0}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command strong{font-size:clamp(11px,3vw,14px);line-height:1.2;white-space:normal;overflow-wrap:anywhere}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command small{display:block;font-size:10px;line-height:1.25;white-space:normal}
+ .battle-stage-v4 .battle-command-deck-v4.profile-standard .battle-command:last-child{grid-column:1/-1}
+ .battle-picker-grid{grid-template-columns:1fr;gap:10px}
+ .battle-picker{grid-template-columns:minmax(76px,27%) minmax(0,1fr);gap:11px;padding:10px;min-width:0}
+ .battle-picker-copy{min-width:0}
+ .battle-picker-copy h3{font-size:clamp(18px,5vw,23px);overflow-wrap:anywhere}
+ .battle-picker-copy p{min-height:0;font-size:12px}
+ .battle-picker-copy small{font-size:10px;line-height:1.5}
+ .battle-hero{padding:15px}
+ .battle-hero h1{font-size:clamp(28px,7vw,39px)}
+ .dungeon-battle-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;padding:10px}
+ .dungeon-battle-top>button{grid-column:1/-1;justify-self:start}
+ .dungeon-battle-top>div{min-width:0}
+ .dungeon-battle-top strong{overflow-wrap:anywhere}
+ .battle-log-compact summary{min-height:44px;touch-action:manipulation}
+ .battle-card-modal-panel{max-width:min(96vw,440px);max-height:88dvh;overflow-y:auto}
+}
+@media(max-width:360px){
+ .battle-stage-v4 .battle-command-deck-v4{grid-template-columns:1fr!important}
+ .battle-stage-v4 .battle-command-deck-v4.profile-standard .battle-command:last-child{grid-column:auto}
+ .battle-stage-v4 .battle-guardian-avatar{width:90px}
+ .battle-stage-v4 .battle-card-echo{display:none}
+ .battle-stage-v4 .battle-status-v4{padding:6px 4px}
+ .battle-stage-v4 .battle-reserve{flex-basis:40px;width:40px}
+}
+@media(min-width:701px) and (max-width:1024px){
+ .battle-stage-v4 .battle-guardian-avatar{width:clamp(135px,18vw,185px)}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command{min-height:58px;touch-action:manipulation}
+ .battle-picker-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .battle-compact-hud button,.dungeon-battle-top button{min-height:44px}
+}
+@media(max-width:700px) and (prefers-reduced-motion:reduce){
+ .battle-stage-v4 .battle-avatar-fighter,.battle-stage-v4 .battle-guardian-avatar,.battle-stage-v4 .battle-command{transition:none!important}
+}
