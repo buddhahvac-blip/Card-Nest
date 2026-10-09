@@ -195,3 +195,35 @@
 @keyframes guardianIdle{50%{transform:translateY(-5px) rotate(.6deg)}}
 @keyframes specialKnockout{0%,47%{opacity:1;transform:none}48%,54%{opacity:1;transform:translateX(calc(var(--toward-x)*-23px)) scale(.96)}75%{opacity:.6;transform:translateY(12px) rotate(-4deg) scale(.9)}100%{opacity:.12;transform:translateY(24px) scale(.8)}}
 @media(prefers-reduced-motion:reduce){.fighter:not([data-motion]) :global(.battle-guardian-avatar),.arena[data-variant=special] .fighter[data-motion=ko]{animation:none!important}.fighter[data-motion=ko]{opacity:.3}}
+
+/* Phase 2: mobile combat readability and graceful effects scaling.
+   Visual-only: no combat timing, damage, reward or roster changes. */
+@media(max-width:480px){
+ .arena{min-width:0;max-width:100%;overflow:hidden;padding:10px!important}
+ .arena :global(.battle-sky),.arena :global(.battle-sky-player){grid-template-columns:minmax(0,1fr);gap:8px}
+ .arena :global(.battle-team-strip){min-width:0;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:6px}
+ .arena :global(.battle-active-card){width:min(180px,72vw);max-width:100%;margin-inline:auto}
+ .arena :global(.battle-mini){width:clamp(54px,18vw,72px)}
+ .arena :global(.battle-center){padding:8px 10px;min-width:0}
+ .emblem{width:54px;height:54px}.emblem>span{font-size:34px}
+ .controls{flex-wrap:wrap;gap:8px;font-size:12px}
+ .controls button{min-height:44px;padding:10px 12px;touch-action:manipulation}
+ .combatText{min-width:0;max-width:min(86vw,280px);font-size:16px;overflow-wrap:anywhere}
+ .abilityBanner{width:min(92%,330px);max-width:100%;overflow-wrap:anywhere}
+ .bossEntrance strong{font-size:clamp(19px,6vw,28px);overflow-wrap:anywhere}
+}
+/* Lower GPU pressure on touch devices without hiding damage or healing. */
+@media(hover:none) and (pointer:coarse){
+ .ambient>i:nth-of-type(n+9){display:none}
+ .lightShafts{opacity:.32}
+ .worldGlow{animation-duration:9s}
+ .worldArt{animation-duration:30s}
+ .fighter:not([data-motion]) :global(.battle-guardian-avatar){animation-duration:6s}
+}
+/* Respect system transparency/data reduction preferences where supported. */
+@media(prefers-reduced-transparency:reduce){.worldGlow{opacity:.3}.ambient .mist,.ambient .mistBack{opacity:.2}}
+@media(prefers-reduced-motion:reduce){
+ .worldArt,.worldGlow,.ambient,.ambient>i,.emblem,.fighter:not([data-motion]) :global(.battle-guardian-avatar){animation:none!important}
+ .fighter[data-motion=hit],.arena[data-impact=true]{animation:none!important}
+ .fxLayer .projectile,.fxLayer .trail,.fxLayer .impact{display:none!important}
+}
