@@ -627,3 +627,16 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 @media(max-width:700px) and (prefers-reduced-motion:reduce){
  .battle-stage-v4 .battle-avatar-fighter,.battle-stage-v4 .battle-guardian-avatar,.battle-stage-v4 .battle-command{transition:none!important}
 }
+
+/* Phase 2 follow-up: reliable thumb targets and legible mobile action labels. */
+@media(max-width:700px){
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command{min-height:64px!important;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command strong{overflow-wrap:anywhere;line-height:1.18}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command:focus-visible,.battle-stage-v4 .battle-reserve:focus-visible,.battle-stage-v4 .battle-guardian-avatar:focus-visible{outline:3px solid #f5d68b;outline-offset:2px}
+ .battle-stage-v4 .battle-command-deck-v4 .battle-command:disabled{cursor:not-allowed}
+ .battle-stage-v4 .battle-action-dock-overlay{max-width:100%;overflow-wrap:anywhere}
+ .battle-stage-v4 .battle-reserve{min-height:44px;touch-action:manipulation}
+}
+@media(hover:none) and (pointer:coarse){
+ .battle-stage-v4 .battle-guardian-avatar,.battle-stage-v4 .battle-command-deck-v4 .battle-command{touch-action:manipulation}
+}
