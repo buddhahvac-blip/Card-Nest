@@ -111,3 +111,12 @@ test('sparse early-floor rotations never promote elite enemies to fill a team',(
    'Early floor '+floor+' must not use an elite enemy when safe enemies exist');
  }
 });
+
+
+test('empty low-rarity pool keeps curated early-floor opponents',()=>{
+ const rotations=dungeonEnemyRotations([{id:'elite-only',theme:'Bloom',rarity:'legendary'}],'2026-10-09');
+ for(const floor of RUNE_DUNGEON_FLOORS){
+  const local=(floor.floor-1)%10+1;
+  if(local<=3)assert.deepEqual(rotations[String(floor.floor)],floor.enemyIds);
+ }
+});
