@@ -94,3 +94,29 @@ test('Dungeon rotation only uses integrated candidates and prefers elite cards f
   assert.ok(ids.every(id=>['rare','epic','ultra','legendary'].includes(cards.find(card=>card.id===id)!.rarity)));
  }
 });
+
+
+test('sparse early-floor rotations never promote elite enemies to fill a team',()=>{
+ const cards=[
+  {id:'tutorial-bloom',theme:'Bloom',rarity:'common'},
+  {id:'tutorial-tide',theme:'Tide',rarity:'uncommon'},
+  {id:'elite-bloom',theme:'Bloom',rarity:'legendary'},
+  {id:'elite-ember',theme:'Ember',rarity:'epic'}
+ ];
+ const rotations=dungeonEnemyRotations(cards,'2026-10-09');
+ for(const floor of [1,2,3,11,12,13,21,22,23]){
+  const ids=rotations[String(floor)];
+  assert.equal(ids.length,3);
+  assert.ok(ids.every(id=>id==='tutorial-bloom'||id==='tutorial-tide'),
+   'Early floor '+floor+' must not use an elite enemy when safe enemies exist');
+ }
+});
+
+
+test('empty low-rarity pool keeps curated early-floor opponents',()=>{
+ const rotations=dungeonEnemyRotations([{id:'elite-only',theme:'Bloom',rarity:'legendary'}],'2026-10-09');
+ for(const floor of RUNE_DUNGEON_FLOORS){
+  const local=(floor.floor-1)%10+1;
+  if(local<=3)assert.deepEqual(rotations[String(floor.floor)],floor.enemyIds);
+ }
+});
