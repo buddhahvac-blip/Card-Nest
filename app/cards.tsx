@@ -8,14 +8,20 @@ import {Sparkles,ArrowRight,RotateCcw,HeartPulse,ShieldCheck,Flame,Droplets,Leaf
 import {showcaseFor} from '@/lib/showcase';
 import ShowcaseCard from './showcase-card';
 import commonMasterArt from '@/data/common-master-art.json';
-let artManifest:Promise<Record<string,string>>|null=null;
-function getArt(){return artManifest??=fetch('/api/season-art').then(async r=>{const d:any=await r.json();return d.art||{}}).catch(()=>({}))}
+async function getArt():Promise<Record<string,string>>{
+ const response=await fetch('/api/season-art',{cache:'no-store'});
+ if(!response.ok)return {};
+ const data=await response.json();
+ return data?.art&&typeof data.art==='object'?data.art:{};
+}
 const legacyBadgeFixes: Record<number,{label:string;Icon:any}>={7:{label:'Support',Icon:HeartPulse},8:{label:'Warden',Icon:ShieldCheck}};
 const themeBadgeIcons: Record<string,{label:string;Icon:any;slug:string}>={Ember:{label:'Ember',Icon:Flame,slug:'ember'},Tide:{label:'Tide',Icon:Droplets,slug:'tide'},Bloom:{label:'Bloom',Icon:Leaf,slug:'bloom'},Volt:{label:'Volt',Icon:Zap,slug:'volt'},Mystic:{label:'Mystic',Icon:Sparkles,slug:'mystic'},Shadow:{label:'Shadow',Icon:Moon,slug:'shadow'}};
 export function GuardianCard({id,eager=false}:{id:string;eager?:boolean}) {
  const c=seasonCard(id); const fallback=c?.highResolutionArtworkUrl||c?.artworkUrl||''; const [src,setSrc]=useState(fallback);
- useEffect(()=>{if(fallback)return;let active=true;getArt().then(map=>{if(active)setSrc(map[id]||'')});return()=>{active=false}},[id,fallback]);
+ const [publishedArt,setPublishedArt]=useState('');
+ useEffect(()=>{let active=true;getArt().then(map=>{if(active){setPublishedArt(map[id]||'');setSrc(map[id]||fallback)}}).catch(()=>{if(active)setSrc(fallback)});return()=>{active=false}},[id,fallback]);
  if(!c)return <div className="card-back">Card unavailable</div>;
+ if(publishedArt)return <div className={'guardian-card season-art rarity-'+c.rarity} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}><span className="card-serial">CN1 · {String(c.cardNumber).padStart(3,'0')} · {c.rarity}</span><div className="guardian-image"><img loading={eager?'eager':'lazy'} decoding="async" className="season-art-image" src={src} onError={()=>{setPublishedArt('');setSrc(fallback)}} alt={c.name+' — uploaded Season One artwork'}/></div><div className="guardian-frame"><span>FIRST FLIGHT · {c.theme.toUpperCase()} THEME</span><h3>{c.name}</h3><small>SEASON 01 · {String(c.cardNumber).padStart(3,'0')} / 369</small></div></div>;
  if(showcaseFor(id))return <ShowcaseCard card={c}/>;
  const commonMaster=(commonMasterArt as Record<string,string>)[id];
  if(commonMaster){
