@@ -4,6 +4,7 @@ import {useEffect,useState} from 'react';
 import Link from 'next/link';
 import {BatteryCharging,Check,Crown,LockKeyhole,PackageOpen,Sparkles,Swords} from 'lucide-react';
 import NestBattles from './nest-battles';
+import NestHeroEmblem from './nest-hero-emblem';
 import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeWorld,worldFloorNumber,isRuneFloorUnlocked,type RuneRewardPack,type RuneWorldId} from '@/lib/rune-dungeon';
 
 type DungeonProgress={
@@ -122,7 +123,7 @@ export default function RuneDungeon(){
  return <section className="rune-dungeon">
   <div className="dungeon-hero">
    <div><span className="eyebrow">NESTRUNE MISSIONS · 3 RUNE WORLDS</span><h1>Choose your Rune World.</h1><p>Rune Dungeon V2 now has three full ten-level campaigns. Each world has its own landscape, Theme mix, music, enemy formations and boss encounter. All three worlds are open from the start. Clear levels 1–10 in order within each world, and switch worlds whenever you like.</p><div className="battle-pill-row"><span>3 worlds</span><span>30 levels</span><span>3 boss arenas</span><span>Daily enemy rotation · 3 AM ET</span><span>{progress?.eligibleEnemyCount||0} integrated enemies</span></div></div>
-   <div className="dungeon-energy-vault"><Sparkles/><span>RUNE ENERGY</span><strong>{loading?'…':progress?.runeEnergy||0}</strong><small>{progress?.signedIn?'Saved to your account':'Sign in to save rewards'}</small></div>
+   <div className="dungeon-energy-vault"><NestHeroEmblem value={loading?'…':progress?.runeEnergy||0} label="Rune Energy" subtle/><small>{progress?.signedIn?'Saved to your account':'Sign in to save rewards'}</small></div>
   </div>
 
   {message&&<p className="notice dungeon-notice">{message}</p>}
