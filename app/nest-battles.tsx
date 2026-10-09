@@ -327,10 +327,10 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
     <div className="battle-side-label">YOUR GUARDIAN</div>
     <div className="battle-avatar-fighter">
      <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-theme={activeCard.theme} data-battle-side="you" data-motion={motion('you')} data-guard={!!active?.guard} style={{'--aura':themeColors[activeCard.theme]} as CSSProperties}>
-      <span className="battle-card-echo battle-card-echo-player" aria-hidden="true"><Image src={cardArtFor(activeCard.id)} alt="" fill sizes="150px" quality={75}/></span>
+      <span className="battle-card-echo battle-card-echo-player" aria-hidden="true"><Image unoptimized src={cardArtFor(activeCard.id)} alt="" fill sizes="150px" quality={75} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/></span>
       <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
        <span className="battle-avatar-aura"/>
-       <Image src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90}/>
+       <Image unoptimized src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/>
        <span className="battle-avatar-inspect">View card</span>
       </button>
      </div>
@@ -340,7 +340,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
       <div className="battle-stat-line"><span>{active?.hp||0}/{active?.maxHp||activeCard.health} HP</span><span>{active?.guard||0} Guard</span><span>{active?.energy||0} Energy</span><span>SPD {activeCard.speed+(active?.speedDelta||0)}</span></div>
      </div>
     </div>
-    <div className="battle-reserves" aria-label="Your Guardian team">{player.map((fighter,index)=>{const card=cardById(fighter.id);return <button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-reserve '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')} title={index===playerActive?card.name+' is active':'Swap to '+card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={75}/><span>{index===playerActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></button>})}</div>
+    <div className="battle-reserves" aria-label="Your Guardian team">{player.map((fighter,index)=>{const card=cardById(fighter.id);return <button key={fighter.id} disabled={busy||phase!=='battle'||fighter.hp<=0||index===playerActive} onClick={()=>swap(index)} className={'battle-reserve '+(index===playerActive?'active':'')+(fighter.hp<=0?' down':'')} title={index===playerActive?card.name+' is active':'Swap to '+card.name}><Image unoptimized src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={75} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/><span>{index===playerActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></button>})}</div>
    </div>
 
    <div className="battle-center battle-center-v4"><span>{dungeon?dungeon.worldName.toUpperCase():'THE GREAT NEST'}</span><GreatNest/><strong>VS</strong><small>{activeCard.theme} → {enemyCard.theme}</small></div>
@@ -349,10 +349,10 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
     <div className="battle-side-label">RIVAL GUARDIAN</div>
     <div className="battle-avatar-fighter rival-fighter">
      <div className={`battle-guardian-actor ${battleStyles.fighter}`} data-theme={enemyCard.theme} data-boss={!!(dungeon?.boss||dungeon?.worldBoss)} data-battle-side="rival" data-motion={motion('rival')} data-guard={!!enemy?.guard} style={{'--aura':themeColors[enemyCard.theme]} as CSSProperties}>
-      <span className="battle-card-echo battle-card-echo-rival" aria-hidden="true"><Image src={cardArtFor(enemyCard.id)} alt="" fill sizes="150px" quality={75}/></span>
+      <span className="battle-card-echo battle-card-echo-rival" aria-hidden="true"><Image unoptimized src={cardArtFor(enemyCard.id)} alt="" fill sizes="150px" quality={75} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/></span>
       <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
        <span className="battle-avatar-aura"/>
-       <Image src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90}/>
+       <Image unoptimized src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/>
        <span className="battle-avatar-inspect">View card</span>
       </button>
      </div>
@@ -362,7 +362,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
       <div className="battle-stat-line"><span>{enemy?.hp||0}/{enemy?.maxHp||enemyCard.health} HP</span><span>{enemy?.guard||0} Guard</span><span>{enemy?.energy||0} Energy</span><span>SPD {enemyCard.speed+(enemy?.speedDelta||0)}</span></div>
      </div>
     </div>
-    <div className="battle-reserves battle-reserves-rival" aria-label="Rival Guardian team">{rival.map((fighter,index)=>{const card=cardById(fighter.id);return <div key={fighter.id} className={'battle-reserve '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')} title={card.name}><Image src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={75}/><span>{index===rivalActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>})}</div>
+    <div className="battle-reserves battle-reserves-rival" aria-label="Rival Guardian team">{rival.map((fighter,index)=>{const card=cardById(fighter.id);return <div key={fighter.id} className={'battle-reserve '+(index===rivalActive?'active':'')+(fighter.hp<=0?' down':'')} title={card.name}><Image unoptimized src={avatarFor(fighter.id)} alt="" width={38} height={38} quality={75} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/><span>{index===rivalActive?'Active':fighter.hp>0?fighter.hp+' HP':'Resting'}</span></div>})}</div>
    </div>
    <div className="battle-action-dock battle-action-dock-overlay">
     <div className={`${battleStyles.controls} battle-controls-v4`}><p role="status">{busy?'Guardians in motion…':'Attack now · no scrolling needed.'}</p>{busy&&<button className="outline" onClick={()=>finishPlayback.current?.()}>Skip effects</button>}</div>
