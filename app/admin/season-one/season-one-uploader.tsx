@@ -91,7 +91,7 @@ export default function SeasonOneUploader({cards}:{cards:Card[]}){
     }
     setBulkProgress({done:i+1,total:prepared.length});
    }
-   setMessage('Bulk check complete: '+passed+' PASS · '+failed+' FAIL. PASS cards were integrated exactly like a single active upload.');
+   setMessage('Founder bulk check complete: '+passed+' PASS · '+failed+' FAIL. PASS cards were founder-approved and integrated automatically.');
   }finally{
    setBusy(false);
   }
@@ -99,15 +99,15 @@ export default function SeasonOneUploader({cards}:{cards:Card[]}){
 
  return <div style={{display:'grid',gap:24}}>
   <section style={{display:'grid',gap:14,padding:20,border:'1px solid #ffffff22',borderRadius:18,background:'#0b282e'}}>
-   <div><span className="eyebrow">SEASON ONE CARD INTEGRATION AGENT</span><h2 style={{margin:'6px 0'}}>Upload → fast check → integrate</h2><p style={{color:'#b9cec7'}}>Every upload gets an immediate PASS or FAIL with a reason. PASS cards are automatically added to free pack pulls, Nest Battles, and the Rune Dungeon eligible roster. Paid sales stay off until a separate release decision.</p></div>
+   <div><span className="eyebrow">FOUNDER UPLOAD PATHWAY</span><h2 style={{margin:'6px 0'}}>Founder upload → fast check → live gameplay</h2><p style={{color:'#b9cec7'}}>Anything uploaded here is recorded as a Founder Upload. PASS cards are founder-approved automatically and added to Season One, free pack pulls, Nest Battles, and the Rune Dungeon eligible roster. FAIL cards are blocked with a reason. Paid sales stay off.</p></div>
    <label>Season One slot<select value={selected} onChange={e=>setSelected(e.target.value)} style={{display:'block',width:'100%',marginTop:6,padding:12}}>{state.map(c=><option key={c.id} value={c.id}>#{String(c.number).padStart(3,'0')} · {c.name} · {c.theme} · {c.rarity}</option>)}</select></label>
    {card&&<div style={{display:'flex',gap:12,flexWrap:'wrap',fontSize:12}}><strong>#{String(card.number).padStart(3,'0')} {card.name}</strong><span>{card.theme}</span><span>{card.rarity}</span><span>{card.packEligible?'PACK ELIGIBLE':'NOT YET UPLOADED'}</span></div>}
    <input type="file" accept="image/png,image/jpeg,image/webp" onChange={e=>chooseFile(e.target.files?.[0]||null)}/>
    {preview&&<img src={preview} alt="Upload preview" style={{width:'min(320px,100%)',aspectRatio:'3/4',objectFit:'cover',borderRadius:14}}/>}
-   <button className="gold" disabled={busy||!file||!card} onClick={submit}>{busy?'Checking + integrating…':'Check image + integrate card'}</button>
+   <button className="gold" disabled={busy||!file||!card} onClick={submit}>{busy?'Checking Founder Upload…':'Check + publish Founder Upload'}</button>
   </section>
   <section style={{display:'grid',gap:12,padding:20,border:'1px solid #ffffff18',borderRadius:18,background:'#082127'}}>
-   <div><span className="eyebrow">SIMPLE BULK MODE</span><h3 style={{margin:'6px 0'}}>Drop many cards → PASS or FAIL</h3><p style={{color:'#b9cec7',margin:0}}>Name each file with its 3-digit Season One number first, such as <strong>031.webp</strong>. Every file uses the exact same live upload check as the single-card uploader. PASS cards integrate automatically; FAIL cards are skipped with a reason.</p></div>
+   <div><span className="eyebrow">FOUNDER BULK MODE</span><h3 style={{margin:'6px 0'}}>Drop many cards → Founder PASS or FAIL</h3><p style={{color:'#b9cec7',margin:0}}>Name each file with its 3-digit Season One number first, such as <strong>031.webp</strong>. Every file uses the exact same Founder Upload pathway. PASS cards are founder-approved and integrated automatically; FAIL cards are skipped with a reason.</p></div>
    <input type="file" multiple accept="image/png,image/jpeg,image/webp" disabled={busy} onChange={e=>void bulk(e.target.files)}/>
    {bulkProgress.total>0&&<div style={{display:'grid',gap:6}}><strong>{busy?'Checking cards…':'Bulk check complete'} · {bulkProgress.done}/{bulkProgress.total}</strong><div style={{height:8,borderRadius:99,background:'#ffffff18',overflow:'hidden'}}><div style={{height:'100%',width:Math.round((bulkProgress.done/bulkProgress.total)*100)+'%',background:'#d8b96d'}}/></div></div>}
    {bulkResults.length>0&&<div style={{display:'grid',gap:8,maxHeight:420,overflow:'auto'}}>{bulkResults.map((result,index)=><div key={result.file+'-'+index} style={{display:'grid',gridTemplateColumns:'72px 1fr',gap:10,padding:'10px 12px',borderRadius:12,background:result.status==='PASS'?'#12382f':result.status==='FAIL'?'#3a1f25':'#132b31',border:'1px solid #ffffff14'}}>
