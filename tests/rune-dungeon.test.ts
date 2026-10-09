@@ -14,9 +14,15 @@ test('Rune Dungeon V2 has three ten-level worlds and one final Runeheart boss',(
 });
 
 test('Dungeon difficulty rises across all three worlds and each world pays 240 first-clear Energy',()=>{
- for(let i=1;i<RUNE_DUNGEON_FLOORS.length;i++){
-  assert.ok(RUNE_DUNGEON_FLOORS[i].hpMultiplier>=RUNE_DUNGEON_FLOORS[i-1].hpMultiplier);
-  assert.ok(RUNE_DUNGEON_FLOORS[i].damageMultiplier>=RUNE_DUNGEON_FLOORS[i-1].damageMultiplier);
+ for(const world of RUNE_DUNGEON_WORLDS){
+  const floors=RUNE_DUNGEON_FLOORS.filter(f=>f.world===world.id);
+  assert.equal(floors.length,10);
+  for(let i=1;i<floors.length;i++){
+   assert.ok(floors[i].hpMultiplier>floors[i-1].hpMultiplier);
+   assert.ok(floors[i].damageMultiplier>floors[i-1].damageMultiplier);
+  }
+  assert.ok(floors[0].hpMultiplier<floors[9].hpMultiplier);
+  assert.ok(floors[0].damageMultiplier<floors[9].damageMultiplier);
  }
  for(const world of RUNE_DUNGEON_WORLDS){
   const total=RUNE_DUNGEON_FLOORS.filter(f=>f.world===world.id).reduce((sum,f)=>sum+f.energy,0);
