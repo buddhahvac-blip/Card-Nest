@@ -38,7 +38,7 @@ export const RUNE_DUNGEON_WORLDS:RuneDungeonWorld[]=[
   landscape:'Rootbound Ruins and Mist Gardens',
   musicKey:'verdant',
   musicTitle:'Fairy Battles',
-  coverArt:'/art/dungeons/thornveil-wilds.svg',
+  coverArt:'/art/dungeons/thornveil-wilds.webp',
   tagline:'The roots remember every trespass.'
  },
  {
@@ -51,7 +51,7 @@ export const RUNE_DUNGEON_WORLDS:RuneDungeonWorld[]=[
   landscape:'Obsidian Forges and Magma Chasms',
   musicKey:'emberstorm',
   musicTitle:'Hope (Orchestral battle music)',
-  coverArt:'/art/dungeons/cindermaw-crucible.svg',
+  coverArt:'/art/dungeons/cindermaw-crucible.webp',
   tagline:'Only the strongest survive the fire.'
  },
  {
@@ -64,7 +64,7 @@ export const RUNE_DUNGEON_WORLDS:RuneDungeonWorld[]=[
   landscape:'Dreadmoon Citadel and Floating Ruins',
   musicKey:'eclipse',
   musicTitle:'Heavy Boss Battle 2',
-  coverArt:'/art/dungeons/dreadmoon-runeheart.svg',
+  coverArt:'/art/dungeons/dreadmoon-runeheart.webp',
   tagline:'Beyond the veil, the Runeheart waits.'
  }
 ];
