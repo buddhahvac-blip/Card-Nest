@@ -30,3 +30,8 @@ test('expired or inconsistent timestamps cannot award',()=>{
  assert.equal(canAwardVerifiedDungeonClear({...won,completedAt:null},request,now),false);
  assert.equal(canAwardVerifiedDungeonClear(null,request,now),false);
 });
+
+test('proof completed after expiry is rejected even when request is earlier',()=>{
+ const beforeExpiry=new Date('2026-10-10T02:58:00Z');
+ assert.equal(canAwardVerifiedDungeonClear({...won,expiresAt:new Date('2026-10-10T02:56:00Z'),completedAt:new Date('2026-10-10T02:57:00Z')},request,beforeExpiry),false);
+});
