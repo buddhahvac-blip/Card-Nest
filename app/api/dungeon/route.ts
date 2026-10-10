@@ -10,6 +10,11 @@ import commonMasterArt from '@/data/common-master-art.json';
 
 export const dynamic='force-dynamic';
 
+function hasServerVerifiedVictory():boolean {
+ // Fail closed until trusted server-owned combat results have been implemented.
+ return false;
+}
+
 function requireVerifiedServerVictory():never {
  // No server-authoritative battle result exists yet. Do not trust onVictory in browser code.
  throw new RequestError('Rune Energy rewards are temporarily unavailable while battle verification is being secured. You can still play Rune Dungeon.',503);
@@ -95,7 +100,7 @@ export async function POST(req:Request){
     if(!isRuneFloorUnlocked(body.floor,new Set(clears.rows.map(clear=>Number(clear.floor)))))throw new RequestError('Clear the earlier levels in this Rune World first.',409);
     // Emergency fail-closed control: a browser-reported win cannot authorize currency.
     // Restore first-clear rewards only alongside a server-authoritative battle verifier.
-    requireVerifiedServerVictory();
+    if (!hasServerVerifiedVictory()) requireVerifiedServerVictory();
     if(!body.attempt)throw new RequestError('Start this Rune Dungeon floor before saving a first clear.',409);
     const attempt=await c.query("SELECT id FROM rune_dungeon_attempts WHERE id=$1 AND user_id=$2 AND floor=$3 AND completed_at IS NULL AND expires_at>now() AND started_at<=now()-interval '15 seconds' FOR UPDATE",[body.attempt,user.userId,body.floor]);
     if(!attempt.rows[0])throw new RequestError('This Dungeon attempt is invalid, expired, or completed too quickly. Start the floor again.',409);
