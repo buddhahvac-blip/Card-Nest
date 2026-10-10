@@ -23,7 +23,9 @@ export const packDefinitions=[
 export function previewPackDrops(pack:string,additionalIds:readonly string[]=[]){
   const p=packDefinitions.find(x=>x.id===pack);
   if(!p)throw Error('Unknown pack');
-  const ids=[...new Set([...previewCollectibleIds,...additionalIds])];
+  // An explicitly supplied database roster is authoritative: do not silently
+  // add Founding Flight IDs that may no longer be live or pack eligible.
+  const ids=[...new Set(additionalIds.length?additionalIds:previewCollectibleIds)];
   return ids.map(card=>({card,weight:1}));
 }
 
