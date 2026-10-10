@@ -10,6 +10,8 @@ export type RuneDungeonWorld={
  landscape:string;
  musicKey:RuneWorldId;
  musicTitle:string;
+ coverArt:string;
+ tagline:string;
 };
 
 export type RuneDungeonFloor={
@@ -28,36 +30,42 @@ export type RuneDungeonFloor={
 export const RUNE_DUNGEON_WORLDS:RuneDungeonWorld[]=[
  {
   id:'verdant',
-  name:'Verdant Skywilds',
-  subtitle:'World I · The Living Canopy',
-  description:'Ten missions through floating gardens, waterfall roots and living rune groves ruled by Bloom, Tide and Mystic guardians.',
+  name:'Thornveil Wilds',
+  subtitle:'World I · The Rootbound Wilds',
+  description:'Ten missions through ancient rootways, drowned ruins and rune-choked groves where Bloom, Tide and Mystic guardians stalk the mist.',
   floorRange:[1,10],
   themes:['Bloom','Tide','Mystic'],
-  landscape:'Enchanted Garden of Lands',
+  landscape:'Rootbound Ruins and Mist Gardens',
   musicKey:'verdant',
-  musicTitle:'Fairy Battles'
+  musicTitle:'Fairy Battles',
+  coverArt:'/art/dungeons/thornveil-wilds.svg',
+  tagline:'The roots remember every trespass.'
  },
  {
   id:'emberstorm',
-  name:'Emberstorm Crucible',
-  subtitle:'World II · The Burning Heights',
-  description:'Ten missions across volcanic bridges, storm towers and ancient rune forges where Ember and Volt pressure never lets up.',
+  name:'Cindermaw Crucible',
+  subtitle:'World II · The Infernal Forge',
+  description:'Ten missions across molten bridges, obsidian keeps and storm-charged rune forges where Ember and Volt guardians hunt without mercy.',
   floorRange:[11,20],
   themes:['Ember','Volt'],
-  landscape:'Ashen Peaks and Rune Forges',
+  landscape:'Obsidian Forges and Magma Chasms',
   musicKey:'emberstorm',
-  musicTitle:'Hope (Orchestral battle music)'
+  musicTitle:'Hope (Orchestral battle music)',
+  coverArt:'/art/dungeons/cindermaw-crucible.svg',
+  tagline:'Only the strongest survive the fire.'
  },
  {
   id:'eclipse',
-  name:'Eclipse Runeheart',
-  subtitle:'World III · The Shadow Crown',
-  description:'Ten elite missions inside a moonlit void citadel where Shadow, Mystic and Ember guardians protect the Runeheart.',
+  name:'Dreadmoon Runeheart',
+  subtitle:'World III · The Veiled Crown',
+  description:'Ten elite missions beneath a broken moon, through floating ruins and rune-scarred halls where Shadow, Mystic and Ember guardians defend the final Runeheart.',
   floorRange:[21,30],
   themes:['Shadow','Mystic','Ember'],
-  landscape:'Moonlit Runeheart Citadel',
+  landscape:'Dreadmoon Citadel and Floating Ruins',
   musicKey:'eclipse',
-  musicTitle:'Heavy Boss Battle 2'
+  musicTitle:'Heavy Boss Battle 2',
+  coverArt:'/art/dungeons/dreadmoon-runeheart.svg',
+  tagline:'Beyond the veil, the Runeheart waits.'
  }
 ];
 

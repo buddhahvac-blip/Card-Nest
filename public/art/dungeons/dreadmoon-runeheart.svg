@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#070918"/><stop offset=".5" stop-color="#1b1037"/><stop offset="1" stop-color="#070812"/></linearGradient>
+ <radialGradient id="moon"><stop stop-color="#f1e8ff"/><stop offset=".72" stop-color="#ad86ff"/><stop offset="1" stop-color="#51208f" stop-opacity=".1"/></radialGradient>
+ <filter id="blur"><feGaussianBlur stdDeviation="22"/></filter>
+</defs>
+<rect width="1200" height="760" fill="url(#sky)"/>
+<circle cx="790" cy="170" r="160" fill="url(#moon)"/><circle cx="835" cy="140" r="150" fill="#090a18"/>
+<g fill="#17102a" stroke="#6940a8" stroke-width="5"><path d="M0 600L140 420l100 60 125-150 100 100 155-260 145 250 145-135 120 150 190 165v160H0Z"/></g>
+<g fill="#0c0a18" stroke="#8a57dd" stroke-width="8"><path d="M370 625V300h460v325Z"/><path d="M430 300l75-125h190l75 125Z"/></g>
+<path d="M525 625V430q75-115 150 0v195Z" fill="#050713" stroke="#a667ff" stroke-width="9"/>
+<path d="M600 405l38 56-38 58-38-58Z" fill="#ad79ff" filter="url(#blur)"/><path d="M600 405l38 56-38 58-38-58Z" fill="#d4b5ff"/>
+<g fill="#171028" stroke="#8454cf" stroke-width="4"><path d="M130 160l120-55 115 70-55 80-145 5Z"/><path d="M865 340l110-75 130 50-25 100-145 10Z"/><path d="M110 360l90-55 80 50-20 85-120 5Z"/></g>
+<g stroke="#b876ff" stroke-width="3" opacity=".75"><path d="M0 665q230-95 420 0t390 0 390 0"/><circle cx="280" cy="190" r="38"/><circle cx="975" cy="290" r="34"/></g>
+<g fill="#c89cff"><circle cx="190" cy="110" r="4"/><circle cx="320" cy="75" r="3"/><circle cx="965" cy="125" r="5"/><circle cx="1040" cy="210" r="3"/><circle cx="720" cy="70" r="4"/></g>
+</svg>
