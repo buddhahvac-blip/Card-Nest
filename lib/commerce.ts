@@ -5,8 +5,7 @@ import {packCardAvailable} from './release';
 import {drawCards} from './draw';
 import {RequestError} from './http';
 import {enforcePreviewCommonSupply} from './release-supply';
-import {isPreviewCollectible,packDefinitions,previewDropVersion,previewPackDrops} from './catalog';
-import commonMasterArt from '../data/common-master-art.json';
+import {packDefinitions,previewDropVersion,previewPackDrops} from './catalog';
 
 export async function ensureUser(c:PoolClient,id:string){await c.query('INSERT INTO users(id) VALUES($1) ON CONFLICT DO NOTHING',[id])}
 
@@ -16,8 +15,9 @@ async function currentPreviewDrops(c:PoolClient,pack:string,seasonId:string){
 }
 
 function previewCardAvailable(card:{id:string;status:string;release_status:string;is_collectible:boolean;is_pack_eligible:boolean;art:string|null;art_status:string}){
- if(isPreviewCollectible(card.id))return Boolean((commonMasterArt as Record<string,string>)[card.id]||card.art);
- return packCardAvailable(card,false);
+ // Preview pools must honor the same live-art and pack eligibility gates as
+ // paid pools, even for the original Founding Flight cards.
+ return Boolean(card.is_pack_eligible&&card.art_status==='live'&&packCardAvailable(card,false));
 }
 
 export async function openEntitlement(userId:string,entitlementId:string,run=transaction){return run(async c=>{const {rows:[e]}=await c.query('SELECT * FROM entitlements WHERE id=$1 AND user_id=$2 FOR UPDATE',[entitlementId,userId]);if(!e)throw new RequestError('Pack not found',404);const {rows:[existing]}=await c.query('SELECT * FROM openings WHERE entitlement_id=$1',[e.id]);if(existing)return existing;if(e.status!=='unopened')throw new RequestError('Pack is not available',409);const {rows:[p]}=await c.query('SELECT * FROM packs WHERE id=$1 FOR SHARE',[e.pack_id]);if(!p)throw new RequestError('Pack configuration missing',503);const useCurrentPreview=!e.purchase_id&&!p.sale_enabled&&p.drop_version.startsWith('preview-')&&packDefinitions.some(x=>x.id===p.id);const drops=useCurrentPreview?await currentPreviewDrops(c,p.id,p.season_id):p.drops;const available=await c.query("SELECT id,status,release_status,is_collectible,is_pack_eligible,art,art_status FROM cards WHERE id=ANY($1::text[]) AND season_id=$2 FOR SHARE",[drops.map((d:any)=>d.card),p.season_id]);const complete=available.rowCount===new Set(drops.map((d:any)=>d.card)).size;const invalid=useCurrentPreview?available.rows.some(card=>!previewCardAvailable(card)):available.rows.some(card=>!packCardAvailable(card,!!e.purchase_id));if(!complete||invalid)throw new RequestError('Pack configuration needs review',503);const cards=drawCards(p.count,drops),id=randomUUID(),dropVersion=useCurrentPreview?previewDropVersion:p.drop_version;if(dropVersion.startsWith('preview-'))await enforcePreviewCommonSupply(c,p.season_id,cards);await c.query('INSERT INTO openings(id,entitlement_id,user_id,pack,cards,drop_version) VALUES($1,$2,$3,$4,$5,$6)',[id,e.id,userId,p.id,JSON.stringify(cards),dropVersion]);for(let i=0;i<cards.length;i++)await c.query('INSERT INTO copies(id,user_id,card,opening_id,position) VALUES($1,$2,$3,$4,$5)',[randomUUID(),userId,cards[i],id,i]);await c.query("UPDATE entitlements SET status='opened' WHERE id=$1",[e.id]);return (await c.query('SELECT * FROM openings WHERE id=$1',[id])).rows[0]})}
