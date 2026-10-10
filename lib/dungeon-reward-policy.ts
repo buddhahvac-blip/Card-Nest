@@ -19,6 +19,8 @@ export function canAwardVerifiedDungeonClear(
  if(!attempt||attempt.userId!==request.userId||attempt.floor!==request.floor)return false;
  if(attempt.outcome!=='won'||!attempt.verifiedAt||!attempt.completedAt)return false;
  if(attempt.expiresAt.getTime()<=now.getTime())return false;
+ if(attempt.completedAt.getTime()>attempt.expiresAt.getTime())return false;
+ if(attempt.verifiedAt.getTime()>attempt.expiresAt.getTime())return false;
  if(attempt.verifiedAt.getTime()>now.getTime()||attempt.completedAt.getTime()>now.getTime())return false;
  if(attempt.verifiedAt.getTime()>attempt.completedAt.getTime())return false;
  return true;
