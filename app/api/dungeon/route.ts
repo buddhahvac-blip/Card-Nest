@@ -88,6 +88,9 @@ export async function POST(req:Request){
     if(existing.rows[0])return {alreadyCleared:true,reward:0,highestCleared:Number(progress.highest_cleared),runeEnergy:Number(progress.rune_energy)};
     const clears=await c.query('SELECT floor FROM rune_dungeon_clears WHERE user_id=$1',[user.userId]);
     if(!isRuneFloorUnlocked(body.floor,new Set(clears.rows.map(clear=>Number(clear.floor)))))throw new RequestError('Clear the earlier levels in this Rune World first.',409);
+    // Emergency fail-closed control: a browser-reported win cannot authorize currency.
+    // Restore first-clear rewards only alongside a server-authoritative battle verifier.
+    throw new RequestError('Rune Energy rewards are temporarily unavailable while battle verification is being secured. You can still play Rune Dungeon.',503);
     if(!body.attempt)throw new RequestError('Start this Rune Dungeon floor before saving a first clear.',409);
     const attempt=await c.query("SELECT id FROM rune_dungeon_attempts WHERE id=$1 AND user_id=$2 AND floor=$3 AND completed_at IS NULL AND expires_at>now() AND started_at<=now()-interval '15 seconds' FOR UPDATE",[body.attempt,user.userId,body.floor]);
     if(!attempt.rows[0])throw new RequestError('This Dungeon attempt is invalid, expired, or completed too quickly. Start the floor again.',409);
