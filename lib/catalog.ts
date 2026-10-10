@@ -20,10 +20,12 @@ export const packDefinitions=[
 {id:'royal',tone:'premium gold',tag:'DISCOVER THE CROWN',description:'A grand opening for your growing nest.',artCrop:{x:1174,y:390,width:328,height:438},name:'Royal Nest',file:'packs/nestrune-royal-nest-pack.webp',count:7,priceCents:999}
 ];
 
-export function previewPackDrops(pack:string,additionalIds:readonly string[]=[]){
+export function previewPackDrops(pack:string,additionalIds?:readonly string[]){
   const p=packDefinitions.find(x=>x.id===pack);
   if(!p)throw Error('Unknown pack');
-  const ids=[...new Set([...previewCollectibleIds,...additionalIds])];
+  // An explicitly supplied database roster is authoritative: do not silently
+  // add Founding Flight IDs that may no longer be live or pack eligible.
+  const ids=[...new Set(additionalIds===undefined?previewCollectibleIds:additionalIds)];
   return ids.map(card=>({card,weight:1}));
 }
 
