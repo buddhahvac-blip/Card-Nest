@@ -135,12 +135,17 @@ export default function RuneDungeon(){
    const worldFloors=RUNE_DUNGEON_FLOORS.filter(f=>f.world===world.id);
    const clearedCount=worldFloors.filter(f=>cleared.has(f.floor)).length;
    return <button key={world.id} type="button" className={'dungeon-world-choice world-'+world.id+(selectedWorld===world.id?' selected':'')} aria-pressed={selectedWorld===world.id} onClick={()=>setSelectedWorld(world.id)}>
-    <span className="eyebrow">{world.subtitle}</span><strong>{world.name}</strong><small>{world.landscape}</small><em>{clearedCount}/10 cleared · Available</em>
+    <span className="dungeon-world-cover" style={{backgroundImage:`url(${world.coverArt})`}} aria-hidden="true"/>
+    <span className="dungeon-world-choice-copy"><span className="eyebrow">{world.subtitle}</span><strong>{world.name}</strong><small>{world.tagline}</small><em>{clearedCount}/10 cleared · Available</em></span>
    </button>
   })}</div>
 
   <section className={'dungeon-world world-'+selectedWorld}>
-   <div className="dungeon-world-banner"><div><span className="eyebrow">{selectedWorldData.subtitle}</span><h2>{selectedWorldData.name}</h2><p>{selectedWorldData.description}</p></div><div className="dungeon-world-meta"><span>{selectedWorldData.landscape}</span><strong>{selectedWorldData.themes.join(' · ')}</strong><small>♪ {selectedWorldData.musicTitle}</small></div></div>
+   <div className="dungeon-world-banner">
+    <div className="dungeon-world-banner-art" style={{backgroundImage:`url(${selectedWorldData.coverArt})`}} aria-hidden="true"/>
+    <div className="dungeon-world-banner-copy"><span className="eyebrow">{selectedWorldData.subtitle}</span><h2>{selectedWorldData.name}</h2><strong className="dungeon-world-tagline">{selectedWorldData.tagline}</strong><p>{selectedWorldData.description}</p></div>
+    <div className="dungeon-world-meta"><span>{selectedWorldData.landscape}</span><strong>{selectedWorldData.themes.join(' · ')}</strong><small>♪ {selectedWorldData.musicTitle}</small></div>
+   </div>
    <div className="dungeon-floor-grid">{selectedFloors.map(floor=>{
     const isCleared=cleared.has(floor.floor);
     const unlocked=isRuneFloorUnlocked(floor.floor,cleared);
