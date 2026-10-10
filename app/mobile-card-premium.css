@@ -1,0 +1,64 @@
+/* NestRune premium animated card treatment. Scoped to battle screens only.
+   Presentation only: no combat, pack, account or reward logic is changed. */
+.nest-battles .battle-stage-v4 {
+  isolation:isolate;
+  overflow:hidden;
+  border-radius:clamp(14px,3vw,28px);
+}
+.nest-battles .battle-stage-v4::after {
+  content:"";
+  pointer-events:none;
+  position:absolute;
+  inset:0;
+  z-index:1;
+  border-radius:inherit;
+  background:radial-gradient(ellipse at 50% 88%,rgba(255,214,144,.07),transparent 60%);
+}
+.nest-battles .battle-guardian-actor {
+  position:relative;
+  transform-origin:center 84%;
+  animation:nr-card-hover 3.6s ease-in-out infinite;
+  will-change:transform;
+}
+.nest-battles .battle-combatant-rival .battle-guardian-actor {animation-delay:-1.8s}
+.nest-battles .battle-avatar-aura {
+  pointer-events:none;
+  animation:nr-aura-breathe 3s ease-in-out infinite alternate;
+}
+.nest-battles .battle-card-echo {
+  filter:drop-shadow(0 15px 25px rgba(0,0,0,.48));
+}
+.nest-battles .battle-guardian-avatar,
+.nest-battles .battle-card-echo,
+.nest-battles .battle-avatar-inspect {backface-visibility:hidden}
+.nest-battles .battle-command {
+  min-height:52px;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .16s ease,filter .16s ease,box-shadow .16s ease;
+}
+.nest-battles .battle-command:not(:disabled):active {transform:scale(.965);filter:brightness(1.14)}
+.nest-battles .battle-command:focus-visible,
+.nest-battles .battle-avatar-inspect:focus-visible {outline:3px solid #ffdc94;outline-offset:3px}
+.nest-battles .hp-track > * {transition:width .36s cubic-bezier(.18,.75,.2,1)}
+.nest-battles .battle-reserve.active {box-shadow:0 0 0 1px rgba(246,209,139,.45),0 0 22px rgba(246,209,139,.16)}
+@keyframes nr-card-hover {
+  0%,100% {transform:translate3d(0,0,0)}
+  50% {transform:translate3d(0,-7px,0)}
+}
+@keyframes nr-aura-breathe {
+  from {opacity:.65;filter:brightness(.9)}
+  to {opacity:1;filter:brightness(1.22)}
+}
+@media (max-width:680px) {
+  .nest-battles .battle-stage-v4 {border-radius:14px}
+  .nest-battles .battle-command {min-height:54px}
+  .nest-battles .battle-command-deck-v4 {padding-bottom:max(10px,env(safe-area-inset-bottom))}
+  .nest-battles .battle-guardian-actor {animation-duration:4.2s}
+}
+@media (prefers-reduced-motion:reduce) {
+  .nest-battles .battle-guardian-actor,
+  .nest-battles .battle-avatar-aura {animation:none!important;will-change:auto}
+  .nest-battles .battle-command,
+  .nest-battles .hp-track > * {transition:none!important}
+}
