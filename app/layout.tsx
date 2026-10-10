@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Manrope } from "next/font/google";
 import {searchIndexingApproved,siteDescription,siteName,siteUrl} from "@/lib/site";
 import "./globals.css";
 import "./home-experience.css";
+import "./mobile-card-premium.css";
 
 const worldSerif = Cormorant_Garamond({
   subsets: ["latin"],
