@@ -627,3 +627,38 @@ button.battle-reserve{cursor:pointer}.battle-reserve:not(:disabled):hover{border
 @media(max-width:700px) and (prefers-reduced-motion:reduce){
  .battle-stage-v4 .battle-avatar-fighter,.battle-stage-v4 .battle-guardian-avatar,.battle-stage-v4 .battle-command{transition:none!important}
 }
+
+
+/* Custom Rune Dungeon world cover art */
+.dungeon-world-choice{min-height:280px;padding:0;display:block;background:#091d24}
+.dungeon-world-choice:before{display:none}
+.dungeon-world-cover{display:block;position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;filter:saturate(1.08) contrast(1.04);transform:scale(1.01);transition:transform .28s ease,filter .28s ease}
+.dungeon-world-choice:hover .dungeon-world-cover,.dungeon-world-choice.selected .dungeon-world-cover{transform:scale(1.045);filter:saturate(1.16) contrast(1.08)}
+.dungeon-world-choice-copy{position:absolute;inset:auto 0 0;z-index:2;display:grid;gap:6px;padding:58px 18px 18px;background:linear-gradient(180deg,transparent 0%,#06161cdd 38%,#06161cf5 100%)}
+.dungeon-world-choice-copy .eyebrow{color:#e7d49a}
+.dungeon-world-choice-copy strong{font:clamp(22px,2.5vw,31px) Georgia,serif;color:#fff0bd;text-shadow:0 2px 12px #000}
+.dungeon-world-choice-copy small{font-size:11px;line-height:1.45;color:#e3ece7}
+.dungeon-world-choice-copy em{font-style:normal;font-size:10px;font-weight:800;letter-spacing:.4px;color:#e6d08c}
+.dungeon-world-choice.world-verdant,.dungeon-world-choice.world-emberstorm,.dungeon-world-choice.world-eclipse{background:#071b21}
+.dungeon-world-choice.world-verdant{border-color:#7ad59f55}
+.dungeon-world-choice.world-emberstorm{border-color:#ff9a5b55}
+.dungeon-world-choice.world-eclipse{border-color:#b08cff66}
+.dungeon-world-choice.selected:after{top:12px;right:12px}
+
+.dungeon-world-banner{grid-template-columns:minmax(220px,.65fr) minmax(0,1.2fr) auto;min-height:230px;padding:0;background:#081d24!important;border:1px solid #ffffff1f}
+.dungeon-world-banner:before{display:none}
+.dungeon-world-banner-art{min-height:230px;background-position:center;background-size:cover;background-repeat:no-repeat}
+.dungeon-world-banner-art:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,#081d24 100%)}
+.dungeon-world-banner-copy{align-self:center;padding:22px 8px 22px 0}
+.dungeon-world-banner-copy h2{margin:6px 0 6px}
+.dungeon-world-tagline{display:block;margin-bottom:8px;color:#f1d58b;font:italic 15px Georgia,serif}
+.dungeon-world-meta{align-self:center;padding:20px 20px 20px 8px}
+.dungeon-world.world-verdant .dungeon-world-banner,.dungeon-world.world-emberstorm .dungeon-world-banner,.dungeon-world.world-eclipse .dungeon-world-banner{background:#081d24!important}
+@media(max-width:900px){
+ .dungeon-world-choice{min-height:240px}
+ .dungeon-world-banner{grid-template-columns:1fr}
+ .dungeon-world-banner-art{min-height:230px}
+ .dungeon-world-banner-art:after{background:linear-gradient(180deg,transparent 58%,#081d24 100%)}
+ .dungeon-world-banner-copy{padding:0 18px 8px}
+ .dungeon-world-meta{justify-items:start;text-align:left;padding:0 18px 18px}
+}
