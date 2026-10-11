@@ -347,3 +347,16 @@ export function playBattleSound(effect:BattleSoundEffect,enabled=true){
  heavyImpact(ctx,now+.11,.86);
  if(effect.knockout)tone(ctx,sfxBus,now+.18,.5,82,32,.17,'sawtooth');
 }
+
+
+/** Optional cinematic impact accent, fired with the authoritative UI frame settlement.
+ * Sound only: never changes health, cooldowns, rewards, or frame durations.
+ */
+export function playCinematicImpact(theme:string,enabled=true,knockout=false){
+ if(!enabled)return;
+ const ctx=audioContext();if(!ctx||!sfxBus)return;
+ const start=ctx.currentTime+.01;
+ heavyImpact(ctx,start,.5);
+ tone(ctx,sfxBus,start,.12,(themeRoots[theme]||220)*.55,(themeRoots[theme]||220)*.26,.07,'triangle');
+ if(knockout)tone(ctx,sfxBus,start+.04,.24,88,42,.11,'sawtooth');
+}
