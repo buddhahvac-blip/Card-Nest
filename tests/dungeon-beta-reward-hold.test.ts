@@ -16,3 +16,10 @@ test('beta practice progression does not submit reward-clearing requests',()=>{
  assert.match(client,/setPracticeClears\(/);
  assert.match(client,/New Rune Energy rewards and saved clears are paused/);
 });
+
+test('beta vault never promises currently disabled first-clear rewards',()=>{
+ const client=readFileSync('app/rune-dungeon-client.tsx','utf8');
+ assert.match(client,/Practice clears do not earn Rune Energy during this beta/);
+ assert.doesNotMatch(client,/Each Rune World awards 240 first-clear Energy/);
+ assert.match(client,/Redeem previously earned Rune Energy/);
+});
