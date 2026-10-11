@@ -23,3 +23,11 @@ test('beta vault never promises currently disabled first-clear rewards',()=>{
  assert.doesNotMatch(client,/Each Rune World awards 240 first-clear Energy/);
  assert.match(client,/Redeem previously earned Rune Energy/);
 });
+
+test('battle UI does not promise new rewards for practice wins',()=>{
+ const battle=readFileSync('app/nest-battles.tsx','utf8');
+ assert.match(battle,/dungeon\.rewardsEnabled\?'Rune Energy is a free beta gameplay reward/);
+ assert.match(battle,/Practice clear — no new Rune Energy awarded during beta/);
+ assert.match(battle,/Practice mode: no new Rune Energy is earned or saved during this beta/);
+ assert.match(battle,/Dungeon Beta practice: victories do not grant Rune Energy or saved clears/);
+});
