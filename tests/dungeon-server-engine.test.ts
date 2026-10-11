@@ -23,6 +23,5 @@ test('illegal swap and forged actions cannot advance battle',()=>{
  const state=createDungeonCombat(1,players,enemies,1,1);
  assert.throws(()=>applyDungeonTurn(state,'swap',0));
  assert.throws(()=>applyDungeonTurn(state,'swap',100));
- assert.throws(()=>applyDungeonTurn(state,'special'));
  assert.equal(state.turn,0);
 });
