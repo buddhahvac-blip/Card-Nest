@@ -35,6 +35,7 @@ export default function RuneDungeon(){
  const [attemptId,setAttemptId]=useState<string|null>(null);
  const [selectedWorld,setSelectedWorld]=useState<RuneWorldId>('verdant');
  const [practiceClears,setPracticeClears]=useState<number[]>([]);
+ const rewardBetaPaused=true;
 
  useEffect(()=>{
   const controller=new AbortController();
@@ -50,9 +51,9 @@ export default function RuneDungeon(){
  },[]);
 
  async function recordClear(floor:number){
-  if(!progress?.signedIn){
+  if(rewardBetaPaused||!progress?.signedIn){
    setPracticeClears(current=>current.includes(floor)?current:[...current,floor]);
-   setMessage((worldFloorNumber(floor)===10?'All ten levels in this world cleared in practice.':'Level '+worldFloorNumber(floor)+' cleared in practice. The next level in this world is available.')+' Sign in to save progress and earn Rune Energy.');
+   setMessage((worldFloorNumber(floor)===10?'All ten levels in this world cleared in practice.':'Level '+worldFloorNumber(floor)+' cleared in practice. The next level in this world is available.')+(rewardBetaPaused?' Rune Energy rewards are temporarily paused during beta.':' Sign in to save progress and earn Rune Energy.'));
    return;
   }
   if(progress?.clears.some(clear=>clear.floor===floor)){setMessage('Floor replay complete. Rune Energy is first-clear only.');return}
@@ -70,7 +71,7 @@ export default function RuneDungeon(){
  async function startFloor(floor:number){
   setMessage('');
   if(loading||!isRuneFloorUnlocked(floor,cleared)){setMessage('Clear the earlier levels in this Rune World first.');return}
-  if(!progress?.signedIn){setAttemptId(null);setActiveFloor(floor);return}
+  if(rewardBetaPaused||!progress?.signedIn){setAttemptId(null);setActiveFloor(floor);return}
   try{
    const response=await fetch('/api/dungeon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'start',floor})});
    const data=await response.json();
@@ -81,7 +82,7 @@ export default function RuneDungeon(){
  }
 
  async function recordLoss(floor:number){
-  if(!progress?.signedIn||!attemptId){setAttemptId(null);return}
+  if(rewardBetaPaused||!progress?.signedIn||!attemptId){setAttemptId(null);return}
   try{
    const response=await fetch('/api/dungeon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'loss',floor,attempt:attemptId})});
    const data=await response.json();
@@ -105,7 +106,7 @@ export default function RuneDungeon(){
   finally{setClaiming(null)}
  }
 
- const cleared=new Set(progress?.signedIn?progress.clears.map(clear=>clear.floor):practiceClears);
+ const cleared=new Set(rewardBetaPaused?[...(progress?.clears.map(clear=>clear.floor)||[]),...practiceClears]:progress?.signedIn?progress.clears.map(clear=>clear.floor):practiceClears);
  const selectedWorldData=runeWorld(selectedWorld);
  const selectedFloors=RUNE_DUNGEON_FLOORS.filter(floor=>floor.world===selectedWorld);
 
@@ -115,28 +116,29 @@ export default function RuneDungeon(){
   const enemyIds=progress?.enemyRotations?.[String(floor.floor)]||floor.enemyIds;
   return <section className={'rune-dungeon-battle-shell world-'+world.id}>
    <div className="dungeon-battle-top"><button className="outline" onClick={()=>{setAttemptId(null);setActiveFloor(null)}}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · LEVEL {worldFloorNumber(floor.floor)}</span><strong>{floor.name}{(floor.boss||floor.worldBoss)?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <NestBattles dungeon={{...floor,enemyIds,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
+   <NestBattles dungeon={{...floor,enemyIds,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn&&!rewardBetaPaused,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
    {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
  }
 
  return <section className="rune-dungeon">
+  {rewardBetaPaused&&<p className="notice dungeon-notice" role="status"><strong>Dungeon Beta:</strong> All three worlds remain playable in practice mode. New Rune Energy rewards and saved clears are paused while victory security is upgraded. Existing Energy and already-earned packs remain available.</p>}
   <div className="dungeon-hero">
    <div><span className="eyebrow">NESTRUNE MISSIONS · 3 RUNE WORLDS</span><h1>Choose your Rune World.</h1><p>Rune Dungeon V2 now has three full ten-level campaigns. Each world has its own landscape, Theme mix, music, enemy formations and boss encounter. All three worlds are open from the start. Clear levels 1–10 in order within each world, and switch worlds whenever you like.</p><div className="battle-pill-row"><span>3 worlds</span><span>30 levels</span><span>3 boss arenas</span><span>Daily enemy rotation · 3 AM ET</span><span>{progress?.eligibleEnemyCount||0} integrated enemies</span></div></div>
-   <div className="dungeon-energy-vault"><NestHeroEmblem value={loading?'…':progress?.runeEnergy||0} label="Rune Energy" subtle/><small>{progress?.signedIn?'Saved to your account':'Sign in to save rewards'}</small></div>
+   <div className="dungeon-energy-vault"><NestHeroEmblem value={loading?'…':progress?.runeEnergy||0} label="Rune Energy" subtle/><small>{progress?.signedIn?'Saved to your account':'Existing earned balance'}</small></div>
   </div>
 
   {message&&<p className="notice dungeon-notice">{message}</p>}
-  {!progress?.signedIn&&!loading&&<div className="dungeon-signin"><LockKeyhole/><div><strong>Try all three worlds. Sign in to bank rewards.</strong><p>Guest progress lasts for this visit. Sign in for saved clears, Rune Energy and pack claims.</p></div><Link className="gold" href="/auth">Sign in</Link></div>}
+  {!rewardBetaPaused&&!progress?.signedIn&&!loading&&<div className="dungeon-signin"><LockKeyhole/><div><strong>Try all three worlds. Sign in to bank rewards.</strong><p>Guest progress lasts for this visit. Sign in for saved clears, Rune Energy and pack claims.</p></div><Link className="gold" href="/auth">Sign in</Link></div>}
 
-  <div className="dungeon-section-head"><div><span className="eyebrow">CHOOSE A RUNE WORLD</span><h2>Three worlds. Ten levels each.</h2></div><span>{cleared.size} / 30 cleared</span></div>
+  <div className="dungeon-section-head"><div><span className="eyebrow">CHOOSE A RUNE WORLD</span><h2>Three worlds. Ten levels each.</h2></div><span>{cleared.size} / 30 completed (saved + practice)</span></div>
 
   <div className="dungeon-world-picker">{RUNE_DUNGEON_WORLDS.map(world=>{
    const worldFloors=RUNE_DUNGEON_FLOORS.filter(f=>f.world===world.id);
    const clearedCount=worldFloors.filter(f=>cleared.has(f.floor)).length;
    return <button key={world.id} type="button" className={'dungeon-world-choice world-'+world.id+(selectedWorld===world.id?' selected':'')} aria-pressed={selectedWorld===world.id} onClick={()=>setSelectedWorld(world.id)}>
     <span className="dungeon-world-cover" style={{backgroundImage:`url(${world.coverArt})`}} aria-hidden="true"/>
-    <span className="dungeon-world-choice-copy"><span className="eyebrow">{world.subtitle}</span><strong>{world.name}</strong><small>{world.tagline}</small><em>{clearedCount}/10 cleared · Available</em></span>
+    <span className="dungeon-world-choice-copy"><span className="eyebrow">{world.subtitle}</span><strong>{world.name}</strong><small>{world.tagline}</small><em>{clearedCount}/10 completed · Available</em></span>
    </button>
   })}</div>
 
@@ -152,20 +154,20 @@ export default function RuneDungeon(){
     const localLevel=worldFloorNumber(floor.floor);
     return <article key={floor.floor} className={'dungeon-floor '+((floor.boss||floor.worldBoss)?'boss ':'')+(isCleared?'cleared ':'')+(!unlocked?'locked':'')}>
      <div className="dungeon-floor-number">{(floor.boss||floor.worldBoss)?<Crown/>:String(localLevel).padStart(2,'0')}</div>
-     <div className="dungeon-floor-copy"><span>{(floor.boss||floor.worldBoss)?(floor.boss?'RUNEHEART FINAL BOSS':'WORLD BOSS'):'LEVEL '+localLevel}</span><h3>{floor.name}</h3><p>{floor.mission}</p><small><BatteryCharging size={13}/> First clear +{floor.energy} Rune Energy</small></div>
-     <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>Cleared</span>:unlocked?<button className={(floor.boss||floor.worldBoss)?'gold':'outline'} disabled={loading} onClick={()=>{void startFloor(floor.floor)}}><Swords size={15}/>{(floor.boss||floor.worldBoss)?'Challenge Boss':'Enter'}</button>:<span><LockKeyhole size={15}/>Clear level {localLevel-1} first</span>}{isCleared&&<button className="outline" onClick={()=>{void startFloor(floor.floor)}}>Replay</button>}</div>
+     <div className="dungeon-floor-copy"><span>{(floor.boss||floor.worldBoss)?(floor.boss?'RUNEHEART FINAL BOSS':'WORLD BOSS'):'LEVEL '+localLevel}</span><h3>{floor.name}</h3><p>{floor.mission}</p><small><BatteryCharging size={13}/> {rewardBetaPaused?'Practice · no new Energy':'First clear +'+floor.energy+' Rune Energy'}</small></div>
+     <div className="dungeon-floor-state">{isCleared?<span className="cleared-mark"><Check/>{practiceClears.includes(floor.floor)&&!progress?.clears.some(c=>c.floor===floor.floor)?'Practice clear':'Saved clear'}</span>:unlocked?<button className={(floor.boss||floor.worldBoss)?'gold':'outline'} disabled={loading} onClick={()=>{void startFloor(floor.floor)}}><Swords size={15}/>{(floor.boss||floor.worldBoss)?'Challenge Boss':'Enter'}</button>:<span><LockKeyhole size={15}/>Clear level {localLevel-1} first</span>}{isCleared&&<button className="outline" onClick={()=>{void startFloor(floor.floor)}}>Replay</button>}</div>
     </article>
    })}</div>
   </section>
 
   <div className="dungeon-reward-vault">
-   <div className="dungeon-section-head"><div><span className="eyebrow">RUNE VAULT</span><h2>Claim beta packs with Rune Energy</h2></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <p className="dungeon-vault-copy">Rune Energy is earned only from first dungeon clears. Save 100 Energy for a Hatchling Pack, 220 for a Nest Pack, or 400 for a Guardian Pack. Royal Nest Packs are premium purchase-only and cannot be claimed with Rune Energy.</p>
+   <div className="dungeon-section-head"><div><span className="eyebrow">RUNE VAULT</span><h2>Redeem previously earned Rune Energy</h2></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
+   <p className="dungeon-vault-copy">New Rune Energy earnings are paused during beta. Existing earned Rune Energy can still be used. Save 100 Energy for a Hatchling Pack, 220 for a Nest Pack, or 400 for a Guardian Pack. Royal Nest Packs are premium purchase-only and cannot be claimed with Rune Energy.</p>
    <div className="dungeon-pack-grid">{(Object.keys(RUNE_PACK_COSTS) as RuneRewardPack[]).map(pack=>{
     const cost=RUNE_PACK_COSTS[pack],enough=(progress?.runeEnergy||0)>=cost;
     return <article key={pack} className={'dungeon-pack-reward reward-'+pack}><PackageOpen/><span>DUNGEON REWARD</span><h3>{packNames[pack]}</h3><strong><BatteryCharging size={16}/>{cost} Rune Energy</strong><button className="outline" disabled={!progress?.signedIn||!enough||!!claiming} onClick={()=>claimPack(pack)}>{claiming===pack?'Claiming…':enough?'Claim pack':'Need '+(cost-(progress?.runeEnergy||0))+' more'}</button></article>
    })}<article className="dungeon-pack-reward reward-royal"><PackageOpen/><span>PREMIUM PURCHASE ONLY</span><h3>Royal Nest Pack</h3><strong>No Rune Energy redemption</strong><Link className="gold" href="/#packs">Go to Pack Store</Link></article></div>
-   <div className="dungeon-vault-footer"><span>Each Rune World awards 240 first-clear Energy · all three worlds award 720 total.</span><Link href="/#My%20Nest"><PackageOpen size={15}/>Go to My Nest</Link></div>
+   <div className="dungeon-vault-footer"><span>Practice clears do not earn Rune Energy during this beta. Previously earned Energy stays in your account.</span><Link href="/#My%20Nest"><PackageOpen size={15}/>Go to My Nest</Link></div>
   </div>
 
   <p className="disclaimer">Rune Dungeon beta rewards have no cash value and do not change card rarity, paid pack odds or commercial eligibility. Each floor awards Rune Energy once per account; replaying a cleared floor is for play only.</p>
