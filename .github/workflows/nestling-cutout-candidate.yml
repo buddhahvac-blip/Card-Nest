@@ -1,0 +1,51 @@
+name: Nestling transparent art candidate
+
+on:
+  push:
+    branches: [feature/raid-inspired-dungeon-upgrade]
+    paths: [.github/workflows/nestling-cutout-candidate.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  create-review-only-asset:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install alpha extraction dependencies
+        run: pip install "rembg[cpu]==2.0.67" "Pillow>=10,<12"
+      - name: Prepare candidate from repo artwork
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          from rembg import remove, new_session
+          src=Path('design-sources/archive/sproutling-001.png')
+          if not src.is_file(): raise SystemExit('Canonical source not available')
+          image=Image.open(src).convert('RGBA')
+          print('Source:',src,'dimensions:',image.size)
+          cutout=remove(image,session=new_session('u2net'))
+          alpha=cutout.getchannel('A')
+          print('Alpha extrema', alpha.getextrema())
+          if alpha.getextrema() == (255,255): raise SystemExit('Background did not become transparent')
+          bbox=alpha.getbbox()
+          if not bbox: raise SystemExit('No foreground detected')
+          left,top,right,bottom=bbox
+          margin=max(12,int(max(right-left,bottom-top)*.06))
+          output=cutout.crop((max(0,left-margin),max(0,top-margin),min(image.width,right+margin),min(image.height,bottom+margin)))
+          dest=Path('review-assets');dest.mkdir(exist_ok=True)
+          output.save(dest/'sproutling-001-candidate.png',optimize=True)
+          print('Saved review candidate:',output.size)
+          PY
+      - name: Upload for review only (not deployed or registered in app)
+        uses: actions/upload-artifact@v4
+        with:
+          name: nestling-cutout-review-candidate
+          path: review-assets/sproutling-001-candidate.png
+          retention-days: 14
