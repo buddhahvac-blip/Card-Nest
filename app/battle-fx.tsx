@@ -13,6 +13,7 @@ export function ArenaEnvironment({world='verdant'}:{world?:'verdant'|'emberstorm
   <div className={styles.worldArt}/>
   <div className={styles.worldGlow}/>
   <div className={styles.worldLandmark}/>
+  <div className={styles.stageDepth} aria-hidden="true"><span className={styles.stageHorizon}/><span className={styles.stageFloor}/><i className={styles.groundLeft}/><i className={styles.groundRight}/></div>
   <div className={styles.lightShafts}><i/><i/><i/></div>
   <div className={styles.foregroundLeaves}>
    {Array.from({length:12},(_,i)=>{
