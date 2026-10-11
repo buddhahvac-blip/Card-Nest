@@ -5,8 +5,11 @@ ALTER TABLE cardnest_v1.rune_dungeon_attempts
  ADD COLUMN IF NOT EXISTS combat_state jsonb,
  ADD COLUMN IF NOT EXISTS turn_index integer NOT NULL DEFAULT 0,
  ADD COLUMN IF NOT EXISTS combat_verified_at timestamptz;
-ALTER TABLE cardnest_v1.rune_dungeon_attempts
- ADD CONSTRAINT rune_dungeon_attempts_turn_index_nonnegative CHECK (turn_index >= 0);
+DO $ BEGIN
+ IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname='rune_dungeon_attempts_turn_index_nonnegative' AND conrelid='cardnest_v1.rune_dungeon_attempts'::regclass) THEN
+  ALTER TABLE cardnest_v1.rune_dungeon_attempts ADD CONSTRAINT rune_dungeon_attempts_turn_index_nonnegative CHECK (turn_index >= 0);
+ END IF;
+END $;
 
 CREATE TABLE IF NOT EXISTS cardnest_v1.rune_dungeon_turns (
  attempt_id uuid NOT NULL REFERENCES cardnest_v1.rune_dungeon_attempts(id) ON DELETE CASCADE,
