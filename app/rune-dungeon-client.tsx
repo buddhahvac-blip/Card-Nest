@@ -167,7 +167,7 @@ export default function RuneDungeon(){
     const cost=RUNE_PACK_COSTS[pack],enough=(progress?.runeEnergy||0)>=cost;
     return <article key={pack} className={'dungeon-pack-reward reward-'+pack}><PackageOpen/><span>DUNGEON REWARD</span><h3>{packNames[pack]}</h3><strong><BatteryCharging size={16}/>{cost} Rune Energy</strong><button className="outline" disabled={!progress?.signedIn||!enough||!!claiming} onClick={()=>claimPack(pack)}>{claiming===pack?'Claiming…':enough?'Claim pack':'Need '+(cost-(progress?.runeEnergy||0))+' more'}</button></article>
    })}<article className="dungeon-pack-reward reward-royal"><PackageOpen/><span>PREMIUM PURCHASE ONLY</span><h3>Royal Nest Pack</h3><strong>No Rune Energy redemption</strong><Link className="gold" href="/#packs">Go to Pack Store</Link></article></div>
-   <div className="dungeon-vault-footer"><span>Each Rune World awards 240 first-clear Energy · all three worlds award 720 total.</span><Link href="/#My%20Nest"><PackageOpen size={15}/>Go to My Nest</Link></div>
+   <div className="dungeon-vault-footer"><span>Practice clears do not earn Rune Energy during this beta. Previously earned Energy stays in your account.</span><Link href="/#My%20Nest"><PackageOpen size={15}/>Go to My Nest</Link></div>
   </div>
 
   <p className="disclaimer">Rune Dungeon beta rewards have no cash value and do not change card rarity, paid pack odds or commercial eligibility. Each floor awards Rune Energy once per account; replaying a cleared floor is for play only.</p>
