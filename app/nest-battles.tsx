@@ -10,7 +10,7 @@ import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
 import {showcaseFor} from '@/lib/showcase';
-import {playBattleSound,startBattleMusic,stopBattleMusic,unlockBattleAudio,type BattleMusicKey} from '@/lib/battle-audio';
+import {playBattleSound,playCinematicImpact,startBattleMusic,stopBattleMusic,unlockBattleAudio,type BattleMusicKey} from '@/lib/battle-audio';
 import {battleRosterIds,practiceRivalIds} from '@/lib/battle-roster';
 import {battleAbilityProfile,rarityAttackTuning} from '@/lib/battle-ability-profile';
 import NestHeroEmblem from './nest-hero-emblem';
@@ -79,7 +79,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
    const start=frameStarts[index];
    const settle=frame.effect.variant==='special'?390:frame.effect.kind==='swap'?210:300;
    schedule(()=>{setSwapEntering(false);setFx({...frame.effect,id:++sequence.current});playBattleSound(frame.effect,soundOn)},start);
-   schedule(()=>{setPlayer(frame.player);setRival(frame.rival);setPlayerActive(frame.playerActive);setRivalActive(frame.rivalActive);setSwapEntering(frame.effect.kind==='swap')},start+settle);
+   schedule(()=>{setPlayer(frame.player);setRival(frame.rival);setPlayerActive(frame.playerActive);setRivalActive(frame.rivalActive);setSwapEntering(frame.effect.kind==='swap');if(process.env.NEXT_PUBLIC_NESTRUNE_CINEMATIC_FX === 'true' && frame.effect.kind==='attack')playCinematicImpact(frame.effect.theme,soundOn,frame.effect.knockout)},start+settle);
   });
   schedule(complete,cursor);
  }
