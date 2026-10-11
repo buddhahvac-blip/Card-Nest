@@ -1,0 +1,68 @@
+name: Publish Nestling prototype to feature preview
+
+on:
+  push:
+    branches: [feature/raid-inspired-dungeon-upgrade]
+    paths: [.github/workflows/publish-nestling-preview.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-preview-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install "rembg[cpu]==2.0.67" "Pillow>=10,<12"
+      - name: Extract and validate preview cutout
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          from rembg import remove,new_session
+          src=Path('design-sources/archive/sproutling-001.png')
+          img=Image.open(src).convert('RGBA')
+          result=remove(img,session=new_session('u2net'))
+          a=result.getchannel('A')
+          extrema=a.getextrema()
+          assert extrema[0] == 0 and extrema[1] == 255, 'Expected transparent and opaque pixels'
+          bbox=a.getbbox()
+          assert bbox is not None,'Missing creature foreground'
+          l,t,r,b=bbox
+          pad=max(12,int(max(r-l,b-t)*.06))
+          result=result.crop((max(0,l-pad),max(0,t-pad),min(img.width,r+pad),min(img.height,b+pad)))
+          assert result.width >= 240 and result.height >= 240, 'Unexpectedly small cutout'
+          dest=Path('public/art/battle-creatures/sproutling-001.png')
+          dest.parent.mkdir(parents=True,exist_ok=True)
+          result.save(dest,optimize=True)
+          print('Preview cutout',dest,result.size)
+          PY
+      - name: Register Nestling in preview-only mapped assets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('lib/battle-creature-cutouts.ts')
+          s=p.read_text()
+          before='Object.freeze({});'
+          after="Object.freeze({'sproutling-001':'/art/battle-creatures/sproutling-001.png'});"
+          if before in s:
+           p.write_text(s.replace(before,after))
+          elif after not in s:
+           raise SystemExit('Unexpected registry version; refusing to edit')
+          PY
+      - name: Commit to feature branch only
+        run: |
+          test "$(git branch --show-current)" = "feature/raid-inspired-dungeon-upgrade"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/art/battle-creatures/sproutling-001.png lib/battle-creature-cutouts.ts
+          git diff --cached --quiet && exit 0
+          git commit -m "feat(2b): add Nestling transparent preview asset"
+          git push origin HEAD:feature/raid-inspired-dungeon-upgrade
