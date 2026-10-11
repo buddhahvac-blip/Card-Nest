@@ -353,3 +353,21 @@
 @keyframes creatureBreathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.025)}}
 @media(max-width:700px){.creatureCutout{inset:-5% -5% -2%}}
 @media(prefers-reduced-motion:reduce){.arena[data-cinematic=true] .creatureCutout{animation:none!important}}
+
+
+/* Nestling full-body proof-of-concept: only remove the circular portrait visually
+   when a validated cutout is present; on image errors the original reappears. */
+.arena[data-cinematic=true] :global(.battle-guardian-avatar):has(.creatureCutout:not([data-image-error=true])) > img{
+ opacity:0;
+}
+.arena[data-cinematic=true] :global(.battle-guardian-avatar) .creatureCutout{
+ inset:-40% -27% -10%;overflow:visible;z-index:5;
+}
+.arena[data-cinematic=true] :global(.battle-guardian-avatar) .creatureCutout img{
+ border:0!important;border-radius:0!important;background:transparent!important;
+ box-shadow:none!important;object-fit:contain!important;object-position:center bottom!important;
+ filter:drop-shadow(0 12px 12px #04191eb5);
+}
+@media(max-width:700px){
+ .arena[data-cinematic=true] :global(.battle-guardian-avatar) .creatureCutout{inset:-20% -15% -3%}
+}
