@@ -78,6 +78,11 @@ export async function POST(req:Request){
   }
 
   if(body.action==='clear'){
+   // SECURITY HOLD: the browser's 'clear' command is not proof of a battle win.
+   // Never issue first-clear rewards until combat outcome is verified server-side.
+   // This temporary fail-closed gate must be replaced by authoritative
+   // battle settlement (including regression tests) before launch.
+   throw new RequestError('Dungeon reward settlement is temporarily unavailable while server-verified victories are being introduced.',503);
    const reward=runeEnergyForFloor(body.floor);
    if(!reward)throw new RequestError('Unknown Rune Dungeon floor',400);
    const result=await transaction(async c=>{
