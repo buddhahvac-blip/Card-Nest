@@ -219,3 +219,19 @@
  .arena[data-cinematic=true] .fighter,
  .arena[data-cinematic=true] .fighter:not([data-motion]) :global(.battle-guardian-avatar){animation:none!important;transition:none!important}
 }
+
+
+/* Phase 1B: damage text, camera impulse, and recoil peak follow the hit frame.
+   Visual offsets mirror existing playback settlement (300ms normal, 390ms special).
+   All selectors are opt-in and do not alter the combat turn duration. */
+.arena[data-cinematic=true][data-fx=attack] .combatText{animation-delay:280ms}
+.arena[data-cinematic=true][data-fx=attack][data-variant=special] .combatText{animation-delay:370ms}
+.arena[data-cinematic=true][data-impact=true]{animation-delay:260ms}
+.arena[data-cinematic=true][data-variant=special][data-impact=true]{animation-delay:350ms}
+.arena[data-cinematic=true] .fighter[data-motion=hit]{animation-delay:260ms}
+.arena[data-cinematic=true][data-variant=special] .fighter[data-motion=hit]{animation-delay:350ms}
+@media(prefers-reduced-motion:reduce){
+ .arena[data-cinematic=true][data-fx=attack] .combatText,
+ .arena[data-cinematic=true][data-fx=attack][data-variant=special] .combatText,
+ .arena[data-cinematic=true][data-impact=true]{animation-delay:0ms}
+}
