@@ -5,7 +5,7 @@
  * Absence means the original portrait is displayed without alteration.
  * No automatic background removal or guessed filenames: preserve approved art.
  */
-export const battleCreatureCutouts: Readonly<Record<string,string>> = Object.freeze({});
+export const battleCreatureCutouts: Readonly<Record<string,string>> = Object.freeze({'sproutling-001':'/art/battle-creatures/sproutling-001.png'});
 
 export function battleCreatureCutoutFor(cardId:string):string | null {
  return Object.prototype.hasOwnProperty.call(battleCreatureCutouts,cardId)
