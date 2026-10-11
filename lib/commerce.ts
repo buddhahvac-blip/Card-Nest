@@ -12,7 +12,9 @@ export async function ensureUser(c:PoolClient,id:string){await c.query('INSERT I
 
 async function currentPreviewDrops(c:PoolClient,pack:string,seasonId:string){
  const eligible=await c.query("SELECT id FROM cards WHERE season_id=$1 AND release_status IN ('preview','released') AND is_collectible=true AND is_pack_eligible=true AND art IS NOT NULL AND art_status='live' ORDER BY number",[seasonId]);
- return approvedPreviewPackDrops(pack,eligible.rows.map(row=>String(row.id)));
+ const drops=approvedPreviewPackDrops(pack,eligible.rows.map(row=>String(row.id)));
+ if(!drops.length)throw new RequestError('No approved live cards are currently available for this pack.',503);
+ return drops;
 }
 
 function previewCardAvailable(card:{id:string;status:string;release_status:string;is_collectible:boolean;is_pack_eligible:boolean;art:string|null;art_status:string}){
