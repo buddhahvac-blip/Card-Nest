@@ -235,3 +235,56 @@
  .arena[data-cinematic=true][data-fx=attack][data-variant=special] .combatText,
  .arena[data-cinematic=true][data-impact=true]{animation-delay:0ms}
 }
+
+
+/* Phase 1C — cinematic boss presentation, feature flagged and visual-only.
+   Warning coincides with enemy action: NOT a future-turn telegraph. */
+.arena[data-cinematic=true][data-sovereign=true] .bossEntrance{
+ background:linear-gradient(90deg,transparent,#080b20f2 18% 82%,transparent);
+ box-shadow:0 0 48px color-mix(in srgb,var(--fx-color) 35%,transparent);
+ animation:sovereignReveal 1800ms cubic-bezier(.16,.8,.26,1) both;
+}
+.arena[data-cinematic=true][data-sovereign=true] .fighter[data-boss=true]:before{
+ animation:sovereignBreath 3.2s ease-in-out infinite alternate;
+}
+.arena[data-cinematic=true][data-boss-warning=true]::before{
+ content:"SOVEREIGN STRIKE";pointer-events:none;position:absolute;z-index:9;
+ top:10%;left:50%;transform:translateX(-50%);
+ padding:8px 20px;border:1px solid #f1bd808f;border-radius:999px;
+ background:#240e18e0;color:#ffddae;letter-spacing:.13em;
+ font:800 clamp(10px,1.4vw,15px)/1.3 sans-serif;
+ text-shadow:0 0 12px #f68c63;
+ animation:sovereignWarning 680ms ease-out both;
+}
+.arena[data-cinematic=true][data-boss-warning=true][data-variant=special]::before{
+ content:"SOVEREIGN SIGNATURE";
+ animation-duration:820ms;
+}
+.arena[data-cinematic=true][data-boss-warning=true] .fighter[data-boss=true]{
+ filter:drop-shadow(0 0 18px #f6c478);
+}
+.arena[data-cinematic=true][data-boss-defeated=true]::after{
+ content:"SOVEREIGN DEFEATED";pointer-events:none;
+ position:absolute;inset:31% 8% auto;z-index:10;
+ padding:20px 10px;text-align:center;
+ color:#ffe4ad;background:linear-gradient(90deg,transparent,#071927ef 20% 80%,transparent);
+ border-block:1px solid #f1d59a99;letter-spacing:.16em;
+ font:700 clamp(17px,3vw,30px)/1.2 Georgia,serif;
+ text-shadow:0 0 24px #ffc773;
+ animation:sovereignDefeat 1100ms ease-out both;
+}
+@keyframes sovereignReveal{0%{opacity:0;transform:translateY(28px) scale(.86);filter:blur(8px)}22%,69%{opacity:1;transform:none;filter:blur(0)}100%{opacity:0;transform:translateY(-12px)}}
+@keyframes sovereignBreath{0%{opacity:.52;transform:rotate(-9deg) scale(.95)}100%{opacity:1;transform:rotate(6deg) scale(1.14)}}
+@keyframes sovereignWarning{0%{opacity:0;transform:translate(-50%,7px)}24%,66%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-6px)}}
+@keyframes sovereignDefeat{0%{opacity:0;transform:scale(.91) translateY(12px)}40%,80%{opacity:1;transform:scale(1) translateY(0)}100%{opacity:.88;transform:scale(1)}}
+@media(max-width:640px){
+ .arena[data-cinematic=true][data-boss-warning=true]::before{top:4%;padding:6px 9px;max-width:85%;white-space:nowrap;letter-spacing:.06em}
+ .arena[data-cinematic=true][data-boss-defeated=true]::after{inset:24% 3% auto;padding:12px 5px;letter-spacing:.06em}
+}
+@media(prefers-reduced-motion:reduce){
+ .arena[data-cinematic=true][data-sovereign=true] .bossEntrance,
+ .arena[data-cinematic=true][data-sovereign=true] .fighter[data-boss=true]:before,
+ .arena[data-cinematic=true][data-boss-warning=true]::before,
+ .arena[data-cinematic=true][data-boss-defeated=true]::after{animation:none!important;filter:none!important;transform:none!important}
+ .arena[data-cinematic=true][data-boss-warning=true]::before{left:50%;transform:translateX(-50%)!important}
+}
