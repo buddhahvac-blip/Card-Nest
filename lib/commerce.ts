@@ -5,14 +5,16 @@ import {packCardAvailable} from './release';
 import {drawCards} from './draw';
 import {RequestError} from './http';
 import {enforcePreviewCommonSupply} from './release-supply';
-import {isPreviewCollectible,packDefinitions,previewDropVersion,previewPackDrops} from './catalog';
+import {isPreviewCollectible,packDefinitions,previewDropVersion,previewPackDrops,approvedPreviewPackDrops} from './catalog';
 import commonMasterArt from '../data/common-master-art.json';
 
 export async function ensureUser(c:PoolClient,id:string){await c.query('INSERT INTO users(id) VALUES($1) ON CONFLICT DO NOTHING',[id])}
 
 async function currentPreviewDrops(c:PoolClient,pack:string,seasonId:string){
  const eligible=await c.query("SELECT id FROM cards WHERE season_id=$1 AND release_status IN ('preview','released') AND is_collectible=true AND is_pack_eligible=true AND art IS NOT NULL AND art_status='live' ORDER BY number",[seasonId]);
- return previewPackDrops(pack,eligible.rows.map(row=>row.id));
+ const drops=approvedPreviewPackDrops(pack,eligible.rows.map(row=>String(row.id)));
+ if(!drops.length)throw new RequestError('No approved live cards are currently available for this pack.',503);
+ return drops;
 }
 
 function previewCardAvailable(card:{id:string;status:string;release_status:string;is_collectible:boolean;is_pack_eligible:boolean;art:string|null;art_status:string}){
