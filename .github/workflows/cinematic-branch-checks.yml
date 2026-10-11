@@ -1,0 +1,35 @@
+name: NestRune cinematic branch checks
+
+on:
+  push:
+    branches:
+      - feature/raid-inspired-dungeon-upgrade
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_PUBLIC_NESTRUNE_CINEMATIC_FX: "false"
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+      - name: Set up Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: TypeScript
+        run: npm run typecheck
+      - name: ESLint
+        run: npm run lint
+      - name: Unit and regression tests
+        run: npm test
+      - name: Build
+        run: npm run build
