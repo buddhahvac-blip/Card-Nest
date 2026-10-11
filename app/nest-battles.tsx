@@ -14,6 +14,7 @@ import {playBattleSound,playCinematicImpact,startBattleMusic,stopBattleMusic,unl
 import {battleRosterIds,practiceRivalIds} from '@/lib/battle-roster';
 import {battleAbilityProfile,rarityAttackTuning} from '@/lib/battle-ability-profile';
 import NestHeroEmblem from './nest-hero-emblem';
+import {battleCreatureCutoutFor} from '@/lib/battle-creature-cutouts';
 
 type Fighter={id:string;hp:number;maxHp:number;guard:number;speedDelta:number;cooldown:number;specialCooldown:number;defenseCooldown:number;energy:number};
 export type DungeonBattleConfig={floor:number;world:'verdant'|'emberstorm'|'eclipse';worldName:string;worldThemes:string[];musicKey:BattleMusicKey;name:string;mission:string;energy:number;boss?:boolean;worldBoss?:boolean;enemyIds:string[];hpMultiplier:number;damageMultiplier:number;rewardsEnabled:boolean;onVictory:()=>void;onDefeat:()=>void;onExit:()=>void};
@@ -330,7 +331,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
       <span className="battle-card-echo battle-card-echo-player" aria-hidden="true"><Image unoptimized src={cardArtFor(activeCard.id)} alt="" fill sizes="150px" quality={75} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/></span>
       <button className="battle-guardian-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(activeCard.id)} aria-label={`Inspect ${activeCard.name} card`}>
        <span className="battle-avatar-aura"/>
-       <Image unoptimized src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/>
+       {process.env.NEXT_PUBLIC_NESTRUNE_CINEMATIC_FX === "true" && battleCreatureCutoutFor(activeCard) ? <span className={battleStyles.creatureCutout} data-side="you><Image unoptimized src={battleCreatureCutoutFor(activeCard)!} alt={activeCard.name + " battle creature"} fill sizes="(max-width: 700px) 34vw, 235px" onError={event=>{event.currentTarget.parentElement?.setAttribute("data-image-error","true")}}/>}</span> : <Image unoptimized src={avatarFor(activeCard.id)} alt={`${activeCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/>
        <span className="battle-avatar-inspect">View card</span>
       </button>
      </div>
@@ -352,7 +353,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
       <span className="battle-card-echo battle-card-echo-rival" aria-hidden="true"><Image unoptimized src={cardArtFor(enemyCard.id)} alt="" fill sizes="150px" quality={75} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/></span>
       <button className="battle-guardian-avatar rival-avatar" data-battle-anchor type="button" onClick={()=>setInspectCard(enemyCard.id)} aria-label={`Inspect ${enemyCard.name} card`}>
        <span className="battle-avatar-aura"/>
-       <Image unoptimized src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/>
+       {process.env.NEXT_PUBLIC_NESTRUNE_CINEMATIC_FX === "true" && battleCreatureCutoutFor(enemyCard) ? <span className={battleStyles.creatureCutout} data-side="rival><Image unoptimized src={battleCreatureCutoutFor(enemyCard)!} alt={enemyCard.name + " battle creature"} fill sizes="(max-width: 700px) 34vw, 235px" onError={event=>{event.currentTarget.parentElement?.setAttribute("data-image-error","true")}}/>}</span> : <Image unoptimized src={avatarFor(enemyCard.id)} alt={`${enemyCard.name} battle avatar`} fill sizes="(max-width: 700px) 34vw, 235px" quality={90} onError={event=>{const image=event.currentTarget;if(!image.dataset.battleFallback){image.dataset.battleFallback='1';image.src='/art/nestrune-card-back.svg';image.srcset='';}}}/>
        <span className="battle-avatar-inspect">View card</span>
       </button>
      </div>
