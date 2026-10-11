@@ -8,4 +8,6 @@ test('preview packs exclude unapproved founding cards and include approved uploa
  assert.deepEqual(drops.map(d=>d.card),[founding,'reserved-030']);
  assert.deepEqual(approvedPreviewPackDrops('nest',[]),[]);
  assert.deepEqual(approvedPreviewPackDrops('guardian',['reserved-030']).map(d=>d.card),['reserved-030']);
+ assert.equal(new Set(approvedPreviewPackDrops('royal',[founding,founding]).map(d=>d.card)).size,1);
+ assert.throws(()=>approvedPreviewPackDrops('not-a-pack',[founding]),/Unknown pack/);
 });
