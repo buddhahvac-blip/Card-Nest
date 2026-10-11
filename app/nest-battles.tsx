@@ -317,7 +317,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
    <div className="battle-hud-actions"><button className="outline battle-sound-toggle" onClick={()=>{const next=!soundOn;setSoundOn(next);if(next){unlockBattleAudio();if(phase==='battle')startBattleMusic(true,dungeon?.musicKey||'emberstorm')}else stopBattleMusic(.18)}} aria-label={soundOn?'Mute battle music and sounds':'Enable battle music and sounds'}>{soundOn?<Volume2 size={15}/>:<VolumeX size={15}/>}<span>{soundOn?'Music + SFX':'Muted'}</span></button><button className="outline" onClick={dungeon?dungeon.onExit:reset}><RotateCcw size={15}/>{dungeon?'Dungeon map':'New team'}</button></div>
   </div>
 
-  <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'} data-variant={fx?.variant} data-attacker={fx?.side}>
+  <div ref={stageRef} className={`battle-stage battle-stage-v4 ${battleStyles.arena}`} data-impact={fx?.kind==='attack'} data-fx={fx?.kind||'idle'} data-variant={fx?.variant} data-attacker={fx?.side} data-cinematic={process.env.NEXT_PUBLIC_NESTRUNE_CINEMATIC_FX === "true" ? "true" : undefined}>
    <ArenaEnvironment world={dungeon?.world||'verdant'}/>
    <AmbientParticles world={dungeon?.world||'verdant'}/>
    {(dungeon?.boss||dungeon?.worldBoss)&&<BossEntrance name={dungeon.name} theme={enemyCard.theme}/>}
