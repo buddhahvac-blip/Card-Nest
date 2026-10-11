@@ -342,3 +342,14 @@
  .arena[data-cinematic=true] .stageFloor{bottom:-23%;height:70%}
  .arena[data-cinematic=true] .groundLeft,.arena[data-cinematic=true] .groundRight{bottom:27%;width:34%;height:13%}
 }
+
+
+/* Phase 2B: transparent creature image overlays its original portrait.
+   Missing or failed assets never remove the trusted portrait underneath. */
+.creatureCutout{position:absolute;inset:-12% -8% -3%;z-index:3;pointer-events:none;filter:drop-shadow(0 13px 10px #03161eaa);transform-origin:50% 82%}
+.creatureCutout img{object-fit:contain!important;object-position:center bottom}
+.creatureCutout[data-image-error=true]{display:none}
+.arena[data-cinematic=true] .fighter:not([data-motion]) .creatureCutout{animation:creatureBreathe 3.6s ease-in-out infinite}
+@keyframes creatureBreathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-5px) scale(1.025)}}
+@media(max-width:700px){.creatureCutout{inset:-5% -5% -2%}}
+@media(prefers-reduced-motion:reduce){.arena[data-cinematic=true] .creatureCutout{animation:none!important}}
