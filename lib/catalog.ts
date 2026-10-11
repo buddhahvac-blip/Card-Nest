@@ -27,6 +27,13 @@ export function previewPackDrops(pack:string,additionalIds:readonly string[]=[])
   return ids.map(card=>({card,weight:1}));
 }
 
+
+/** Apply authoritative database approval even to legacy founding beta cards. */
+export function approvedPreviewPackDrops(pack:string,approvedIds:readonly string[]){
+ const approved=new Set(approvedIds);
+ return previewPackDrops(pack,approvedIds).filter(drop=>approved.has(drop.card));
+}
+
 export function previewPackCards(pack:string){
   const p=packDefinitions.find(x=>x.id===pack);
   if(!p)throw Error('Unknown pack');
