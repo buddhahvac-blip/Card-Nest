@@ -288,3 +288,21 @@
  .arena[data-cinematic=true][data-boss-defeated=true]::after{animation:none!important;filter:none!important;transform:none!important}
  .arena[data-cinematic=true][data-boss-warning=true]::before{left:50%;transform:translateX(-50%)!important}
 }
+
+
+/* Phase 2A — opt-in arena depth. Presentation only, no targeting overlays. */
+.stageDepth{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.arena[data-cinematic=true] .stageDepth{display:block}
+.stageHorizon{position:absolute;inset:43% 0 0;background:linear-gradient(180deg,transparent 0%,#051b2540 23%,#03151b99 100%);opacity:.75}
+.stageFloor{position:absolute;left:-18%;right:-18%;bottom:-32%;height:69%;border-radius:50%;transform:perspective(560px) rotateX(54deg);background:radial-gradient(ellipse at 50% 40%,#a4dabd15 0%,#103d3860 50%,#04171dbd 82%);border-top:2px solid #c9e5b326;box-shadow:inset 0 30px 75px #93cfa109,0 -18px 70px #153a3559}
+.groundLeft,.groundRight{position:absolute;bottom:26%;left:25%;width:22%;height:10%;border-radius:50%;transform:translateX(-50%) perspective(180px) rotateX(60deg);background:radial-gradient(ellipse,#041018bd 0%,#03151855 44%,transparent 74%);box-shadow:0 0 28px #73d9a014;opacity:.85}
+.groundRight{left:75%}
+.arena[data-cinematic=true] .fighter:before{border-color:color-mix(in srgb,var(--aura) 75%,#e8c986);box-shadow:0 0 22px color-mix(in srgb,var(--aura) 42%,transparent),inset 0 0 21px #b4f6d225;opacity:.82}
+.arena[data-cinematic=true] .fighter[data-boss=true]:before{box-shadow:0 0 42px var(--aura),inset 0 0 26px var(--aura)}
+.arena[data-cinematic=true] .worldArt{filter:saturate(1.03) brightness(.69) contrast(1.08)}
+.arena[data-cinematic=true] .worldGlow{opacity:.85}
+@media(max-width:700px){
+ .arena[data-cinematic=true] .stageFloor{bottom:-25%;height:61%}
+ .arena[data-cinematic=true] .groundLeft,.arena[data-cinematic=true] .groundRight{bottom:30%;width:30%}
+}
+@media(prefers-reduced-motion:reduce){.arena[data-cinematic=true] .stageDepth,.arena[data-cinematic=true] .stageDepth *{animation:none!important;transition:none!important}}
