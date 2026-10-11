@@ -7,6 +7,7 @@ import {ensureUser,grantDungeonReward} from '@/lib/commerce';
 import {RUNE_DUNGEON_FLOORS,RUNE_PACK_COSTS,runePackCost,isRuneFloorUnlocked,runeUnlockedFloors,dungeonEnemyRotations,dungeonRotationKey} from '@/lib/rune-dungeon';
 import {seasonManifest} from '@/lib/season-manifest';
 import commonMasterArt from '@/data/common-master-art.json';
+import {rejectUnverifiedDungeonClear} from '@/lib/dungeon-settlement-gate';
 
 export const dynamic='force-dynamic';
 
@@ -77,12 +78,7 @@ export async function POST(req:Request){
    return json({attemptId,floor:body.floor,expiresInSeconds:1800});
   }
 
-  if(body.action==='clear'){
-   // SECURITY HOLD: client-submitted victory is not an authoritative battle outcome.
-   // Fail closed until the server validates turns, roster, HP, and the win state.
-   // Existing saved clears, claims, and loss recording remain untouched.
-   throw new RequestError('Dungeon reward settlement is temporarily unavailable until server-verified victories are enabled.',503);
-  }
+  if(body.action==='clear')rejectUnverifiedDungeonClear();
 
   if(body.action==='loss'){
    const result=await transaction(async c=>{
