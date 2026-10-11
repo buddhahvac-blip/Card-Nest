@@ -12,7 +12,9 @@ export async function ensureUser(c:PoolClient,id:string){await c.query('INSERT I
 
 async function currentPreviewDrops(c:PoolClient,pack:string,seasonId:string){
  const eligible=await c.query("SELECT id FROM cards WHERE season_id=$1 AND release_status IN ('preview','released') AND is_collectible=true AND is_pack_eligible=true AND art IS NOT NULL AND art_status='live' ORDER BY number",[seasonId]);
- return previewPackDrops(pack,eligible.rows.map(row=>row.id));
+ // Respect the database's actual approved, live and pack-eligible set.
+ const approvedIds=new Set<string>(eligible.rows.map(row=>String(row.id)));
+ return previewPackDrops(pack,[...approvedIds]).filter(drop=>approvedIds.has(drop.card));
 }
 
 function previewCardAvailable(card:{id:string;status:string;release_status:string;is_collectible:boolean;is_pack_eligible:boolean;art:string|null;art_status:string}){
