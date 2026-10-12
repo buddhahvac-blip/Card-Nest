@@ -5,7 +5,7 @@ import Image from 'next/image';
 import commonMasterArt from '@/data/common-master-art.json';
 import {AmbientParticles,ArenaEnvironment,BossEntrance,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Volume2,VolumeX,Zap} from 'lucide-react';
-import {GuardianCard} from './cards';
+import {GuardianCard,getSeasonArt} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
@@ -56,7 +56,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   let active=true;
   Promise.all([
    fetch('/api/catalog',{cache:'no-store'}).then(async response=>response.ok?response.json():{cards:[]}).catch(()=>({cards:[]})),
-   fetch('/api/season-art',{cache:'no-store'}).then(async response=>response.ok?response.json():{art:{}}).catch(()=>({art:{}}))
+   getSeasonArt().then(art=>({art})).catch(()=>({art:{}}))
   ]).then(([catalogData,artData])=>{
    if(!active)return;
    setBattlePoolIds(battleRosterIds(Array.isArray(catalogData.cards)?catalogData.cards:[],illustratedBattleIds));
