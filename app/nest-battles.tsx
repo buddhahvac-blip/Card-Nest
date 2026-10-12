@@ -5,7 +5,7 @@ import Image from 'next/image';
 import commonMasterArt from '@/data/common-master-art.json';
 import {AmbientParticles,ArenaEnvironment,BossEntrance,BattleFxLayer,GreatNest,battleStyles,type BattleEffect} from './battle-fx';
 import {ArrowRight,RotateCcw,Shield,Sparkles,Swords,Volume2,VolumeX,Zap} from 'lucide-react';
-import {GuardianCard} from './cards';
+import {GuardianCard,getSeasonArt} from './cards';
 import {seasonManifest,themeColors} from '@/lib/season-manifest';
 import {CLASS_GUIDE,NEST_BATTLE_RULES_VERSION,abilityDamage,affinityMultiplier,guardDamage,strikeDamage} from '@/lib/nest-battle-rules';
 import {trackBeta} from '@/lib/client-analytics';
@@ -34,6 +34,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
  const [uploadedArt,setUploadedArt]=useState<Record<string,string>>({});
  const pool=useMemo(()=>battlePoolIds.map(cardById).filter(Boolean),[battlePoolIds]);
  const [selected,setSelected]=useState<string[]>(['sproutling-001','tidefin-003','shadowclaw-007']);
+ const [visibleRosterCount,setVisibleRosterCount]=useState(24);
  const [phase,setPhase]=useState<'setup'|'battle'|'finished'>('setup');
  const [player,setPlayer]=useState<Fighter[]>([]);
  const [rival,setRival]=useState<Fighter[]>([]);
@@ -56,11 +57,11 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   let active=true;
   Promise.all([
    fetch('/api/catalog',{cache:'no-store'}).then(async response=>response.ok?response.json():{cards:[]}).catch(()=>({cards:[]})),
-   fetch('/api/season-art',{cache:'no-store'}).then(async response=>response.ok?response.json():{art:{}}).catch(()=>({art:{}}))
+   getSeasonArt().then(art=>({art})).catch(()=>({art:{}}))
   ]).then(([catalogData,artData])=>{
    if(!active)return;
    setBattlePoolIds(battleRosterIds(Array.isArray(catalogData.cards)?catalogData.cards:[],illustratedBattleIds));
-   setUploadedArt(artData&&typeof artData.art==='object'?artData.art:{});
+   setUploadedArt(artData&&typeof artData.art==='object'?(artData.art as Record<string,string>):{});
   });
   return()=>{active=false;timers.current.forEach(clearTimeout);playing.current=false;stopBattleMusic(.15)};
  },[]);
@@ -290,10 +291,11 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
    <NestHeroEmblem value={dungeon?dungeon.floor:3} label={(dungeon?.boss||dungeon?.worldBoss)?'Boss Nest':dungeon?'Dungeon Nest':'Choose three'}/>
   </div>
   <div className="battle-picker-head"><div><span className="eyebrow">{dungeon?'DUNGEON LOADOUT':'BATTLE ROSTER'}</span><h2>{dungeon?'Choose any three battle-ready Guardians for this floor.':'Your uploaded roster. Three slots. Your strategy.'}</h2></div><strong>{selected.length} / 3 selected · {battlePoolIds.length} available</strong></div>
-  <div className="battle-picker-grid">{pool.map(card=>{const picked=selected.includes(card.id);const guide=CLASS_GUIDE[card.battleClass];const profile=battleAbilityProfile(card.rarity);const abilityCount=profile==='uncommon'?2:profile==='high'?4:3;return <button key={card.id} className={'battle-picker '+(picked?'selected':'')} onClick={()=>toggle(card.id)} aria-pressed={picked}>
+  <div className="battle-picker-grid">{pool.slice(0,visibleRosterCount).map(card=>{const picked=selected.includes(card.id);const guide=CLASS_GUIDE[card.battleClass];const profile=battleAbilityProfile(card.rarity);const abilityCount=profile==='uncommon'?2:profile==='high'?4:3;return <button key={card.id} className={'battle-picker '+(picked?'selected':'')} onClick={()=>toggle(card.id)} aria-pressed={picked}>
    <div className="battle-picker-art"><GuardianCard id={card.id}/><span className="battle-check">{picked?'✓':'+'}</span></div>
    <div className="battle-picker-copy"><span style={{color:themeColors[card.theme]}}>{card.theme} · {card.battleClass} · {String(card.rarity).toUpperCase()}</span><h3>{card.name}</h3><p>{guide?.purpose}</p><small>HP {card.health} · ATK {card.attack} · DEF {card.defense} · SPD {card.speed} · {abilityCount} abilities</small></div>
   </button>})}</div>
+  {visibleRosterCount<pool.length&&<div style={{display:'flex',justifyContent:'center',margin:'1.5rem 0'}}><button className="outline" onClick={()=>setVisibleRosterCount(value=>Math.min(value+24,pool.length))}>Load more Guardians ({Math.min(visibleRosterCount,pool.length)} of {pool.length}) <ArrowRight size={16}/></button></div>}
   <div className="battle-launch"><div><Shield/><strong>{dungeon?`${(dungeon.boss||dungeon.worldBoss)?'Boss':'Floor'} ${dungeon.floor} mission`:'Kid-friendly surface, grown-up decisions.'}</strong><p>{dungeon?`${dungeon.rewardsEnabled?'First clear awards':'Sign in to bank'} ${dungeon.energy} Rune Energy. Replays do not award additional Energy.`:'Big readable moves and bright feedback on top; affinity, timing, class roles, Guard, Energy and cooldowns underneath.'}</p></div><button className="gold" disabled={selected.length!==3} onClick={start}>{dungeon?`Enter Floor ${dungeon.floor}`:'Start practice match'} <ArrowRight size={17}/></button>{dungeon&&<button className="outline" onClick={dungeon.onExit}>Back to dungeon map</button>}</div>
   {!dungeon&&<div className="battle-roadmap"><article><span>01</span><h3>Practice Arena</h3><p>Local battles and rule testing with no rewards or spending.</p></article><article><span>02</span><h3>Rune Dungeon</h3><p>Ten PvE floors, missions, Rune Energy and a boss at the Runeheart.</p></article><article><span>03</span><h3>Nest League</h3><p>Ranked play after balance, account safety and anti-cheat validation.</p></article><article><span>04</span><h3>Flocks</h3><p>Cooperative groups and shared bosses without open child chat at launch.</p></article></div>}
   <p className="disclaimer">Alpha rules: {NEST_BATTLE_RULES_VERSION}. {dungeon?'Rune Energy is a free beta gameplay reward with no cash value. First-clear rewards only.':'Battle results do not change ownership, rarity, collection value, pack odds or commercial eligibility.'}</p>
