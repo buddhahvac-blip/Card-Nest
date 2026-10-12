@@ -8,18 +8,31 @@ import {Sparkles,ArrowRight,RotateCcw,HeartPulse,ShieldCheck,Flame,Droplets,Leaf
 import {showcaseFor} from '@/lib/showcase';
 import ShowcaseCard from './showcase-card';
 import commonMasterArt from '@/data/common-master-art.json';
-async function getArt():Promise<Record<string,string>>{
- const response=await fetch('/api/season-art',{cache:'no-store'});
- if(!response.ok)return {};
- const data=await response.json();
- return data?.art&&typeof data.art==='object'?data.art:{};
+// Deduplicate art-manifest requests: the battle roster can render hundreds of
+// GuardianCards, but all cards should share one lightweight catalog request.
+let sharedArt:Record<string,string>|null=null;
+let sharedArtAt=0;
+let sharedArtRequest:Promise<Record<string,string>>|null=null;
+export function getSeasonArt():Promise<Record<string,string>>{
+ if(sharedArt&&Date.now()-sharedArtAt<60000)return Promise.resolve(sharedArt);
+ if(sharedArtRequest)return sharedArtRequest;
+ sharedArtRequest=fetch('/api/season-art',{cache:'no-store'})
+  .then(async response=>{
+   if(!response.ok)throw Error('Season art temporarily unavailable');
+   const data=await response.json();
+   const art=data?.art&&typeof data.art==='object'?data.art:{};
+   sharedArt=art;sharedArtAt=Date.now();
+   return art as Record<string,string>;
+  })
+  .finally(()=>{sharedArtRequest=null});
+ return sharedArtRequest;
 }
 const legacyBadgeFixes: Record<number,{label:string;Icon:any}>={7:{label:'Support',Icon:HeartPulse},8:{label:'Warden',Icon:ShieldCheck}};
 const themeBadgeIcons: Record<string,{label:string;Icon:any;slug:string}>={Ember:{label:'Ember',Icon:Flame,slug:'ember'},Tide:{label:'Tide',Icon:Droplets,slug:'tide'},Bloom:{label:'Bloom',Icon:Leaf,slug:'bloom'},Volt:{label:'Volt',Icon:Zap,slug:'volt'},Mystic:{label:'Mystic',Icon:Sparkles,slug:'mystic'},Shadow:{label:'Shadow',Icon:Moon,slug:'shadow'}};
 export function GuardianCard({id,eager=false}:{id:string;eager?:boolean}) {
  const c=seasonCard(id); const fallback=c?.highResolutionArtworkUrl||c?.artworkUrl||''; const [src,setSrc]=useState(fallback);
  const [publishedArt,setPublishedArt]=useState('');
- useEffect(()=>{let active=true;getArt().then(map=>{if(active){setPublishedArt(map[id]||'');setSrc(map[id]||fallback)}}).catch(()=>{if(active)setSrc(fallback)});return()=>{active=false}},[id,fallback]);
+ useEffect(()=>{let active=true;getSeasonArt().then(map=>{if(active){setPublishedArt(map[id]||'');setSrc(map[id]||fallback)}}).catch(()=>{if(active)setSrc(fallback)});return()=>{active=false}},[id,fallback]);
  if(!c)return <div className="card-back">Card unavailable</div>;
  if(publishedArt)return <div className={'guardian-card season-art rarity-'+c.rarity} style={{'--guardian':themeColors[c.theme]} as React.CSSProperties}><span className="card-serial">CN1 · {String(c.cardNumber).padStart(3,'0')} · {c.rarity}</span><div className="guardian-image"><img loading={eager?'eager':'lazy'} decoding="async" className="season-art-image" src={src} onError={()=>{setPublishedArt('');setSrc(fallback)}} alt={c.name+' — uploaded Season One artwork'}/></div><div className="guardian-frame"><span>FIRST FLIGHT · {c.theme.toUpperCase()} THEME</span><h3>{c.name}</h3><small>SEASON 01 · {String(c.cardNumber).padStart(3,'0')} / 369</small></div></div>;
  if(showcaseFor(id))return <ShowcaseCard card={c}/>;
