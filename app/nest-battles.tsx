@@ -61,7 +61,7 @@ export default function NestBattles({dungeon}:{dungeon?:DungeonBattleConfig}={})
   ]).then(([catalogData,artData])=>{
    if(!active)return;
    setBattlePoolIds(battleRosterIds(Array.isArray(catalogData.cards)?catalogData.cards:[],illustratedBattleIds));
-   setUploadedArt(artData&&typeof artData.art==='object'?artData.art:{});
+   setUploadedArt(artData&&typeof artData.art==='object'?(artData.art as Record<string,string>):{});
   });
   return()=>{active=false;timers.current.forEach(clearTimeout);playing.current=false;stopBattleMusic(.15)};
  },[]);
