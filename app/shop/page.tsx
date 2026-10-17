@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
-import {physicalEtbs,fourAnniversaryBundleCents,fullCollectionRegularCents} from '@/lib/physical-catalog';
+import {physicalEtbs,fourAnniversaryBundleCents,fullCollectionRegularCents,approvedFullCollectionBundleCents} from '@/lib/physical-catalog';
 
 export const metadata:Metadata={title:'Pokémon Sealed Shop',description:'Explore NestRune sealed Pokémon Elite Trainer Boxes and collection bundles. Availability and checkout pending confirmation.'};
 const usd=(cents:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(cents/100);
@@ -18,7 +18,7 @@ export default function PokemonShop(){
       <h2 style={{fontSize:34,margin:'12px 0'}}>Take the whole collection</h2>
       <p style={{lineHeight:1.7}}>All eight ETBs: five 30th Anniversary, one Destined Rivals, one Prismatic Evolutions and one Surging Sparks.</p>
       <p style={{marginTop:14,fontSize:22}}><strong>Individual listing total: {usd(fullCollectionRegularCents)}</strong></p>
-      <p style={{color:'#f2d597',marginTop:10}}>Whole-collection bundle discount: coming soon. Final bundle price requires owner approval.</p>
+      <p style={{color:'#f2d597',marginTop:10}}>Owner-selected bundle price: {usd(approvedFullCollectionBundleCents)} · Save {usd(fullCollectionRegularCents-approvedFullCollectionBundleCents)}. Offer not yet available for purchase: the estimated acquisition cost is approximately $1,500, so this price would lose money before fees and fulfillment.</p>
       <p style={{marginTop:10,fontSize:13,color:'#cbd8d1'}}>No orders or reservations are accepted through this preview. Shipping and taxes, if applicable, are additional.</p>
     </section>
     <h2 style={{fontSize:32,margin:'46px 0 22px'}}>Current ETB lineup</h2>
