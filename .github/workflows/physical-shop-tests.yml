@@ -1,0 +1,27 @@
+name: Physical shop safety checks
+on:
+  pull_request:
+    paths:
+      - 'lib/physical-*.ts'
+      - 'tests/physical-*.test.ts'
+      - 'app/api/physical/**'
+      - 'app/admin/physical-inventory/**'
+      - '.github/workflows/physical-shop-tests.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  physical-shop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Run physical shop unit tests
+        run: node --import tsx --test tests/physical-*.test.ts
+      - name: Typecheck application
+        run: npm run typecheck
