@@ -5,6 +5,6 @@ export const physicalEtbs = [
   {id:'surging-sparks',name:'Surging Sparks ETB',quantity:1,priceCents:22500,detail:'Sealed Elite Trainer Box'},
 ] as const;
 export const fourAnniversaryBundleCents = 74000;
-export const approvedFullCollectionBundleCents = 149900;
+export const approvedFullCollectionBundleCents = 159900;
 export const fullCollectionRegularCents = physicalEtbs.reduce((sum,item)=>sum+item.quantity*item.priceCents,0);
 // Promotional pricing is not authorized yet; inquiries only until owner confirms price and stock.
