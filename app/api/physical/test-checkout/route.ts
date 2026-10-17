@@ -28,7 +28,9 @@ export async function POST(req:Request){
     throw new RequestError('Sandbox return URL or webhook is not configured',503);
   // No shipping charge or live customer payment path: pickup-only sandbox.
   const reserved=await reservePhysicalOrder(owner.userId,[{productId,quantity}],'pickup');
-  const session=await stripe().checkout.sessions.create({
+  let session;
+  try {
+   session=await stripe().checkout.sessions.create({
    mode:'payment',
    client_reference_id:owner.userId,
    line_items:[{price_data:{
@@ -42,6 +44,11 @@ export async function POST(req:Request){
    cancel_url:process.env.APP_URL+'/admin/physical-inventory?physical_test=cancelled',
    allow_promotion_codes:false
   },{idempotencyKey:'physical-sandbox:'+reserved.orderId});
+  } catch {
+   // Stripe may have created the session even if the API response was lost.
+   // Keep stock reserved until verified reconciliation; never release blindly.
+   throw new RequestError('Checkout uncertain; stock held for review',503);
+  }
   if(!session.url||session.livemode)throw new Error('Unexpected Stripe session mode');
   await database().query('UPDATE physical_orders SET stripe_session_id=$2 WHERE id=$1 AND status=$3',[reserved.orderId,session.id,'pending']);
   return json({url:session.url,orderId:reserved.orderId,testOnly:true});
