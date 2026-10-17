@@ -4,10 +4,11 @@ import {transaction} from '@/lib/postgres';
  * is expired or no payment was collected. Caller must verify this with Stripe first.
  * Never release a reservation based solely on a customer browser redirect.
  */
-export async function releaseVerifiedUnpaidPhysicalOrder(orderId:string){
+export async function releaseVerifiedUnpaidPhysicalOrder(orderId:string, verifiedSessionId:string){
  return transaction(async client=>{
-  const order=await client.query('SELECT status FROM physical_orders WHERE id=$1 FOR UPDATE',[orderId]);
+  const order=await client.query('SELECT status,stripe_session_id FROM physical_orders WHERE id=$1 FOR UPDATE',[orderId]);
   if(order.rowCount!==1)throw Error('Unknown order');
+  if(order.rows[0].stripe_session_id!==verifiedSessionId)throw Error('Verified session mismatch');
   if(order.rows[0].status==='cancelled')return false;
   if(order.rows[0].status!=='pending')throw Error('Paid or disputed orders cannot be cancelled this way');
   const lines=await client.query('SELECT product_id,quantity FROM physical_order_items WHERE order_id=$1',[orderId]);
