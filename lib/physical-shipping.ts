@@ -31,7 +31,7 @@ export function quotePhysicalOrder(costs: PhysicalOrderCosts, fulfillment: Physi
   const pickup = fulfillment.kind === 'pickup';
   if (pickup && !fulfillment.pickupConfirmed) throw new Error('Pickup must be confirmed');
   if (!pickup) {
-    if (!/^\\d{5}$/.test(fulfillment.destinationZip)) throw new Error('A valid five-digit destination ZIP is required');
+    if (!/^\d{5}$/.test(fulfillment.destinationZip)) throw new Error('A valid five-digit destination ZIP is required');
     nonnegativeInteger(fulfillment.carrierRateCents, 'carrierRateCents');
     nonnegativeInteger(fulfillment.handlingCents ?? DEFAULT_HANDLING_CENTS, 'handlingCents');
   }
