@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import Link from 'next/link';
-import {physicalEtbs,fourAnniversaryBundleCents,fullCollectionRegularCents,approvedFullCollectionBundleCents} from '@/lib/physical-catalog';
+import {physicalEtbs,pausedFourAnniversaryBundleCents,fullCollectionRegularCents,approvedFullCollectionBundleCents} from '@/lib/physical-catalog';
 
 export const metadata:Metadata={title:'Pokémon Sealed Shop',description:'Explore NestRune sealed Pokémon Elite Trainer Boxes and collection bundles. Availability and checkout pending confirmation.'};
 const usd=(cents:number)=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(cents/100);
@@ -18,7 +18,7 @@ export default function PokemonShop(){
       <h2 style={{fontSize:34,margin:'12px 0'}}>Take the whole collection</h2>
       <p style={{lineHeight:1.7}}>All eight ETBs: five 30th Anniversary, one Destined Rivals, one Prismatic Evolutions and one Surging Sparks.</p>
       <p style={{marginTop:14,fontSize:22}}><strong>Individual listing total: {usd(fullCollectionRegularCents)}</strong></p>
-      <p style={{color:'#f2d597',marginTop:10}}>Owner-selected bundle price: {usd(approvedFullCollectionBundleCents)} · Save {usd(fullCollectionRegularCents-approvedFullCollectionBundleCents)}. Offer not yet available for purchase: the estimated acquisition cost is approximately $1,500; final profit still depends on payment fees, shipping, packaging and taxes.</p>
+      <p style={{color:'#f2d597',marginTop:10}}>Owner-selected bundle price: {usd(approvedFullCollectionBundleCents)} · {usd(approvedFullCollectionBundleCents-fullCollectionRegularCents)} above individual listing total. Offer not yet available for purchase: the estimated acquisition cost is approximately $1,500; final profit still depends on payment fees, shipping, packaging and taxes.</p>
       <p style={{marginTop:10,fontSize:13,color:'#cbd8d1'}}>No orders or reservations are accepted through this preview. Shipping and taxes, if applicable, are additional.</p>
     </section>
     <h2 style={{fontSize:32,margin:'46px 0 22px'}}>Current ETB lineup</h2>
@@ -33,7 +33,7 @@ export default function PokemonShop(){
     </div>
     <section style={{marginTop:30,padding:25,border:'1px solid #47615c',borderRadius:16}}>
       <h2 style={{fontSize:26}}>30th Anniversary bundle</h2>
-      <p style={{marginTop:10,lineHeight:1.7}}>Four 30th Anniversary ETBs for <strong>{usd(fourAnniversaryBundleCents)}</strong> (versus {usd(4*20000)} individually). Offer shown for planning only; availability must be confirmed before purchase.</p>
+      <p style={{marginTop:10,lineHeight:1.7}}>Previously offered at <strong>{usd(pausedFourAnniversaryBundleCents)}</strong> for four boxes. This promotion is paused because it does not cover acquisition costs and selling expenses.</p>
     </section>
     <p style={{fontSize:13,color:'#a9bbb7',lineHeight:1.7,marginTop:30}}>NestRune is an independent reseller and is not affiliated with or endorsed by Pokémon, Nintendo, Creatures or Game Freak. Product photos will be added after matching the exact box editions. Digital NestRune packs are separate from physical Pokémon merchandise.</p>
   </main>;
