@@ -1,11 +1,12 @@
 import Stripe from 'stripe';
-import {stripe,stripeEventMatchesConfiguredMode} from '@/lib/stripe';
+import {stripe,stripeEventMatchesConfiguredMode,paymentMode} from '@/lib/stripe';
 import {limitedText,json,RequestError} from '@/lib/http';
 import {confirmVerifiedPhysicalPayment} from '@/lib/physical-payment-confirmation';
 
 export const runtime='nodejs';
 export async function POST(req:Request){
  const secret=process.env.STRIPE_PHYSICAL_WEBHOOK_SECRET;
+ if(paymentMode()!=='test'||process.env.PHYSICAL_CHECKOUT_TEST_ENABLED!=='true')return json({error:'Physical payment testing is disabled'},503);
  if(!secret)return json({error:'Physical webhook not configured'},503);
  let raw:string;
  try{raw=await limitedText(req,1048576)}
