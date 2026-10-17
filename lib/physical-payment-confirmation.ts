@@ -8,7 +8,7 @@ export async function confirmVerifiedPhysicalPayment(input:{
  eventId:string;sessionId:string;orderId:string;paymentIntentId:string|null;
  paymentStatus:string;currency:string|null;amountTotal:number|null;livemode:boolean;
 }){
- if(input.paymentStatus!=='paid'||input.currency!=='usd'||!Number.isSafeInteger(input.amountTotal)||input.amountTotal!<0)throw Error('Payment not verified');
+ if(input.paymentStatus!=='paid'||input.currency!=='usd'||!Number.isSafeInteger(input.amountTotal)||(input.amountTotal as number)<0)throw Error('Payment not verified');
  return transaction(async client=>{
   const order=await client.query('SELECT * FROM physical_orders WHERE id=$1 FOR UPDATE',[input.orderId]);
   if(order.rowCount!==1)throw Error('Unknown physical order');
