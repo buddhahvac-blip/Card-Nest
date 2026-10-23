@@ -1,0 +1,20 @@
+{
+  "source": "AI-generated catalog poster; each asset is a crop, not a photograph of real stock",
+  "warning": "Do not use AI-generated poster prices or inventory counts as actual product data; verify and disclose AI-altered images",
+  "assets": {
+    "30th-celebration": "/collector/ai/30th-celebration.webp",
+    "destined-rivals": "/collector/ai/destined-rivals.webp",
+    "prismatic-evolutions": "/collector/ai/prismatic-evolutions.webp",
+    "surging-sparks": "/collector/ai/surging-sparks.webp",
+    "pokemon-151": "/collector/ai/pokemon-151.webp",
+    "evolving-skies": "/collector/ai/evolving-skies.webp",
+    "hidden-fates": "/collector/ai/hidden-fates.webp",
+    "crown-zenith": "/collector/ai/crown-zenith.webp",
+    "temporal-forces": "/collector/ai/temporal-forces.webp",
+    "paldea-evolved": "/collector/ai/paldea-evolved.webp",
+    "obsidian-flames": "/collector/ai/obsidian-flames.webp",
+    "paradox-rift": "/collector/ai/paradox-rift.webp",
+    "silver-tempest": "/collector/ai/silver-tempest.webp",
+    "brilliant-stars": "/collector/ai/brilliant-stars.webp"
+  }
+}
