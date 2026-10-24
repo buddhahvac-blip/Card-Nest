@@ -11,7 +11,7 @@ test('physical inventory migration starts with zero units and disallows oversell
   for(const statement of sql.split('--> statement-breakpoint').map(x=>x.trim()).filter(Boolean))await db.exec(statement);
   const first=await db.query('SELECT id,on_hand,reserved,sellable FROM cardnest_v1.collector_inventory');
   assert.equal(first.rows.length,4);
-  for(const row of first.rows){assert.equal(row.on_hand,0);assert.equal(row.reserved,0);assert.equal(row.sellable,false)}
+  for(const row of first.rows as Array<{on_hand:number;reserved:number;sellable:boolean}>){assert.equal(row.on_hand,0);assert.equal(row.reserved,0);assert.equal(row.sellable,false)}
   await assert.rejects(db.query("UPDATE cardnest_v1.collector_inventory SET sellable=true WHERE id='etb-30th'"),/check constraint/i);
   await db.query("UPDATE cardnest_v1.collector_inventory SET on_hand=1,unit_price_cents=20000,photo_url='/collector/real/box.webp',verified_photos=true,sellable=true WHERE id='etb-30th'");
   const hold="UPDATE cardnest_v1.collector_inventory SET reserved=reserved+1 WHERE id='etb-30th' AND sellable=true AND verified_photos=true AND on_hand-reserved >= 1 RETURNING id";
