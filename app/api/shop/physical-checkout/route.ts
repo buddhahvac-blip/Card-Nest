@@ -62,6 +62,7 @@ export async function POST(req:Request){
    shipping_address_collection:{allowed_countries:['US']},
    shipping_options:[{shipping_rate:rate.id}],
    automatic_tax:{enabled:true},
+   ...(ready.mode==='live'?{consent_collection:{terms_of_service:'required' as const}}:{}),
    billing_address_collection:'required',
    metadata:{purpose:'collector-physical',order_id:order.id,item_id:order.item_id,quantity:String(order.quantity),request_key:order.request_key},
    payment_intent_data:{metadata:{purpose:'collector-physical',order_id:order.id}},
