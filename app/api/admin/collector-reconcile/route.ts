@@ -2,7 +2,7 @@ import Stripe from 'stripe';
 import {studioOwner} from '@/lib/studio-auth';
 import {database} from '@/lib/postgres';
 import {stripe} from '@/lib/stripe';
-import {finalizeCollectorEvent,releaseOrphanCollectorHold} from '@/lib/collector-orders';
+import {finalizeCollectorEvent,releaseOrphanCollectorHold,markCollectorPaymentReview} from '@/lib/collector-orders';
 import {rateLimit,RequestError,failure,json,sameOrigin} from '@/lib/http';
 export const runtime='nodejs';export const dynamic='force-dynamic';
 export async function POST(req:Request){
@@ -27,6 +27,14 @@ export async function POST(req:Request){
     if(s.status==='expired'&&s.payment_status!=='paid')type='checkout.session.expired';
     else if(s.status==='complete'&&s.payment_status==='paid')type='checkout.session.completed';
     else {skipped++;continue}
+    if(type==='checkout.session.completed'&&typeof s.payment_intent==='string'){
+     const pi=await api.paymentIntents.retrieve(s.payment_intent,{expand:['latest_charge']});
+     const charge=pi.latest_charge;
+     if(typeof charge==='object'&&charge&&(charge.refunded||charge.disputed||charge.amount_refunded>0)){
+      await markCollectorPaymentReview('reconcile:review:'+o.id,'charge.refunded',pi.id,o.id);
+      skipped++;continue;
+     }
+    }
     const result=await finalizeCollectorEvent('reconcile:'+type+':'+o.id,type,{
      id:s.id,metadata:s.metadata,mode:s.mode||'',payment_status:s.payment_status||'',
      currency:s.currency||null,amount_subtotal:s.amount_subtotal??null,
