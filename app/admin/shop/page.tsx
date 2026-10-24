@@ -18,6 +18,7 @@ export default function CollectorMetrics(){
     <div className='eyebrow'>FOUNDER · POKÉMON STORE ANALYTICS</div>
     <h1 className='page-title'>Collector shop performance</h1>
     <p className='intro'>Private, privacy-conscious storefront activity over the past 30 days.</p>
+    <p><Link href='/#Support%20Inbox' className='outline'>Open purchase requests in Support Inbox</Link></p>
     <button type='button' className='outline' onClick={()=>void load().catch(e=>setMessage(e.message))}>Refresh counts</button>
     {message&&<p className='notice' role='alert'>{message}</p>}
     {stats&&<><section className='panel' style={{marginTop:20}}>
