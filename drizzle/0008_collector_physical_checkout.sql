@@ -8,8 +8,10 @@ CREATE TABLE IF NOT EXISTS "cardnest_v1"."collector_inventory" (
  "reserved" integer NOT NULL DEFAULT 0 CHECK ("reserved">=0),
  "sellable" boolean NOT NULL DEFAULT false,
  "verified_photos" boolean NOT NULL DEFAULT false,
+ "photo_url" text CHECK ("photo_url" IS NULL OR left("photo_url",16)='/collector/real/'),
  "updated" timestamptz NOT NULL DEFAULT now(),
- CONSTRAINT "collector_inventory_reservations_valid" CHECK ("reserved"<="on_hand")
+ CONSTRAINT "collector_inventory_reservations_valid" CHECK ("reserved"<="on_hand"),
+ CONSTRAINT "collector_items_only_after_review" CHECK (NOT "sellable" OR ("verified_photos" AND "photo_url" IS NOT NULL AND "unit_price_cents" IS NOT NULL))
 );
 --> statement-breakpoint
 INSERT INTO "cardnest_v1"."collector_inventory" ("id","name") VALUES
