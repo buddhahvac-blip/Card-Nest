@@ -2,7 +2,7 @@
 import {useEffect,useState} from 'react';
 import Link from 'next/link';
 
-type Stats={windowDays:number;visitorSessions:number;interestedSessions:number;inquiryClicks:number;completedPurchases:number|null;revenueCents:number|null;purchaseTrackingReady:boolean;note:string;recent:Array<{day:string;kind:string;events:number}>};
+type Stats={windowDays:number;visitorSessions:number;orderRequestSessions:number;orderRequests:number;contactClicks:number;completedPurchases:number|null;revenueCents:number|null;purchaseTrackingReady:boolean;note:string;recent:Array<{day:string;kind:string;events:number}>};
 export default function CollectorMetrics(){
   const [stats,setStats]=useState<Stats|null>(null);
   const [message,setMessage]=useState('');
@@ -23,15 +23,16 @@ export default function CollectorMetrics(){
     {stats&&<><section className='panel' style={{marginTop:20}}>
       <h2>Store activity · {stats.windowDays} days</h2>
       <p>Visitor sessions: <strong>{stats.visitorSessions}</strong></p>
-      <p>Sessions clicking an inquiry: <strong>{stats.interestedSessions}</strong></p>
-      <p>Total inquiry clicks: <strong>{stats.inquiryClicks}</strong></p>
-      <p>Inquiry rate by session: <strong>{stats.visitorSessions?Math.round(100*stats.interestedSessions/stats.visitorSessions):0}%</strong></p>
+      <p>Sessions submitting requests: <strong>{stats.orderRequestSessions}</strong></p>
+      <p>Purchase requests submitted: <strong>{stats.orderRequests}</strong></p>
+      <p>Purchase-form/link clicks: <strong>{stats.contactClicks}</strong></p>
+      <p>Inquiry rate by session: <strong>{stats.visitorSessions?Math.round(100*stats.orderRequestSessions/stats.visitorSessions):0}%</strong></p>
       <p>Completed purchases: <strong>{stats.purchaseTrackingReady?stats.completedPurchases:'Not yet trackable'}</strong></p>
       <p>Physical sales revenue: <strong>{stats.purchaseTrackingReady&&stats.revenueCents!=null?'$'+(stats.revenueCents/100).toFixed(2):'Not yet trackable'}</strong></p>
       <p className='disclaimer'>{stats.note}</p>
     </section><section className='panel' style={{marginTop:18}}>
       <h2>Recent event counts</h2>
-      {stats.recent.length?stats.recent.map((r,i)=><p key={r.day+r.kind+i}>{r.day} · {r.kind==='collector-shop-visit'?'shop visits':'purchase inquiries'} · {r.events}</p>):<p>No events recorded yet.</p>}
+      {stats.recent.length?stats.recent.map((r,i)=><p key={r.day+r.kind+i}>{r.day} · {r.kind==='collector-shop-visit'?'shop visits':r.kind==='collector-shop-contact'?'purchase-form/link clicks':'submitted purchase inquiries'} · {r.events}</p>):<p>No events recorded yet.</p>}
     </section></>}
   </main>;
 }
