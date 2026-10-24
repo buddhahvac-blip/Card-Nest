@@ -39,6 +39,7 @@ export default function CollectorInventoryAdmin(){
    <label><input type='checkbox' checked={item.sellable} onChange={e=>edit(item.id,{sellable:e.target.checked})}/> Permit checkout after all reviews</label>
    <p><button type='button' className='outline' disabled={saving===item.id||item.reserved>0} onClick={()=>void save(item)}>{saving===item.id?'Saving...':'Save verified inventory'}</button></p>
   </section>)}
+  <p><button type='button' className='outline' onClick={async()=>{try{setError('');const res=await fetch('/api/admin/collector-reconcile',{method:'POST'});const data=await res.json();if(!res.ok)throw Error(data.error||'Reconciliation failed');setError('Checked '+data.checked+' older checkouts. Paid: '+data.paid+'. Expired: '+data.expired+'. Requires review: '+data.skipped+'.');await load()}catch(e){setError(e instanceof Error?e.message:'Unable to reconcile')}}}>Reconcile expired or delayed Stripe orders</button></p>
   <h2>Recent collector orders</h2><div className='panel'>{orders.length?orders.map(o=><p key={o.id}>{new Date(o.created).toLocaleDateString()} · {o.item_id} × {o.quantity} · <strong>{o.status}</strong> · {o.email} {o.paid_total_cents!=null?' · $'+(o.paid_total_cents/100).toFixed(2):''}</p>):<p>None yet.</p>}</div>
  </main>;
 }
