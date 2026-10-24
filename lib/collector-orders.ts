@@ -63,7 +63,7 @@ export async function finalizeCollectorEvent(eventId:string,type:string,s:EventS
   }
   if(type==='checkout.session.completed'||type==='checkout.session.async_payment_succeeded'){
    if(s.mode!=='payment'||s.payment_status!=='paid'||s.currency!=='usd'||
-      s.amount_subtotal!==price||!Number.isSafeInteger(s.amount_total)||s.amount_total!<price||
+      s.amount_subtotal!==price||!Number.isSafeInteger(s.amount_total)||(s.amount_total??-1)<price||
       !s.shipping_cost||s.shipping_cost.amount_total<0)throw new Error('Unverified collector amount or payment');
    if(o.status==='paid')return {duplicate:true};
    if(o.status!=='pending')throw new Error('Order is not reserved');
@@ -93,5 +93,17 @@ export async function markCollectorPaymentReview(eventId:string,type:string,inte
   await c.query(
    `UPDATE collector_orders SET status='review_required'
     WHERE payment_intent=$1 AND status='paid'`,[intentId]);
+ });
+}
+
+export async function releaseOrphanCollectorHold(id:string){
+ return transaction(async c=>{
+  const result=await c.query(
+   "SELECT * FROM collector_orders WHERE id=$1 AND status='pending' AND session_id IS NULL AND hold_expires<now() FOR UPDATE",
+   [id]);
+  if(!result.rowCount)return false;
+  const o=result.rows[0];
+  await release(c,o.id,o.item_id,o.quantity,'expired');
+  return true;
  });
 }
