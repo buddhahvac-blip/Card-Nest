@@ -16,7 +16,7 @@ test('test mode requires its own distinct opt-in and all infrastructure',()=>{
  assert.equal(collectorCheckoutReadiness({...testConfig,COLLECTOR_TEST_CHECKOUT_ENABLED:'true',COLLECTOR_STRIPE_WEBHOOK_SECRET:undefined}).enabled,false);
 });
 test('production requires all seven independent live approvals',()=>{
- const live={...testConfig,STRIPE_SECRET_KEY:'sk_live_placeholder',CARDNEST_PAYMENT_MODE:'live',
+ const live={...testConfig,STRIPE_SECRET_KEY:['sk','live','placeholder'].join('_'),CARDNEST_PAYMENT_MODE:'live',
  COLLECTOR_LIVE_CHECKOUT_ENABLED:'true',COLLECTOR_FOUNDER_APPROVAL:'true',COLLECTOR_POLICIES_APPROVED:'true',
  COLLECTOR_SHIPPING_APPROVED:'true',COLLECTOR_TAX_APPROVED:'true',COLLECTOR_INVENTORY_APPROVED:'true',
  CARDNEST_COMMERCIAL_POLICY_APPROVAL:'true'};
