@@ -86,13 +86,13 @@ async function release(c:PoolClient,id:string,itemId:string,quantity:number,stat
  await c.query('UPDATE collector_orders SET status=$2 WHERE id=$1 AND status=\'pending\'',[id,status]);
 }
 
-export async function markCollectorPaymentReview(eventId:string,type:string,intentId:string){
+export async function markCollectorPaymentReview(eventId:string,type:string,intentId:string,orderId:string){
  return transaction(async c=>{
   const claimed=await c.query('INSERT INTO collector_stripe_events(id,type) VALUES($1,$2) ON CONFLICT DO NOTHING RETURNING id',[eventId,type]);
   if(!claimed.rowCount)return;
   await c.query(
    `UPDATE collector_orders SET status='review_required'
-    WHERE payment_intent=$1 AND status='paid'`,[intentId]);
+    WHERE (payment_intent=$1 OR id=$2) AND status IN ('paid','pending')`,[intentId,orderId]);
  });
 }
 
