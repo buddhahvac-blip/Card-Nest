@@ -7,7 +7,7 @@ const testConfig={
  COLLECTOR_STRIPE_WEBHOOK_SECRET:'whsec_placeholder',
  COLLECTOR_US_SHIPPING_RATE_ID:'shr_placeholder',
  APP_URL:'https://nestrune.app'
-} as NodeJS.ProcessEnv;
+} as unknown as NodeJS.ProcessEnv;
 test('physical checkout is off by default even with Stripe test credentials',()=>{
  assert.equal(collectorCheckoutReadiness(testConfig).enabled,false);
 });
