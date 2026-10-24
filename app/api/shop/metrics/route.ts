@@ -32,7 +32,18 @@ export async function GET(){
     const recent=await database().query(
       "SELECT (created AT TIME ZONE 'Pacific/Honolulu')::date::text AS day,kind,count(*)::int AS events FROM security_events WHERE created>=now()-interval '14 days' AND kind IN ('collector-shop-visit','collector-shop-inquiry','collector-shop-contact') GROUP BY day,kind ORDER BY day DESC,kind LIMIT 30"
     );
+    let completedPurchases:number|null=null;
+    let revenueCents:number|null=null;
+    try{
+      const sales=await database().query(
+        "SELECT count(*)::int AS paid_orders,coalesce(sum(paid_total_cents),0)::bigint AS gross_cents FROM collector_orders WHERE status='paid' AND paid_at>=now()-interval '30 days'"
+      );
+      completedPurchases=Number(sales.rows[0].paid_orders||0);
+      revenueCents=Number(sales.rows[0].gross_cents||0);
+    }catch{
+      // The migration may not yet be applied. Never guess at paid sales.
+    }
     const stats=result.rows[0]||{};
-    return json({windowDays:30,visitorSessions:Number(stats.visitor_sessions||0),orderRequestSessions:Number(stats.requested_sessions||0),orderRequests:Number(stats.order_requests||0),contactClicks:Number(stats.contact_clicks||0),completedPurchases:null,revenueCents:null,purchaseTrackingReady:false,note:'Session-based measurements, not unique people. Completed physical sales cannot be counted until a verified checkout and webhook are launched.',recent:recent.rows});
+    return json({windowDays:30,visitorSessions:Number(stats.visitor_sessions||0),orderRequestSessions:Number(stats.requested_sessions||0),orderRequests:Number(stats.order_requests||0),contactClicks:Number(stats.contact_clicks||0),completedPurchases,revenueCents,purchaseTrackingReady:completedPurchases!==null,note:'Session-based visits are not unique people. Purchases and gross receipts count only Stripe-confirmed paid physical orders, excluding held/refunded orders; gross is before shipping costs and fees.',recent:recent.rows});
   }catch(e){return failure(e)}
 }

@@ -57,6 +57,13 @@
       "when": 1791099800000,
       "tag": "0007_release_supply_control",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792806000000,
+      "tag": "0008_collector_physical_checkout",
+      "breakpoints": true
     }
   ]
 }
