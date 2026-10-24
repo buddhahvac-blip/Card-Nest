@@ -3,10 +3,11 @@ import {studioOwner} from '@/lib/studio-auth';
 import {database} from '@/lib/postgres';
 import {stripe} from '@/lib/stripe';
 import {finalizeCollectorEvent,releaseOrphanCollectorHold} from '@/lib/collector-orders';
-import {rateLimit,RequestError,failure,json} from '@/lib/http';
+import {rateLimit,RequestError,failure,json,sameOrigin} from '@/lib/http';
 export const runtime='nodejs';export const dynamic='force-dynamic';
-export async function POST(){
+export async function POST(req:Request){
  try{
+  sameOrigin(req);
   const owner=await studioOwner();if(!owner)throw new RequestError('Founder access required',403);
   await rateLimit('collector-reconcile:'+owner.userId,2);
   const orders=await database().query(
