@@ -9,7 +9,7 @@ function getSession(){
     return session;
   }catch{return null}
 }
-function track(event:'visit'|'inquiry',product?:string){
+function track(event:'visit'|'contact'|'inquiry',product?:string){
   if(navigator.doNotTrack==='1'||navigator.webdriver)return;
   const session=getSession();if(!session)return;
   const payload={event,session,...(product?{product}:{} )};
@@ -28,10 +28,12 @@ export default function ShopTracking(){
       const anchor=target.closest<HTMLAnchorElement>('a[data-shop-inquiry]');
       if(!anchor)return;
       const product=anchor.dataset.shopInquiry;
-      if(product)track('inquiry',product);
+      if(product)track('contact',product);
     }
+    function onRequest(e:Event){const product=(e as CustomEvent<{product:string}>).detail?.product;if(product)track('inquiry',product)}
+    window.addEventListener('nestrune:collector-order-request',onRequest);
     document.addEventListener('click',onClick);
-    return ()=>document.removeEventListener('click',onClick);
+    return ()=>{document.removeEventListener('click',onClick);window.removeEventListener('nestrune:collector-order-request',onRequest)};
   },[]);
   return null;
 }
