@@ -8,6 +8,7 @@ export default function sitemap():MetadataRoute.Sitemap{
  const items:MetadataRoute.Sitemap=[];
  const staticPaths=[
   ['/',1,'daily'],
+  ['/pokemon-collectibles',.95,'weekly'],
   ['/join',.95,'weekly'],
   ['/digital-card-game',.95,'weekly'],
   ['/season-one',.9,'weekly'],
