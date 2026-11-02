@@ -13,6 +13,33 @@ function inquiry(name:string){
 }
 function total(items:Item[]){return items.reduce((sum,item)=>sum+item.quantity,0);}
 
+const spriteRows: Record<string, {columns:number; index:number; row:number}> = {
+  'OP-ILL-KID-KILLER':{columns:3,index:0,row:0},
+  'OP-ILL-RAYLEIGH-SHAKUYAKU':{columns:3,index:1,row:0},
+  'OP-ST-34':{columns:3,index:2,row:0},
+  'OP-16-EN':{columns:6,index:0,row:1},
+  'EB-04-JP':{columns:6,index:1,row:1},
+  'OP-15-JP':{columns:6,index:2,row:1},
+  'OP-09-JP':{columns:6,index:3,row:1},
+  'OP-17-JP':{columns:6,index:4,row:1},
+  'OPC-01-JP':{columns:6,index:5,row:1},
+  'OP-SLAB-BACCARAT':{columns:5,index:0,row:2},
+  'OP-SLAB-CAMIE':{columns:5,index:1,row:2},
+  'OP-SLAB-DON':{columns:5,index:2,row:2},
+  'OP-SLAB-BELLMERE':{columns:5,index:3,row:2},
+  'OP-SLAB-TEACH':{columns:5,index:4,row:2}
+};
+function spriteStyle(sku:string):React.CSSProperties {
+  const p=spriteRows[sku];
+  if(!p)return {};
+  return {
+    backgroundImage:"url('/one-piece-collectibles/draft-products.webp')",
+    backgroundSize:(p.columns*100)+'% 300%',
+    backgroundPosition:(p.index*100/(p.columns-1))+'% '+(p.row*50)+'%',
+    backgroundRepeat:'no-repeat'
+  };
+}
+
 export default function OnePieceCatalog({groups}:{groups:Group[]}){
   const [filter,setFilter]=useState<Filter>('all');
   const all=groups.reduce((sum,group)=>sum+total(group.items),0);
@@ -38,8 +65,8 @@ export default function OnePieceCatalog({groups}:{groups:Group[]}){
           <div className={'op-products op-products-'+group.id}>
             {group.items.map(item=><article className="op-product" key={item.sku}>
               <div className="op-product-image">
-                <img src={'/one-piece-collectibles/illustrations/'+encodeURIComponent(item.sku)}
-                  alt={item.name+' — AI-created illustration; not a photograph of this item'} width={700} height={500} loading="lazy" />
+                <div className="op-sprite-art" style={spriteStyle(item.sku)}
+                  role="img" aria-label={item.name+' — AI-drafted product illustration, not an actual item photo or verified packaging'} />
                 <span className="op-image-tag">AI illustration</span>
               </div>
               <div className="op-product-copy">
