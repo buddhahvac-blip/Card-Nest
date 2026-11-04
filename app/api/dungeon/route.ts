@@ -78,6 +78,9 @@ export async function POST(req:Request){
   }
 
   if(body.action==='clear'){
+   // A client-reported victory is not proof of a won battle. Until the server
+   // can independently resolve combat, never mint Rune Energy from this action.
+   throw new RequestError('Rune Dungeon rewards are temporarily paused while server-verified battles are being implemented. Practice battles remain available.',409);
    const reward=runeEnergyForFloor(body.floor);
    if(!reward)throw new RequestError('Unknown Rune Dungeon floor',400);
    const result=await transaction(async c=>{
