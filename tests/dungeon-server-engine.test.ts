@@ -25,3 +25,30 @@ test('illegal swap and forged actions cannot advance battle',()=>{
  assert.throws(()=>applyDungeonTurn(state,'swap',100));
  assert.equal(state.turn,0);
 });
+
+test('server wins only after all three enemies reach zero HP',()=>{
+ let state=createDungeonCombat(1,players,enemies,.2,.2);
+ for(let i=0;i<100&&state.result==='active';i++)state=applyDungeonTurn(state,'strike');
+ assert.equal(state.result,'won');
+ assert.ok(state.enemy.every(foe=>foe.hp===0));
+ assert.ok(state.player.some(hero=>hero.hp>0));
+ assert.throws(()=>applyDungeonTurn(state,'strike'),'terminal victory cannot be played again');
+});
+
+test('strong enemies can defeat the player without creating a victory',()=>{
+ let state=createDungeonCombat(10,players,enemies,5,5);
+ for(let i=0;i<100&&state.result==='active';i++)state=applyDungeonTurn(state,'strike');
+ assert.equal(state.result,'lost');
+ assert.ok(state.player.every(hero=>hero.hp===0));
+ assert.ok(state.enemy.some(foe=>foe.hp>0));
+ assert.throws(()=>applyDungeonTurn(state,'strike'),'terminal defeat cannot be replayed');
+});
+
+test('unsupported abilities do not damage enemies or mutate caller state',()=>{
+ const state=createDungeonCombat(1,players,enemies,.5,.5);
+ assert.throws(()=>applyDungeonTurn(state,'ability'));
+ assert.equal(state.turn,0);
+ assert.ok(state.enemy.every(foe=>foe.hp===foe.maxHp));
+ assert.throws(()=>applyDungeonTurn(state,'power'));
+ assert.equal(state.turn,0);
+});
