@@ -37,7 +37,7 @@ async function approvedEnemyIds(c:import('pg').PoolClient,floor:number){
  const cards=seasonManifest.filter(card=>ready.has(card.id)).map(card=>({id:card.id,theme:card.theme,rarity:card.rarity}));
  const rotationKey=dungeonRotationKey();
  const enemyIds=dungeonEnemyRotations(cards,rotationKey)[String(floor)];
- if(!enemyIds||enemyIds.length!==3)throw new RequestError('Dungeon enemy rotation is not available.',503);
+ if(!enemyIds||enemyIds.length!==3||!enemyIds.every(id=>ready.has(id)))throw new RequestError('Dungeon enemy rotation is not fully approved for combat.',503);
  return {enemyIds,rotationKey,ready};
 }
 
@@ -59,7 +59,7 @@ export async function GET(req:Request){
   const attempt=new URL(req.url).searchParams.get('attempt');
   if(!attempt||!z.string().uuid().safeParse(attempt).success)throw new RequestError('A valid attempt is required.',400);
   const {rows:[row]}=await database().query(
-   'SELECT id,floor,combat_state,turn_index,outcome,expires_at,expires_at>now() AS unexpired FROM rune_dungeon_attempts WHERE id=$1 AND user_id=$2',
+   'SELECT id,floor,engine_version,combat_state,turn_index,outcome,expires_at,expires_at>now() AS unexpired FROM rune_dungeon_attempts WHERE id=$1 AND user_id=$2',
    [attempt,user.userId]
   );
   if(!row||row.engine_version===null||!row.combat_state)throw new RequestError('Battle not found.',404);
@@ -136,7 +136,7 @@ export async function POST(req:Request){
      completedAt:saved.completed_at,expiresAt:saved.expires_at,
      engineVersion:attempt.engine_version,combatState:after,
      combatVerifiedAt:saved.combat_verified_at,turnIndex:after.turn
-    },user.userId,Number(attempt.floor));
+    },user.userId,Number(attempt.floor),saved.completed_at);
     const first=runeEnergyForFloor(Number(attempt.floor));
     const credited=await c.query(
      'INSERT INTO rune_dungeon_clears(user_id,floor,energy_awarded) VALUES($1,$2,$3) ON CONFLICT (user_id,floor) DO NOTHING RETURNING energy_awarded',
