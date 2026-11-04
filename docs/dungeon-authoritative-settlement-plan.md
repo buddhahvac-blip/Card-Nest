@@ -31,3 +31,14 @@ Status: design/implementation pending. **Do not merge the temporary fail-closed 
 
 ## Release note
 The current draft branch is *not a complete security patch* and must never be described as one. Replacing it with a server-authoritative implementation is a prerequisite to approval.
+
+## Draft implementation progress — 2026-11-04
+
+- Added `POST /api/dungeon/combat` for authenticated start and turn commands. A start binds three distinct permitted guardians, a server-selected approved enemy rotation, the floor's difficulty, and a versioned initial combat state to an attempt.
+- A turn requires `expectedTurn` matching the locked attempt's server-owned sequence. The server applies combat, records the turn, and persists terminal results under the same database transaction.
+- When a server-generated win passes `assertVerifiedDungeonVictory`, the transaction inserts a unique first-clear row and credits Rune Energy only if the insert succeeded. Stale turns, repeated wins, client-reported clears, cross-account attempts, and expired sessions cannot award Energy.
+- Added authenticated `GET /api/dungeon/combat?attempt=<uuid>` for restoring an unfinished battle.
+- Added `app/dungeon-server-battle.tsx`, an opt-in UI selected only when `NEXT_PUBLIC_DUNGEON_AUTHORITATIVE_BETA=true`; the existing public dungeon presentation is unchanged by default.
+- Expanded deterministic win/loss tests for the combat engine.
+
+**Not release-ready.** The draft requires the additive migration `drizzle/0013_dungeon_authoritative_state.sql` in a dedicated preview database, complete test/typecheck/build verification, actual browser testing, ability parity, attack balance checks, and concurrency/replay tests against a database. Do not enable the feature flag in production or merge this PR until those checks pass. Existing user balances and entitlements must remain intact.
