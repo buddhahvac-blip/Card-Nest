@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import {searchIndexingApproved,siteDescription,siteName,siteUrl} from "@/lib/site";
 import "./globals.css";
 import "./home-experience.css";
+import SiteHeader from "./site-header";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -56,7 +57,7 @@ export default function RootLayout({
           inLanguage:'en'
         })}} />
       </head>
-      <body className="antialiased" style={{"--font-world":"Georgia", "--font-sans":"Arial"} as React.CSSProperties}>{children}</body>
+      <body className="antialiased" style={{"--font-world":"Georgia", "--font-sans":"Arial"} as React.CSSProperties}><SiteHeader/>{children}</body>
     </html>
   );
 }

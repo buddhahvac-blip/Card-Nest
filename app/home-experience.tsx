@@ -29,7 +29,7 @@ export default function HomeExperience({go}:Props){
         <div className="cn-hero-actions">
           <button className="cn-primary-cta" onClick={()=>scrollTo('nestrune-paths')}>ENTER THE WORLD <ArrowRight size={17}/></button>
           <button className="cn-secondary-cta" onClick={()=>scrollTo('packs')}>OPEN A PACK</button>
-          <Link className="cn-text-cta" href="/play">TRY NEST BATTLES ↗</Link>
+          <Link className="cn-text-cta" href="/play">TRY NEST BATTLES ↗</Link><Link className="cn-text-cta" href="/rune-dungeon">ENTER RUNE DUNGEON ↗</Link>
         </div>
         <div className="cn-hero-proof" aria-label="NestRune Season One overview">
           <span><strong>369</strong> Season One Guardians</span>

@@ -44,14 +44,7 @@ const opStyles = "\n.op-site{min-height:100vh;background:radial-gradient(ellipse
 export default function OnePieceCollectibles(){
   const units=sum(sealed)+sum(packs)+sum(graded);
   return <main className="op-site"><div className="op-shell">
-    <header className="op-header">
-      <Link href="/" className="op-logo"><span className="op-logo-mark" aria-hidden="true">✧</span><span>NestRune<small>A WORLD WORTH COLLECTING</small></span></Link>
-      <nav className="op-nav" aria-label="Main navigation">
-        <Link href="/">⌂ Home</Link><Link href="/pokemon-collectibles">◉ Pokémon</Link>
-        <Link href="/one-piece-collectibles" aria-current="page">☠ One Piece</Link><Link href="/">⚔ Play</Link>
-        <Link href="/#My%20Nest">▤ My Nest</Link><Link href="/about">ⓘ About</Link>
-      </nav>
-    </header>
+    
     <section className="op-hero" aria-labelledby="op-hero-title">
       <div className="op-hero-art op-hero-art-left" aria-hidden="true"><div className="op-hero-sprite op-hero-sprite-left"/></div>
       <div className="op-hero-copy"><div className="op-hero-kicker">NESTRUNE · THE COLLECTOR'S NEST</div><h1 id="op-hero-title">ONE PIECE <span>COLLECTIBLES</span></h1>
