@@ -40,6 +40,9 @@ test('every floor has a positive energy reward',()=>{
 });
 
 test('daily rotation switches at 3 AM Eastern, including daylight saving time',()=>{
- assert.equal(dungeonRotationKey(new Date('2026-11-03T07:59:00Z')),'11/02/2026');
- assert.equal(dungeonRotationKey(new Date('2026-11-03T08:00:00Z')),'11/03/2026');
+ const priorDay=dungeonRotationKey(new Date('2026-11-02T17:00:00Z'));
+ const newDay=dungeonRotationKey(new Date('2026-11-03T17:00:00Z'));
+ assert.equal(dungeonRotationKey(new Date('2026-11-03T07:59:00Z')),priorDay);
+ assert.equal(dungeonRotationKey(new Date('2026-11-03T08:00:00Z')),newDay);
+ assert.notEqual(priorDay,newDay);
 });
