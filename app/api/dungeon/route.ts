@@ -78,28 +78,10 @@ export async function POST(req:Request){
   }
 
   if(body.action==='clear'){
-   // A client-reported victory is not proof of a won battle. Until the server
-   // can independently resolve combat, never mint Rune Energy from this action.
+   // The browser cannot prove it won a battle. Server-authoritative combat
+   // must settle verified victories through the authenticated combat API.
+   // Do not leave the legacy client-reported reward implementation reachable.
    throw new RequestError('Rune Dungeon rewards are temporarily paused while server-verified battles are being implemented. Practice battles remain available.',409);
-   const reward=runeEnergyForFloor(body.floor);
-   if(!reward)throw new RequestError('Unknown Rune Dungeon floor',400);
-   const result=await transaction(async c=>{
-    await ensureUser(c,user.userId);
-    await c.query('INSERT INTO rune_dungeon_progress(user_id) VALUES($1) ON CONFLICT(user_id) DO NOTHING',[user.userId]);
-    const {rows:[progress]}=await c.query('SELECT highest_cleared,rune_energy FROM rune_dungeon_progress WHERE user_id=$1 FOR UPDATE',[user.userId]);
-    const existing=await c.query('SELECT energy_awarded FROM rune_dungeon_clears WHERE user_id=$1 AND floor=$2',[user.userId,body.floor]);
-    if(existing.rows[0])return {alreadyCleared:true,reward:0,highestCleared:Number(progress.highest_cleared),runeEnergy:Number(progress.rune_energy)};
-    const clears=await c.query('SELECT floor FROM rune_dungeon_clears WHERE user_id=$1',[user.userId]);
-    if(!isRuneFloorUnlocked(body.floor,new Set(clears.rows.map(clear=>Number(clear.floor)))))throw new RequestError('Clear the earlier levels in this Rune World first.',409);
-    if(!body.attempt)throw new RequestError('Start this Rune Dungeon floor before saving a first clear.',409);
-    const attempt=await c.query("SELECT id FROM rune_dungeon_attempts WHERE id=$1 AND user_id=$2 AND floor=$3 AND completed_at IS NULL AND expires_at>now() AND started_at<=now()-interval '15 seconds' FOR UPDATE",[body.attempt,user.userId,body.floor]);
-    if(!attempt.rows[0])throw new RequestError('This Dungeon attempt is invalid, expired, or completed too quickly. Start the floor again.',409);
-    await c.query("UPDATE rune_dungeon_attempts SET completed_at=now(),outcome='won',energy_delta=$2 WHERE id=$1",[body.attempt,reward]);
-    await c.query('INSERT INTO rune_dungeon_clears(user_id,floor,energy_awarded) VALUES($1,$2,$3)',[user.userId,body.floor,reward]);
-    const {rows:[updated]}=await c.query('UPDATE rune_dungeon_progress SET highest_cleared=GREATEST(highest_cleared,$2),rune_energy=rune_energy+$3,updated_at=now() WHERE user_id=$1 RETURNING highest_cleared,rune_energy',[user.userId,body.floor,reward]);
-    return {alreadyCleared:false,reward,highestCleared:Number(updated.highest_cleared),runeEnergy:Number(updated.rune_energy)};
-   });
-   return json({...result,bossCleared:result.highestCleared===30});
   }
 
   if(body.action==='loss'){
