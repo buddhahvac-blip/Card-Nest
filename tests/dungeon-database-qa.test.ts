@@ -48,7 +48,7 @@ test('isolated QA database: verified victory, one-time credit, owner check, expi
     [attempt,state.turn,state.player[0].id,'strike',JSON.stringify(state)]
    );
    const stored=await client.query(
-    'SELECT user_id,floor,outcome,completed_at AS "completedAt",expires_at AS "expiresAt",engine_version AS "engineVersion",combat_state AS "combatState",combat_verified_at AS "combatVerifiedAt",turn_index AS "turnIndex" FROM rune_dungeon_attempts WHERE id=$1',
+    'SELECT user_id AS "userId",floor,outcome,completed_at AS "completedAt",expires_at AS "expiresAt",engine_version AS "engineVersion",combat_state AS "combatState",combat_verified_at AS "combatVerifiedAt",turn_index AS "turnIndex" FROM rune_dungeon_attempts WHERE id=$1',
     [attempt]
    );
    const verified=stored.rows[0];
