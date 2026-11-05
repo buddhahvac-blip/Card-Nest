@@ -145,9 +145,9 @@ export default function DungeonServerBattle({floor,onExit,onVictory}:Props){
  const specialName=profile==='high'?'Special Attack':card?.abilitySecondary?.name||'Special';
  const specialCost=profile==='high'?3:Math.max(1,card?.abilitySecondary?.energyCost||3);
  const ready=!!active&&active.hp>0&&!busy&&state?.result==='active';
- const canPrimary=ready&&profile!=='uncommon'&&active.energy>=primaryCost&&active.cooldown<=1;
- const canSpecial=ready&&profile!=='uncommon'&&active.energy>=specialCost&&active.specialCooldown<=1;
- const canGuard=ready&&active.energy>=1&&active.defenseCooldown<=1;
+ const canPrimary=ready&&profile!=='uncommon'&&(active?.energy??0)>=primaryCost&&(active?.cooldown??99)<=1;
+ const canSpecial=ready&&profile!=='uncommon'&&(active?.energy??0)>=specialCost&&(active?.specialCooldown??99)<=1;
+ const canGuard=ready&&(active?.energy??0)>=1&&(active?.defenseCooldown??99)<=1;
  const isWinner=state?.result==='won';
 
  return <section className={styles.root} aria-label="Server-verified Rune Dungeon battle">
