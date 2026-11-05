@@ -57,6 +57,41 @@
       "when": 1791099800000,
       "tag": "0007_release_supply_control",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1791277537000,
+      "tag": "0008_rune_dungeon",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1791308435000,
+      "tag": "0009_public_beta_scale_indexes",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1791312140000,
+      "tag": "0010_rune_dungeon_attempts",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1791495935000,
+      "tag": "0011_rune_dungeon_v2_integrity",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1791506454000,
+      "tag": "0012_founder_upload_pathway",
+      "breakpoints": true
     }
   ]
 }
