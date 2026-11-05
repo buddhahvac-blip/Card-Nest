@@ -52,3 +52,33 @@ test('unsupported abilities do not damage enemies or mutate caller state',()=>{
  assert.throws(()=>applyDungeonTurn(state,'power'));
  assert.equal(state.turn,0);
 });
+
+
+test('starter speed buffs and debuffs work without trusting browser combat values',()=>{
+ const base=createDungeonCombat(1,players,enemies,3,.1);
+ const buffed=applyDungeonTurn(base,'ability');
+ assert.equal(buffed.player[0].speedBonus,20);
+ assert.equal(buffed.player[0].speedTurns,2);
+ assert.equal(base.player[0].speedBonus,0,'transitions must not mutate saved state');
+ const next=applyDungeonTurn(buffed,'strike');
+ assert.equal(next.player[0].speedBonus,20);
+ assert.equal(next.player[0].speedTurns,1);
+ const elapsed=applyDungeonTurn(next,'strike');
+ assert.equal(elapsed.player[0].speedBonus,0);
+ assert.equal(elapsed.player[0].speedTurns,0);
+
+ const slowTeam=['reserved-012','tidefin-003','shadowclaw-007'];
+ const debuffed=applyDungeonTurn(createDungeonCombat(1,slowTeam,enemies,3,.1),'ability');
+ assert.equal(debuffed.enemy[0].speedBonus,-20);
+ assert.equal(debuffed.enemy[0].speedTurns,2);
+});
+
+test('battle expires in defeat at the hard 200-turn limit, with no fake victory',()=>{
+ const state=createDungeonCombat(1,players,enemies,5,.01);
+ state.turn=199;
+ const capped=applyDungeonTurn(state,'guard');
+ assert.equal(capped.turn,200);
+ assert.equal(capped.result,'lost');
+ assert.ok(capped.enemy.some(fighter=>fighter.hp>0));
+ assert.throws(()=>applyDungeonTurn(capped,'strike'));
+});
