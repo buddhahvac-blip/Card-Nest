@@ -38,7 +38,7 @@ useEffect(()=>{
  const syncHash=()=>{
   let selected='Explore';
   try{selected=decodeURIComponent(window.location.hash.slice(1))||'Explore'}catch{return}
-  if(valid.includes(selected))setPage(selected);
+  if(valid.includes(selected)){setPage(selected);setError('');window.scrollTo({top:0,behavior:'instant'});}
  };
  syncHash();
  window.addEventListener('hashchange',syncHash);

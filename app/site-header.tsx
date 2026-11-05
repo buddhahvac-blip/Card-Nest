@@ -23,14 +23,16 @@ export default function SiteHeader(){
  },[pathname]);
  return <header className={styles.header}>
   <div className={styles.inner}>
-   <Link href="/" className={styles.logo} aria-label="NestRune home">
+   <a href="/" className={styles.logo} aria-label="NestRune home">
     <span className={styles.mark} aria-hidden="true">✧</span>
     <span className={styles.wordmark}>NestRune<small>A WORLD WORTH COLLECTING</small></span>
-   </Link>
+   </a>
    <nav className={styles.nav} aria-label="Main site navigation">
     {navigation.map(link=>{
      const active=link.href==='/#My%20Nest'?pathname==='/'&&hash==='My Nest':link.href==='/'?pathname==='/'&&hash!=='My Nest':pathname===link.href||pathname.startsWith(link.href+'/');
-     return <Link key={link.href} href={link.href} aria-current={active?'page':undefined} className={[styles.navLink,active?styles.active:'',link.href==='/rune-dungeon'?styles.dungeon:''].filter(Boolean).join(' ')}>{link.label}</Link>;
+     const className=[styles.navLink,active?styles.active:'',link.href==='/rune-dungeon'?styles.dungeon:''].filter(Boolean).join(' ');
+     if(link.href==='/'||link.href==='/#My%20Nest')return <a key={link.href} href={link.href} aria-current={active?'page':undefined} className={className}>{link.label}</a>;
+     return <Link key={link.href} href={link.href} aria-current={active?'page':undefined} className={className}>{link.label}</Link>;
     })}
    </nav>
   </div>
