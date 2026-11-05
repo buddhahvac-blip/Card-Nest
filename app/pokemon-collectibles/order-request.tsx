@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 
-const productOptions=['30th Anniversary ETB','30th Anniversary ETB bundle','Destined Rivals','Prismatic Evolutions','Surging Sparks','Graded cards and singles','Other Pokémon product'];
+const productOptions=['30th Knockout Collection','Destined Rivals','Prismatic Evolutions (restock request)','Surging Sparks (restock request)','Graded cards and singles','Other Pokémon product'];
 
 export default function OrderRequest(){
   const [product,setProduct]=useState(productOptions[0]);
