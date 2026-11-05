@@ -8,6 +8,7 @@ const navigation=[
  {href:'/play',label:'Nest Battles'},
  {href:'/rune-dungeon',label:'Rune Dungeon'},
  {href:'/season-one',label:'Season One'},
+ {href:'/#Discover',label:'Discover'},
  {href:'/pokemon-collectibles',label:'Pokémon'},
  {href:'/one-piece-collectibles',label:'One Piece'},
  {href:'/#My%20Nest',label:'My Nest'},
@@ -29,9 +30,10 @@ export default function SiteHeader(){
    </a>
    <nav className={styles.nav} aria-label="Main site navigation">
     {navigation.map(link=>{
-     const active=link.href==='/#My%20Nest'?pathname==='/'&&hash==='My Nest':link.href==='/'?pathname==='/'&&hash!=='My Nest':pathname===link.href||pathname.startsWith(link.href+'/');
+     const hashSection=link.href.startsWith('/#')?decodeURIComponent(link.href.slice(2)):null;
+     const active=hashSection?pathname==='/'&&hash===hashSection:link.href==='/'?pathname==='/'&&(!hash||hash==='Explore'):pathname===link.href||pathname.startsWith(link.href+'/');
      const className=[styles.navLink,active?styles.active:'',link.href==='/rune-dungeon'?styles.dungeon:''].filter(Boolean).join(' ');
-     if(link.href==='/'||link.href==='/#My%20Nest')return <a key={link.href} href={link.href} aria-current={active?'page':undefined} className={className}>{link.label}</a>;
+     if(link.href==='/'||link.href.startsWith('/#'))return <a key={link.href} href={link.href} aria-current={active?'page':undefined} className={className}>{link.label}</a>;
      return <Link key={link.href} href={link.href} aria-current={active?'page':undefined} className={className}>{link.label}</Link>;
     })}
    </nav>

@@ -5,7 +5,7 @@ import {readFileSync} from 'node:fs';
 test('shared header exposes Rune Dungeon and collectible shops throughout the site',()=>{
  const layout=readFileSync('app/layout.tsx','utf8'),nav=readFileSync('app/site-header.tsx','utf8');
  assert.match(layout,/<SiteHeader\s*\/>/);
- for(const route of ['/play','/rune-dungeon','/season-one','/pokemon-collectibles','/one-piece-collectibles','/#My%20Nest'])
+ for(const route of ['/play','/rune-dungeon','/season-one','/pokemon-collectibles','/one-piece-collectibles','/#My%20Nest','/#Discover'])
   assert.ok(nav.includes("href:'"+route+"'"),'Missing link: '+route);
  assert.match(nav,/aria-label="Main site navigation"/);
 });
