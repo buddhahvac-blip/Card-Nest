@@ -1,21 +1,7 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
 import {searchIndexingApproved,siteDescription,siteName,siteUrl} from "@/lib/site";
 import "./globals.css";
 import "./home-experience.css";
-
-const worldSerif = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-world",
-  weight: ["500", "600", "700"],
-  display: "swap",
-});
-
-const worldSans = Manrope({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -70,7 +56,7 @@ export default function RootLayout({
           inLanguage:'en'
         })}} />
       </head>
-      <body className={`${worldSerif.variable} ${worldSans.variable} antialiased`}>{children}</body>
+      <body className="antialiased" style={{"--font-world":"Georgia", "--font-sans":"Arial"} as React.CSSProperties}>{children}</body>
     </html>
   );
 }
