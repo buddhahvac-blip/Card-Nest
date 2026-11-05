@@ -49,7 +49,7 @@ export default function OnePieceCollectibles(){
       <nav className="op-nav" aria-label="Main navigation">
         <Link href="/">⌂ Home</Link><Link href="/pokemon-collectibles">◉ Pokémon</Link>
         <Link href="/one-piece-collectibles" aria-current="page">☠ One Piece</Link><Link href="/">⚔ Play</Link>
-        <Link href="/my-nest">▤ Inventory</Link><Link href="/about">ⓘ About</Link>
+        <Link href="/#My%20Nest">▤ My Nest</Link><Link href="/about">ⓘ About</Link>
       </nav>
     </header>
     <section className="op-hero" aria-labelledby="op-hero-title">
