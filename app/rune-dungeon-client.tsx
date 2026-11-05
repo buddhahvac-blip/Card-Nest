@@ -4,6 +4,7 @@ import {useEffect,useState} from 'react';
 import Link from 'next/link';
 import {BatteryCharging,Check,Crown,LockKeyhole,PackageOpen,Sparkles,Swords} from 'lucide-react';
 import NestBattles from './nest-battles';
+import DungeonServerBattle from './dungeon-server-battle';
 import NestHeroEmblem from './nest-hero-emblem';
 import {RUNE_DUNGEON_FLOORS,RUNE_DUNGEON_WORLDS,RUNE_PACK_COSTS,runeWorld,worldFloorNumber,isRuneFloorUnlocked,type RuneRewardPack,type RuneWorldId} from '@/lib/rune-dungeon';
 
@@ -19,6 +20,9 @@ type DungeonProgress={
  rotationKey:string;
  eligibleEnemyCount:number;
 };
+
+// Opt-in during beta; the existing public Dungeon remains untouched.
+const SERVER_BETA_ENABLED=process.env.NEXT_PUBLIC_DUNGEON_AUTHORITATIVE_BETA==='true';
 
 const packNames:Record<RuneRewardPack,string>={
  hatchling:'Hatchling Pack',
@@ -70,6 +74,7 @@ export default function RuneDungeon(){
  async function startFloor(floor:number){
   setMessage('');
   if(loading||!isRuneFloorUnlocked(floor,cleared)){setMessage('Clear the earlier levels in this Rune World first.');return}
+  if(SERVER_BETA_ENABLED&&progress?.signedIn){setAttemptId(null);setActiveFloor(floor);return}
   if(!progress?.signedIn){setAttemptId(null);setActiveFloor(floor);return}
   try{
    const response=await fetch('/api/dungeon',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'start',floor})});
@@ -115,7 +120,12 @@ export default function RuneDungeon(){
   const enemyIds=progress?.enemyRotations?.[String(floor.floor)]||floor.enemyIds;
   return <section className={'rune-dungeon-battle-shell world-'+world.id}>
    <div className="dungeon-battle-top"><button className="outline" onClick={()=>{setAttemptId(null);setActiveFloor(null)}}>← Dungeon map</button><div><span className="eyebrow">{world.subtitle} · LEVEL {worldFloorNumber(floor.floor)}</span><strong>{floor.name}{(floor.boss||floor.worldBoss)?' · BOSS':''}</strong><small>{world.name} · {world.themes.join(' / ')}</small></div><span className="rune-energy-chip"><BatteryCharging size={16}/>{progress?.runeEnergy||0}</span></div>
-   <NestBattles dungeon={{...floor,enemyIds,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>
+   {SERVER_BETA_ENABLED&&progress?.signedIn
+    ?<DungeonServerBattle floor={floor} onExit={()=>{setAttemptId(null);setActiveFloor(null)}} onVictory={({reward,alreadyCleared,runeEnergy})=>{
+      setProgress(current=>current?{...current,highestCleared:Math.max(current.highestCleared,floor.floor),runeEnergy,clears:current.clears.some(clear=>clear.floor===floor.floor)?current.clears:[...current.clears,{floor:floor.floor,energy_awarded:reward,cleared_at:new Date().toISOString()}]}:current);
+      setMessage(alreadyCleared?'Verified replay complete. Energy is first-clear only.':'Verified dungeon victory · +'+reward+' Rune Energy.');
+    }}/>
+    :<NestBattles dungeon={{...floor,enemyIds,worldName:world.name,worldThemes:world.themes,musicKey:world.musicKey,rewardsEnabled:!!progress?.signedIn,onVictory:()=>{void recordClear(floor.floor)},onDefeat:()=>{void recordLoss(floor.floor)},onExit:()=>{setAttemptId(null);setActiveFloor(null)}}}/>}
    {message&&<p className="notice dungeon-notice">{message}</p>}
   </section>;
  }

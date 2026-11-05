@@ -22,7 +22,7 @@ export const metadata:Metadata={
 export default function SeasonOnePage(){
  const progress=artProgress();
  return <main className="shell season-one-page">
-  <Link className="brand" href="/">✧ Nest<span>Rune</span></Link>
+  
 
   <section className="season-one-hero">
    <div>
