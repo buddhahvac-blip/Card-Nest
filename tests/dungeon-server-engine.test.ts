@@ -44,11 +44,13 @@ test('strong enemies can defeat the player without creating a victory',()=>{
  assert.throws(()=>applyDungeonTurn(state,'strike'),'terminal defeat cannot be replayed');
 });
 
-test('unsupported abilities do not damage enemies or mutate caller state',()=>{
+test('supported starter abilities run on the server, while wrong-rarity powers remain blocked',()=>{
  const state=createDungeonCombat(1,players,enemies,.5,.5);
- assert.throws(()=>applyDungeonTurn(state,'ability'));
+ const upgraded=applyDungeonTurn(state,'ability');
+ assert.equal(upgraded.turn,1);
+ assert.equal(upgraded.player[0].speedBonus,20);
  assert.equal(state.turn,0);
- assert.ok(state.enemy.every(foe=>foe.hp===foe.maxHp));
+ assert.equal(state.player[0].speedBonus,0);
  assert.throws(()=>applyDungeonTurn(state,'power'));
  assert.equal(state.turn,0);
 });
