@@ -3,15 +3,15 @@ import {seasonCard} from './season-manifest';
 import {strikeDamage,abilityDamage,guardDamage} from './nest-battle-rules';
 import {battleAbilityProfile,rarityAttackTuning} from './battle-ability-profile';
 
-export const DUNGEON_ENGINE_VERSION='dungeon-server-v1';
+export const DUNGEON_ENGINE_VERSION='dungeon-server-v2';
 export type DungeonAction='strike'|'ability'|'power'|'special'|'guard'|'swap';
-export type CombatFighter={id:string;hp:number;maxHp:number;guard:number;energy:number;cooldown:number;specialCooldown:number;defenseCooldown:number};
+export type CombatFighter={id:string;hp:number;maxHp:number;guard:number;energy:number;cooldown:number;specialCooldown:number;defenseCooldown:number;speedBonus:number;speedTurns:number};
 export type ServerCombatState={engineVersion:typeof DUNGEON_ENGINE_VERSION;floor:number;player:CombatFighter[];enemy:CombatFighter[];playerActive:number;enemyActive:number;turn:number;result:'active'|'won'|'lost';enemyDamageMultiplier:number};
 const card=(id:string)=>{const c=seasonCard(id);if(!c)throw new RequestError('Unknown combat character.',400);return c;};
-const team=(ids:string[],factor:number):CombatFighter[]=>ids.map(id=>{const c=card(id);const maxHp=Math.max(1,Math.round(c.health*factor));return {id,hp:maxHp,maxHp,guard:0,energy:2,cooldown:0,specialCooldown:0,defenseCooldown:0};});
+const team=(ids:string[],factor:number):CombatFighter[]=>ids.map(id=>{const c=card(id);const maxHp=Math.max(1,Math.round(c.health*factor));return {id,hp:maxHp,maxHp,guard:0,energy:2,cooldown:0,specialCooldown:0,defenseCooldown:0,speedBonus:0,speedTurns:0};});
 const down=(f:CombatFighter[])=>f.every(x=>x.hp<=0);
 const living=(f:CombatFighter[],index:number)=>{for(let i=0;i<f.length;i++){const k=(index+i)%f.length;if(f[k].hp>0)return k;}return 0;};
-const tick=(f:CombatFighter[])=>f.forEach(x=>{x.cooldown=Math.max(0,x.cooldown-1);x.specialCooldown=Math.max(0,x.specialCooldown-1);x.defenseCooldown=Math.max(0,x.defenseCooldown-1);});
+const tick=(f:CombatFighter[])=>f.forEach(x=>{x.cooldown=Math.max(0,x.cooldown-1);x.specialCooldown=Math.max(0,x.specialCooldown-1);x.defenseCooldown=Math.max(0,x.defenseCooldown-1);x.speedTurns=Math.max(0,x.speedTurns-1);if(x.speedTurns===0)x.speedBonus=0;});
 function hit(target:CombatFighter,amount:number){const dealt=guardDamage(amount,target.guard);target.guard=dealt.guard;target.hp=Math.max(0,target.hp-dealt.damage);}
 function action(team:CombatFighter[],ti:number,opponents:CombatFighter[],oi:number,kind:Exclude<DungeonAction,'swap'>,multiplier:number){
  const actor=team[ti],target=opponents[oi],c=card(actor.id),foe=card(target.id);
@@ -35,8 +35,13 @@ function action(team:CombatFighter[],ti:number,opponents:CombatFighter[],oi:numb
   if(ability.effect==='deal_damage')hit(target,Math.max(1,Math.round(abilityDamage(c,foe,ability.amount||20)*multiplier)));
   else if(ability.effect==='gain_guard')actor.guard+=ability.amount||20;
   else if(ability.effect==='heal')actor.hp=Math.min(actor.maxHp,actor.hp+(ability.amount||20));
-  // Speed-affecting skills require versioned speed state before activation.
-  else throw new RequestError('This skill needs the next server engine version.',409);
+  else if(ability.effect==='gain_speed') {
+   actor.speedBonus=Math.max(actor.speedBonus,Math.min(100,Math.max(1,ability.amount||10)));
+   actor.speedTurns=Math.max(actor.speedTurns,Math.min(5,Math.max(1,ability.durationTurns||1))+1);
+  } else if(ability.effect==='reduce_speed') {
+   target.speedBonus=Math.min(target.speedBonus,-Math.min(100,Math.max(1,ability.amount||10)));
+   target.speedTurns=Math.max(target.speedTurns,Math.min(5,Math.max(1,ability.durationTurns||1))+1);
+  } else throw new RequestError('Unsupported server ability effect.',409);
   return;
  }
  if(kind!=='strike')throw new RequestError('Unsupported action.',409);
@@ -59,7 +64,7 @@ export function applyDungeonTurn(previous:ServerCombatState,choice:DungeonAction
   action(state.enemy,ei,state.player,pi,'strike',state.enemyDamageMultiplier);
  }else {
   const p=card(state.player[pi].id),e=card(state.enemy[ei].id);
-  if(p.speed>=e.speed){
+  if(p.speed+state.player[pi].speedBonus>=e.speed+state.enemy[ei].speedBonus){
    action(state.player,pi,state.enemy,ei,choice,1);
    if(!down(state.enemy)&&state.enemy[ei].hp>0)action(state.enemy,ei,state.player,pi,'strike',state.enemyDamageMultiplier);
   }else{
@@ -69,6 +74,6 @@ export function applyDungeonTurn(previous:ServerCombatState,choice:DungeonAction
  }
  state.playerActive=living(state.player,pi);state.enemyActive=living(state.enemy,ei);
  state.turn++;
- state.result=down(state.enemy)?'won':down(state.player)?'lost':'active';
+ state.result=down(state.enemy)?'won':down(state.player)||state.turn>=200?'lost':'active';
  return state;
 }
