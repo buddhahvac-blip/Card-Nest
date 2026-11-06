@@ -5,6 +5,7 @@ import {database} from '@/lib/postgres';
 import {summarizePhysicalStock} from '@/lib/physical-stock';
 import InventoryTable,{type InventoryItem} from './inventory-table';
 import StockAdjustmentForm from './stock-adjustment-form';
+import ProductIntake from './product-intake';
 
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
@@ -94,6 +95,7 @@ export default async function StoreOperations(){
         <h2 style={{marginTop:0}}>Inventory not connected yet</h2>
         <p style={{color:'#bdd3d0'}}>The protected operations interface is built, but the review-only physical-commerce migration and verified SKU import have not been applied. No live stock is being altered.</p>
       </section>}
+      {data.configured&&<ProductIntake/>}
       {data.configured&&<StockAdjustmentForm products={stocks.map(p=>({sku:p.sku,title:p.title,available:p.available}))}/>}
       <section aria-labelledby="order-overview" style={{...tile,marginTop:22}}>
         <h2 id="order-overview" style={{fontSize:24,marginTop:0}}>Order and fulfillment overview</h2>
