@@ -3,7 +3,7 @@ import type {Metadata} from 'next';
 import OnePieceCatalog from './catalog-client';
 
 // Physical collectibles only. Do not mix with NestRune digital-game inventory.
-// Counts are the owner's reported in-hand inventory on November 2, 2026.
+// Identified SKU counts were reported November 2; on November 4 the owner reported four starter decks total.
 // Unsorted raw cards and shipments are intentionally not offered.
 export const metadata:Metadata={
   title:'One Piece Collectibles | NestRune',
@@ -59,7 +59,7 @@ export default function OnePieceCollectibles(){
     ]}/>
     <aside className="op-notice">Product visuals are cropped from our AI-created design draft. They are illustrative concepts, not actual product photographs, official packaging reproductions or evidence of condition. All quantities are owner-reported as of November 2, 2026 and subject to confirmation. Request exact-item photos, verified prices, shipping, taxes and terms before any sale. Checkout and payments are disabled.</aside>
     <section className="op-bottom"><h2>Collect something extraordinary.</h2>
-      <p>Request actual photographs and availability for a specific One Piece collectible. Approximately 26 unidentified raw cards are not included in this catalog.</p>
+      <p>Request actual photographs and availability for a specific One Piece collectible. Approximately 26 unidentified raw cards and three additional starter decks awaiting SKU confirmation are not included in this catalog. The one identified ST-34 deck remains listed separately.</p>
       <a href={inquiry('general One Piece inventory')}>CONTACT THE NEST ↗</a>
     </section>
     <footer><Link href="/">NestRune Home</Link><Link href="/pokemon-collectibles">Pokémon Collectibles</Link><span>NestRune is an independent collector shop and is not affiliated with or endorsed by Bandai or the One Piece rights holders. Illustrations are representative only. No online payments accepted.</span></footer>
