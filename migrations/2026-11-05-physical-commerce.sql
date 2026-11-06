@@ -7,6 +7,8 @@ CREATE TABLE IF NOT EXISTS cardnest_v1.physical_products (
   product_type text NOT NULL CHECK (product_type IN ('sealed','booster','slab','single','other')),
   language text CHECK (language IN ('en','jp','other')),
   condition_note text,
+  product_photo_url text,
+  listing_verified boolean NOT NULL DEFAULT false,
   unit_price_cents integer CHECK (unit_price_cents >= 0),
   unit_cost_cents integer CHECK (unit_cost_cents >= 0),
   weight_oz numeric(10,2) CHECK (weight_oz > 0),
@@ -32,7 +34,7 @@ CREATE TABLE IF NOT EXISTS cardnest_v1.physical_stock_movements (
   source text NOT NULL,
   external_id text NOT NULL,
   created_at timestamptz NOT NULL DEFAULT now(),
-  UNIQUE (source, external_id)
+  UNIQUE (sku, source, external_id)
 );
 CREATE INDEX IF NOT EXISTS idx_physical_movements_sku_time
 ON cardnest_v1.physical_stock_movements(sku,created_at DESC);
