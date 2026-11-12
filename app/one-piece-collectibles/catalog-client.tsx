@@ -29,6 +29,24 @@ const spriteRows: Record<string, {columns:number; index:number; row:number}> = {
   'OP-SLAB-BELLMERE':{columns:5,index:3,row:2},
   'OP-SLAB-TEACH':{columns:5,index:4,row:2}
 };
+// Only owner-supplied photos are eligible for this gallery. The assets must exist at
+// public/one-piece-collectibles/real/ before an owner-photo badge is displayed.
+const ownerPhotoPaths:Record<string,string>={
+  'OP-ILL-KID-KILLER':'OP-ILL-KID-KILLER__front.webp',
+  'OP-ILL-RAYLEIGH-SHAKUYAKU':'OP-ILL-RAYLEIGH-SHAKUYAKU__front.webp',
+  'OP-17-JP':'OP-17-JP__front.webp',
+  'OP-09-JP':'OP-09-JP__front.webp',
+  'OP-15-JP':'OP-15-JP__front.webp',
+  'EB-04-JP':'EB-04-JP__front.webp',
+  'OPC-01-JP':'OPC-01-JP__front.webp',
+  'OP-SLAB-DON':'OP-SLAB-DON__front.webp',
+  'OP-SLAB-CAMIE':'OP-SLAB-CAMIE__front.webp',
+  'OP-SLAB-TEACH':'OP-SLAB-TEACH__front.webp',
+  'OP-SLAB-BELLMERE':'OP-SLAB-BELLMERE__front.webp',
+  'OP-SLAB-BACCARAT':'OP-SLAB-BACCARAT__front.webp'
+};
+const photoUrl=(sku:string)=>ownerPhotoPaths[sku]?'/one-piece-collectibles/real/'+ownerPhotoPaths[sku]:null;
+
 function spriteStyle(sku:string):React.CSSProperties {
   const p=spriteRows[sku];
   if(!p)return {};
@@ -38,6 +56,30 @@ function spriteStyle(sku:string):React.CSSProperties {
     backgroundPosition:(p.index*100/(p.columns-1))+'% '+(p.row*50)+'%',
     backgroundRepeat:'no-repeat'
   };
+}
+
+function OwnerPhoto({item}:{item:Item}){
+  const [loaded,setLoaded]=useState(false);
+  const [missing,setMissing]=useState(false);
+  const photo=photoUrl(item.sku);
+  return <div className="op-product-image">
+    {!loaded&&<div className="op-sprite-art" style={spriteStyle(item.sku)} role="img" aria-label={item.name+' — representative image only'} />}
+    {photo&&!missing&&<img src={photo} alt={item.name+' — owner-supplied product photograph'} loading="lazy"
+      onLoad={()=>setLoaded(true)} onError={()=>setMissing(true)}
+      style={{display:loaded?'block':'none',position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',background:'#06232a'}} />}
+    <span className="op-image-tag">{loaded?'Owner photo':'Illustrative image'}</span>
+  </div>;
+}
+
+export function OnePieceHeroPhoto({sku,side}:{sku:string;side:'left'|'right'}){
+  const [loaded,setLoaded]=useState(false);
+  const [missing,setMissing]=useState(false);
+  const photo=photoUrl(sku);
+  return <div className={'op-hero-art op-hero-art-'+side} aria-hidden="true">
+    {!loaded&&<div className={'op-hero-sprite op-hero-sprite-'+side}/>}
+    {photo&&!missing&&<img src={photo} alt="" onLoad={()=>setLoaded(true)} onError={()=>setMissing(true)}
+      style={{display:loaded?'block':'none',width:'100%',height:'auto',maxHeight:270,objectFit:'contain'}}/>}
+  </div>;
 }
 
 export default function OnePieceCatalog({groups}:{groups:Group[]}){
@@ -64,11 +106,7 @@ export default function OnePieceCatalog({groups}:{groups:Group[]}){
           <p className="op-section-description">{group.description}</p>
           <div className={'op-products op-products-'+group.id}>
             {group.items.map(item=><article className="op-product" key={item.sku}>
-              <div className="op-product-image">
-                <div className="op-sprite-art" style={spriteStyle(item.sku)}
-                  role="img" aria-label={item.name+' — AI-drafted product illustration, not an actual item photo or verified packaging'} />
-                <span className="op-image-tag">AI illustration</span>
-              </div>
+              <OwnerPhoto item={item}/>
               <div className="op-product-copy">
                 <h3>{item.name}</h3>
                 <p>{item.detail}</p>
