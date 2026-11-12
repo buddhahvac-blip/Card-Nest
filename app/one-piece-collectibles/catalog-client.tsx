@@ -64,7 +64,7 @@ function OwnerPhoto({item}:{item:Item}){
   const photo=photoUrl(item.sku);
   return <div className="op-product-image">
     {!loaded&&<div className="op-sprite-art" style={spriteStyle(item.sku)} role="img" aria-label={item.name+' — representative image only'} />}
-    {photo&&!missing&&<img src={photo} alt={item.name+' — owner-supplied product photograph'} loading="eager"
+    {photo&&!missing&&<img ref={image=>{if(image?.complete&&image.naturalWidth>0)setLoaded(true);}} src={photo} alt={item.name+' — owner-supplied product photograph'} loading="eager"
       onLoad={()=>setLoaded(true)} onError={()=>setMissing(true)}
       style={{display:loaded?'block':'none',position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',background:'#06232a'}} />}
     <span className="op-image-tag">{loaded?'Owner photo':'Illustrative image'}</span>
@@ -77,7 +77,7 @@ export function OnePieceHeroPhoto({sku,side}:{sku:string;side:'left'|'right'}){
   const photo=photoUrl(sku);
   return <div className={'op-hero-art op-hero-art-'+side} aria-hidden="true">
     {!loaded&&<div className={'op-hero-sprite op-hero-sprite-'+side}/>}
-    {photo&&!missing&&<img src={photo} alt="" onLoad={()=>setLoaded(true)} onError={()=>setMissing(true)}
+    {photo&&!missing&&<img ref={image=>{if(image?.complete&&image.naturalWidth>0)setLoaded(true);}} src={photo} alt="" onLoad={()=>setLoaded(true)} onError={()=>setMissing(true)}
       style={{display:loaded?'block':'none',width:'100%',height:'auto',maxHeight:270,objectFit:'contain'}}/>}
   </div>;
 }
