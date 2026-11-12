@@ -53,7 +53,7 @@ export default function OnePieceCollectibles(){
       </nav>
     </header>
     <section className="op-hero op-hero-banner" aria-labelledby="op-hero-title">
-      <img className="op-hero-banner-image" src="/one-piece-collectibles/one-piece-cover.webp"
+      <img className="op-hero-banner-image" src="/one-piece-collectibles/NestRune_OnePiece_Cover.webp"
         alt="NestRune One Piece Collectibles pirate adventure banner"
         width="1774" height="887" fetchPriority="high"/>
       <h1 id="op-hero-title" className="op-hero-accessible-title">One Piece Collectibles</h1>
