@@ -64,7 +64,7 @@ function OwnerPhoto({item}:{item:Item}){
   const photo=photoUrl(item.sku);
   return <div className="op-product-image">
     {!loaded&&<div className="op-sprite-art" style={spriteStyle(item.sku)} role="img" aria-label={item.name+' — representative image only'} />}
-    {photo&&!missing&&<img src={photo} alt={item.name+' — owner-supplied product photograph'} loading="lazy"
+    {photo&&!missing&&<img src={photo} alt={item.name+' — owner-supplied product photograph'} loading="eager"
       onLoad={()=>setLoaded(true)} onError={()=>setMissing(true)}
       style={{display:loaded?'block':'none',position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',background:'#06232a'}} />}
     <span className="op-image-tag">{loaded?'Owner photo':'Illustrative image'}</span>
@@ -126,3 +126,4 @@ export default function OnePieceCatalog({groups}:{groups:Group[]}){
     </div>
   </>;
 }
+

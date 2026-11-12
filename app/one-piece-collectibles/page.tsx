@@ -24,14 +24,14 @@ const packs:Item[]=[
   {name:'OP-15 Booster Pack',quantity:1,detail:'Japanese',sku:'OP-15-JP'},
   {name:'OP-09 Booster Pack',quantity:1,detail:'Japanese',sku:'OP-09-JP'},
   {name:'OP-17 Booster Pack',quantity:3,detail:'Japanese',sku:'OP-17-JP'},
-  {name:'Carddass OPC-01 Booster Pack',quantity:8,detail:'Japanese · Carddass OPC-01 (not OP-01)',sku:'OPC-01-JP'}
+  {name:'Carddass OPC-01 Booster Pack',quantity:8,detail:'Simplified Chinese · Carddass OPC-01 (not OP-01)',sku:'OPC-01-JP'}
 ];
 const graded:Item[]=[
   {name:'Baccarat',quantity:1,detail:'Crown · Gem 10',sku:'OP-SLAB-BACCARAT'},
   {name:'Camie',quantity:1,detail:'Crown · Gem 10',sku:'OP-SLAB-CAMIE'},
   {name:'DON!! Card',quantity:1,detail:'Crown · Gem Mint 9.5',sku:'OP-SLAB-DON'},
   {name:'Bell-mère',quantity:1,detail:'Crown · Gem Mint 9.5',sku:'OP-SLAB-BELLMERE'},
-  {name:'Marshall D. Teach',quantity:1,detail:'Crown · Mint 9',sku:'OP-SLAB-TEACH'}
+  {name:'Marshall D. Teach',quantity:1,detail:'Crown · Mint 9 (owner-reported) · Reverse photo shown',sku:'OP-SLAB-TEACH'}
 ];
 
 const sum=(items:Item[])=>items.reduce((n,item)=>n+item.quantity,0);
@@ -61,7 +61,7 @@ export default function OnePieceCollectibles(){
     <div className="op-intro"><span>ONE PIECE TCG · IN-HAND HAWAIʻI INVENTORY</span><span><strong>{units} identified units</strong> · Inquiry only, no online checkout</span></div>
     <OnePieceCatalog groups={[
       {id:'sealed',title:'Sealed Products',description:'Illustration boxes and starter decks',items:sealed},
-      {id:'boosters',title:'Booster Packs',description:'Japanese and English individual packs · quantities shown per pack type',items:packs},
+      {id:'boosters',title:'Booster Packs',description:'Japanese, English and Simplified Chinese individual packs · quantities shown per pack type',items:packs},
       {id:'graded',title:'Graded Cards',description:'Crown grades as reported by the owner · request actual slab and label photographs',items:graded}
     ]}/>
     <aside className="op-notice">Photos marked ‘Owner photo’ show owner-supplied items. Images marked ‘Illustrative image’ are representative concepts, not photographs, official packaging or evidence of condition. All quantities are owner-reported as of November 2, 2026 and subject to confirmation. Request exact-item photos, verified prices, shipping, taxes and terms before any sale. Checkout and payments are disabled.</aside>
@@ -72,3 +72,4 @@ export default function OnePieceCollectibles(){
     <footer><Link href="/">NestRune Home</Link><Link href="/pokemon-collectibles">Pokémon Collectibles</Link><span>NestRune is an independent collector shop and is not affiliated with or endorsed by Bandai or the One Piece rights holders. Some images are illustrative; request current exact-item photos and condition. No online payments accepted.</span></footer>
   </div><style>{opStyles}</style></main>
 }
+
