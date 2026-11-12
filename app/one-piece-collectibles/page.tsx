@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type {Metadata} from 'next';
-import OnePieceCatalog from './catalog-client';
+import OnePieceCatalog, {OnePieceHeroPhoto} from './catalog-client';
 
 // Physical collectibles only. Do not mix with NestRune digital-game inventory.
 // Counts are the owner's reported in-hand inventory on November 2, 2026.
@@ -9,7 +9,7 @@ export const metadata:Metadata={
   title:'One Piece Collectibles | NestRune',
   description:'Browse NestRune’s reported in-hand One Piece sealed products, loose boosters, and graded cards from Hawaiʻi. Inquiry only; no checkout or payments.',
   alternates:{canonical:'/one-piece-collectibles'},
-  openGraph:{title:'NestRune One Piece Collectibles',description:'Sealed One Piece TCG, booster packs and graded cards. Contact us for availability; listing art is AI-designed and actual condition photographs are provided on request.',url:'/one-piece-collectibles'}
+  openGraph:{title:'NestRune One Piece Collectibles',description:'Sealed One Piece TCG, booster packs and graded cards. Contact us for availability; owner photos are shown when available; request current item-condition photographs.',url:'/one-piece-collectibles'}
 };
 
 type Item={name:string;quantity:number;detail:string;sku:string};
@@ -24,14 +24,14 @@ const packs:Item[]=[
   {name:'OP-15 Booster Pack',quantity:1,detail:'Japanese',sku:'OP-15-JP'},
   {name:'OP-09 Booster Pack',quantity:1,detail:'Japanese',sku:'OP-09-JP'},
   {name:'OP-17 Booster Pack',quantity:3,detail:'Japanese',sku:'OP-17-JP'},
-  {name:'Carddass OPC-01 Booster Pack',quantity:8,detail:'Japanese · Carddass OPC-01 (not OP-01)',sku:'OPC-01-JP'}
+  {name:'Carddass OPC-01 Booster Pack',quantity:8,detail:'Simplified Chinese · Carddass OPC-01 (not OP-01)',sku:'OPC-01-JP'}
 ];
 const graded:Item[]=[
   {name:'Baccarat',quantity:1,detail:'Crown · Gem 10',sku:'OP-SLAB-BACCARAT'},
   {name:'Camie',quantity:1,detail:'Crown · Gem 10',sku:'OP-SLAB-CAMIE'},
   {name:'DON!! Card',quantity:1,detail:'Crown · Gem Mint 9.5',sku:'OP-SLAB-DON'},
   {name:'Bell-mère',quantity:1,detail:'Crown · Gem Mint 9.5',sku:'OP-SLAB-BELLMERE'},
-  {name:'Marshall D. Teach',quantity:1,detail:'Crown · Mint 9',sku:'OP-SLAB-TEACH'}
+  {name:'Marshall D. Teach',quantity:1,detail:'Crown · Mint 9 (owner-reported) · Reverse photo shown',sku:'OP-SLAB-TEACH'}
 ];
 
 const sum=(items:Item[])=>items.reduce((n,item)=>n+item.quantity,0);
@@ -53,22 +53,23 @@ export default function OnePieceCollectibles(){
       </nav>
     </header>
     <section className="op-hero" aria-labelledby="op-hero-title">
-      <div className="op-hero-art op-hero-art-left" aria-hidden="true"><div className="op-hero-sprite op-hero-sprite-left"/></div>
+      <OnePieceHeroPhoto sku="OP-ILL-KID-KILLER" side="left"/>
       <div className="op-hero-copy"><div className="op-hero-kicker">NESTRUNE · THE COLLECTOR'S NEST</div><h1 id="op-hero-title">ONE PIECE <span>COLLECTIBLES</span></h1>
         <p>Sealed Products · Booster Packs · Graded Cards</p></div>
-      <div className="op-hero-art op-hero-art-right" aria-hidden="true"><div className="op-hero-sprite op-hero-sprite-right"/></div>
+      <OnePieceHeroPhoto sku="OP-ILL-RAYLEIGH-SHAKUYAKU" side="right"/>
     </section>
     <div className="op-intro"><span>ONE PIECE TCG · IN-HAND HAWAIʻI INVENTORY</span><span><strong>{units} identified units</strong> · Inquiry only, no online checkout</span></div>
     <OnePieceCatalog groups={[
       {id:'sealed',title:'Sealed Products',description:'Illustration boxes and starter decks',items:sealed},
-      {id:'boosters',title:'Booster Packs',description:'Japanese and English individual packs · quantities shown per pack type',items:packs},
+      {id:'boosters',title:'Booster Packs',description:'Japanese, English and Simplified Chinese individual packs · quantities shown per pack type',items:packs},
       {id:'graded',title:'Graded Cards',description:'Crown grades as reported by the owner · request actual slab and label photographs',items:graded}
     ]}/>
-    <aside className="op-notice">Product visuals are cropped from our AI-created design draft. They are illustrative concepts, not actual product photographs, official packaging reproductions or evidence of condition. All quantities are owner-reported as of November 2, 2026 and subject to confirmation. Request exact-item photos, verified prices, shipping, taxes and terms before any sale. Checkout and payments are disabled.</aside>
+    <aside className="op-notice">Photos marked ‘Owner photo’ show owner-supplied items. Images marked ‘Illustrative image’ are representative concepts, not photographs, official packaging or evidence of condition. All quantities are owner-reported as of November 2, 2026 and subject to confirmation. Request exact-item photos, verified prices, shipping, taxes and terms before any sale. Checkout and payments are disabled.</aside>
     <section className="op-bottom"><h2>Collect something extraordinary.</h2>
       <p>Request actual photographs and availability for a specific One Piece collectible. Approximately 26 unidentified raw cards are not included in this catalog.</p>
       <a href={inquiry('general One Piece inventory')}>CONTACT THE NEST ↗</a>
     </section>
-    <footer><Link href="/">NestRune Home</Link><Link href="/pokemon-collectibles">Pokémon Collectibles</Link><span>NestRune is an independent collector shop and is not affiliated with or endorsed by Bandai or the One Piece rights holders. Illustrations are representative only. No online payments accepted.</span></footer>
+    <footer><Link href="/">NestRune Home</Link><Link href="/pokemon-collectibles">Pokémon Collectibles</Link><span>NestRune is an independent collector shop and is not affiliated with or endorsed by Bandai or the One Piece rights holders. Some images are illustrative; request current exact-item photos and condition. No online payments accepted.</span></footer>
   </div><style>{opStyles}</style></main>
 }
+
